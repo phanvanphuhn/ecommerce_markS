@@ -1,0 +1,14 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "lint": "prettier --write 'src/**/*.ts\\' 'test/**/*.ts'"
+  },
+  "devDependencies": {
+    "eslint-import-resolver-typescript": "^3.6.0",
+    "eslint-plugin-import": "^2.28.1",
+    "prettier": "^3.0.3"
+  }
+}

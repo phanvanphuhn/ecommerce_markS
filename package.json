@@ -1,0 +1,17 @@
+{
+  "name": "MarkS",
+  "version": "1.0.0",
+  "main": "index.js",
+  "private": "true",
+  "license": "MIT",
+  "dependencies": {},
+  "scripts": {
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "husky": "^8.0.3"
+  },
+  "workspaces": [
+    "packages/*"
+  ]
+}
