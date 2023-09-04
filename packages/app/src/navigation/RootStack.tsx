@@ -1,5 +1,5 @@
 import {createStackNavigator} from '@react-navigation/stack';
-import {Routes} from 'configs';
+import Routes from 'configs/Routes';
 import {RootReducer} from 'middlewares/reducers';
 import React, {memo} from 'react';
 import {useSelector} from 'react-redux';

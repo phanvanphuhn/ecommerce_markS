@@ -1,30 +1,17 @@
-import React, {useState} from 'react';
-import {
-  FlatList,
-  ListRenderItem,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import Container from 'elements/Layout/Container';
 import Text from 'elements/Text';
-import ButtonText from 'elements/Buttons/ButtonText';
-import Theme from 'res/style/Theme';
 import colors from 'res/colors';
-import TextInput from 'elements/TextInput';
-import images from 'res/images';
-import Image from 'elements/Image';
-import keyExtractor from 'utils/keyExtractor';
-import {BaseNavigationProps} from 'navigation/BaseNavigationProps';
-import {MainParamList} from 'navigation/service/NavigationParams';
-import Routes from 'configs/Routes';
-import {UserProfile} from 'res/type/Auth';
+import { BaseNavigationProps } from 'navigation/BaseNavigationProps';
+import { MainParamList } from 'navigation/service/NavigationParams';
+import { UserProfile } from 'res/type/Auth';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import scale from 'utils/scale';
-import {DrawerActions, useNavigation} from '@react-navigation/native';
-import {height} from 'configs/Const';
+import { DrawerActions, useNavigation } from '@react-navigation/native';
 import ItemSales from 'screens/home/components/ItemSales';
+import { height } from 'res/sizes';
 
 interface HomeScreenProps {
   data: UserProfile[];

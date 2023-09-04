@@ -4,7 +4,7 @@
 import { Dimensions, Platform, StatusBar } from 'react-native';
 import { isIphoneX } from 'react-native-iphone-x-helper';
 
-const { width, height } = Dimensions.get('window');
+export const { width, height } = Dimensions.get('window');
 
 class Size {
   // HEIGHT_POINT_IOS = 667;

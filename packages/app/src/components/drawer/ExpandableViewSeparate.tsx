@@ -33,7 +33,7 @@ import colors from 'res/colors';
 import images from 'res/images';
 import sizes from 'res/sizes';
 import strings from 'res/strings';
-import {Routes} from 'configs';
+import Routes from 'configs/Routes';
 export interface SubMenu {
   id: number;
   value: string;

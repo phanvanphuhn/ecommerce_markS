@@ -1,7 +1,7 @@
 // import * as Linking from 'expo-linking';
 
 import {Linking} from 'react-native';
-import {Routes} from 'configs';
+import Routes from 'configs/Routes';
 
 export default {
   prefixes: ['payment://'],
@@ -18,7 +18,6 @@ export default {
   },
   config: {
     screens: {
-      [Routes.OrderScreen]: 'order',
       NotFound: '*',
     },
   },

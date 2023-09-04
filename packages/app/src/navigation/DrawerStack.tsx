@@ -3,7 +3,7 @@ import {useState} from 'react';
 import {StyleSheet} from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import MainTab from 'navigation/MainTab';
-import {Routes} from 'configs';
+import Routes from 'configs/Routes';
 import CustomDrawer from 'components/drawer/CustomDrawer';
 
 const Drawer = createDrawerNavigator();

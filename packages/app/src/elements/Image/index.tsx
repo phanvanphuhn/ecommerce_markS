@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import {Routes} from 'configs';
+import Routes from 'configs/Routes';
 import {BaseUseNavigationProps} from 'navigation/BaseNavigationProps';
 import {MainParamList} from 'navigation/service/NavigationParams';
 import React, {useEffect, useState} from 'react';

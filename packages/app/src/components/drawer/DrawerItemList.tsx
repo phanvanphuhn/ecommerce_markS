@@ -17,7 +17,7 @@ import {
   DrawerNavigationHelpers,
 } from '@react-navigation/drawer/lib/typescript/src/types';
 import {View} from 'react-native';
-import { Routes } from 'configs';
+import { Routes } from 'configs/Routes';
 type Props = {
   state: DrawerNavigationState<ParamListBase>;
   navigation: DrawerNavigationHelpers;

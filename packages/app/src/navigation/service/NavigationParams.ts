@@ -1,4 +1,4 @@
-import {Routes} from 'configs';
+import Routes from 'configs/Routes';
 import {ImageSource} from 'react-native-image-viewing/dist/@types';
 import {BaseParam} from 'network/BaseParam';
 

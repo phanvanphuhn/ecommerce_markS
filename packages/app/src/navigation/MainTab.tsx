@@ -1,5 +1,5 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Routes} from 'configs';
+import Routes from 'configs/Routes';
 import React, {memo} from 'react';
 import {View} from 'react-native';
 import colors from 'res/colors';

@@ -1,4 +1,4 @@
-import {Routes} from 'configs';
+import Routes from 'configs/Routes';
 import {BaseNavigationProps} from 'navigation/BaseNavigationProps';
 import {MainParamList} from 'navigation/service/NavigationParams';
 import {reset} from 'navigation/service/RootNavigation';

@@ -1,6 +1,6 @@
 import {useLazyQuery} from '@apollo/client';
 import {useNavigation} from '@react-navigation/native';
-import {Routes} from 'configs';
+import Routes from 'configs/Routes';
 import ButtonIconHeader from 'elements/Buttons/ButtonIconHeader';
 import Text from 'elements/Text';
 import {onAddCountCart} from 'middlewares/actions/cart/actionCart';

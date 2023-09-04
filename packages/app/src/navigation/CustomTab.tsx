@@ -7,7 +7,7 @@ import React, {memo, useMemo} from 'react';
 import Text from 'elements/Text';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
-import {Routes} from 'configs';
+import Routes from 'configs/Routes';
 import {BottomTabBarProps} from '@react-navigation/bottom-tabs/src/types';
 import strings from 'res/strings';
 
