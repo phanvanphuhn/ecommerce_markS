@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "782462108009",
+    "project_id": "jarvis-9a3f3",
+    "storage_bucket": "jarvis-9a3f3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:782462108009:android:f849163024cc59ca31bdf8",
+        "android_client_info": {
+          "package_name": "com.marks.jarvis"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "782462108009-8rmonhansbkmaap740gm7mnb4lcl0ifp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCIK_c-Z7rHz5raqizNj9EKMxO7xUEQsRE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "782462108009-8rmonhansbkmaap740gm7mnb4lcl0ifp.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "782462108009-0vpkmqp29ste8kljqhlja6ki1lstnvu7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.marks.jarvis"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
