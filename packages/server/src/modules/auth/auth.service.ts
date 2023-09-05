@@ -1,5 +1,3 @@
-import { PrismaService } from 'nestjs-prisma';
-import { Prisma, User } from '@prisma/client';
 import {
   Injectable,
   NotFoundException,
@@ -9,9 +7,13 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { PasswordService } from './password.service';
+import { Prisma, User } from '@prisma/client';
+import { PrismaService } from 'nestjs-prisma';
+
 import { SignupInput } from './dto/signup.input';
 import { Token } from './models/token.model';
+import { PasswordService } from './password.service';
+
 import { SecurityConfig } from '@/common/configs/config.interface';
 
 @Injectable()
