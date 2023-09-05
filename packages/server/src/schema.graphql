@@ -90,8 +90,6 @@ input PostOrder {
 }
 
 type Query {
-  hello(name: String!): String!
-  helloWorld: String!
   me: User!
   post: Post!
   publishedPosts(orderBy: PostOrder, query: String): PostConnection!
