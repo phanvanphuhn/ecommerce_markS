@@ -56,16 +56,18 @@
     "@nestjs/passport": "10.0.0",
     "@nestjs/platform-express": "10.1.0",
     "@nestjs/swagger": "7.1.2",
-    "@prisma/client": "^5.0.0",
+    "@prisma/client": "^5.2.0",
     "bcrypt": "5.1.0",
     "class-transformer": "0.5.1",
     "class-validator": "0.13.2",
     "graphql": "16.7.1",
     "graphql-scalars": "1.22.2",
     "graphql-subscriptions": "2.0.0",
+    "kysely": "^0.26.3",
     "nestjs-prisma": "0.22.0-dev.0",
     "passport": "0.6.0",
     "passport-jwt": "4.0.1",
+    "prisma-kysely": "^1.7.0",
     "reflect-metadata": "0.1.13",
     "rxjs": "7.8.1"
   },
@@ -117,33 +119,5 @@
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
-  },
-  "workspaces": {
-    "nohoist": [
-      "@apollo/server",
-      "@nestjs/apollo",
-      "@nestjs/common",
-      "@nestjs/config",
-      "@nestjs/core",
-      "@nestjs/graphql",
-      "@nestjs/jwt",
-      "@nestjs/passport",
-      "@nestjs/platform-express",
-      "@nestjs/swagger",
-      "@prisma/client",
-      "@swc/cli",
-      "@swc/core",
-      "bcrypt",
-      "class-transformer",
-      "class-validator",
-      "graphql",
-      "graphql-scalars",
-      "graphql-subscriptions",
-      "nestjs-prisma",
-      "passport",
-      "passport-jwt",
-      "reflect-metadata",
-      "rxjs"
-    ]
   }
 }
