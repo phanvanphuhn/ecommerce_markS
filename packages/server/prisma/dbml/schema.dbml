@@ -5,6 +5,7 @@
 Table User {
   id Int [pk, increment]
   email String [unique, not null]
+  password String [not null]
   name String
   role Role [not null, default: 'USER']
   profile Profile

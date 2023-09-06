@@ -68,6 +68,7 @@ export type Schedule = {
 export type User = {
   id: Generated<number>;
   email: string;
+  password: string;
   name: string | null;
   role: Generated<Role>;
 };
