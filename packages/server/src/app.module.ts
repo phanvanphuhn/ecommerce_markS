@@ -7,7 +7,6 @@ import { PrismaModule, loggingMiddleware } from 'nestjs-prisma';
 import config from './common/configs/config';
 import { GqlConfigService } from './gql-config.service';
 import { AuthModule } from './modules/auth/auth.module';
-import { PostsModule } from './modules/posts/posts.module';
 import { UsersModule } from './modules/users/users.module';
 
 @Module({
@@ -33,7 +32,6 @@ import { UsersModule } from './modules/users/users.module';
 
     AuthModule,
     UsersModule,
-    PostsModule,
   ],
   controllers: [],
   providers: [],

@@ -24,29 +24,136 @@ generator dbml {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  email     String   @unique
-  password  String
-  firstname String?
-  lastname  String?
-  posts     Post[]
-  role      Role
+  id       Int        @id @default(autoincrement())
+  email    String     @unique
+  name     String?
+  role     Role       @default(USER)
+  profile  Profile?
+  Schedule Schedule[]
+  CaseLog  CaseLog[]
+  Doctor   Doctor?
 }
 
-model Post {
+model Doctor {
+  id      Int       @id @default(autoincrement())
+  name    String
+  title   String
+  user    User      @relation(fields: [userId], references: [id])
+  userId  Int       @unique
+  caseLog CaseLog[]
+}
+
+model Profile {
+  id                Int    @id @default(autoincrement())
+  mobile            String
+  country           String
+  city              String
+  division          String
+  preferredLanguage String
+  reportingTo       String
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int  @unique
+}
+
+model Schedule {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  published Boolean
-  title     String
-  content   String?
-  author    User?    @relation(fields: [authorId], references: [id])
-  authorId  String?
+
+  subject   String
+  location  String?
+  time      String?
+  endDate   DateTime
+  startDate DateTime
+
+  user     User      @relation(fields: [userId], references: [id])
+  userId   Int
+  planCall PlanCall?
+  caseLog  CaseLog?
+}
+
+model CaseLog {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  account   User   @relation(fields: [accountId], references: [id])
+  accountId Int
+  doctor    Doctor @relation(fields: [doctorId], references: [id])
+  doctorId  Int
+
+  photoUrl          String
+  productsInvoice   ProductsInvoice @relation(fields: [productsInvoiceId], references: [id])
+  productsInvoiceId String          @unique
+
+  schedule   Schedule @relation(fields: [scheduleId], references: [id])
+  scheduleId String   @unique
+}
+
+model ProductsInvoice {
+  id        String    @id @default(cuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  products  Product[]
+  caseLog   CaseLog?
+}
+
+model Product {
+  name      String   @id
+  quantity  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  productsInvoice   ProductsInvoice? @relation(fields: [productsInvoiceId], references: [id])
+  productsInvoiceId String?
+}
+
+model PlanCall {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  outcome     String?
+  type        String?
+  description String?
+  topics      String?
+
+  schedule   Schedule @relation(fields: [scheduleId], references: [id])
+  scheduleId String   @unique
 }
 
 enum Role {
-  ADMIN
+  DOCTOR
   USER
+}
+
+enum Specialty {
+  Orthopedics
+  Surgery
+  Urology
+  Pediatrics
+  Cardiology
+  Neurosurgery
+  Neurology
+  Dermatology
+  Radiology
+}
+
+enum Division {
+  Endoscopy
+  Neuromodulation
+  Interventional_Cardiology
+  Peripheral_Intervention
+  Cardiac_Rhythm_Management
+  Urology_And_Pelvic_Health
+}
+
+enum TopicsOfInterest {
+  Endoscopy
+  Neuromodulation
+  Interventional_Cardiology
+  Peripheral_Intervention
+  Cardiac_Rhythm_Management
+  Urology_And_Pelvic_Health
 }

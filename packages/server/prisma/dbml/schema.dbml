@@ -3,31 +3,145 @@
 //// ------------------------------------------------------
 
 Table User {
-  id String [pk]
-  createdAt DateTime [default: `now()`, not null]
-  updatedAt DateTime [not null]
+  id Int [pk, increment]
   email String [unique, not null]
-  password String [not null]
-  firstname String
-  lastname String
-  posts Post [not null]
-  role Role [not null]
+  name String
+  role Role [not null, default: 'USER']
+  profile Profile
+  Schedule Schedule [not null]
+  CaseLog CaseLog [not null]
+  Doctor Doctor
 }
 
-Table Post {
+Table Doctor {
+  id Int [pk, increment]
+  name String [not null]
+  title String [not null]
+  user User [not null]
+  userId Int [unique, not null]
+  caseLog CaseLog [not null]
+}
+
+Table Profile {
+  id Int [pk, increment]
+  mobile String [not null]
+  country String [not null]
+  city String [not null]
+  division String [not null]
+  preferredLanguage String [not null]
+  reportingTo String [not null]
+  user User [not null]
+  userId Int [unique, not null]
+}
+
+Table Schedule {
   id String [pk]
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
-  published Boolean [not null]
-  title String [not null]
-  content String
-  author User
-  authorId String
+  subject String [not null]
+  location String
+  time String
+  endDate DateTime [not null]
+  startDate DateTime [not null]
+  user User [not null]
+  userId Int [not null]
+  planCall PlanCall
+  caseLog CaseLog
+}
+
+Table CaseLog {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  account User [not null]
+  accountId Int [not null]
+  doctor Doctor [not null]
+  doctorId Int [not null]
+  photoUrl String [not null]
+  productsInvoice ProductsInvoice [not null]
+  productsInvoiceId String [unique, not null]
+  schedule Schedule [not null]
+  scheduleId String [unique, not null]
+}
+
+Table ProductsInvoice {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  products Product [not null]
+  caseLog CaseLog
+}
+
+Table Product {
+  name String [pk]
+  quantity Int [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  productsInvoice ProductsInvoice
+  productsInvoiceId String
+}
+
+Table PlanCall {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  outcome String
+  type String
+  description String
+  topics String
+  schedule Schedule [not null]
+  scheduleId String [unique, not null]
 }
 
 Enum Role {
-  ADMIN
+  DOCTOR
   USER
 }
 
-Ref: Post.authorId > User.id
+Enum Specialty {
+  Orthopedics
+  Surgery
+  Urology
+  Pediatrics
+  Cardiology
+  Neurosurgery
+  Neurology
+  Dermatology
+  Radiology
+}
+
+Enum Division {
+  Endoscopy
+  Neuromodulation
+  Interventional_Cardiology
+  Peripheral_Intervention
+  Cardiac_Rhythm_Management
+  Urology_And_Pelvic_Health
+}
+
+Enum TopicsOfInterest {
+  Endoscopy
+  Neuromodulation
+  Interventional_Cardiology
+  Peripheral_Intervention
+  Cardiac_Rhythm_Management
+  Urology_And_Pelvic_Health
+}
+
+Ref: Doctor.userId - User.id
+
+Ref: Profile.userId - User.id
+
+Ref: Schedule.userId > User.id
+
+Ref: CaseLog.accountId > User.id
+
+Ref: CaseLog.doctorId > Doctor.id
+
+Ref: CaseLog.productsInvoiceId - ProductsInvoice.id
+
+Ref: CaseLog.scheduleId - Schedule.id
+
+Ref: Product.productsInvoiceId > ProductsInvoice.id
+
+Ref: PlanCall.scheduleId - Schedule.id

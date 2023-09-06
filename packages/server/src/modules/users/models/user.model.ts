@@ -8,7 +8,6 @@ import { Role } from '@prisma/client';
 import { IsEmail } from 'class-validator';
 
 import { BaseModel } from '../../../common/models/base.model';
-import { Post } from '../../posts/models/post.model';
 
 registerEnumType(Role, {
   name: 'Role',
@@ -29,9 +28,6 @@ export class User extends BaseModel {
 
   @Field(() => Role)
   role: Role;
-
-  @Field(() => [Post], { nullable: true })
-  posts?: [Post] | null;
 
   @HideField()
   password: string;

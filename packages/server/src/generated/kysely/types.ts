@@ -4,28 +4,80 @@ export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
   : ColumnType<T, T | undefined, T>;
 export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 
-import type { Role } from './enums';
+import type { Role, Specialty, Division, TopicsOfInterest } from './enums';
 
-export type Post = {
+export type CaseLog = {
   id: string;
   createdAt: Generated<Timestamp>;
   updatedAt: Timestamp;
-  published: boolean;
+  accountId: number;
+  doctorId: number;
+  photoUrl: string;
+  productsInvoiceId: string;
+  scheduleId: string;
+};
+export type Doctor = {
+  id: Generated<number>;
+  name: string;
   title: string;
-  content: string | null;
-  authorId: string | null;
+  userId: number;
+};
+export type PlanCall = {
+  id: string;
+  createdAt: Generated<Timestamp>;
+  updatedAt: Timestamp;
+  outcome: string | null;
+  type: string | null;
+  description: string | null;
+  topics: string | null;
+  scheduleId: string;
+};
+export type Product = {
+  name: string;
+  quantity: number;
+  createdAt: Generated<Timestamp>;
+  updatedAt: Timestamp;
+  productsInvoiceId: string | null;
+};
+export type ProductsInvoice = {
+  id: string;
+  createdAt: Generated<Timestamp>;
+  updatedAt: Timestamp;
+};
+export type Profile = {
+  id: Generated<number>;
+  mobile: string;
+  country: string;
+  city: string;
+  division: string;
+  preferredLanguage: string;
+  reportingTo: string;
+  userId: number;
+};
+export type Schedule = {
+  id: string;
+  createdAt: Generated<Timestamp>;
+  updatedAt: Timestamp;
+  subject: string;
+  location: string | null;
+  time: string | null;
+  endDate: Timestamp;
+  startDate: Timestamp;
+  userId: number;
 };
 export type User = {
-  id: string;
-  createdAt: Generated<Timestamp>;
-  updatedAt: Timestamp;
+  id: Generated<number>;
   email: string;
-  password: string;
-  firstname: string | null;
-  lastname: string | null;
-  role: Role;
+  name: string | null;
+  role: Generated<Role>;
 };
 export type DB = {
-  Post: Post;
+  CaseLog: CaseLog;
+  Doctor: Doctor;
+  PlanCall: PlanCall;
+  Product: Product;
+  ProductsInvoice: ProductsInvoice;
+  Profile: Profile;
+  Schedule: Schedule;
   User: User;
 };
