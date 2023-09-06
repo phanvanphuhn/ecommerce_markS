@@ -21,6 +21,7 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',
+    '@typescript-eslint/no-var-requires': 'off',
     'import/order': [
       'error',
       {
@@ -46,13 +47,11 @@ module.exports = {
     'import/parsers': {
       '@typescript-eslint/parser': ['.ts', '.tsx'],
     },
-    "import/resolver": {
-      "typescript": {
-        "project": ["tsconfig.json", "package/tsconfig.json"]
+    'import/resolver': {
+      typescript: {
+        alwaysTryTypes: true,
+        project: ['tsconfig.json'],
       },
-      "node": {
-        "project": ["tsconfig.json", "package/tsconfig.json"]
-      }
-    }
+    },
   },
 };

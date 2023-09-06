@@ -7,7 +7,7 @@ import {
 import { Role } from '@prisma/client';
 import { IsEmail } from 'class-validator';
 
-import { BaseModel } from '../../../common/models/base.model';
+import { BaseModel } from '@/common/models/base.model';
 
 registerEnumType(Role, {
   name: 'Role',

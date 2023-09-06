@@ -6,33 +6,67 @@ Table User {
   id Int [pk, increment]
   email String [unique, not null]
   password String [not null]
-  name String
+  firstName String
+  lastName String
   role Role [not null, default: 'USER']
+  reportingTo User
+  reportingToId Int [unique]
+  reportingBy User
   profile Profile
   Schedule Schedule [not null]
   CaseLog CaseLog [not null]
   Doctor Doctor
 }
 
-Table Doctor {
+Table Hospital {
   id Int [pk, increment]
   name String [not null]
+  address String [not null]
+  doctors HospitalToDoctor [not null]
+}
+
+Table Doctor {
+  id Int [pk, increment]
   title String [not null]
   user User [not null]
   userId Int [unique, not null]
   caseLog CaseLog [not null]
+  specialties Specialty[] [not null]
+  hospitals HospitalToDoctor [not null]
+  divisions Division[] [not null]
+}
+
+Table HospitalToDoctor {
+  hospital Hospital [not null]
+  hospitalId Int [not null]
+  doctor Doctor [not null]
+  doctorId Int [not null]
+
+  indexes {
+    (hospitalId, doctorId) [pk]
+  }
 }
 
 Table Profile {
   id Int [pk, increment]
   mobile String [not null]
-  country String [not null]
-  city String [not null]
-  division String [not null]
+  address Address
+  addressId Int
   preferredLanguage String [not null]
-  reportingTo String [not null]
   user User [not null]
   userId Int [unique, not null]
+}
+
+Table Address {
+  id Int [pk, increment]
+  street String
+  city String
+  state String
+  zip String
+  country String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  profiles Profile [not null]
 }
 
 Table Schedule {
@@ -48,6 +82,20 @@ Table Schedule {
   userId Int [not null]
   planCall PlanCall
   caseLog CaseLog
+  deleted DateTime
+}
+
+Table PlanCall {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  outcome String
+  type String
+  description String
+  topics String
+  schedule Schedule [not null]
+  scheduleId String [unique, not null]
+  deleted DateTime
 }
 
 Table CaseLog {
@@ -63,6 +111,7 @@ Table CaseLog {
   productsInvoiceId String [unique, not null]
   schedule Schedule [not null]
   scheduleId String [unique, not null]
+  deleted DateTime
 }
 
 Table ProductsInvoice {
@@ -80,18 +129,6 @@ Table Product {
   updatedAt DateTime [not null]
   productsInvoice ProductsInvoice
   productsInvoiceId String
-}
-
-Table PlanCall {
-  id String [pk]
-  createdAt DateTime [default: `now()`, not null]
-  updatedAt DateTime [not null]
-  outcome String
-  type String
-  description String
-  topics String
-  schedule Schedule [not null]
-  scheduleId String [unique, not null]
 }
 
 Enum Role {
@@ -129,11 +166,21 @@ Enum TopicsOfInterest {
   Urology_And_Pelvic_Health
 }
 
-Ref: Doctor.userId - User.id
+Ref: User.reportingToId - User.id
 
-Ref: Profile.userId - User.id
+Ref: Doctor.userId - User.id [delete: Cascade]
+
+Ref: HospitalToDoctor.hospitalId > Hospital.id [delete: Cascade]
+
+Ref: HospitalToDoctor.doctorId > Doctor.id [delete: Cascade]
+
+Ref: Profile.addressId > Address.id
+
+Ref: Profile.userId - User.id [delete: Cascade]
 
 Ref: Schedule.userId > User.id
+
+Ref: PlanCall.scheduleId - Schedule.id
 
 Ref: CaseLog.accountId > User.id
 
@@ -144,5 +191,3 @@ Ref: CaseLog.productsInvoiceId - ProductsInvoice.id
 Ref: CaseLog.scheduleId - Schedule.id
 
 Ref: Product.productsInvoiceId > ProductsInvoice.id
-
-Ref: PlanCall.scheduleId - Schedule.id

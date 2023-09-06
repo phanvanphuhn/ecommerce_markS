@@ -6,6 +6,16 @@ export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 
 import type { Role, Specialty, Division, TopicsOfInterest } from './enums';
 
+export type Address = {
+  id: Generated<number>;
+  street: string | null;
+  city: string | null;
+  state: string | null;
+  zip: string | null;
+  country: string;
+  createdAt: Generated<Timestamp>;
+  updatedAt: Timestamp;
+};
 export type CaseLog = {
   id: string;
   createdAt: Generated<Timestamp>;
@@ -15,12 +25,23 @@ export type CaseLog = {
   photoUrl: string;
   productsInvoiceId: string;
   scheduleId: string;
+  deleted: Timestamp | null;
 };
 export type Doctor = {
   id: Generated<number>;
-  name: string;
   title: string;
   userId: number;
+  specialties: Specialty[];
+  divisions: Division[];
+};
+export type Hospital = {
+  id: Generated<number>;
+  name: string;
+  address: string;
+};
+export type HospitalToDoctor = {
+  hospitalId: number;
+  doctorId: number;
 };
 export type PlanCall = {
   id: string;
@@ -31,6 +52,7 @@ export type PlanCall = {
   description: string | null;
   topics: string | null;
   scheduleId: string;
+  deleted: Timestamp | null;
 };
 export type Product = {
   name: string;
@@ -47,11 +69,8 @@ export type ProductsInvoice = {
 export type Profile = {
   id: Generated<number>;
   mobile: string;
-  country: string;
-  city: string;
-  division: string;
+  addressId: number | null;
   preferredLanguage: string;
-  reportingTo: string;
   userId: number;
 };
 export type Schedule = {
@@ -64,17 +83,23 @@ export type Schedule = {
   endDate: Timestamp;
   startDate: Timestamp;
   userId: number;
+  deleted: Timestamp | null;
 };
 export type User = {
   id: Generated<number>;
   email: string;
   password: string;
-  name: string | null;
+  firstName: string | null;
+  lastName: string | null;
   role: Generated<Role>;
+  reportingToId: number | null;
 };
 export type DB = {
+  Address: Address;
   CaseLog: CaseLog;
   Doctor: Doctor;
+  Hospital: Hospital;
+  HospitalToDoctor: HospitalToDoctor;
   PlanCall: PlanCall;
   Product: Product;
   ProductsInvoice: ProductsInvoice;

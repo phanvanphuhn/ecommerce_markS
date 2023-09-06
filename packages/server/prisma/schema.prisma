@@ -24,37 +24,71 @@ generator dbml {
 }
 
 model User {
-  id       Int        @id @default(autoincrement())
-  email    String     @unique
-  password String
-  name     String?
-  role     Role       @default(USER)
+  id        Int     @id @default(autoincrement())
+  email     String  @unique
+  password  String
+  firstName String?
+  lastName  String?
+  role      Role    @default(USER)
+
+  reportingTo   User? @relation("ReportingRelation", fields: [reportingToId], references: [id])
+  reportingToId Int?  @unique
+  reportingBy   User? @relation("ReportingRelation")
+
   profile  Profile?
   Schedule Schedule[]
   CaseLog  CaseLog[]
   Doctor   Doctor?
 }
 
-model Doctor {
-  id      Int       @id @default(autoincrement())
+model Hospital {
+  id      Int                @id @default(autoincrement())
   name    String
-  title   String
-  user    User      @relation(fields: [userId], references: [id])
-  userId  Int       @unique
-  caseLog CaseLog[]
+  address String
+  doctors HospitalToDoctor[]
+}
+
+model Doctor {
+  id          Int                @id @default(autoincrement())
+  title       String
+  user        User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      Int                @unique
+  caseLog     CaseLog[]
+  specialties Specialty[]
+  hospitals   HospitalToDoctor[]
+  divisions   Division[]
+}
+
+model HospitalToDoctor {
+  hospital   Hospital @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
+  hospitalId Int
+  doctor     Doctor   @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  doctorId   Int
+
+  @@id([hospitalId, doctorId])
 }
 
 model Profile {
-  id                Int    @id @default(autoincrement())
+  id                Int      @id @default(autoincrement())
   mobile            String
-  country           String
-  city              String
-  division          String
+  address           Address? @relation(fields: [addressId], references: [id])
+  addressId         Int?
   preferredLanguage String
-  reportingTo       String
 
-  user   User @relation(fields: [userId], references: [id])
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int  @unique
+}
+
+model Address {
+  id        Int       @id @default(autoincrement())
+  street    String?
+  city      String?
+  state     String?
+  zip       String?
+  country   String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  profiles  Profile[]
 }
 
 model Schedule {
@@ -72,6 +106,23 @@ model Schedule {
   userId   Int
   planCall PlanCall?
   caseLog  CaseLog?
+
+  deleted DateTime?
+}
+
+model PlanCall {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  outcome     String?
+  type        String?
+  description String?
+  topics      String?
+
+  schedule   Schedule  @relation(fields: [scheduleId], references: [id])
+  scheduleId String    @unique
+  deleted    DateTime?
 }
 
 model CaseLog {
@@ -90,6 +141,8 @@ model CaseLog {
 
   schedule   Schedule @relation(fields: [scheduleId], references: [id])
   scheduleId String   @unique
+
+  deleted DateTime?
 }
 
 model ProductsInvoice {
@@ -108,20 +161,6 @@ model Product {
 
   productsInvoice   ProductsInvoice? @relation(fields: [productsInvoiceId], references: [id])
   productsInvoiceId String?
-}
-
-model PlanCall {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  outcome     String?
-  type        String?
-  description String?
-  topics      String?
-
-  schedule   Schedule @relation(fields: [scheduleId], references: [id])
-  scheduleId String   @unique
 }
 
 enum Role {
