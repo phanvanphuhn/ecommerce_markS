@@ -78,6 +78,7 @@ Table Schedule {
   time String
   endDate DateTime [not null]
   startDate DateTime [not null]
+  scheduleType ScheduleType [not null]
   user User [not null]
   userId Int [not null]
   planCall PlanCall
@@ -106,8 +107,8 @@ Table CaseLog {
   accountId Int [not null]
   doctor Doctor [not null]
   doctorId Int [not null]
-  photoUrl String [not null]
-  productsInvoice ProductsInvoice [not null]
+  photoUrl String
+  productsInvoice ProductsInvoice
   productsInvoiceId String [unique, not null]
   schedule Schedule [not null]
   scheduleId String [unique, not null]
@@ -129,6 +130,11 @@ Table Product {
   updatedAt DateTime [not null]
   productsInvoice ProductsInvoice
   productsInvoiceId String
+}
+
+Enum ScheduleType {
+  CASE_LOG
+  PLAN_CALL
 }
 
 Enum Role {

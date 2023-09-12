@@ -1,15 +1,16 @@
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { Logger, Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { GraphQLModule } from '@nestjs/graphql';
-import Joi from 'joi';
-import { PrismaModule, loggingMiddleware } from 'nestjs-prisma';
+import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
+import { Logger, Module } from "@nestjs/common";
+import { ConfigModule, ConfigService } from "@nestjs/config";
+import { GraphQLModule } from "@nestjs/graphql";
+import Joi from "joi";
+import { PrismaModule, loggingMiddleware } from "nestjs-prisma";
 
-import config from './common/configs/config';
-import { GqlConfigService } from './gql-config.service';
-import { DatabaseModule } from './modules/_database/database.module';
-import { AuthModule } from './modules/auth/auth.module';
-import { UsersModule } from './modules/users/users.module';
+import config from "./common/configs/config";
+import { GqlConfigService } from "./gql-config.service";
+import { DatabaseModule } from "./modules/_database/database.module";
+import { AuthModule } from "./modules/auth/auth.module";
+import { ScheduleModule } from "./modules/schedule/schedule.module";
+import { UsersModule } from "./modules/users/users.module";
 
 @Module({
   imports: [
@@ -29,11 +30,11 @@ import { UsersModule } from './modules/users/users.module';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
-        host: configService.get('POSTGRES_HOST'),
-        port: configService.get('POSTGRES_PORT'),
-        user: configService.get('POSTGRES_USER'),
-        password: configService.get('POSTGRES_PASSWORD'),
-        database: configService.get('POSTGRES_DB'),
+        host: configService.get("POSTGRES_HOST"),
+        port: configService.get("POSTGRES_PORT"),
+        user: configService.get("POSTGRES_USER"),
+        password: configService.get("POSTGRES_PASSWORD"),
+        database: configService.get("POSTGRES_DB"),
       }),
     }),
 
@@ -43,8 +44,8 @@ import { UsersModule } from './modules/users/users.module';
         middlewares: [
           // configure your prisma middleware
           loggingMiddleware({
-            logger: new Logger('PrismaMiddleware'),
-            logLevel: 'log',
+            logger: new Logger("PrismaMiddleware"),
+            logLevel: "log",
           }),
         ],
       },
@@ -57,6 +58,7 @@ import { UsersModule } from './modules/users/users.module';
 
     AuthModule,
     UsersModule,
+    ScheduleModule,
   ],
   controllers: [],
   providers: [],

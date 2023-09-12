@@ -5,18 +5,24 @@ datasource db {
 
 generator kysely {
   provider = "prisma-kysely"
-
-  // Optionally provide a destination directory for the generated file
-  // and a filename of your choice
-  output       = "../src/generated/kysely"
-  fileName     = "types.ts"
+  output   = "../src/@generated/kysely"
+  fileName = "types.ts"
   // Optionally generate runtime enums to a separate file
-  enumFileName = "enums.ts"
+  // enumFileName = "enums.ts"
 }
 
 generator client {
   provider = "prisma-client-js"
   // previewFeatures = []
+}
+
+generator nestgraphql {
+  provider             = "prisma-nestjs-graphql"
+  output               = "../src/@generated/nestgraphql"
+  combineScalarFilters = true
+  noAtomicOperations   = true
+  emitCompiled         = true
+  purgeOutput          = true
 }
 
 generator dbml {
@@ -91,16 +97,22 @@ model Address {
   profiles  Profile[]
 }
 
+enum ScheduleType {
+  CASE_LOG
+  PLAN_CALL
+}
+
 model Schedule {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  subject   String
-  location  String?
-  time      String?
-  endDate   DateTime
-  startDate DateTime
+  subject      String
+  location     String?
+  time         String?
+  endDate      DateTime
+  startDate    DateTime
+  scheduleType ScheduleType
 
   user     User      @relation(fields: [userId], references: [id])
   userId   Int
@@ -135,9 +147,9 @@ model CaseLog {
   doctor    Doctor @relation(fields: [doctorId], references: [id])
   doctorId  Int
 
-  photoUrl          String
-  productsInvoice   ProductsInvoice @relation(fields: [productsInvoiceId], references: [id])
-  productsInvoiceId String          @unique
+  photoUrl          String?
+  productsInvoice   ProductsInvoice? @relation(fields: [productsInvoiceId], references: [id])
+  productsInvoiceId String           @unique
 
   schedule   Schedule @relation(fields: [scheduleId], references: [id])
   scheduleId String   @unique

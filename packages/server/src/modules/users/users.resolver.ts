@@ -1,40 +1,41 @@
-import { UseGuards } from '@nestjs/common';
-import {
-  Resolver,
-  Query,
-  Parent,
-  Mutation,
-  Args,
-  ResolveField,
-} from '@nestjs/graphql';
-import { PrismaService } from 'nestjs-prisma';
+import { UseGuards } from "@nestjs/common";
+import { Resolver, Query, Parent, Mutation, Args } from "@nestjs/graphql";
+import { PrismaService } from "nestjs-prisma";
 
-import { UserEntity } from '../../common/decorators/user.decorator';
-import { GqlAuthGuard } from '../auth/gql-auth.guard';
+import { UserEntity } from "../../common/decorators/user.decorator";
+import { GqlAuthGuard } from "../auth/gql-auth.guard";
 
-import { ChangePasswordInput } from './dto/change-password.input';
-import { UpdateUserInput } from './dto/update-user.input';
-import { User } from './models/user.model';
-import { UsersService } from './users.service';
+import { ChangePasswordInput } from "./dto/change-password.input";
+import { UpdateUserInput } from "./dto/update-user.input";
+import { UsersService } from "./users.service";
+
+import { User } from "@generated/nestgraphql/user/user.model";
+import { FindManyUserArgs } from "@generated/nestgraphql/user/find-many-user.args";
 
 @Resolver(() => User)
-@UseGuards(GqlAuthGuard)
 export class UsersResolver {
   constructor(
     private usersService: UsersService,
-    private prisma: PrismaService,
+    private prisma: PrismaService
   ) {}
 
+  @UseGuards(GqlAuthGuard)
   @Query(() => User)
   async me(@UserEntity() user: User): Promise<User> {
     return user;
+  }
+
+  // Temp, will be removed
+  @Query(() => [User])
+  async users(@Args() filter: FindManyUserArgs) {
+    return this.prisma.user.findMany(filter);
   }
 
   @UseGuards(GqlAuthGuard)
   @Mutation(() => User)
   async updateUser(
     @UserEntity() user: User,
-    @Args('data') newUserData: UpdateUserInput,
+    @Args("data") newUserData: UpdateUserInput
   ) {
     return this.usersService.updateUser(user.id, newUserData);
   }
@@ -43,12 +44,12 @@ export class UsersResolver {
   @Mutation(() => User)
   async changePassword(
     @UserEntity() user: User,
-    @Args('data') changePassword: ChangePasswordInput,
+    @Args("data") changePassword: ChangePasswordInput
   ) {
     return this.usersService.changePassword(
       user.id,
       user.password,
-      changePassword,
+      changePassword
     );
   }
 }

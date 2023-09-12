@@ -12,7 +12,7 @@ module.exports = {
     node: true,
     jest: true,
   },
-  ignorePatterns: ['.eslintrc.js'],
+  ignorePatterns: ['.eslintrc.js', '@generated/**', '*.config.js', '.*rc.js'],
   rules: {
     'no-console': 'warn',
     'no-debugger': 'warn',
@@ -23,23 +23,22 @@ module.exports = {
     '@typescript-eslint/ban-ts-comment': 'off',
     '@typescript-eslint/no-var-requires': 'off',
     'import/order': [
-      'error',
+      'warn',
       {
+        'newlines-between': 'always',
         groups: ['builtin', 'external', 'parent', 'sibling', 'index'],
         pathGroups: [
           {
-            pattern: '@nestjs**',
-            group: 'builtin',
+            pattern: '@/**',
+            group: 'external',
+            position: 'after',
+          },
+          {
+            pattern: '@generated/**',
+            group: 'sibling',
             position: 'after',
           },
         ],
-        pathGroupsExcludedImportTypes: ['@nestjs'],
-        'newlines-between': 'always',
-        alphabetize: {
-          order: 'asc',
-          caseInsensitive: true,
-        },
-        warnOnUnassignedImports: true,
       },
     ],
   },
@@ -49,9 +48,14 @@ module.exports = {
     },
     'import/resolver': {
       typescript: {
-        alwaysTryTypes: true,
         project: ['tsconfig.json'],
       },
     },
+    'boundaries/ignore': [
+      '**/*.spec.ts',
+      '**/testing/**',
+      '**/@generated/**',
+      'src/main.ts',
+    ],
   },
 };

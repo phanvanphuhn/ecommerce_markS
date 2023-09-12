@@ -1,8 +1,8 @@
-import { ObjectType } from '@nestjs/graphql';
+import { ObjectType } from "@nestjs/graphql";
 
-import { User } from '../../users/models/user.model';
+import { Token } from "./token.model";
 
-import { Token } from './token.model';
+import { User } from "@generated/nestgraphql/user/user.model";
 
 @ObjectType()
 export class Auth extends Token {

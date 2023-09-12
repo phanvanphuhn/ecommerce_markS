@@ -17,8 +17,11 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
+    "emitDecoratorMetadata": false,
     "paths": {
-      "@/*": ["src/*"]
-    }
-  }
+      "@generated/*": ["./src/@generated/*"],
+      "@/*": ["./src/*"],
+    },
+  },
+  "include": ["src/**/*.ts", "test/**/*.ts", "@generated/*", "prisma/*.ts"]
 }

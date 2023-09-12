@@ -9,6 +9,9 @@ import {
 } from './database.module-definition';
 import { DatabaseOptions } from './databaseOptions';
 
+// The point of Kysely being here is to make it possible to write SQL with type-safety.
+// Which would make the queries being a bit more performant than Prisma.
+
 @Global()
 @Module({
   exports: [Database],
