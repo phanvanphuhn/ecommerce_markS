@@ -1,6 +1,7 @@
+import { Prisma } from '@prisma/client';
+
 import { AddressWhereInput } from './address-where.input';
 import { AddressOrderByWithRelationInput } from './address-order-by-with-relation.input';
-import { Prisma } from '@prisma/client';
 import { AddressWhereUniqueInput } from './address-where-unique.input';
 import { AddressCountAggregateInput } from './address-count-aggregate.input';
 import { AddressAvgAggregateInput } from './address-avg-aggregate.input';

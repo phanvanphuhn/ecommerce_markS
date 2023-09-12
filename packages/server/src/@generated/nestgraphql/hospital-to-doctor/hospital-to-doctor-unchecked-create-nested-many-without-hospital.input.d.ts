@@ -1,7 +1,8 @@
+import { Prisma } from '@prisma/client';
+
 import { HospitalToDoctorCreateWithoutHospitalInput } from './hospital-to-doctor-create-without-hospital.input';
 import { HospitalToDoctorCreateOrConnectWithoutHospitalInput } from './hospital-to-doctor-create-or-connect-without-hospital.input';
 import { HospitalToDoctorCreateManyHospitalInputEnvelope } from './hospital-to-doctor-create-many-hospital-input-envelope.input';
-import { Prisma } from '@prisma/client';
 import { HospitalToDoctorWhereUniqueInput } from './hospital-to-doctor-where-unique.input';
 export declare class HospitalToDoctorUncheckedCreateNestedManyWithoutHospitalInput {
     create?: Array<HospitalToDoctorCreateWithoutHospitalInput>;

@@ -1,6 +1,7 @@
+import { Prisma } from '@prisma/client';
+
 import { ScheduleWhereInput } from './schedule-where.input';
 import { ScheduleOrderByWithRelationInput } from './schedule-order-by-with-relation.input';
-import { Prisma } from '@prisma/client';
 import { ScheduleWhereUniqueInput } from './schedule-where-unique.input';
 import { ScheduleScalarFieldEnum } from './schedule-scalar-field.enum';
 export declare class FindFirstScheduleArgs {

@@ -1,5 +1,6 @@
 import { Specialty } from '../prisma/specialty.enum';
 import { Division } from '../prisma/division.enum';
+
 import { DoctorCountAggregate } from './doctor-count-aggregate.output';
 import { DoctorAvgAggregate } from './doctor-avg-aggregate.output';
 import { DoctorSumAggregate } from './doctor-sum-aggregate.output';

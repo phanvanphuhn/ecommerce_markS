@@ -1,5 +1,6 @@
 import { Product } from '../product/product.model';
 import { CaseLog } from '../case-log/case-log.model';
+
 import { ProductsInvoiceCount } from './products-invoice-count.output';
 export declare class ProductsInvoice {
     id: string;

@@ -1,4 +1,5 @@
 import { Prisma } from '@prisma/client';
+
 import { DoctorWhereUniqueInput } from './doctor-where-unique.input';
 import { DoctorCreateInput } from './doctor-create.input';
 import { DoctorUpdateInput } from './doctor-update.input';

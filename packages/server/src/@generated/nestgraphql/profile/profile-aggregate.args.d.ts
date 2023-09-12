@@ -1,6 +1,7 @@
+import { Prisma } from '@prisma/client';
+
 import { ProfileWhereInput } from './profile-where.input';
 import { ProfileOrderByWithRelationInput } from './profile-order-by-with-relation.input';
-import { Prisma } from '@prisma/client';
 import { ProfileWhereUniqueInput } from './profile-where-unique.input';
 import { ProfileCountAggregateInput } from './profile-count-aggregate.input';
 import { ProfileAvgAggregateInput } from './profile-avg-aggregate.input';

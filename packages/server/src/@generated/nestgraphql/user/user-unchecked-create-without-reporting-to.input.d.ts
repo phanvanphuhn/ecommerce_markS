@@ -1,9 +1,10 @@
 import { Role } from '../prisma/role.enum';
-import { UserUncheckedCreateNestedOneWithoutReportingToInput } from './user-unchecked-create-nested-one-without-reporting-to.input';
 import { ProfileUncheckedCreateNestedOneWithoutUserInput } from '../profile/profile-unchecked-create-nested-one-without-user.input';
 import { ScheduleUncheckedCreateNestedManyWithoutUserInput } from '../schedule/schedule-unchecked-create-nested-many-without-user.input';
 import { CaseLogUncheckedCreateNestedManyWithoutAccountInput } from '../case-log/case-log-unchecked-create-nested-many-without-account.input';
 import { DoctorUncheckedCreateNestedOneWithoutUserInput } from '../doctor/doctor-unchecked-create-nested-one-without-user.input';
+
+import { UserUncheckedCreateNestedOneWithoutReportingToInput } from './user-unchecked-create-nested-one-without-reporting-to.input';
 export declare class UserUncheckedCreateWithoutReportingToInput {
     id?: number;
     email: string;

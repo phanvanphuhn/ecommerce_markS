@@ -1,4 +1,5 @@
 import { SortOrder } from '../prisma/sort-order.enum';
+
 import { DoctorCountOrderByAggregateInput } from './doctor-count-order-by-aggregate.input';
 import { DoctorAvgOrderByAggregateInput } from './doctor-avg-order-by-aggregate.input';
 import { DoctorMaxOrderByAggregateInput } from './doctor-max-order-by-aggregate.input';

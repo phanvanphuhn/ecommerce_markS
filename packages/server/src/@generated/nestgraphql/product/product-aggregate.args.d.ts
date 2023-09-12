@@ -1,6 +1,7 @@
+import { Prisma } from '@prisma/client';
+
 import { ProductWhereInput } from './product-where.input';
 import { ProductOrderByWithRelationInput } from './product-order-by-with-relation.input';
-import { Prisma } from '@prisma/client';
 import { ProductWhereUniqueInput } from './product-where-unique.input';
 import { ProductCountAggregateInput } from './product-count-aggregate.input';
 import { ProductAvgAggregateInput } from './product-avg-aggregate.input';

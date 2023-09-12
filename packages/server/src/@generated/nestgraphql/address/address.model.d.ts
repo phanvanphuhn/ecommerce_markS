@@ -1,4 +1,5 @@
 import { Profile } from '../profile/profile.model';
+
 import { AddressCount } from './address-count.output';
 export declare class Address {
     id: number;

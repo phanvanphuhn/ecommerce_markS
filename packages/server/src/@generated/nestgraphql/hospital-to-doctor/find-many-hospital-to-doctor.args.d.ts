@@ -1,6 +1,7 @@
+import { Prisma } from '@prisma/client';
+
 import { HospitalToDoctorWhereInput } from './hospital-to-doctor-where.input';
 import { HospitalToDoctorOrderByWithRelationInput } from './hospital-to-doctor-order-by-with-relation.input';
-import { Prisma } from '@prisma/client';
 import { HospitalToDoctorWhereUniqueInput } from './hospital-to-doctor-where-unique.input';
 import { HospitalToDoctorScalarFieldEnum } from './hospital-to-doctor-scalar-field.enum';
 export declare class FindManyHospitalToDoctorArgs {

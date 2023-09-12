@@ -1,6 +1,7 @@
+import { Prisma } from '@prisma/client';
+
 import { PlanCallWhereInput } from './plan-call-where.input';
 import { PlanCallOrderByWithRelationInput } from './plan-call-order-by-with-relation.input';
-import { Prisma } from '@prisma/client';
 import { PlanCallWhereUniqueInput } from './plan-call-where-unique.input';
 import { PlanCallCountAggregateInput } from './plan-call-count-aggregate.input';
 import { PlanCallMinAggregateInput } from './plan-call-min-aggregate.input';

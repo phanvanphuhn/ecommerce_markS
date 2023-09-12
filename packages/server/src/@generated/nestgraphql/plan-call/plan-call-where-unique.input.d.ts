@@ -1,7 +1,8 @@
-import { PlanCallWhereInput } from './plan-call-where.input';
 import { DateTimeFilter } from '../prisma/date-time-filter.input';
 import { StringFilter } from '../prisma/string-filter.input';
 import { ScheduleRelationFilter } from '../schedule/schedule-relation-filter.input';
+
+import { PlanCallWhereInput } from './plan-call-where.input';
 export declare class PlanCallWhereUniqueInput {
     id?: string;
     scheduleId?: string;

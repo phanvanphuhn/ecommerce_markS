@@ -1,4 +1,5 @@
 import { SortOrder } from '../prisma/sort-order.enum';
+
 import { ProductsInvoiceCountOrderByAggregateInput } from './products-invoice-count-order-by-aggregate.input';
 import { ProductsInvoiceMaxOrderByAggregateInput } from './products-invoice-max-order-by-aggregate.input';
 import { ProductsInvoiceMinOrderByAggregateInput } from './products-invoice-min-order-by-aggregate.input';

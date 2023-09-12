@@ -1,5 +1,6 @@
 import { SortOrder } from '../prisma/sort-order.enum';
 import { SortOrderInput } from '../prisma/sort-order.input';
+
 import { CaseLogCountOrderByAggregateInput } from './case-log-count-order-by-aggregate.input';
 import { CaseLogAvgOrderByAggregateInput } from './case-log-avg-order-by-aggregate.input';
 import { CaseLogMaxOrderByAggregateInput } from './case-log-max-order-by-aggregate.input';

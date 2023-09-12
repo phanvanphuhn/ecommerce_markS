@@ -1,8 +1,9 @@
+import { Prisma } from '@prisma/client';
+
 import { ProductCreateWithoutProductsInvoiceInput } from './product-create-without-products-invoice.input';
 import { ProductCreateOrConnectWithoutProductsInvoiceInput } from './product-create-or-connect-without-products-invoice.input';
 import { ProductUpsertWithWhereUniqueWithoutProductsInvoiceInput } from './product-upsert-with-where-unique-without-products-invoice.input';
 import { ProductCreateManyProductsInvoiceInputEnvelope } from './product-create-many-products-invoice-input-envelope.input';
-import { Prisma } from '@prisma/client';
 import { ProductWhereUniqueInput } from './product-where-unique.input';
 import { ProductUpdateWithWhereUniqueWithoutProductsInvoiceInput } from './product-update-with-where-unique-without-products-invoice.input';
 import { ProductUpdateManyWithWhereWithoutProductsInvoiceInput } from './product-update-many-with-where-without-products-invoice.input';

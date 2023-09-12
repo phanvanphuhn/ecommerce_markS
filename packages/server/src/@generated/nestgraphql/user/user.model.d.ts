@@ -3,6 +3,7 @@ import { Profile } from '../profile/profile.model';
 import { Schedule } from '../schedule/schedule.model';
 import { CaseLog } from '../case-log/case-log.model';
 import { Doctor } from '../doctor/doctor.model';
+
 import { UserCount } from './user-count.output';
 export declare class User {
     id: number;

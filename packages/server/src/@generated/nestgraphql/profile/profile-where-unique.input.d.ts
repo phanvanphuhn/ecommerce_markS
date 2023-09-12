@@ -1,8 +1,9 @@
-import { ProfileWhereInput } from './profile-where.input';
 import { StringFilter } from '../prisma/string-filter.input';
 import { IntFilter } from '../prisma/int-filter.input';
 import { AddressRelationFilter } from '../address/address-relation-filter.input';
 import { UserRelationFilter } from '../user/user-relation-filter.input';
+
+import { ProfileWhereInput } from './profile-where.input';
 export declare class ProfileWhereUniqueInput {
     id?: number;
     userId?: number;

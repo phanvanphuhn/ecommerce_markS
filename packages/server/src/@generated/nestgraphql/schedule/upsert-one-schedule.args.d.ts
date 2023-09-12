@@ -1,4 +1,5 @@
 import { Prisma } from '@prisma/client';
+
 import { ScheduleWhereUniqueInput } from './schedule-where-unique.input';
 import { ScheduleCreateInput } from './schedule-create.input';
 import { ScheduleUpdateInput } from './schedule-update.input';

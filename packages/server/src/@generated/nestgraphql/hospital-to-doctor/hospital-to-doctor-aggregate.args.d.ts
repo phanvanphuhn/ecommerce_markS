@@ -1,6 +1,7 @@
+import { Prisma } from '@prisma/client';
+
 import { HospitalToDoctorWhereInput } from './hospital-to-doctor-where.input';
 import { HospitalToDoctorOrderByWithRelationInput } from './hospital-to-doctor-order-by-with-relation.input';
-import { Prisma } from '@prisma/client';
 import { HospitalToDoctorWhereUniqueInput } from './hospital-to-doctor-where-unique.input';
 import { HospitalToDoctorCountAggregateInput } from './hospital-to-doctor-count-aggregate.input';
 import { HospitalToDoctorAvgAggregateInput } from './hospital-to-doctor-avg-aggregate.input';

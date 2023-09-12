@@ -1,6 +1,7 @@
+import { Prisma } from '@prisma/client';
+
 import { ScheduleWhereInput } from './schedule-where.input';
 import { ScheduleOrderByWithRelationInput } from './schedule-order-by-with-relation.input';
-import { Prisma } from '@prisma/client';
 import { ScheduleWhereUniqueInput } from './schedule-where-unique.input';
 import { ScheduleCountAggregateInput } from './schedule-count-aggregate.input';
 import { ScheduleAvgAggregateInput } from './schedule-avg-aggregate.input';

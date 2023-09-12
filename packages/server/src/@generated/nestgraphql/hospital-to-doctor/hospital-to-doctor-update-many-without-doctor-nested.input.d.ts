@@ -1,8 +1,9 @@
+import { Prisma } from '@prisma/client';
+
 import { HospitalToDoctorCreateWithoutDoctorInput } from './hospital-to-doctor-create-without-doctor.input';
 import { HospitalToDoctorCreateOrConnectWithoutDoctorInput } from './hospital-to-doctor-create-or-connect-without-doctor.input';
 import { HospitalToDoctorUpsertWithWhereUniqueWithoutDoctorInput } from './hospital-to-doctor-upsert-with-where-unique-without-doctor.input';
 import { HospitalToDoctorCreateManyDoctorInputEnvelope } from './hospital-to-doctor-create-many-doctor-input-envelope.input';
-import { Prisma } from '@prisma/client';
 import { HospitalToDoctorWhereUniqueInput } from './hospital-to-doctor-where-unique.input';
 import { HospitalToDoctorUpdateWithWhereUniqueWithoutDoctorInput } from './hospital-to-doctor-update-with-where-unique-without-doctor.input';
 import { HospitalToDoctorUpdateManyWithWhereWithoutDoctorInput } from './hospital-to-doctor-update-many-with-where-without-doctor.input';

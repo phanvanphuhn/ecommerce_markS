@@ -1,5 +1,6 @@
-import { UserUpdateInput } from './user-update.input';
 import { Prisma } from '@prisma/client';
+
+import { UserUpdateInput } from './user-update.input';
 import { UserWhereUniqueInput } from './user-where-unique.input';
 export declare class UpdateOneUserArgs {
     data: UserUpdateInput;

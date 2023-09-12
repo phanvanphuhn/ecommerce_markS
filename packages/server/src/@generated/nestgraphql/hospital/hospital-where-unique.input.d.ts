@@ -1,6 +1,7 @@
-import { HospitalWhereInput } from './hospital-where.input';
 import { StringFilter } from '../prisma/string-filter.input';
 import { HospitalToDoctorListRelationFilter } from '../hospital-to-doctor/hospital-to-doctor-list-relation-filter.input';
+
+import { HospitalWhereInput } from './hospital-where.input';
 export declare class HospitalWhereUniqueInput {
     id?: number;
     AND?: Array<HospitalWhereInput>;

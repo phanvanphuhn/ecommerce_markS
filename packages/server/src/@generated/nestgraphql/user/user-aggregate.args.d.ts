@@ -1,6 +1,7 @@
+import { Prisma } from '@prisma/client';
+
 import { UserWhereInput } from './user-where.input';
 import { UserOrderByWithRelationInput } from './user-order-by-with-relation.input';
-import { Prisma } from '@prisma/client';
 import { UserWhereUniqueInput } from './user-where-unique.input';
 import { UserCountAggregateInput } from './user-count-aggregate.input';
 import { UserAvgAggregateInput } from './user-avg-aggregate.input';

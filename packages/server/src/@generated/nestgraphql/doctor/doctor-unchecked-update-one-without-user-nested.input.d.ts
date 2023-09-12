@@ -1,8 +1,9 @@
+import { Prisma } from '@prisma/client';
+
 import { DoctorCreateWithoutUserInput } from './doctor-create-without-user.input';
 import { DoctorCreateOrConnectWithoutUserInput } from './doctor-create-or-connect-without-user.input';
 import { DoctorUpsertWithoutUserInput } from './doctor-upsert-without-user.input';
 import { DoctorWhereInput } from './doctor-where.input';
-import { Prisma } from '@prisma/client';
 import { DoctorWhereUniqueInput } from './doctor-where-unique.input';
 import { DoctorUpdateToOneWithWhereWithoutUserInput } from './doctor-update-to-one-with-where-without-user.input';
 export declare class DoctorUncheckedUpdateOneWithoutUserNestedInput {

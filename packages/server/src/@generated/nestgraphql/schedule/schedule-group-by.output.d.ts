@@ -1,4 +1,5 @@
 import { ScheduleType } from '../prisma/schedule-type.enum';
+
 import { ScheduleCountAggregate } from './schedule-count-aggregate.output';
 import { ScheduleAvgAggregate } from './schedule-avg-aggregate.output';
 import { ScheduleSumAggregate } from './schedule-sum-aggregate.output';

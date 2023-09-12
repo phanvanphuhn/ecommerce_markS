@@ -1,8 +1,9 @@
+import { Prisma } from '@prisma/client';
+
 import { CaseLogCreateWithoutDoctorInput } from './case-log-create-without-doctor.input';
 import { CaseLogCreateOrConnectWithoutDoctorInput } from './case-log-create-or-connect-without-doctor.input';
 import { CaseLogUpsertWithWhereUniqueWithoutDoctorInput } from './case-log-upsert-with-where-unique-without-doctor.input';
 import { CaseLogCreateManyDoctorInputEnvelope } from './case-log-create-many-doctor-input-envelope.input';
-import { Prisma } from '@prisma/client';
 import { CaseLogWhereUniqueInput } from './case-log-where-unique.input';
 import { CaseLogUpdateWithWhereUniqueWithoutDoctorInput } from './case-log-update-with-where-unique-without-doctor.input';
 import { CaseLogUpdateManyWithWhereWithoutDoctorInput } from './case-log-update-many-with-where-without-doctor.input';

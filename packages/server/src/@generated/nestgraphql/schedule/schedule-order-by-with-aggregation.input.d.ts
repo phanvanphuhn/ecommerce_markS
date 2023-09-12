@@ -1,5 +1,6 @@
 import { SortOrder } from '../prisma/sort-order.enum';
 import { SortOrderInput } from '../prisma/sort-order.input';
+
 import { ScheduleCountOrderByAggregateInput } from './schedule-count-order-by-aggregate.input';
 import { ScheduleAvgOrderByAggregateInput } from './schedule-avg-order-by-aggregate.input';
 import { ScheduleMaxOrderByAggregateInput } from './schedule-max-order-by-aggregate.input';

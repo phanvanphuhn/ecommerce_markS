@@ -1,5 +1,6 @@
 import { SortOrder } from '../prisma/sort-order.enum';
 import { SortOrderInput } from '../prisma/sort-order.input';
+
 import { AddressCountOrderByAggregateInput } from './address-count-order-by-aggregate.input';
 import { AddressAvgOrderByAggregateInput } from './address-avg-order-by-aggregate.input';
 import { AddressMaxOrderByAggregateInput } from './address-max-order-by-aggregate.input';

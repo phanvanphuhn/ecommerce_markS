@@ -1,6 +1,7 @@
+import { Prisma } from '@prisma/client';
+
 import { ProductsInvoiceCreateWithoutProductsInput } from './products-invoice-create-without-products.input';
 import { ProductsInvoiceCreateOrConnectWithoutProductsInput } from './products-invoice-create-or-connect-without-products.input';
-import { Prisma } from '@prisma/client';
 import { ProductsInvoiceWhereUniqueInput } from './products-invoice-where-unique.input';
 export declare class ProductsInvoiceCreateNestedOneWithoutProductsInput {
     create?: ProductsInvoiceCreateWithoutProductsInput;

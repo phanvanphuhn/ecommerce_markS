@@ -1,5 +1,6 @@
 import { SortOrder } from '../prisma/sort-order.enum';
 import { SortOrderInput } from '../prisma/sort-order.input';
+
 import { PlanCallCountOrderByAggregateInput } from './plan-call-count-order-by-aggregate.input';
 import { PlanCallMaxOrderByAggregateInput } from './plan-call-max-order-by-aggregate.input';
 import { PlanCallMinOrderByAggregateInput } from './plan-call-min-order-by-aggregate.input';

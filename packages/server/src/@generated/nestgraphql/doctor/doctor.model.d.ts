@@ -3,6 +3,7 @@ import { Division } from '../prisma/division.enum';
 import { User } from '../user/user.model';
 import { CaseLog } from '../case-log/case-log.model';
 import { HospitalToDoctor } from '../hospital-to-doctor/hospital-to-doctor.model';
+
 import { DoctorCount } from './doctor-count.output';
 export declare class Doctor {
     id: number;

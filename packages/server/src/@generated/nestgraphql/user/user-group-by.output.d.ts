@@ -1,4 +1,5 @@
 import { Role } from '../prisma/role.enum';
+
 import { UserCountAggregate } from './user-count-aggregate.output';
 import { UserAvgAggregate } from './user-avg-aggregate.output';
 import { UserSumAggregate } from './user-sum-aggregate.output';

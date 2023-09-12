@@ -1,6 +1,7 @@
+import { Prisma } from '@prisma/client';
+
 import { HospitalWhereInput } from './hospital-where.input';
 import { HospitalOrderByWithRelationInput } from './hospital-order-by-with-relation.input';
-import { Prisma } from '@prisma/client';
 import { HospitalWhereUniqueInput } from './hospital-where-unique.input';
 import { HospitalCountAggregateInput } from './hospital-count-aggregate.input';
 import { HospitalAvgAggregateInput } from './hospital-avg-aggregate.input';

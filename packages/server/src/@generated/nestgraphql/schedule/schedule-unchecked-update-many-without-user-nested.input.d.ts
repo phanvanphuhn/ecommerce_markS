@@ -1,8 +1,9 @@
+import { Prisma } from '@prisma/client';
+
 import { ScheduleCreateWithoutUserInput } from './schedule-create-without-user.input';
 import { ScheduleCreateOrConnectWithoutUserInput } from './schedule-create-or-connect-without-user.input';
 import { ScheduleUpsertWithWhereUniqueWithoutUserInput } from './schedule-upsert-with-where-unique-without-user.input';
 import { ScheduleCreateManyUserInputEnvelope } from './schedule-create-many-user-input-envelope.input';
-import { Prisma } from '@prisma/client';
 import { ScheduleWhereUniqueInput } from './schedule-where-unique.input';
 import { ScheduleUpdateWithWhereUniqueWithoutUserInput } from './schedule-update-with-where-unique-without-user.input';
 import { ScheduleUpdateManyWithWhereWithoutUserInput } from './schedule-update-many-with-where-without-user.input';

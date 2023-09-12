@@ -1,4 +1,5 @@
 import { Prisma } from '@prisma/client';
+
 import { ProfileWhereUniqueInput } from './profile-where-unique.input';
 import { ProfileUpdateWithoutAddressInput } from './profile-update-without-address.input';
 import { ProfileCreateWithoutAddressInput } from './profile-create-without-address.input';

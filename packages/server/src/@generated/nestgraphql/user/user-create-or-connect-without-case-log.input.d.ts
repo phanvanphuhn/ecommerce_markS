@@ -1,4 +1,5 @@
 import { Prisma } from '@prisma/client';
+
 import { UserWhereUniqueInput } from './user-where-unique.input';
 import { UserCreateWithoutCaseLogInput } from './user-create-without-case-log.input';
 export declare class UserCreateOrConnectWithoutCaseLogInput {

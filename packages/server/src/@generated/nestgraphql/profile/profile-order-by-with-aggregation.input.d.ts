@@ -1,5 +1,6 @@
 import { SortOrder } from '../prisma/sort-order.enum';
 import { SortOrderInput } from '../prisma/sort-order.input';
+
 import { ProfileCountOrderByAggregateInput } from './profile-count-order-by-aggregate.input';
 import { ProfileAvgOrderByAggregateInput } from './profile-avg-order-by-aggregate.input';
 import { ProfileMaxOrderByAggregateInput } from './profile-max-order-by-aggregate.input';
