@@ -40,6 +40,7 @@ export class ScheduleService {
         },
       };
     }
+    delete createScheduleInput.caseLog.create.productsInvoice;
 
     return this.prismaService.schedule.create({
       data: {

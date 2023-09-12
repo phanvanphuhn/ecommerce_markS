@@ -3,14 +3,10 @@
   "configurations": [
     {
       "type": "node",
-      "request": "launch",
+      "request": "attach",
       "name": "Debug Nest",
-      "args": ["${workspaceFolder}/src/main.ts"],
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "start:dev", "--", "--inspect-brk"],
       "envFile": "${workspaceFolder}/.env",
-      "cwd": "${workspaceRoot}",
-      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}/src/main.ts",
       "protocol": "inspector",
       "sourceMaps": true
     }

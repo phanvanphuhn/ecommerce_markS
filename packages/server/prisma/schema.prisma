@@ -132,7 +132,7 @@ model PlanCall {
   description String?
   topics      String?
 
-  schedule   Schedule  @relation(fields: [scheduleId], references: [id])
+  schedule   Schedule  @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
   scheduleId String    @unique
   deleted    DateTime?
 }
@@ -149,9 +149,9 @@ model CaseLog {
 
   photoUrl          String?
   productsInvoice   ProductsInvoice? @relation(fields: [productsInvoiceId], references: [id])
-  productsInvoiceId String           @unique
+  productsInvoiceId String?          @unique
 
-  schedule   Schedule @relation(fields: [scheduleId], references: [id])
+  schedule   Schedule @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
   scheduleId String   @unique
 
   deleted DateTime?

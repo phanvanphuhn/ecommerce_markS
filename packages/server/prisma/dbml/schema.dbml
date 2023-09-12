@@ -109,7 +109,7 @@ Table CaseLog {
   doctorId Int [not null]
   photoUrl String
   productsInvoice ProductsInvoice
-  productsInvoiceId String [unique, not null]
+  productsInvoiceId String [unique]
   schedule Schedule [not null]
   scheduleId String [unique, not null]
   deleted DateTime
@@ -186,7 +186,7 @@ Ref: Profile.userId - User.id [delete: Cascade]
 
 Ref: Schedule.userId > User.id
 
-Ref: PlanCall.scheduleId - Schedule.id
+Ref: PlanCall.scheduleId - Schedule.id [delete: Cascade]
 
 Ref: CaseLog.accountId > User.id
 
@@ -194,6 +194,6 @@ Ref: CaseLog.doctorId > Doctor.id
 
 Ref: CaseLog.productsInvoiceId - ProductsInvoice.id
 
-Ref: CaseLog.scheduleId - Schedule.id
+Ref: CaseLog.scheduleId - Schedule.id [delete: Cascade]
 
 Ref: Product.productsInvoiceId > ProductsInvoice.id
