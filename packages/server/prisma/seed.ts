@@ -1,7 +1,7 @@
-import { PrismaClient, Profile, Role } from '@prisma/client';
-import { hash } from 'bcrypt';
+import { PrismaClient, Profile, Role } from "@prisma/client";
+import { hash } from "bcrypt";
 
-import { doctorUsers, normalUsers } from './seedData/users';
+import { doctorUsers, normalUsers } from "./seedData/users";
 const prisma = new PrismaClient();
 
 async function main() {
@@ -13,24 +13,24 @@ async function main() {
 
   const address = await prisma.address.create({
     data: {
-      city: 'Bangalore',
-      country: 'United States',
-      street: 'MG Road',
-      state: 'Karnataka',
-      zip: '560001',
+      city: "Bangalore",
+      country: "United States",
+      street: "MG Road",
+      state: "Karnataka",
+      zip: "560001",
     },
   });
 
   const hospital = await prisma.hospital.create({
     data: {
-      address: 'Somewhere',
-      name: 'Changi General Hospital',
+      address: "Somewhere",
+      name: "Changi General Hospital",
     },
   });
 
-  const defaultProfile: Omit<Profile, 'id' | 'userId'> = {
-    mobile: '1234567890',
-    preferredLanguage: 'English',
+  const defaultProfile: Omit<Profile, "id" | "userId"> = {
+    mobile: "1234567890",
+    preferredLanguage: "English",
     addressId: address.id,
   };
 
@@ -68,7 +68,6 @@ async function main() {
           create: {
             title: doctor.title,
             specialties: doctor.specialties,
-            divisions: doctor.divisions,
             hospitals: {
               create: {
                 hospital: {
@@ -84,7 +83,7 @@ async function main() {
     });
   }
 
-  console.log('Seeding...');
+  console.log("Seeding...");
 }
 
 main()

@@ -33,7 +33,6 @@ Table Doctor {
   caseLog CaseLog [not null]
   specialties Specialty[] [not null]
   hospitals HospitalToDoctor [not null]
-  divisions Division[] [not null]
 }
 
 Table HospitalToDoctor {
@@ -152,15 +151,6 @@ Enum Specialty {
   Neurology
   Dermatology
   Radiology
-}
-
-Enum Division {
-  Endoscopy
-  Neuromodulation
-  Interventional_Cardiology
-  Peripheral_Intervention
-  Cardiac_Rhythm_Management
-  Urology_And_Pelvic_Health
 }
 
 Enum TopicsOfInterest {

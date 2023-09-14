@@ -1,5 +1,5 @@
 # compiled output
-src/@generated/
+/src/@generated
 /dist
 /node_modules
 

@@ -62,7 +62,6 @@ model Doctor {
   caseLog     CaseLog[]
   specialties Specialty[]
   hospitals   HospitalToDoctor[]
-  divisions   Division[]
 }
 
 model HospitalToDoctor {
@@ -190,15 +189,6 @@ enum Specialty {
   Neurology
   Dermatology
   Radiology
-}
-
-enum Division {
-  Endoscopy
-  Neuromodulation
-  Interventional_Cardiology
-  Peripheral_Intervention
-  Cardiac_Rhythm_Management
-  Urology_And_Pelvic_Health
 }
 
 enum TopicsOfInterest {

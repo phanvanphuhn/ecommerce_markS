@@ -106,7 +106,7 @@ type CaseLog {
   id: ID!
   photoUrl: String
   productsInvoice: ProductsInvoice
-  productsInvoiceId: String
+  productsInvoiceId: String!
   schedule: Schedule!
   scheduleId: String!
   updatedAt: DateTime!
@@ -118,7 +118,7 @@ input CaseLogCreateManyAccountInput {
   doctorId: Int!
   id: String
   photoUrl: String
-  productsInvoiceId: String
+  productsInvoiceId: String!
   scheduleId: String!
   updatedAt: DateTime
 }
@@ -134,7 +134,7 @@ input CaseLogCreateManyDoctorInput {
   deleted: DateTime
   id: String
   photoUrl: String
-  productsInvoiceId: String
+  productsInvoiceId: String!
   scheduleId: String!
   updatedAt: DateTime
 }
@@ -242,7 +242,7 @@ input CaseLogOrderByWithRelationInput {
   id: SortOrder
   photoUrl: SortOrderInput
   productsInvoice: ProductsInvoiceOrderByWithRelationInput
-  productsInvoiceId: SortOrderInput
+  productsInvoiceId: SortOrder
   schedule: ScheduleOrderByWithRelationInput
   scheduleId: SortOrder
   updatedAt: SortOrder
