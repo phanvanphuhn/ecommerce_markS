@@ -30,172 +30,230 @@ generator dbml {
 }
 
 model User {
-  id        Int     @id @default(autoincrement())
-  email     String  @unique
-  password  String
-  firstName String?
-  lastName  String?
-  role      Role    @default(USER)
+  id           String      @id @default(cuid())
+  email        String      @unique
+  employeeName String
+  jobTitle     String?
+  division     String?
+  costCenter   CostCenter? @relation(fields: [costCenterId], references: [id])
 
-  reportingTo   User? @relation("ReportingRelation", fields: [reportingToId], references: [id])
-  reportingToId Int?  @unique
-  reportingBy   User? @relation("ReportingRelation")
+  azureADStatus ADStatus
+  azureADId     String?
 
-  profile  Profile?
-  Schedule Schedule[]
-  CaseLog  CaseLog[]
-  Doctor   Doctor?
+  reportingTo  User?   @relation("ManageUser")
+  reportedBy   User?   @relation("ManageUser", fields: [reportedById], references: [id])
+  reportedById String? @unique
+
+  profile      Profile?
+  costCenterId Int?
+
+  territory   Territory? @relation(fields: [territoryId], references: [id])
+  territoryId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
-model Hospital {
-  id      Int                @id @default(autoincrement())
-  name    String
-  address String
-  doctors HospitalToDoctor[]
+enum ADStatus {
+  Pending
+  Active
+  Inactive
+  Blocked
+  Deleted
 }
 
-model Doctor {
-  id          Int                @id @default(autoincrement())
-  title       String
-  user        User               @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId      Int                @unique
-  caseLog     CaseLog[]
-  specialties Specialty[]
-  hospitals   HospitalToDoctor[]
-}
+model CostCenter {
+  id          Int     @id @default(dbgenerated())
+  name        String  @unique
+  description String?
+  users       User[]
 
-model HospitalToDoctor {
-  hospital   Hospital @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
-  hospitalId Int
-  doctor     Doctor   @relation(fields: [doctorId], references: [id], onDelete: Cascade)
-  doctorId   Int
-
-  @@id([hospitalId, doctorId])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Profile {
-  id                Int      @id @default(autoincrement())
+  id                String  @id @default(cuid())
+  title             String?
   mobile            String
-  address           Address? @relation(fields: [addressId], references: [id])
-  addressId         Int?
   preferredLanguage String
 
-  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId Int  @unique
-}
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @unique
 
-model Address {
-  id        Int       @id @default(autoincrement())
-  street    String?
-  city      String?
-  state     String?
-  zip       String?
-  country   String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  profiles  Profile[]
-}
-
-enum ScheduleType {
-  CASE_LOG
-  PLAN_CALL
-}
-
-model Schedule {
-  id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  subject      String
-  location     String?
-  time         String?
-  endDate      DateTime
-  startDate    DateTime
-  scheduleType ScheduleType
-
-  user     User      @relation(fields: [userId], references: [id])
-  userId   Int
-  planCall PlanCall?
-  caseLog  CaseLog?
-
-  deleted DateTime?
 }
 
-model PlanCall {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  outcome     String?
-  type        String?
+model Territory {
+  id          String  @id @default(cuid())
+  countryName String
+  countryCode String
   description String?
-  topics      String?
+  division    String
+  productType String  @default("Others")
 
-  schedule   Schedule  @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
-  scheduleId String    @unique
-  deleted    DateTime?
-}
-
-model CaseLog {
-  id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  account   User   @relation(fields: [accountId], references: [id])
-  accountId Int
-  doctor    Doctor @relation(fields: [doctorId], references: [id])
-  doctorId  Int
+  users       User[]
+  territoryId String?
 
-  photoUrl          String?
-  productsInvoice   ProductsInvoice? @relation(fields: [productsInvoiceId], references: [id])
-  productsInvoiceId String?          @unique
-
-  schedule   Schedule @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
-  scheduleId String   @unique
-
-  deleted DateTime?
+  accounts TerritoryToAccount[]
 }
 
-model ProductsInvoice {
-  id        String    @id @default(cuid())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  products  Product[]
-  caseLog   CaseLog?
+model TerritoryToAccount {
+  territory   Territory? @relation(fields: [territoryId], references: [id])
+  territoryId String
+  account     Account?   @relation(fields: [accountId], references: [id])
+  accountId   String
+
+  percentageSharing String
+  startDate         DateTime
+  endDate           DateTime?
+  isActive          Boolean   @default(true)
+
+  @@id([territoryId, accountId])
 }
 
-model Product {
-  name      String   @id
-  quantity  Int
+// This is hospitals, clinics, etc
+model Account {
+  id                String   @id @default(cuid())
+  accountName       String?
+  addressCity       String?
+  addressPostalCode String?
+  addressState      String?
+  addressStreet     String?
+  classification    String?
+  country           String?
+  divisions         String[]
+  email             String?
+  facilityType      String?
+  phone             String?
+  website           String?
+  status            String?
+  longitude         Float?
+  latitude          Float?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  productsInvoice   ProductsInvoice? @relation(fields: [productsInvoiceId], references: [id])
-  productsInvoiceId String?
+  territories TerritoryToAccount[]
+  Contact     Contact[]
 }
 
-enum Role {
-  DOCTOR
-  USER
+model Contact {
+  id            String  @id @default(cuid())
+  firstName     String?
+  middleName    String?
+  lastName      String?
+  preferredName String?
+  title         String?
+  designation   String?
+  department    String?
+
+  bscBU      String?
+  bscRepName String?
+  bscRepId   String?
+
+  contactNumber          String?
+  primaryBusinessEmail   String?
+  secondaryBusinessEmail String?
+
+  comments String?
+
+  account   Account @relation(fields: [accountId], references: [id])
+  accountId String
+
+  divisionalContact DivisionalContact[]
 }
 
-enum Specialty {
-  Orthopedics
-  Surgery
-  Urology
-  Pediatrics
-  Cardiology
-  Neurosurgery
-  Neurology
-  Dermatology
-  Radiology
+model DivisionalContact {
+  id               String  @id @default(cuid())
+  contactName      String?
+  division         String?
+  function         String?
+  phone            String?
+  specialty        String?
+  subSpecialty     String?
+  topicsOfInterest String?
+
+  contact   Contact? @relation(fields: [contactId], references: [id])
+  contactId String?
 }
 
-enum TopicsOfInterest {
-  Endoscopy
-  Neuromodulation
-  Interventional_Cardiology
-  Peripheral_Intervention
-  Cardiac_Rhythm_Management
-  Urology_And_Pelvic_Health
-}
+// enum ScheduleType {
+//   CASE_LOG
+//   PLAN_CALL
+// }
+
+// model Schedule {
+//   id        String   @id @default(cuid())
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+
+//   subject      String
+//   location     String?
+//   time         String?
+//   endDate      DateTime
+//   startDate    DateTime
+//   scheduleType ScheduleType
+
+//   user     User      @relation(fields: [userId], references: [id])
+//   userId   String
+//   planCall PlanCall?
+//   caseLog  CaseLog?
+
+//   deleted DateTime?
+// }
+
+// model PlanCall {
+//   id        String   @id @default(cuid())
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+
+//   outcome     String?
+//   type        String?
+//   description String?
+//   topics      String?
+
+//   schedule   Schedule  @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
+//   scheduleId String    @unique
+//   deleted    DateTime?
+// }
+
+// model CaseLog {
+//   id        String   @id @default(cuid())
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+
+//   account   User   @relation(fields: [accountId], references: [id])
+//   accountId String
+
+//   photoUrl          String?
+//   productsInvoice   ProductsInvoice? @relation(fields: [productsInvoiceId], references: [id])
+//   productsInvoiceId String?          @unique
+
+//   schedule   Schedule @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
+//   scheduleId String   @unique
+
+//   deleted DateTime?
+// }
+
+// model ProductsInvoice {
+//   id        String    @id @default(cuid())
+//   createdAt DateTime  @default(now())
+//   updatedAt DateTime  @updatedAt
+//   products  Product[]
+//   caseLog   CaseLog?
+// }
+
+// model Product {
+//   name      String   @id
+//   quantity  Int
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+
+//   productsInvoice   ProductsInvoice? @relation(fields: [productsInvoiceId], references: [id])
+//   productsInvoiceId String?
+// }

@@ -3,187 +3,150 @@
 //// ------------------------------------------------------
 
 Table User {
-  id Int [pk, increment]
+  id String [pk]
   email String [unique, not null]
-  password String [not null]
-  firstName String
-  lastName String
-  role Role [not null, default: 'USER']
+  employeeName String [not null]
+  jobTitle String
+  division String
+  costCenter CostCenter
+  azureADStatus ADStatus [not null]
+  azureADId String
   reportingTo User
-  reportingToId Int [unique]
-  reportingBy User
+  reportedBy User
+  reportedById String [unique]
   profile Profile
-  Schedule Schedule [not null]
-  CaseLog CaseLog [not null]
-  Doctor Doctor
+  costCenterId Int
+  territory Territory
+  territoryId String
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
 }
 
-Table Hospital {
-  id Int [pk, increment]
-  name String [not null]
-  address String [not null]
-  doctors HospitalToDoctor [not null]
-}
-
-Table Doctor {
-  id Int [pk, increment]
-  title String [not null]
-  user User [not null]
-  userId Int [unique, not null]
-  caseLog CaseLog [not null]
-  specialties Specialty[] [not null]
-  hospitals HospitalToDoctor [not null]
-}
-
-Table HospitalToDoctor {
-  hospital Hospital [not null]
-  hospitalId Int [not null]
-  doctor Doctor [not null]
-  doctorId Int [not null]
-
-  indexes {
-    (hospitalId, doctorId) [pk]
-  }
+Table CostCenter {
+  id Int [pk]
+  name String [unique, not null]
+  users User [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
 }
 
 Table Profile {
-  id Int [pk, increment]
+  id String [pk]
+  title String
   mobile String [not null]
-  address Address
-  addressId Int
   preferredLanguage String [not null]
   user User [not null]
-  userId Int [unique, not null]
-}
-
-Table Address {
-  id Int [pk, increment]
-  street String
-  city String
-  state String
-  zip String
-  country String [not null]
+  userId String [unique, not null]
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
-  profiles Profile [not null]
 }
 
-Table Schedule {
+Table Territory {
   id String [pk]
-  createdAt DateTime [default: `now()`, not null]
-  updatedAt DateTime [not null]
-  subject String [not null]
-  location String
-  time String
-  endDate DateTime [not null]
-  startDate DateTime [not null]
-  scheduleType ScheduleType [not null]
-  user User [not null]
-  userId Int [not null]
-  planCall PlanCall
-  caseLog CaseLog
-  deleted DateTime
-}
-
-Table PlanCall {
-  id String [pk]
-  createdAt DateTime [default: `now()`, not null]
-  updatedAt DateTime [not null]
-  outcome String
-  type String
+  countryName String [not null]
+  countryCode String [not null]
   description String
-  topics String
-  schedule Schedule [not null]
-  scheduleId String [unique, not null]
-  deleted DateTime
+  division String [not null]
+  productType String [not null, default: 'Others']
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  users User [not null]
+  territoryId String
+  accounts TerritoryToAccount [not null]
 }
 
-Table CaseLog {
+Table TerritoryToAccount {
+  territory Territory
+  territoryId String [not null]
+  account Account
+  accountId String [not null]
+  percentageSharing String [not null]
+  startDate DateTime [not null]
+  endDate DateTime
+  isActive Boolean [not null, default: true]
+
+  indexes {
+    (territoryId, accountId) [pk]
+  }
+}
+
+Table Account {
   id String [pk]
+  accountName String
+  addressCity String
+  addressPostalCode String
+  addressState String
+  addressStreet String
+  classification String
+  country String
+  divisions String[] [not null]
+  email String
+  facilityType String
+  phone String
+  website String
+  status String
+  longitude Float
+  latitude Float
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
-  account User [not null]
-  accountId Int [not null]
-  doctor Doctor [not null]
-  doctorId Int [not null]
-  photoUrl String
-  productsInvoice ProductsInvoice
-  productsInvoiceId String [unique]
-  schedule Schedule [not null]
-  scheduleId String [unique, not null]
-  deleted DateTime
+  territories TerritoryToAccount [not null]
+  Contact Contact [not null]
 }
 
-Table ProductsInvoice {
+Table Contact {
   id String [pk]
-  createdAt DateTime [default: `now()`, not null]
-  updatedAt DateTime [not null]
-  products Product [not null]
-  caseLog CaseLog
+  firstName String
+  middleName String
+  lastName String
+  preferredName String
+  title String
+  designation String
+  department String
+  bscBU String
+  bscRepName String
+  bscRepId String
+  contactNumber String
+  primaryBusinessEmail String
+  secondaryBusinessEmail String
+  comments String
+  account Account [not null]
+  accountId String [not null]
+  divisionalContact DivisionalContact [not null]
 }
 
-Table Product {
-  name String [pk]
-  quantity Int [not null]
-  createdAt DateTime [default: `now()`, not null]
-  updatedAt DateTime [not null]
-  productsInvoice ProductsInvoice
-  productsInvoiceId String
+Table DivisionalContact {
+  id String [pk]
+  contactName String
+  division String
+  function String
+  phone String
+  specialty String
+  subSpecialty String
+  topicsOfInterest String
+  contact Contact
+  contactId String
 }
 
-Enum ScheduleType {
-  CASE_LOG
-  PLAN_CALL
+Enum ADStatus {
+  Pending
+  Active
+  Inactive
+  Blocked
+  Deleted
 }
 
-Enum Role {
-  DOCTOR
-  USER
-}
+Ref: User.costCenterId > CostCenter.id
 
-Enum Specialty {
-  Orthopedics
-  Surgery
-  Urology
-  Pediatrics
-  Cardiology
-  Neurosurgery
-  Neurology
-  Dermatology
-  Radiology
-}
+Ref: User.reportedById - User.id
 
-Enum TopicsOfInterest {
-  Endoscopy
-  Neuromodulation
-  Interventional_Cardiology
-  Peripheral_Intervention
-  Cardiac_Rhythm_Management
-  Urology_And_Pelvic_Health
-}
-
-Ref: User.reportingToId - User.id
-
-Ref: Doctor.userId - User.id [delete: Cascade]
-
-Ref: HospitalToDoctor.hospitalId > Hospital.id [delete: Cascade]
-
-Ref: HospitalToDoctor.doctorId > Doctor.id [delete: Cascade]
-
-Ref: Profile.addressId > Address.id
+Ref: User.territoryId > Territory.id
 
 Ref: Profile.userId - User.id [delete: Cascade]
 
-Ref: Schedule.userId > User.id
+Ref: TerritoryToAccount.territoryId > Territory.id
 
-Ref: PlanCall.scheduleId - Schedule.id [delete: Cascade]
+Ref: TerritoryToAccount.accountId > Account.id
 
-Ref: CaseLog.accountId > User.id
+Ref: Contact.accountId > Account.id
 
-Ref: CaseLog.doctorId > Doctor.id
-
-Ref: CaseLog.productsInvoiceId - ProductsInvoice.id
-
-Ref: CaseLog.scheduleId - Schedule.id [delete: Cascade]
-
-Ref: Product.productsInvoiceId > ProductsInvoice.id
+Ref: DivisionalContact.contactId > Contact.id

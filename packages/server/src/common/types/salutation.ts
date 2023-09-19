@@ -1,0 +1,17 @@
+export enum SALUTATIONS {
+  ASSOC_PROF = "Assoc. Prof",
+  DATIN = "Datin",
+  DATO = "Dato'",
+  DATO_SERI = "Dato' Seri",
+  DATO_SRI = "Dato' Sri",
+  DATUK = "Datuk",
+  DATUK_SERI = "Datuk Seri",
+  DATUK_SRI = "Datuk Sri",
+  DR = "Dr.",
+  MDM = "Mdm.",
+  MR = "Mr.",
+  MRS = "Mrs.",
+  MS = "Ms.",
+  PROF = "Prof.",
+  PROF_DATO = "prof. Dato'",
+}
