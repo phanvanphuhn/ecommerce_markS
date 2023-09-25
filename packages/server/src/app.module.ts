@@ -3,7 +3,7 @@ import { Logger, Module } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { GraphQLModule } from "@nestjs/graphql";
 import Joi from "joi";
-import { PrismaModule, loggingMiddleware } from "nestjs-prisma";
+import { PrismaModule, QueryInfo, loggingMiddleware } from "nestjs-prisma";
 
 import config from "./common/configs/config";
 import { GqlConfigService } from "./gql-config.service";
@@ -11,6 +11,9 @@ import { DatabaseModule } from "./modules/_database/database.module";
 import { AuthModule } from "./modules/auth/auth.module";
 import { ScheduleModule } from "./modules/schedule/schedule.module";
 import { UsersModule } from "./modules/users/users.module";
+import { TerritoryModule } from "./modules/territory/territory.module";
+import { ContactModule } from "./modules/contact/contact.module";
+import { AccountModule } from "./modules/account/account.module";
 
 @Module({
   imports: [
@@ -41,11 +44,16 @@ import { UsersModule } from "./modules/users/users.module";
     PrismaModule.forRoot({
       isGlobal: true,
       prismaServiceOptions: {
+        prismaOptions: {
+          log: ["query", "info", "warn"],
+        },
         middlewares: [
           // configure your prisma middleware
           loggingMiddleware({
             logger: new Logger("PrismaMiddleware"),
-            logLevel: "log",
+            logLevel: "debug",
+            logMessage: (query: QueryInfo) =>
+              `[Prisma Query] ${query.model}.${query.action} - ${query.executionTime}ms`,
           }),
         ],
       },
@@ -56,9 +64,10 @@ import { UsersModule } from "./modules/users/users.module";
       useClass: GqlConfigService,
     }),
 
-    AuthModule,
+    AccountModule,
     UsersModule,
-    ScheduleModule,
+    TerritoryModule,
+    ContactModule,
   ],
   controllers: [],
   providers: [],

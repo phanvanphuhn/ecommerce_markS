@@ -1,89 +1,34 @@
-import { PrismaClient, Profile, Role } from "@prisma/client";
-import { hash } from "bcrypt";
+import { PrismaClient } from "@prisma/client";
 
-import { doctorUsers, normalUsers } from "./seedData/users";
-const prisma = new PrismaClient();
+import { UserSeeder } from "./seedModules/UserSeeder";
+import { AccountSeeder } from "./seedModules/AccountSeeder";
+import { TerritorySeeder } from "./seedModules/TerritorySeeder";
+import { ContactSeeder } from "./seedModules/ContactSeeder";
+
+const prisma = new PrismaClient({
+  datasources: {
+    db: {
+      url: process.env.DATABASE_URL,
+    },
+  },
+});
 
 async function main() {
-  await prisma.user.deleteMany();
-  await prisma.address.deleteMany();
+  await prisma.contact.deleteMany();
   await prisma.profile.deleteMany();
-  await prisma.hospital.deleteMany();
-  await prisma.doctor.deleteMany();
 
-  const address = await prisma.address.create({
-    data: {
-      city: "Bangalore",
-      country: "United States",
-      street: "MG Road",
-      state: "Karnataka",
-      zip: "560001",
-    },
-  });
+  // TERRITORY MUST BE CREATED FIRST
+  const territorySeeder = new TerritorySeeder(prisma);
+  await territorySeeder.seed();
 
-  const hospital = await prisma.hospital.create({
-    data: {
-      address: "Somewhere",
-      name: "Changi General Hospital",
-    },
-  });
+  const userSeeder = new UserSeeder(prisma);
+  await userSeeder.seed();
 
-  const defaultProfile: Omit<Profile, "id" | "userId"> = {
-    mobile: "1234567890",
-    preferredLanguage: "English",
-    addressId: address.id,
-  };
+  const accountSeeder = new AccountSeeder(prisma);
+  await accountSeeder.seed();
 
-  for (const user of normalUsers) {
-    await prisma.user.create({
-      data: {
-        email: user.email,
-        password: await hash(user.password, 10),
-        role: Role.USER,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        profile: {
-          create: {
-            ...defaultProfile,
-          },
-        },
-      },
-    });
-  }
-
-  for (const doctor of doctorUsers) {
-    await prisma.user.create({
-      data: {
-        email: doctor.email,
-        password: await hash(doctor.password, 10),
-        role: Role.DOCTOR,
-        firstName: doctor.firstName,
-        lastName: doctor.lastName,
-        profile: {
-          create: {
-            ...defaultProfile,
-          },
-        },
-        Doctor: {
-          create: {
-            title: doctor.title,
-            specialties: doctor.specialties,
-            hospitals: {
-              create: {
-                hospital: {
-                  connect: {
-                    id: hospital.id,
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
-    });
-  }
-
-  console.log("Seeding...");
+  const contactSeeder = new ContactSeeder(prisma);
+  await contactSeeder.seed();
 }
 
 main()

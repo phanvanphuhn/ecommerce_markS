@@ -8,7 +8,6 @@ Table User {
   employeeName String [not null]
   jobTitle String
   division String
-  costCenter CostCenter
   azureADStatus ADStatus [not null]
   azureADId String
   reportingTo User
@@ -18,14 +17,6 @@ Table User {
   costCenterId Int
   territory Territory
   territoryId String
-  createdAt DateTime [default: `now()`, not null]
-  updatedAt DateTime [not null]
-}
-
-Table CostCenter {
-  id Int [pk]
-  name String [unique, not null]
-  users User [not null]
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
 }
@@ -51,7 +42,6 @@ Table Territory {
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
   users User [not null]
-  territoryId String
   accounts TerritoryToAccount [not null]
 }
 
@@ -90,7 +80,18 @@ Table Account {
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
   territories TerritoryToAccount [not null]
-  Contact Contact [not null]
+  contacts AccountToContact [not null]
+}
+
+Table AccountToContact {
+  account Account
+  accountId String [not null]
+  contact Contact
+  contactId String [not null]
+
+  indexes {
+    (accountId, contactId) [pk]
+  }
 }
 
 Table Contact {
@@ -109,8 +110,7 @@ Table Contact {
   primaryBusinessEmail String
   secondaryBusinessEmail String
   comments String
-  account Account [not null]
-  accountId String [not null]
+  accounts AccountToContact [not null]
   divisionalContact DivisionalContact [not null]
 }
 
@@ -122,7 +122,7 @@ Table DivisionalContact {
   phone String
   specialty String
   subSpecialty String
-  topicsOfInterest String
+  topicsOfInterest String[] [not null]
   contact Contact
   contactId String
 }
@@ -135,18 +135,18 @@ Enum ADStatus {
   Deleted
 }
 
-Ref: User.costCenterId > CostCenter.id
-
 Ref: User.reportedById - User.id
 
-Ref: User.territoryId > Territory.id
+Ref: User.territoryId > Territory.id [delete: Set Null]
 
 Ref: Profile.userId - User.id [delete: Cascade]
 
-Ref: TerritoryToAccount.territoryId > Territory.id
+Ref: TerritoryToAccount.territoryId > Territory.id [delete: Cascade]
 
 Ref: TerritoryToAccount.accountId > Account.id
 
-Ref: Contact.accountId > Account.id
+Ref: AccountToContact.accountId > Account.id [delete: Cascade]
+
+Ref: AccountToContact.contactId > Contact.id
 
 Ref: DivisionalContact.contactId > Contact.id

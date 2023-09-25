@@ -1,50 +1,66 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
-import { PrismaService } from 'nestjs-prisma';
-
-import { PasswordService } from '../auth/password.service';
-
-import { ChangePasswordInput } from './dto/change-password.input';
-import { UpdateUserInput } from './dto/update-user.input';
+import { Injectable } from "@nestjs/common";
+import { PrismaService } from "nestjs-prisma";
+import { Prisma } from "@prisma/client";
 
 @Injectable()
 export class UsersService {
-  constructor(
-    private prisma: PrismaService,
-    private passwordService: PasswordService,
-  ) {}
+  constructor(private prisma: PrismaService) {}
 
-  updateUser(userId: number, newUserData: UpdateUserInput) {
-    return this.prisma.user.update({
-      data: newUserData,
-      where: {
-        id: userId,
-      },
+  async findMany(input: Prisma.UserFindManyArgs) {
+    return await this.prisma.user.findMany({
+      ...input,
     });
   }
 
-  async changePassword(
-    userId: number,
-    userPassword: string,
-    changePassword: ChangePasswordInput,
-  ) {
-    const passwordValid = await this.passwordService.validatePassword(
-      changePassword.oldPassword,
-      userPassword,
-    );
+  async findOne(where: Prisma.UserWhereUniqueInput) {
+    return await this.prisma.user.findUnique({
+      where,
+    });
+  }
 
-    if (!passwordValid) {
-      throw new BadRequestException('Invalid password');
-    }
+  async create(data: Prisma.UserCreateInput) {
+    return await this.prisma.user.create({
+      data,
+    });
+  }
 
-    const hashedPassword = await this.passwordService.hashPassword(
-      changePassword.newPassword,
-    );
+  async update(params: {
+    where: Prisma.UserWhereUniqueInput;
+    data: Prisma.UserUpdateInput;
+  }) {
+    const { where, data } = params;
+    return await this.prisma.user.update({
+      data,
+      where,
+    });
+  }
 
-    return this.prisma.user.update({
-      data: {
-        password: hashedPassword,
-      },
-      where: { id: userId },
+  async delete(where: Prisma.UserWhereUniqueInput) {
+    return await this.prisma.user.delete({
+      where,
+    });
+  }
+
+  async deleteMany(where: Prisma.UserWhereInput) {
+    return await this.prisma.user.deleteMany({
+      where,
+    });
+  }
+
+  async updateMany(params: {
+    where: Prisma.UserWhereInput;
+    data: Prisma.UserUpdateManyMutationInput;
+  }) {
+    const { where, data } = params;
+    return await this.prisma.user.updateMany({
+      data,
+      where,
+    });
+  }
+
+  async count(where: Prisma.UserWhereInput) {
+    return await this.prisma.user.count({
+      where,
     });
   }
 }

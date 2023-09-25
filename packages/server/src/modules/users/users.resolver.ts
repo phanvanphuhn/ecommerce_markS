@@ -1,6 +1,15 @@
 import { UseGuards } from "@nestjs/common";
-import { Resolver, Query, Parent, Mutation, Args } from "@nestjs/graphql";
+import {
+  Resolver,
+  Query,
+  Parent,
+  Mutation,
+  Args,
+  ResolveField,
+  Info,
+} from "@nestjs/graphql";
 import { PrismaService } from "nestjs-prisma";
+import { PrismaSelect } from "@paljs/plugins";
 
 import { UserEntity } from "../../common/decorators/user.decorator";
 import { GqlAuthGuard } from "../auth/gql-auth.guard";
@@ -14,10 +23,7 @@ import { FindManyUserArgs } from "@generated/nestgraphql/user/find-many-user.arg
 
 @Resolver(() => User)
 export class UsersResolver {
-  constructor(
-    private usersService: UsersService,
-    private prisma: PrismaService
-  ) {}
+  constructor(private usersService: UsersService) {}
 
   @UseGuards(GqlAuthGuard)
   @Query(() => User)
@@ -27,29 +33,15 @@ export class UsersResolver {
 
   // Temp, will be removed
   @Query(() => [User])
-  async users(@Args() filter: FindManyUserArgs) {
-    return this.prisma.user.findMany(filter);
+  async users(@Args() filter: FindManyUserArgs, @Info() info) {
+    return this.usersService.findMany({
+      ...filter,
+      ...new PrismaSelect(info).value,
+    });
   }
 
-  @UseGuards(GqlAuthGuard)
-  @Mutation(() => User)
-  async updateUser(
-    @UserEntity() user: User,
-    @Args("data") newUserData: UpdateUserInput
-  ) {
-    return this.usersService.updateUser(user.id, newUserData);
-  }
-
-  @UseGuards(GqlAuthGuard)
-  @Mutation(() => User)
-  async changePassword(
-    @UserEntity() user: User,
-    @Args("data") changePassword: ChangePasswordInput
-  ) {
-    return this.usersService.changePassword(
-      user.id,
-      user.password,
-      changePassword
-    );
-  }
+  // @ResolveField("territory")
+  // async territory(@Parent() user: User) {
+  //   return user.territory;
+  // }
 }

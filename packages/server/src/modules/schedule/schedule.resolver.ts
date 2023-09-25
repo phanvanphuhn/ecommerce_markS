@@ -21,43 +21,43 @@ import { FindManyScheduleArgs } from "@generated/nestgraphql/schedule/find-many-
 export class ScheduleResolver {
   constructor(private readonly scheduleService: ScheduleService) {}
 
-  @Query(() => [Schedule], { nullable: true })
-  async schedules(
-    @Args() args: FindManyScheduleArgs,
-    @Info() info: GraphQLResolveInfo
-  ) {
-    const select = new PrismaSelect(info).value;
-    return await this.scheduleService.findAll({ ...args, ...select });
-  }
+  // @Query(() => [Schedule], { nullable: true })
+  // async schedules(
+  //   @Args() args: FindManyScheduleArgs,
+  //   @Info() info: GraphQLResolveInfo
+  // ) {
+  //   const select = new PrismaSelect(info).value;
+  //   return await this.scheduleService.findAll({ ...args, ...select });
+  // }
 
-  @Query(() => Schedule, { nullable: true })
-  async schedule(
-    @Args("where") where: ScheduleWhereUniqueInput,
-    @Info() info: GraphQLResolveInfo
-  ) {
-    return this.scheduleService.findOne({
-      where,
-      ...new PrismaSelect(info).value,
-    });
-  }
+  // @Query(() => Schedule, { nullable: true })
+  // async schedule(
+  //   @Args("where") where: ScheduleWhereUniqueInput,
+  //   @Info() info: GraphQLResolveInfo
+  // ) {
+  //   return this.scheduleService.findOne({
+  //     where,
+  //     ...new PrismaSelect(info).value,
+  //   });
+  // }
 
-  @Mutation(() => Schedule)
-  async createSchedule(
-    @Args("data") data: CreateScheduleInput,
-    @Info() info: GraphQLResolveInfo
-  ) {
-    if (!data.planCall && !data.caseLog) {
-      throw new Error("You must provide either a planCall or a caseLog");
-    }
+  // @Mutation(() => Schedule)
+  // async createSchedule(
+  //   @Args("data") data: CreateScheduleInput,
+  //   @Info() info: GraphQLResolveInfo
+  // ) {
+  //   if (!data.planCall && !data.caseLog) {
+  //     throw new Error("You must provide either a planCall or a caseLog");
+  //   }
 
-    return this.scheduleService.create({
-      ...data,
-      ...new PrismaSelect(info).value,
-    });
-  }
+  //   return this.scheduleService.create({
+  //     ...data,
+  //     ...new PrismaSelect(info).value,
+  //   });
+  // }
 
-  @ResolveField("user")
-  async user(@Parent() parent: Schedule) {
-    return parent.user;
-  }
+  // @ResolveField("user")
+  // async user(@Parent() parent: Schedule) {
+  //   return parent.user;
+  // }
 }

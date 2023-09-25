@@ -2,315 +2,294 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Address {
-  _count: AddressCount!
-  city: String
-  country: String!
+enum ADStatus {
+  Active
+  Blocked
+  Deleted
+  Inactive
+  Pending
+}
+
+type Account {
+  _count: AccountCount!
+  accountName: String
+  addressCity: String
+  addressPostalCode: String
+  addressState: String
+  addressStreet: String
+  classification: String
+  contact: [Contact!]
+  country: String
   createdAt: DateTime!
+  divisions: [String!]
+  email: String
+  facilityType: String
   id: ID!
-  profiles: [Profile!]
-  state: String
-  street: String
+  latitude: Float
+  longitude: Float
+  phone: String
+  status: String
+  territories: [TerritoryToAccount!]
   updatedAt: DateTime!
-  zip: String
+  website: String
 }
 
-type AddressCount {
-  profiles: Int!
+type AccountCount {
+  contact: Int!
+  territories: Int!
 }
 
-input AddressCreateNestedOneWithoutProfilesInput {
-  connect: AddressWhereUniqueInput
-  connectOrCreate: AddressCreateOrConnectWithoutProfilesInput
-  create: AddressCreateWithoutProfilesInput
-}
-
-input AddressCreateOrConnectWithoutProfilesInput {
-  create: AddressCreateWithoutProfilesInput!
-  where: AddressWhereUniqueInput!
-}
-
-input AddressCreateWithoutProfilesInput {
-  city: String
-  country: String!
-  createdAt: DateTime
-  state: String
-  street: String
-  updatedAt: DateTime
-  zip: String
-}
-
-input AddressOrderByWithRelationInput {
-  city: SortOrderInput
-  country: SortOrder
+input AccountOrderByWithRelationInput {
+  accountName: SortOrderInput
+  addressCity: SortOrderInput
+  addressPostalCode: SortOrderInput
+  addressState: SortOrderInput
+  addressStreet: SortOrderInput
+  classification: SortOrderInput
+  contact: ContactOrderByRelationAggregateInput
+  country: SortOrderInput
   createdAt: SortOrder
+  divisions: SortOrder
+  email: SortOrderInput
+  facilityType: SortOrderInput
   id: SortOrder
-  profiles: ProfileOrderByRelationAggregateInput
-  state: SortOrderInput
-  street: SortOrderInput
+  latitude: SortOrderInput
+  longitude: SortOrderInput
+  phone: SortOrderInput
+  status: SortOrderInput
+  territories: TerritoryToAccountOrderByRelationAggregateInput
   updatedAt: SortOrder
-  zip: SortOrderInput
+  website: SortOrderInput
 }
 
-input AddressRelationFilter {
-  is: AddressWhereInput
-  isNot: AddressWhereInput
+input AccountRelationFilter {
+  is: AccountWhereInput
+  isNot: AccountWhereInput
 }
 
-input AddressWhereInput {
-  AND: [AddressWhereInput!]
-  NOT: [AddressWhereInput!]
-  OR: [AddressWhereInput!]
-  city: StringFilter
+input AccountWhereInput {
+  AND: [AccountWhereInput!]
+  NOT: [AccountWhereInput!]
+  OR: [AccountWhereInput!]
+  accountName: StringFilter
+  addressCity: StringFilter
+  addressPostalCode: StringFilter
+  addressState: StringFilter
+  addressStreet: StringFilter
+  classification: StringFilter
+  contact: ContactListRelationFilter
   country: StringFilter
   createdAt: DateTimeFilter
-  id: IntFilter
-  profiles: ProfileListRelationFilter
-  state: StringFilter
-  street: StringFilter
+  divisions: StringListFilter
+  email: StringFilter
+  facilityType: StringFilter
+  id: StringFilter
+  latitude: FloatFilter
+  longitude: FloatFilter
+  phone: StringFilter
+  status: StringFilter
+  territories: TerritoryToAccountListRelationFilter
   updatedAt: DateTimeFilter
-  zip: StringFilter
+  website: StringFilter
 }
 
-input AddressWhereUniqueInput {
-  AND: [AddressWhereInput!]
-  NOT: [AddressWhereInput!]
-  OR: [AddressWhereInput!]
-  city: StringFilter
-  country: StringFilter
-  createdAt: DateTimeFilter
-  id: Int
-  profiles: ProfileListRelationFilter
-  state: StringFilter
-  street: StringFilter
-  updatedAt: DateTimeFilter
-  zip: StringFilter
+input BoolFilter {
+  equals: Boolean
+  not: BoolFilter
 }
 
-type Auth {
-  """JWT access token"""
-  accessToken: JWT!
-
-  """JWT refresh token"""
-  refreshToken: JWT!
-  user: User!
-}
-
-type CaseLog {
-  account: User!
-  accountId: Int!
-  createdAt: DateTime!
-  deleted: DateTime
-  doctor: Doctor!
-  doctorId: Int!
+type Contact {
+  _count: ContactCount!
+  account: Account
+  accountId: String
+  bscBU: String
+  bscRepId: String
+  bscRepName: String
+  comments: String
+  contactNumber: String
+  department: String
+  designation: String
+  divisionalContact: [DivisionalContact!]
+  firstName: String
   id: ID!
-  photoUrl: String
-  productsInvoice: ProductsInvoice
-  productsInvoiceId: String!
-  schedule: Schedule!
-  scheduleId: String!
-  updatedAt: DateTime!
+  lastName: String
+  middleName: String
+  preferredName: String
+  primaryBusinessEmail: String
+  secondaryBusinessEmail: String
+  title: String
 }
 
-input CaseLogCreateManyAccountInput {
-  createdAt: DateTime
-  deleted: DateTime
-  doctorId: Int!
-  id: String
-  photoUrl: String
-  productsInvoiceId: String!
-  scheduleId: String!
-  updatedAt: DateTime
+type ContactCount {
+  divisionalContact: Int!
 }
 
-input CaseLogCreateManyAccountInputEnvelope {
-  data: [CaseLogCreateManyAccountInput!]!
-  skipDuplicates: Boolean
+input ContactListRelationFilter {
+  every: ContactWhereInput
+  none: ContactWhereInput
+  some: ContactWhereInput
 }
 
-input CaseLogCreateManyDoctorInput {
-  accountId: Int!
-  createdAt: DateTime
-  deleted: DateTime
-  id: String
-  photoUrl: String
-  productsInvoiceId: String!
-  scheduleId: String!
-  updatedAt: DateTime
-}
-
-input CaseLogCreateManyDoctorInputEnvelope {
-  data: [CaseLogCreateManyDoctorInput!]!
-  skipDuplicates: Boolean
-}
-
-input CaseLogCreateNestedManyWithoutAccountInput {
-  connect: [CaseLogWhereUniqueInput!]
-  connectOrCreate: [CaseLogCreateOrConnectWithoutAccountInput!]
-  create: [CaseLogCreateWithoutAccountInput!]
-  createMany: CaseLogCreateManyAccountInputEnvelope
-}
-
-input CaseLogCreateNestedManyWithoutDoctorInput {
-  connect: [CaseLogWhereUniqueInput!]
-  connectOrCreate: [CaseLogCreateOrConnectWithoutDoctorInput!]
-  create: [CaseLogCreateWithoutDoctorInput!]
-  createMany: CaseLogCreateManyDoctorInputEnvelope
-}
-
-input CaseLogCreateNestedOneWithoutScheduleInput {
-  connect: CaseLogWhereUniqueInput
-  connectOrCreate: CaseLogCreateOrConnectWithoutScheduleInput
-  create: CaseLogCreateWithoutScheduleInput
-}
-
-input CaseLogCreateOrConnectWithoutAccountInput {
-  create: CaseLogCreateWithoutAccountInput!
-  where: CaseLogWhereUniqueInput!
-}
-
-input CaseLogCreateOrConnectWithoutDoctorInput {
-  create: CaseLogCreateWithoutDoctorInput!
-  where: CaseLogWhereUniqueInput!
-}
-
-input CaseLogCreateOrConnectWithoutScheduleInput {
-  create: CaseLogCreateWithoutScheduleInput!
-  where: CaseLogWhereUniqueInput!
-}
-
-input CaseLogCreateWithoutAccountInput {
-  createdAt: DateTime
-  deleted: DateTime
-  doctor: DoctorCreateNestedOneWithoutCaseLogInput!
-  id: String
-  photoUrl: String
-  productsInvoice: ProductsInvoiceCreateNestedOneWithoutCaseLogInput
-  schedule: ScheduleCreateNestedOneWithoutCaseLogInput!
-  updatedAt: DateTime
-}
-
-input CaseLogCreateWithoutDoctorInput {
-  account: UserCreateNestedOneWithoutCaseLogInput!
-  createdAt: DateTime
-  deleted: DateTime
-  id: String
-  photoUrl: String
-  productsInvoice: ProductsInvoiceCreateNestedOneWithoutCaseLogInput
-  schedule: ScheduleCreateNestedOneWithoutCaseLogInput!
-  updatedAt: DateTime
-}
-
-input CaseLogCreateWithoutScheduleInput {
-  account: UserCreateNestedOneWithoutCaseLogInput!
-  createdAt: DateTime
-  deleted: DateTime
-  doctor: DoctorCreateNestedOneWithoutCaseLogInput!
-  id: String
-  photoUrl: String
-  productsInvoice: ProductsInvoiceCreateNestedOneWithoutCaseLogInput
-  updatedAt: DateTime
-}
-
-input CaseLogInput {
-  account: UserCreateNestedOneWithoutCaseLogInput!
-  createdAt: DateTime
-  deleted: DateTime
-  doctor: DoctorCreateNestedOneWithoutCaseLogInput!
-  photoUrl: String
-  productsInvoice: [String!]
-  updatedAt: DateTime
-}
-
-input CaseLogListRelationFilter {
-  every: CaseLogWhereInput
-  none: CaseLogWhereInput
-  some: CaseLogWhereInput
-}
-
-input CaseLogOrderByRelationAggregateInput {
+input ContactOrderByRelationAggregateInput {
   _count: SortOrder
 }
 
-input CaseLogOrderByWithRelationInput {
-  account: UserOrderByWithRelationInput
-  accountId: SortOrder
-  createdAt: SortOrder
-  deleted: SortOrderInput
-  doctor: DoctorOrderByWithRelationInput
-  doctorId: SortOrder
+input ContactOrderByWithRelationInput {
+  account: AccountOrderByWithRelationInput
+  accountId: SortOrderInput
+  bscBU: SortOrderInput
+  bscRepId: SortOrderInput
+  bscRepName: SortOrderInput
+  comments: SortOrderInput
+  contactNumber: SortOrderInput
+  department: SortOrderInput
+  designation: SortOrderInput
+  divisionalContact: DivisionalContactOrderByRelationAggregateInput
+  firstName: SortOrderInput
   id: SortOrder
-  photoUrl: SortOrderInput
-  productsInvoice: ProductsInvoiceOrderByWithRelationInput
-  productsInvoiceId: SortOrder
-  schedule: ScheduleOrderByWithRelationInput
-  scheduleId: SortOrder
-  updatedAt: SortOrder
+  lastName: SortOrderInput
+  middleName: SortOrderInput
+  preferredName: SortOrderInput
+  primaryBusinessEmail: SortOrderInput
+  secondaryBusinessEmail: SortOrderInput
+  title: SortOrderInput
 }
 
-input CaseLogRelationFilter {
-  is: CaseLogWhereInput
-  isNot: CaseLogWhereInput
+input ContactRelationFilter {
+  is: ContactWhereInput
+  isNot: ContactWhereInput
 }
 
-input CaseLogWhereInput {
-  AND: [CaseLogWhereInput!]
-  NOT: [CaseLogWhereInput!]
-  OR: [CaseLogWhereInput!]
-  account: UserRelationFilter
-  accountId: IntFilter
-  createdAt: DateTimeFilter
-  deleted: DateTimeFilter
-  doctor: DoctorRelationFilter
-  doctorId: IntFilter
+enum ContactScalarFieldEnum {
+  accountId
+  bscBU
+  bscRepId
+  bscRepName
+  comments
+  contactNumber
+  department
+  designation
+  firstName
+  id
+  lastName
+  middleName
+  preferredName
+  primaryBusinessEmail
+  secondaryBusinessEmail
+  title
+}
+
+input ContactWhereExtension {
+  AND: [ContactWhereInput!]
+  NOT: [ContactWhereInput!]
+  OR: [ContactWhereInput!]
+  account: AccountRelationFilter
+  accountId: StringFilter
+  bscBU: StringFilter
+  bscRepId: StringFilter
+  bscRepName: StringFilter
+  comments: StringFilter
+  contactNumber: StringFilter
+  department: StringFilter
+  designation: StringFilter
+  divisionalContact: DivisionalContactListRelationFilter
+  firstName: StringFilter
   id: StringFilter
-  photoUrl: StringFilter
-  productsInvoice: ProductsInvoiceRelationFilter
-  productsInvoiceId: StringFilter
-  schedule: ScheduleRelationFilter
-  scheduleId: StringFilter
-  updatedAt: DateTimeFilter
+  lastName: StringFilter
+  middleName: StringFilter
+  preferredName: StringFilter
+  primaryBusinessEmail: StringFilter
+  secondaryBusinessEmail: StringFilter
+  territoryId: String
+  title: StringFilter
 }
 
-input CaseLogWhereUniqueInput {
-  AND: [CaseLogWhereInput!]
-  NOT: [CaseLogWhereInput!]
-  OR: [CaseLogWhereInput!]
-  account: UserRelationFilter
-  accountId: IntFilter
+input ContactWhereInput {
+  AND: [ContactWhereInput!]
+  NOT: [ContactWhereInput!]
+  OR: [ContactWhereInput!]
+  account: AccountRelationFilter
+  accountId: StringFilter
+  bscBU: StringFilter
+  bscRepId: StringFilter
+  bscRepName: StringFilter
+  comments: StringFilter
+  contactNumber: StringFilter
+  department: StringFilter
+  designation: StringFilter
+  divisionalContact: DivisionalContactListRelationFilter
+  firstName: StringFilter
+  id: StringFilter
+  lastName: StringFilter
+  middleName: StringFilter
+  preferredName: StringFilter
+  primaryBusinessEmail: StringFilter
+  secondaryBusinessEmail: StringFilter
+  title: StringFilter
+}
+
+input ContactWhereUniqueInput {
+  AND: [ContactWhereInput!]
+  NOT: [ContactWhereInput!]
+  OR: [ContactWhereInput!]
+  account: AccountRelationFilter
+  accountId: StringFilter
+  bscBU: StringFilter
+  bscRepId: StringFilter
+  bscRepName: StringFilter
+  comments: StringFilter
+  contactNumber: StringFilter
+  department: StringFilter
+  designation: StringFilter
+  divisionalContact: DivisionalContactListRelationFilter
+  firstName: StringFilter
+  id: String
+  lastName: StringFilter
+  middleName: StringFilter
+  preferredName: StringFilter
+  primaryBusinessEmail: StringFilter
+  secondaryBusinessEmail: StringFilter
+  title: StringFilter
+}
+
+type CostCenter {
+  _count: CostCenterCount!
+  createdAt: DateTime!
+  description: String
+  id: ID!
+  name: String!
+  updatedAt: DateTime!
+  users: [User!]
+}
+
+type CostCenterCount {
+  users: Int!
+}
+
+input CostCenterOrderByWithRelationInput {
+  createdAt: SortOrder
+  description: SortOrderInput
+  id: SortOrder
+  name: SortOrder
+  updatedAt: SortOrder
+  users: UserOrderByRelationAggregateInput
+}
+
+input CostCenterRelationFilter {
+  is: CostCenterWhereInput
+  isNot: CostCenterWhereInput
+}
+
+input CostCenterWhereInput {
+  AND: [CostCenterWhereInput!]
+  NOT: [CostCenterWhereInput!]
+  OR: [CostCenterWhereInput!]
   createdAt: DateTimeFilter
-  deleted: DateTimeFilter
-  doctor: DoctorRelationFilter
-  doctorId: IntFilter
-  id: String
-  photoUrl: StringFilter
-  productsInvoice: ProductsInvoiceRelationFilter
-  productsInvoiceId: String
-  schedule: ScheduleRelationFilter
-  scheduleId: String
+  description: StringFilter
+  id: IntFilter
+  name: StringFilter
   updatedAt: DateTimeFilter
-}
-
-input ChangePasswordInput {
-  newPassword: String!
-  oldPassword: String!
-}
-
-input CreateScheduleInput {
-  caseLog: CaseLogInput
-  createdAt: DateTime
-  deleted: DateTime
-  endDate: DateTime!
-  id: String
-  location: String
-  planCall: PlanCallInput
-  scheduleType: ScheduleType!
-  select: JSON
-  startDate: DateTime!
-  subject: String!
-  time: String
-  updatedAt: DateTime
-  userId: Int
+  users: UserListRelationFilter
 }
 
 """
@@ -329,263 +308,61 @@ input DateTimeFilter {
   notIn: [DateTime!]
 }
 
-enum Division {
-  Cardiac_Rhythm_Management
-  Endoscopy
-  Interventional_Cardiology
-  Neuromodulation
-  Peripheral_Intervention
-  Urology_And_Pelvic_Health
-}
-
-type Doctor {
-  _count: DoctorCount!
-  caseLog: [CaseLog!]
-  divisions: [Division!]
-  hospitals: [HospitalToDoctor!]
+type DivisionalContact {
+  contact: Contact
+  contactId: String
+  contactName: String
+  division: String
+  function: String
   id: ID!
-  specialties: [Specialty!]
-  title: String!
-  user: User!
-  userId: Int!
+  phone: String
+  specialty: String
+  subSpecialty: String
+  topicsOfInterest: [String!]
 }
 
-type DoctorCount {
-  caseLog: Int!
-  hospitals: Int!
+input DivisionalContactListRelationFilter {
+  every: DivisionalContactWhereInput
+  none: DivisionalContactWhereInput
+  some: DivisionalContactWhereInput
 }
 
-input DoctorCreateNestedOneWithoutCaseLogInput {
-  connect: DoctorWhereUniqueInput
-  connectOrCreate: DoctorCreateOrConnectWithoutCaseLogInput
-  create: DoctorCreateWithoutCaseLogInput
-}
-
-input DoctorCreateNestedOneWithoutUserInput {
-  connect: DoctorWhereUniqueInput
-  connectOrCreate: DoctorCreateOrConnectWithoutUserInput
-  create: DoctorCreateWithoutUserInput
-}
-
-input DoctorCreateOrConnectWithoutCaseLogInput {
-  create: DoctorCreateWithoutCaseLogInput!
-  where: DoctorWhereUniqueInput!
-}
-
-input DoctorCreateOrConnectWithoutUserInput {
-  create: DoctorCreateWithoutUserInput!
-  where: DoctorWhereUniqueInput!
-}
-
-input DoctorCreateWithoutCaseLogInput {
-  divisions: [Division!]
-  hospitals: HospitalToDoctorCreateNestedManyWithoutDoctorInput
-  specialties: [Specialty!]
-  title: String!
-  user: UserCreateNestedOneWithoutDoctorInput!
-}
-
-input DoctorCreateWithoutUserInput {
-  caseLog: CaseLogCreateNestedManyWithoutDoctorInput
-  divisions: [Division!]
-  hospitals: HospitalToDoctorCreateNestedManyWithoutDoctorInput
-  specialties: [Specialty!]
-  title: String!
-}
-
-input DoctorOrderByWithRelationInput {
-  caseLog: CaseLogOrderByRelationAggregateInput
-  divisions: SortOrder
-  hospitals: HospitalToDoctorOrderByRelationAggregateInput
-  id: SortOrder
-  specialties: SortOrder
-  title: SortOrder
-  user: UserOrderByWithRelationInput
-  userId: SortOrder
-}
-
-input DoctorRelationFilter {
-  is: DoctorWhereInput
-  isNot: DoctorWhereInput
-}
-
-input DoctorWhereInput {
-  AND: [DoctorWhereInput!]
-  NOT: [DoctorWhereInput!]
-  OR: [DoctorWhereInput!]
-  caseLog: CaseLogListRelationFilter
-  divisions: EnumDivisionListFilter
-  hospitals: HospitalToDoctorListRelationFilter
-  id: IntFilter
-  specialties: EnumSpecialtyListFilter
-  title: StringFilter
-  user: UserRelationFilter
-  userId: IntFilter
-}
-
-input DoctorWhereUniqueInput {
-  AND: [DoctorWhereInput!]
-  NOT: [DoctorWhereInput!]
-  OR: [DoctorWhereInput!]
-  caseLog: CaseLogListRelationFilter
-  divisions: EnumDivisionListFilter
-  hospitals: HospitalToDoctorListRelationFilter
-  id: Int
-  specialties: EnumSpecialtyListFilter
-  title: StringFilter
-  user: UserRelationFilter
-  userId: Int
-}
-
-input EnumDivisionListFilter {
-  equals: [Division!]
-  has: Division
-  hasEvery: [Division!]
-  hasSome: [Division!]
-  isEmpty: Boolean
-}
-
-input EnumRoleFilter {
-  equals: Role
-  in: [Role!]
-  not: EnumRoleFilter
-  notIn: [Role!]
-}
-
-input EnumScheduleTypeFilter {
-  equals: ScheduleType
-  in: [ScheduleType!]
-  not: EnumScheduleTypeFilter
-  notIn: [ScheduleType!]
-}
-
-input EnumSpecialtyListFilter {
-  equals: [Specialty!]
-  has: Specialty
-  hasEvery: [Specialty!]
-  hasSome: [Specialty!]
-  isEmpty: Boolean
-}
-
-type Hospital {
-  _count: HospitalCount!
-  address: String!
-  doctors: [HospitalToDoctor!]
-  id: ID!
-  name: String!
-}
-
-type HospitalCount {
-  doctors: Int!
-}
-
-input HospitalCreateNestedOneWithoutDoctorsInput {
-  connect: HospitalWhereUniqueInput
-  connectOrCreate: HospitalCreateOrConnectWithoutDoctorsInput
-  create: HospitalCreateWithoutDoctorsInput
-}
-
-input HospitalCreateOrConnectWithoutDoctorsInput {
-  create: HospitalCreateWithoutDoctorsInput!
-  where: HospitalWhereUniqueInput!
-}
-
-input HospitalCreateWithoutDoctorsInput {
-  address: String!
-  name: String!
-}
-
-input HospitalRelationFilter {
-  is: HospitalWhereInput
-  isNot: HospitalWhereInput
-}
-
-type HospitalToDoctor {
-  doctor: Doctor!
-  doctorId: Int!
-  hospital: Hospital!
-  hospitalId: Int!
-}
-
-input HospitalToDoctorCreateManyDoctorInput {
-  hospitalId: Int!
-}
-
-input HospitalToDoctorCreateManyDoctorInputEnvelope {
-  data: [HospitalToDoctorCreateManyDoctorInput!]!
-  skipDuplicates: Boolean
-}
-
-input HospitalToDoctorCreateNestedManyWithoutDoctorInput {
-  connect: [HospitalToDoctorWhereUniqueInput!]
-  connectOrCreate: [HospitalToDoctorCreateOrConnectWithoutDoctorInput!]
-  create: [HospitalToDoctorCreateWithoutDoctorInput!]
-  createMany: HospitalToDoctorCreateManyDoctorInputEnvelope
-}
-
-input HospitalToDoctorCreateOrConnectWithoutDoctorInput {
-  create: HospitalToDoctorCreateWithoutDoctorInput!
-  where: HospitalToDoctorWhereUniqueInput!
-}
-
-input HospitalToDoctorCreateWithoutDoctorInput {
-  hospital: HospitalCreateNestedOneWithoutDoctorsInput!
-}
-
-input HospitalToDoctorHospitalIdDoctorIdCompoundUniqueInput {
-  doctorId: Int!
-  hospitalId: Int!
-}
-
-input HospitalToDoctorListRelationFilter {
-  every: HospitalToDoctorWhereInput
-  none: HospitalToDoctorWhereInput
-  some: HospitalToDoctorWhereInput
-}
-
-input HospitalToDoctorOrderByRelationAggregateInput {
+input DivisionalContactOrderByRelationAggregateInput {
   _count: SortOrder
 }
 
-input HospitalToDoctorWhereInput {
-  AND: [HospitalToDoctorWhereInput!]
-  NOT: [HospitalToDoctorWhereInput!]
-  OR: [HospitalToDoctorWhereInput!]
-  doctor: DoctorRelationFilter
-  doctorId: IntFilter
-  hospital: HospitalRelationFilter
-  hospitalId: IntFilter
+input DivisionalContactWhereInput {
+  AND: [DivisionalContactWhereInput!]
+  NOT: [DivisionalContactWhereInput!]
+  OR: [DivisionalContactWhereInput!]
+  contact: ContactRelationFilter
+  contactId: StringFilter
+  contactName: StringFilter
+  division: StringFilter
+  function: StringFilter
+  id: StringFilter
+  phone: StringFilter
+  specialty: StringFilter
+  subSpecialty: StringFilter
+  topicsOfInterest: StringListFilter
 }
 
-input HospitalToDoctorWhereUniqueInput {
-  AND: [HospitalToDoctorWhereInput!]
-  NOT: [HospitalToDoctorWhereInput!]
-  OR: [HospitalToDoctorWhereInput!]
-  doctor: DoctorRelationFilter
-  doctorId: IntFilter
-  hospital: HospitalRelationFilter
-  hospitalId: IntFilter
-  hospitalId_doctorId: HospitalToDoctorHospitalIdDoctorIdCompoundUniqueInput
+input EnumADStatusFilter {
+  equals: ADStatus
+  in: [ADStatus!]
+  not: EnumADStatusFilter
+  notIn: [ADStatus!]
 }
 
-input HospitalWhereInput {
-  AND: [HospitalWhereInput!]
-  NOT: [HospitalWhereInput!]
-  OR: [HospitalWhereInput!]
-  address: StringFilter
-  doctors: HospitalToDoctorListRelationFilter
-  id: IntFilter
-  name: StringFilter
-}
-
-input HospitalWhereUniqueInput {
-  AND: [HospitalWhereInput!]
-  NOT: [HospitalWhereInput!]
-  OR: [HospitalWhereInput!]
-  address: StringFilter
-  doctors: HospitalToDoctorListRelationFilter
-  id: Int
-  name: StringFilter
+input FloatFilter {
+  equals: Float
+  gt: Float
+  gte: Float
+  in: [Float!]
+  lt: Float
+  lte: Float
+  not: FloatFilter
+  notIn: [Float!]
 }
 
 input IntFilter {
@@ -599,313 +376,29 @@ input IntFilter {
   notIn: [Int!]
 }
 
-"""
-The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
-"""
-scalar JSON @specifiedBy(url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf")
-
-"""
-A field whose value is a JSON Web Token (JWT): https://jwt.io/introduction.
-"""
-scalar JWT
-
-input LoginInput {
-  email: String!
-  password: String!
-}
-
-type Mutation {
-  changePassword(data: ChangePasswordInput!): User!
-  createSchedule(data: CreateScheduleInput!): Schedule!
-  login(data: LoginInput!): Auth!
-  refreshToken(token: JWT!): Token!
-  signup(data: SignupInput!): Auth!
-  updateUser(data: UpdateUserInput!): User!
-}
-
 enum NullsOrder {
   first
   last
 }
 
-type PlanCall {
-  createdAt: DateTime!
-  deleted: DateTime
-  description: String
-  id: ID!
-  outcome: String
-  schedule: Schedule!
-  scheduleId: String!
-  topics: String
-  type: String
-  updatedAt: DateTime!
-}
-
-input PlanCallCreateNestedOneWithoutScheduleInput {
-  connect: PlanCallWhereUniqueInput
-  connectOrCreate: PlanCallCreateOrConnectWithoutScheduleInput
-  create: PlanCallCreateWithoutScheduleInput
-}
-
-input PlanCallCreateOrConnectWithoutScheduleInput {
-  create: PlanCallCreateWithoutScheduleInput!
-  where: PlanCallWhereUniqueInput!
-}
-
-input PlanCallCreateWithoutScheduleInput {
-  createdAt: DateTime
-  deleted: DateTime
-  description: String
-  id: String
-  outcome: String
-  topics: String
-  type: String
-  updatedAt: DateTime
-}
-
-input PlanCallInput {
-  createdAt: DateTime
-  deleted: DateTime
-  description: String
-  outcome: String
-  topics: String
-  type: String
-  updatedAt: DateTime
-}
-
-input PlanCallOrderByWithRelationInput {
-  createdAt: SortOrder
-  deleted: SortOrderInput
-  description: SortOrderInput
-  id: SortOrder
-  outcome: SortOrderInput
-  schedule: ScheduleOrderByWithRelationInput
-  scheduleId: SortOrder
-  topics: SortOrderInput
-  type: SortOrderInput
-  updatedAt: SortOrder
-}
-
-input PlanCallRelationFilter {
-  is: PlanCallWhereInput
-  isNot: PlanCallWhereInput
-}
-
-input PlanCallWhereInput {
-  AND: [PlanCallWhereInput!]
-  NOT: [PlanCallWhereInput!]
-  OR: [PlanCallWhereInput!]
-  createdAt: DateTimeFilter
-  deleted: DateTimeFilter
-  description: StringFilter
-  id: StringFilter
-  outcome: StringFilter
-  schedule: ScheduleRelationFilter
-  scheduleId: StringFilter
-  topics: StringFilter
-  type: StringFilter
-  updatedAt: DateTimeFilter
-}
-
-input PlanCallWhereUniqueInput {
-  AND: [PlanCallWhereInput!]
-  NOT: [PlanCallWhereInput!]
-  OR: [PlanCallWhereInput!]
-  createdAt: DateTimeFilter
-  deleted: DateTimeFilter
-  description: StringFilter
-  id: String
-  outcome: StringFilter
-  schedule: ScheduleRelationFilter
-  scheduleId: String
-  topics: StringFilter
-  type: StringFilter
-  updatedAt: DateTimeFilter
-}
-
-type Product {
-  createdAt: DateTime!
-  name: ID!
-  productsInvoice: ProductsInvoice
-  productsInvoiceId: String
-  quantity: Int!
-  updatedAt: DateTime!
-}
-
-input ProductCreateManyProductsInvoiceInput {
-  createdAt: DateTime
-  name: String!
-  quantity: Int!
-  updatedAt: DateTime
-}
-
-input ProductCreateManyProductsInvoiceInputEnvelope {
-  data: [ProductCreateManyProductsInvoiceInput!]!
-  skipDuplicates: Boolean
-}
-
-input ProductCreateNestedManyWithoutProductsInvoiceInput {
-  connect: [ProductWhereUniqueInput!]
-  connectOrCreate: [ProductCreateOrConnectWithoutProductsInvoiceInput!]
-  create: [ProductCreateWithoutProductsInvoiceInput!]
-  createMany: ProductCreateManyProductsInvoiceInputEnvelope
-}
-
-input ProductCreateOrConnectWithoutProductsInvoiceInput {
-  create: ProductCreateWithoutProductsInvoiceInput!
-  where: ProductWhereUniqueInput!
-}
-
-input ProductCreateWithoutProductsInvoiceInput {
-  createdAt: DateTime
-  name: String!
-  quantity: Int!
-  updatedAt: DateTime
-}
-
-input ProductListRelationFilter {
-  every: ProductWhereInput
-  none: ProductWhereInput
-  some: ProductWhereInput
-}
-
-input ProductOrderByRelationAggregateInput {
-  _count: SortOrder
-}
-
-input ProductWhereInput {
-  AND: [ProductWhereInput!]
-  NOT: [ProductWhereInput!]
-  OR: [ProductWhereInput!]
-  createdAt: DateTimeFilter
-  name: StringFilter
-  productsInvoice: ProductsInvoiceRelationFilter
-  productsInvoiceId: StringFilter
-  quantity: IntFilter
-  updatedAt: DateTimeFilter
-}
-
-input ProductWhereUniqueInput {
-  AND: [ProductWhereInput!]
-  NOT: [ProductWhereInput!]
-  OR: [ProductWhereInput!]
-  createdAt: DateTimeFilter
-  name: String
-  productsInvoice: ProductsInvoiceRelationFilter
-  productsInvoiceId: StringFilter
-  quantity: IntFilter
-  updatedAt: DateTimeFilter
-}
-
-type ProductsInvoice {
-  _count: ProductsInvoiceCount!
-  caseLog: CaseLog
-  createdAt: DateTime!
-  id: ID!
-  products: [Product!]
-  updatedAt: DateTime!
-}
-
-type ProductsInvoiceCount {
-  products: Int!
-}
-
-input ProductsInvoiceCreateNestedOneWithoutCaseLogInput {
-  connect: ProductsInvoiceWhereUniqueInput
-  connectOrCreate: ProductsInvoiceCreateOrConnectWithoutCaseLogInput
-  create: ProductsInvoiceCreateWithoutCaseLogInput
-}
-
-input ProductsInvoiceCreateOrConnectWithoutCaseLogInput {
-  create: ProductsInvoiceCreateWithoutCaseLogInput!
-  where: ProductsInvoiceWhereUniqueInput!
-}
-
-input ProductsInvoiceCreateWithoutCaseLogInput {
-  createdAt: DateTime
-  id: String
-  products: ProductCreateNestedManyWithoutProductsInvoiceInput
-  updatedAt: DateTime
-}
-
-input ProductsInvoiceOrderByWithRelationInput {
-  caseLog: CaseLogOrderByWithRelationInput
-  createdAt: SortOrder
-  id: SortOrder
-  products: ProductOrderByRelationAggregateInput
-  updatedAt: SortOrder
-}
-
-input ProductsInvoiceRelationFilter {
-  is: ProductsInvoiceWhereInput
-  isNot: ProductsInvoiceWhereInput
-}
-
-input ProductsInvoiceWhereInput {
-  AND: [ProductsInvoiceWhereInput!]
-  NOT: [ProductsInvoiceWhereInput!]
-  OR: [ProductsInvoiceWhereInput!]
-  caseLog: CaseLogRelationFilter
-  createdAt: DateTimeFilter
-  id: StringFilter
-  products: ProductListRelationFilter
-  updatedAt: DateTimeFilter
-}
-
-input ProductsInvoiceWhereUniqueInput {
-  AND: [ProductsInvoiceWhereInput!]
-  NOT: [ProductsInvoiceWhereInput!]
-  OR: [ProductsInvoiceWhereInput!]
-  caseLog: CaseLogRelationFilter
-  createdAt: DateTimeFilter
-  id: String
-  products: ProductListRelationFilter
-  updatedAt: DateTimeFilter
-}
-
 type Profile {
-  address: Address
-  addressId: Int
+  createdAt: DateTime!
   id: ID!
   mobile: String!
   preferredLanguage: String!
+  title: String
+  updatedAt: DateTime!
   user: User!
-  userId: Int!
-}
-
-input ProfileCreateNestedOneWithoutUserInput {
-  connect: ProfileWhereUniqueInput
-  connectOrCreate: ProfileCreateOrConnectWithoutUserInput
-  create: ProfileCreateWithoutUserInput
-}
-
-input ProfileCreateOrConnectWithoutUserInput {
-  create: ProfileCreateWithoutUserInput!
-  where: ProfileWhereUniqueInput!
-}
-
-input ProfileCreateWithoutUserInput {
-  address: AddressCreateNestedOneWithoutProfilesInput
-  mobile: String!
-  preferredLanguage: String!
-}
-
-input ProfileListRelationFilter {
-  every: ProfileWhereInput
-  none: ProfileWhereInput
-  some: ProfileWhereInput
-}
-
-input ProfileOrderByRelationAggregateInput {
-  _count: SortOrder
+  userId: String!
 }
 
 input ProfileOrderByWithRelationInput {
-  address: AddressOrderByWithRelationInput
-  addressId: SortOrderInput
+  createdAt: SortOrder
   id: SortOrder
   mobile: SortOrder
   preferredLanguage: SortOrder
+  title: SortOrderInput
+  updatedAt: SortOrder
   user: UserOrderByWithRelationInput
   userId: SortOrder
 }
@@ -919,229 +412,27 @@ input ProfileWhereInput {
   AND: [ProfileWhereInput!]
   NOT: [ProfileWhereInput!]
   OR: [ProfileWhereInput!]
-  address: AddressRelationFilter
-  addressId: IntFilter
-  id: IntFilter
+  createdAt: DateTimeFilter
+  id: StringFilter
   mobile: StringFilter
   preferredLanguage: StringFilter
+  title: StringFilter
+  updatedAt: DateTimeFilter
   user: UserRelationFilter
-  userId: IntFilter
-}
-
-input ProfileWhereUniqueInput {
-  AND: [ProfileWhereInput!]
-  NOT: [ProfileWhereInput!]
-  OR: [ProfileWhereInput!]
-  address: AddressRelationFilter
-  addressId: IntFilter
-  id: Int
-  mobile: StringFilter
-  preferredLanguage: StringFilter
-  user: UserRelationFilter
-  userId: Int
+  userId: StringFilter
 }
 
 type Query {
+  contacts(cursor: ContactWhereUniqueInput, distinct: [ContactScalarFieldEnum!], orderBy: [ContactOrderByWithRelationInput!], skip: Int, take: Int, where: ContactWhereInput): [Contact!]!
+  contactsByTerritory(cursor: ContactWhereUniqueInput, distinct: [ContactScalarFieldEnum!], orderBy: [ContactOrderByWithRelationInput!], skip: Int, take: Int, where: ContactWhereExtension): [Contact!]!
   me: User!
-  schedule(where: ScheduleWhereUniqueInput!): Schedule
-  schedules(cursor: ScheduleWhereUniqueInput, distinct: [ScheduleScalarFieldEnum!], orderBy: [ScheduleOrderByWithRelationInput!], skip: Int, take: Int, where: ScheduleWhereInput): [Schedule!]
+  territories(cursor: TerritoryWhereUniqueInput, distinct: [TerritoryScalarFieldEnum!], orderBy: [TerritoryOrderByWithRelationInput!], skip: Int, take: Int, where: TerritoryWhereInput): [Territory!]!
   users(cursor: UserWhereUniqueInput, distinct: [UserScalarFieldEnum!], orderBy: [UserOrderByWithRelationInput!], skip: Int, take: Int, where: UserWhereInput): [User!]!
 }
 
 enum QueryMode {
   default
   insensitive
-}
-
-enum Role {
-  DOCTOR
-  USER
-}
-
-type Schedule {
-  caseLog: CaseLog
-  createdAt: DateTime!
-  deleted: DateTime
-  endDate: DateTime!
-  id: ID!
-  location: String
-  planCall: PlanCall
-  scheduleType: ScheduleType!
-  startDate: DateTime!
-  subject: String!
-  time: String
-  updatedAt: DateTime!
-  user: User!
-  userId: Int!
-}
-
-input ScheduleCreateManyUserInput {
-  createdAt: DateTime
-  deleted: DateTime
-  endDate: DateTime!
-  id: String
-  location: String
-  scheduleType: ScheduleType!
-  startDate: DateTime!
-  subject: String!
-  time: String
-  updatedAt: DateTime
-}
-
-input ScheduleCreateManyUserInputEnvelope {
-  data: [ScheduleCreateManyUserInput!]!
-  skipDuplicates: Boolean
-}
-
-input ScheduleCreateNestedManyWithoutUserInput {
-  connect: [ScheduleWhereUniqueInput!]
-  connectOrCreate: [ScheduleCreateOrConnectWithoutUserInput!]
-  create: [ScheduleCreateWithoutUserInput!]
-  createMany: ScheduleCreateManyUserInputEnvelope
-}
-
-input ScheduleCreateNestedOneWithoutCaseLogInput {
-  connect: ScheduleWhereUniqueInput
-  connectOrCreate: ScheduleCreateOrConnectWithoutCaseLogInput
-  create: ScheduleCreateWithoutCaseLogInput
-}
-
-input ScheduleCreateOrConnectWithoutCaseLogInput {
-  create: ScheduleCreateWithoutCaseLogInput!
-  where: ScheduleWhereUniqueInput!
-}
-
-input ScheduleCreateOrConnectWithoutUserInput {
-  create: ScheduleCreateWithoutUserInput!
-  where: ScheduleWhereUniqueInput!
-}
-
-input ScheduleCreateWithoutCaseLogInput {
-  createdAt: DateTime
-  deleted: DateTime
-  endDate: DateTime!
-  id: String
-  location: String
-  planCall: PlanCallCreateNestedOneWithoutScheduleInput
-  scheduleType: ScheduleType!
-  startDate: DateTime!
-  subject: String!
-  time: String
-  updatedAt: DateTime
-  user: UserCreateNestedOneWithoutScheduleInput!
-}
-
-input ScheduleCreateWithoutUserInput {
-  caseLog: CaseLogCreateNestedOneWithoutScheduleInput
-  createdAt: DateTime
-  deleted: DateTime
-  endDate: DateTime!
-  id: String
-  location: String
-  planCall: PlanCallCreateNestedOneWithoutScheduleInput
-  scheduleType: ScheduleType!
-  startDate: DateTime!
-  subject: String!
-  time: String
-  updatedAt: DateTime
-}
-
-input ScheduleListRelationFilter {
-  every: ScheduleWhereInput
-  none: ScheduleWhereInput
-  some: ScheduleWhereInput
-}
-
-input ScheduleOrderByRelationAggregateInput {
-  _count: SortOrder
-}
-
-input ScheduleOrderByWithRelationInput {
-  caseLog: CaseLogOrderByWithRelationInput
-  createdAt: SortOrder
-  deleted: SortOrderInput
-  endDate: SortOrder
-  id: SortOrder
-  location: SortOrderInput
-  planCall: PlanCallOrderByWithRelationInput
-  scheduleType: SortOrder
-  startDate: SortOrder
-  subject: SortOrder
-  time: SortOrderInput
-  updatedAt: SortOrder
-  user: UserOrderByWithRelationInput
-  userId: SortOrder
-}
-
-input ScheduleRelationFilter {
-  is: ScheduleWhereInput
-  isNot: ScheduleWhereInput
-}
-
-enum ScheduleScalarFieldEnum {
-  createdAt
-  deleted
-  endDate
-  id
-  location
-  scheduleType
-  startDate
-  subject
-  time
-  updatedAt
-  userId
-}
-
-enum ScheduleType {
-  CASE_LOG
-  PLAN_CALL
-}
-
-input ScheduleWhereInput {
-  AND: [ScheduleWhereInput!]
-  NOT: [ScheduleWhereInput!]
-  OR: [ScheduleWhereInput!]
-  caseLog: CaseLogRelationFilter
-  createdAt: DateTimeFilter
-  deleted: DateTimeFilter
-  endDate: DateTimeFilter
-  id: StringFilter
-  location: StringFilter
-  planCall: PlanCallRelationFilter
-  scheduleType: EnumScheduleTypeFilter
-  startDate: DateTimeFilter
-  subject: StringFilter
-  time: StringFilter
-  updatedAt: DateTimeFilter
-  user: UserRelationFilter
-  userId: IntFilter
-}
-
-input ScheduleWhereUniqueInput {
-  AND: [ScheduleWhereInput!]
-  NOT: [ScheduleWhereInput!]
-  OR: [ScheduleWhereInput!]
-  caseLog: CaseLogRelationFilter
-  createdAt: DateTimeFilter
-  deleted: DateTimeFilter
-  endDate: DateTimeFilter
-  id: String
-  location: StringFilter
-  planCall: PlanCallRelationFilter
-  scheduleType: EnumScheduleTypeFilter
-  startDate: DateTimeFilter
-  subject: StringFilter
-  time: StringFilter
-  updatedAt: DateTimeFilter
-  user: UserRelationFilter
-  userId: IntFilter
-}
-
-input SignupInput {
-  email: String!
-  firstName: String
-  lastName: String
-  password: String!
 }
 
 enum SortOrder {
@@ -1152,18 +443,6 @@ enum SortOrder {
 input SortOrderInput {
   nulls: NullsOrder
   sort: SortOrder!
-}
-
-enum Specialty {
-  Cardiology
-  Dermatology
-  Neurology
-  Neurosurgery
-  Orthopedics
-  Pediatrics
-  Radiology
-  Surgery
-  Urology
 }
 
 input StringFilter {
@@ -1181,175 +460,177 @@ input StringFilter {
   startsWith: String
 }
 
-type Token {
-  """JWT access token"""
-  accessToken: JWT!
-
-  """JWT refresh token"""
-  refreshToken: JWT!
+input StringListFilter {
+  equals: [String!]
+  has: String
+  hasEvery: [String!]
+  hasSome: [String!]
+  isEmpty: Boolean
 }
 
-input UpdateUserInput {
-  firstName: String
-  lastName: String
+type Territory {
+  _count: TerritoryCount!
+  accounts: [TerritoryToAccount!]
+  countryCode: String!
+  countryName: String!
+  createdAt: DateTime!
+  description: String
+  division: String!
+  id: ID!
+  productType: String!
+  updatedAt: DateTime!
+  users: [User!]
+}
+
+type TerritoryCount {
+  accounts: Int!
+  users: Int!
+}
+
+input TerritoryOrderByWithRelationInput {
+  accounts: TerritoryToAccountOrderByRelationAggregateInput
+  countryCode: SortOrder
+  countryName: SortOrder
+  createdAt: SortOrder
+  description: SortOrderInput
+  division: SortOrder
+  id: SortOrder
+  productType: SortOrder
+  updatedAt: SortOrder
+  users: UserOrderByRelationAggregateInput
+}
+
+input TerritoryRelationFilter {
+  is: TerritoryWhereInput
+  isNot: TerritoryWhereInput
+}
+
+enum TerritoryScalarFieldEnum {
+  countryCode
+  countryName
+  createdAt
+  description
+  division
+  id
+  productType
+  updatedAt
+}
+
+type TerritoryToAccount {
+  account: Account
+  accountId: String!
+  endDate: DateTime
+  isActive: Boolean!
+  percentageSharing: String!
+  startDate: DateTime!
+  territory: Territory
+  territoryId: String!
+}
+
+input TerritoryToAccountListRelationFilter {
+  every: TerritoryToAccountWhereInput
+  none: TerritoryToAccountWhereInput
+  some: TerritoryToAccountWhereInput
+}
+
+input TerritoryToAccountOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input TerritoryToAccountWhereInput {
+  AND: [TerritoryToAccountWhereInput!]
+  NOT: [TerritoryToAccountWhereInput!]
+  OR: [TerritoryToAccountWhereInput!]
+  account: AccountRelationFilter
+  accountId: StringFilter
+  endDate: DateTimeFilter
+  isActive: BoolFilter
+  percentageSharing: StringFilter
+  startDate: DateTimeFilter
+  territory: TerritoryRelationFilter
+  territoryId: StringFilter
+}
+
+input TerritoryWhereInput {
+  AND: [TerritoryWhereInput!]
+  NOT: [TerritoryWhereInput!]
+  OR: [TerritoryWhereInput!]
+  accounts: TerritoryToAccountListRelationFilter
+  countryCode: StringFilter
+  countryName: StringFilter
+  createdAt: DateTimeFilter
+  description: StringFilter
+  division: StringFilter
+  id: StringFilter
+  productType: StringFilter
+  updatedAt: DateTimeFilter
+  users: UserListRelationFilter
+}
+
+input TerritoryWhereUniqueInput {
+  AND: [TerritoryWhereInput!]
+  NOT: [TerritoryWhereInput!]
+  OR: [TerritoryWhereInput!]
+  accounts: TerritoryToAccountListRelationFilter
+  countryCode: StringFilter
+  countryName: StringFilter
+  createdAt: DateTimeFilter
+  description: StringFilter
+  division: StringFilter
+  id: String
+  productType: StringFilter
+  updatedAt: DateTimeFilter
+  users: UserListRelationFilter
 }
 
 type User {
-  CaseLog: [CaseLog!]
-  Doctor: Doctor
-  Schedule: [Schedule!]
-  _count: UserCount!
+  azureADId: String
+  azureADStatus: ADStatus!
+  costCenter: CostCenter
+  costCenterId: Int
+  createdAt: DateTime!
+  division: String
   email: String!
-  firstName: String
+  employeeName: String!
   id: ID!
-  lastName: String
-  password: String!
+  jobTitle: String
   profile: Profile
-  reportingBy: User
+  reportedBy: User
+  reportedById: String
   reportingTo: User
-  reportingToId: Int
-  role: Role!
+  territory: Territory
+  territoryId: String
+  updatedAt: DateTime!
 }
 
-type UserCount {
-  CaseLog: Int!
-  Schedule: Int!
+input UserListRelationFilter {
+  every: UserWhereInput
+  none: UserWhereInput
+  some: UserWhereInput
 }
 
-input UserCreateNestedOneWithoutCaseLogInput {
-  connect: UserWhereUniqueInput
-  connectOrCreate: UserCreateOrConnectWithoutCaseLogInput
-  create: UserCreateWithoutCaseLogInput
-}
-
-input UserCreateNestedOneWithoutDoctorInput {
-  connect: UserWhereUniqueInput
-  connectOrCreate: UserCreateOrConnectWithoutDoctorInput
-  create: UserCreateWithoutDoctorInput
-}
-
-input UserCreateNestedOneWithoutReportingByInput {
-  connect: UserWhereUniqueInput
-  connectOrCreate: UserCreateOrConnectWithoutReportingByInput
-  create: UserCreateWithoutReportingByInput
-}
-
-input UserCreateNestedOneWithoutReportingToInput {
-  connect: UserWhereUniqueInput
-  connectOrCreate: UserCreateOrConnectWithoutReportingToInput
-  create: UserCreateWithoutReportingToInput
-}
-
-input UserCreateNestedOneWithoutScheduleInput {
-  connect: UserWhereUniqueInput
-  connectOrCreate: UserCreateOrConnectWithoutScheduleInput
-  create: UserCreateWithoutScheduleInput
-}
-
-input UserCreateOrConnectWithoutCaseLogInput {
-  create: UserCreateWithoutCaseLogInput!
-  where: UserWhereUniqueInput!
-}
-
-input UserCreateOrConnectWithoutDoctorInput {
-  create: UserCreateWithoutDoctorInput!
-  where: UserWhereUniqueInput!
-}
-
-input UserCreateOrConnectWithoutReportingByInput {
-  create: UserCreateWithoutReportingByInput!
-  where: UserWhereUniqueInput!
-}
-
-input UserCreateOrConnectWithoutReportingToInput {
-  create: UserCreateWithoutReportingToInput!
-  where: UserWhereUniqueInput!
-}
-
-input UserCreateOrConnectWithoutScheduleInput {
-  create: UserCreateWithoutScheduleInput!
-  where: UserWhereUniqueInput!
-}
-
-input UserCreateWithoutCaseLogInput {
-  Doctor: DoctorCreateNestedOneWithoutUserInput
-  Schedule: ScheduleCreateNestedManyWithoutUserInput
-  email: String!
-  firstName: String
-  lastName: String
-  password: String!
-  profile: ProfileCreateNestedOneWithoutUserInput
-  reportingBy: UserCreateNestedOneWithoutReportingToInput
-  reportingTo: UserCreateNestedOneWithoutReportingByInput
-  role: Role
-}
-
-input UserCreateWithoutDoctorInput {
-  CaseLog: CaseLogCreateNestedManyWithoutAccountInput
-  Schedule: ScheduleCreateNestedManyWithoutUserInput
-  email: String!
-  firstName: String
-  lastName: String
-  password: String!
-  profile: ProfileCreateNestedOneWithoutUserInput
-  reportingBy: UserCreateNestedOneWithoutReportingToInput
-  reportingTo: UserCreateNestedOneWithoutReportingByInput
-  role: Role
-}
-
-input UserCreateWithoutReportingByInput {
-  CaseLog: CaseLogCreateNestedManyWithoutAccountInput
-  Doctor: DoctorCreateNestedOneWithoutUserInput
-  Schedule: ScheduleCreateNestedManyWithoutUserInput
-  email: String!
-  firstName: String
-  lastName: String
-  password: String!
-  profile: ProfileCreateNestedOneWithoutUserInput
-  reportingTo: UserCreateNestedOneWithoutReportingByInput
-  role: Role
-}
-
-input UserCreateWithoutReportingToInput {
-  CaseLog: CaseLogCreateNestedManyWithoutAccountInput
-  Doctor: DoctorCreateNestedOneWithoutUserInput
-  Schedule: ScheduleCreateNestedManyWithoutUserInput
-  email: String!
-  firstName: String
-  lastName: String
-  password: String!
-  profile: ProfileCreateNestedOneWithoutUserInput
-  reportingBy: UserCreateNestedOneWithoutReportingToInput
-  role: Role
-}
-
-input UserCreateWithoutScheduleInput {
-  CaseLog: CaseLogCreateNestedManyWithoutAccountInput
-  Doctor: DoctorCreateNestedOneWithoutUserInput
-  email: String!
-  firstName: String
-  lastName: String
-  password: String!
-  profile: ProfileCreateNestedOneWithoutUserInput
-  reportingBy: UserCreateNestedOneWithoutReportingToInput
-  reportingTo: UserCreateNestedOneWithoutReportingByInput
-  role: Role
+input UserOrderByRelationAggregateInput {
+  _count: SortOrder
 }
 
 input UserOrderByWithRelationInput {
-  CaseLog: CaseLogOrderByRelationAggregateInput
-  Doctor: DoctorOrderByWithRelationInput
-  Schedule: ScheduleOrderByRelationAggregateInput
+  azureADId: SortOrderInput
+  azureADStatus: SortOrder
+  costCenter: CostCenterOrderByWithRelationInput
+  costCenterId: SortOrderInput
+  createdAt: SortOrder
+  division: SortOrderInput
   email: SortOrder
-  firstName: SortOrderInput
+  employeeName: SortOrder
   id: SortOrder
-  lastName: SortOrderInput
-  password: SortOrder
+  jobTitle: SortOrderInput
   profile: ProfileOrderByWithRelationInput
-  reportingBy: UserOrderByWithRelationInput
+  reportedBy: UserOrderByWithRelationInput
+  reportedById: SortOrderInput
   reportingTo: UserOrderByWithRelationInput
-  reportingToId: SortOrderInput
-  role: SortOrder
+  territory: TerritoryOrderByWithRelationInput
+  territoryId: SortOrderInput
+  updatedAt: SortOrder
 }
 
 input UserRelationFilter {
@@ -1358,49 +639,62 @@ input UserRelationFilter {
 }
 
 enum UserScalarFieldEnum {
+  azureADId
+  azureADStatus
+  costCenterId
+  createdAt
+  division
   email
-  firstName
+  employeeName
   id
-  lastName
-  password
-  reportingToId
-  role
+  jobTitle
+  reportedById
+  territoryId
+  updatedAt
 }
 
 input UserWhereInput {
   AND: [UserWhereInput!]
-  CaseLog: CaseLogListRelationFilter
-  Doctor: DoctorRelationFilter
   NOT: [UserWhereInput!]
   OR: [UserWhereInput!]
-  Schedule: ScheduleListRelationFilter
+  azureADId: StringFilter
+  azureADStatus: EnumADStatusFilter
+  costCenter: CostCenterRelationFilter
+  costCenterId: IntFilter
+  createdAt: DateTimeFilter
+  division: StringFilter
   email: StringFilter
-  firstName: StringFilter
-  id: IntFilter
-  lastName: StringFilter
-  password: StringFilter
+  employeeName: StringFilter
+  id: StringFilter
+  jobTitle: StringFilter
   profile: ProfileRelationFilter
-  reportingBy: UserRelationFilter
+  reportedBy: UserRelationFilter
+  reportedById: StringFilter
   reportingTo: UserRelationFilter
-  reportingToId: IntFilter
-  role: EnumRoleFilter
+  territory: TerritoryRelationFilter
+  territoryId: StringFilter
+  updatedAt: DateTimeFilter
 }
 
 input UserWhereUniqueInput {
   AND: [UserWhereInput!]
-  CaseLog: CaseLogListRelationFilter
-  Doctor: DoctorRelationFilter
   NOT: [UserWhereInput!]
   OR: [UserWhereInput!]
-  Schedule: ScheduleListRelationFilter
+  azureADId: StringFilter
+  azureADStatus: EnumADStatusFilter
+  costCenter: CostCenterRelationFilter
+  costCenterId: IntFilter
+  createdAt: DateTimeFilter
+  division: StringFilter
   email: String
-  firstName: StringFilter
-  id: Int
-  lastName: StringFilter
-  password: StringFilter
+  employeeName: StringFilter
+  id: String
+  jobTitle: StringFilter
   profile: ProfileRelationFilter
-  reportingBy: UserRelationFilter
+  reportedBy: UserRelationFilter
+  reportedById: String
   reportingTo: UserRelationFilter
-  reportingToId: Int
-  role: EnumRoleFilter
+  territory: TerritoryRelationFilter
+  territoryId: StringFilter
+  updatedAt: DateTimeFilter
 }

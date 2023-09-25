@@ -30,24 +30,23 @@ generator dbml {
 }
 
 model User {
-  id           String      @id @default(cuid())
-  email        String      @unique
+  id           String  @id @default(cuid())
+  email        String  @unique
   employeeName String
   jobTitle     String?
   division     String?
-  costCenter   CostCenter? @relation(fields: [costCenterId], references: [id])
 
   azureADStatus ADStatus
   azureADId     String?
 
   reportingTo  User?   @relation("ManageUser")
-  reportedBy   User?   @relation("ManageUser", fields: [reportedById], references: [id])
+  reportedBy   User?   @relation("ManageUser", fields: [reportedById], references: [id], onDelete: SetNull)
   reportedById String? @unique
 
   profile      Profile?
   costCenterId Int?
 
-  territory   Territory? @relation(fields: [territoryId], references: [id])
+  territory   Territory? @relation(fields: [territoryId], references: [id], onDelete: SetNull)
   territoryId String?
 
   createdAt DateTime @default(now())
@@ -60,16 +59,6 @@ enum ADStatus {
   Inactive
   Blocked
   Deleted
-}
-
-model CostCenter {
-  id          Int     @id @default(dbgenerated())
-  name        String  @unique
-  description String?
-  users       User[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
 model Profile {
@@ -96,14 +85,12 @@ model Territory {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  users       User[]
-  territoryId String?
-
+  users    User[]
   accounts TerritoryToAccount[]
 }
 
 model TerritoryToAccount {
-  territory   Territory? @relation(fields: [territoryId], references: [id])
+  territory   Territory? @relation(fields: [territoryId], references: [id], onDelete: Cascade)
   territoryId String
   account     Account?   @relation(fields: [accountId], references: [id])
   accountId   String
@@ -139,7 +126,16 @@ model Account {
   updatedAt DateTime @updatedAt
 
   territories TerritoryToAccount[]
-  Contact     Contact[]
+  contacts    AccountToContact[]
+}
+
+model AccountToContact {
+  account   Account? @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  accountId String
+  contact   Contact? @relation(fields: [contactId], references: [id])
+  contactId String
+
+  @@id([accountId, contactId])
 }
 
 model Contact {
@@ -162,21 +158,20 @@ model Contact {
 
   comments String?
 
-  account   Account @relation(fields: [accountId], references: [id])
-  accountId String
+  accounts AccountToContact[]
 
   divisionalContact DivisionalContact[]
 }
 
 model DivisionalContact {
-  id               String  @id @default(cuid())
+  id               String   @id @default(cuid())
   contactName      String?
   division         String?
   function         String?
   phone            String?
   specialty        String?
   subSpecialty     String?
-  topicsOfInterest String?
+  topicsOfInterest String[]
 
   contact   Contact? @relation(fields: [contactId], references: [id])
   contactId String?
