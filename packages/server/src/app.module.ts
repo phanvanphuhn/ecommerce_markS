@@ -2,31 +2,19 @@ import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
 import { Logger, Module } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { GraphQLModule } from "@nestjs/graphql";
-import Joi from "joi";
 import { PrismaModule, QueryInfo, loggingMiddleware } from "nestjs-prisma";
 
 import config from "./common/configs/config";
 import { GqlConfigService } from "./gql-config.service";
 import { DatabaseModule } from "./modules/_database/database.module";
 import { AuthModule } from "./modules/auth/auth.module";
-import { ScheduleModule } from "./modules/schedule/schedule.module";
-import { UsersModule } from "./modules/users/users.module";
-import { TerritoryModule } from "./modules/territory/territory.module";
-import { ContactModule } from "./modules/contact/contact.module";
-import { AccountModule } from "./modules/account/account.module";
+import { GraphqlConfig } from "./common/configs/config.interface";
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       load: [config],
-      validationSchema: Joi.object({
-        DB_HOST: Joi.string().required(),
-        DB_PORT: Joi.number().required(),
-        POSTGRES_USER: Joi.string().required(),
-        POSTGRES_PASSWORD: Joi.string().required(),
-        DB_SCHEMA: Joi.string().required(),
-      }),
     }),
 
     DatabaseModule.forRootAsync({
@@ -45,7 +33,7 @@ import { AccountModule } from "./modules/account/account.module";
       isGlobal: true,
       prismaServiceOptions: {
         prismaOptions: {
-          log: ["query", "info", "warn"],
+          log: ["query"],
         },
         middlewares: [
           // configure your prisma middleware
@@ -61,13 +49,26 @@ import { AccountModule } from "./modules/account/account.module";
 
     GraphQLModule.forRootAsync<ApolloDriverConfig>({
       driver: ApolloDriver,
-      useClass: GqlConfigService,
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => {
+        const graphqlConfig = configService.get<GraphqlConfig>("graphql");
+        return {
+          // schema options
+          autoSchemaFile:
+            graphqlConfig.schemaDestination || "./src/schema.graphql",
+          sortSchema: graphqlConfig.sortSchema,
+          buildSchemaOptions: {
+            numberScalarMode: "integer",
+          },
+          // subscription
+          installSubscriptionHandlers: true,
+          includeStacktraceInErrorResponses: graphqlConfig.debug,
+          playground: graphqlConfig.playgroundEnabled,
+          context: ({ req }) => ({ req }),
+        };
+      },
     }),
-
-    AccountModule,
-    UsersModule,
-    TerritoryModule,
-    ContactModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],

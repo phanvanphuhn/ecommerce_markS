@@ -29,226 +29,32 @@ generator dbml {
   provider = "prisma-dbml-generator"
 }
 
-model User {
-  id           String  @id @default(cuid())
-  email        String  @unique
-  employeeName String
-  jobTitle     String?
-  division     String?
-
-  azureADStatus ADStatus
-  azureADId     String?
-
-  reportingTo  User?   @relation("ManageUser")
-  reportedBy   User?   @relation("ManageUser", fields: [reportedById], references: [id], onDelete: SetNull)
-  reportedById String? @unique
-
-  profile      Profile?
-  costCenterId Int?
-
-  territory   Territory? @relation(fields: [territoryId], references: [id], onDelete: SetNull)
-  territoryId String?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model ContactSearch {
+  id                     Int     @id @default(autoincrement())
+  networkId              String?
+  hospital               String?
+  topicsOfInterest       String?
+  doctorName             String?
+  doctorEmail            String?
+  doctorAlternativeEmail String?
+  doctorDivision         String?
+  doctorProfilePhoto     String?
+  doctorSpecialty        String?
+  doctorSalutation       String?
+  doctorTitle            String?
 }
 
-enum ADStatus {
-  Pending
-  Active
-  Inactive
-  Blocked
-  Deleted
+model Complaint {
+  id              Int       @id @default(autoincrement())
+  networkId       String?
+  complaintName   String?
+  recordType      String?
+  complaintStatus String?
+  eventDate       DateTime?
+  createdDate     DateTime?
+  complaintTitle  String?
+  division        String?
+  country         String?
+  awareDate       DateTime?
+  timeOfEvent     String?
 }
-
-model Profile {
-  id                String  @id @default(cuid())
-  title             String?
-  mobile            String
-  preferredLanguage String
-
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String @unique
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Territory {
-  id          String  @id @default(cuid())
-  countryName String
-  countryCode String
-  description String?
-  division    String
-  productType String  @default("Others")
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  users    User[]
-  accounts TerritoryToAccount[]
-}
-
-model TerritoryToAccount {
-  territory   Territory? @relation(fields: [territoryId], references: [id], onDelete: Cascade)
-  territoryId String
-  account     Account?   @relation(fields: [accountId], references: [id])
-  accountId   String
-
-  percentageSharing String
-  startDate         DateTime
-  endDate           DateTime?
-  isActive          Boolean   @default(true)
-
-  @@id([territoryId, accountId])
-}
-
-// This is hospitals, clinics, etc
-model Account {
-  id                String   @id @default(cuid())
-  accountName       String?
-  addressCity       String?
-  addressPostalCode String?
-  addressState      String?
-  addressStreet     String?
-  classification    String?
-  country           String?
-  divisions         String[]
-  email             String?
-  facilityType      String?
-  phone             String?
-  website           String?
-  status            String?
-  longitude         Float?
-  latitude          Float?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  territories TerritoryToAccount[]
-  contacts    AccountToContact[]
-}
-
-model AccountToContact {
-  account   Account? @relation(fields: [accountId], references: [id], onDelete: Cascade)
-  accountId String
-  contact   Contact? @relation(fields: [contactId], references: [id])
-  contactId String
-
-  @@id([accountId, contactId])
-}
-
-model Contact {
-  id            String  @id @default(cuid())
-  firstName     String?
-  middleName    String?
-  lastName      String?
-  preferredName String?
-  title         String?
-  designation   String?
-  department    String?
-
-  bscBU      String?
-  bscRepName String?
-  bscRepId   String?
-
-  contactNumber          String?
-  primaryBusinessEmail   String?
-  secondaryBusinessEmail String?
-
-  comments String?
-
-  accounts AccountToContact[]
-
-  divisionalContact DivisionalContact[]
-}
-
-model DivisionalContact {
-  id               String   @id @default(cuid())
-  contactName      String?
-  division         String?
-  function         String?
-  phone            String?
-  specialty        String?
-  subSpecialty     String?
-  topicsOfInterest String[]
-
-  contact   Contact? @relation(fields: [contactId], references: [id])
-  contactId String?
-}
-
-// enum ScheduleType {
-//   CASE_LOG
-//   PLAN_CALL
-// }
-
-// model Schedule {
-//   id        String   @id @default(cuid())
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-
-//   subject      String
-//   location     String?
-//   time         String?
-//   endDate      DateTime
-//   startDate    DateTime
-//   scheduleType ScheduleType
-
-//   user     User      @relation(fields: [userId], references: [id])
-//   userId   String
-//   planCall PlanCall?
-//   caseLog  CaseLog?
-
-//   deleted DateTime?
-// }
-
-// model PlanCall {
-//   id        String   @id @default(cuid())
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-
-//   outcome     String?
-//   type        String?
-//   description String?
-//   topics      String?
-
-//   schedule   Schedule  @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
-//   scheduleId String    @unique
-//   deleted    DateTime?
-// }
-
-// model CaseLog {
-//   id        String   @id @default(cuid())
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-
-//   account   User   @relation(fields: [accountId], references: [id])
-//   accountId String
-
-//   photoUrl          String?
-//   productsInvoice   ProductsInvoice? @relation(fields: [productsInvoiceId], references: [id])
-//   productsInvoiceId String?          @unique
-
-//   schedule   Schedule @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
-//   scheduleId String   @unique
-
-//   deleted DateTime?
-// }
-
-// model ProductsInvoice {
-//   id        String    @id @default(cuid())
-//   createdAt DateTime  @default(now())
-//   updatedAt DateTime  @updatedAt
-//   products  Product[]
-//   caseLog   CaseLog?
-// }
-
-// model Product {
-//   name      String   @id
-//   quantity  Int
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-
-//   productsInvoice   ProductsInvoice? @relation(fields: [productsInvoiceId], references: [id])
-//   productsInvoiceId String?
-// }

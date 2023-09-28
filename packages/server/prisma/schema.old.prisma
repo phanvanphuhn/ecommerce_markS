@@ -1,0 +1,199 @@
+// datasource db {
+//   provider = "postgresql"
+//   url      = env("DATABASE_URL")
+// }
+
+// generator kysely {
+//   provider = "prisma-kysely"
+//   output   = "../src/@generated/kysely"
+//   fileName = "types.ts"
+//   // Optionally generate runtime enums to a separate file
+//   // enumFileName = "enums.ts"
+// }
+
+// generator client {
+//   provider = "prisma-client-js"
+//   // previewFeatures = []
+// }
+
+// generator nestgraphql {
+//   provider             = "prisma-nestjs-graphql"
+//   output               = "../src/@generated/nestgraphql"
+//   combineScalarFilters = true
+//   noAtomicOperations   = true
+//   emitCompiled         = true
+//   purgeOutput          = true
+// }
+
+// generator dbml {
+//   provider = "prisma-dbml-generator"
+// }
+
+// model User {
+//   id        String  @id @default(cuid())
+//   email     String  @unique
+//   firstName String?
+//   lastName  String?
+//   jobTitle  String?
+//   division  String?
+
+//   azureADStatus ADStatus
+//   azureADId     String?
+
+//   reportingTo  User?   @relation("ManageUser")
+//   reportedBy   User?   @relation("ManageUser", fields: [reportedById], references: [id], onDelete: SetNull)
+//   reportedById String? @unique
+
+//   profile Profile?
+
+//   createdAt       DateTime              @default(now())
+//   updatedAt       DateTime              @updatedAt
+//   userToTerritory TerritoryAssignment[]
+//   complaints      Complaint[]
+// }
+
+// enum ADStatus {
+//   Pending
+//   Active
+//   Inactive
+//   Blocked
+//   Deleted
+// }
+
+// model Profile {
+//   id                String  @id @default(cuid())
+//   title             String?
+//   mobile            String
+//   preferredLanguage String
+
+//   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+//   userId String @unique
+
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+// }
+
+// model TerritoryAssignment {
+//   userId      String
+//   territoryId String
+
+//   user      User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
+//   territory Territory? @relation(fields: [territoryId], references: [id], onDelete: Cascade)
+
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+
+//   @@id([userId, territoryId])
+// }
+
+// model Territory {
+//   id          String @id @default(cuid())
+//   countryName String
+//   countryCode String
+
+//   createdAt       DateTime              @default(now())
+//   updatedAt       DateTime              @updatedAt
+//   userToTerritory TerritoryAssignment[]
+
+//   childTerritory  TerritoryParentChild[] @relation("ChildTerritory")
+//   parentTerritory TerritoryParentChild[] @relation("ParentTerritory")
+
+//   accountId String?
+//   account   Account? @relation(fields: [accountId], references: [id])
+// }
+
+// model TerritoryParentChild {
+//   childTerritoryId  String
+//   childTerritory    Territory? @relation(name: "ChildTerritory", fields: [childTerritoryId], references: [id])
+//   parentTerritoryId String
+//   parentTerritory   Territory? @relation(name: "ParentTerritory", fields: [parentTerritoryId], references: [id])
+
+//   @@id([childTerritoryId, parentTerritoryId])
+// }
+
+// // This is hospitals, clinics, etc
+// model Account {
+//   id                String   @id @default(cuid())
+//   accountName       String?
+//   addressCity       String?
+//   addressPostalCode String?
+//   addressState      String?
+//   addressStreet     String?
+//   country           String?
+//   divisions         String[]
+//   email             String?
+//   phone             String?
+//   website           String?
+//   status            String?
+//   longitude         Float?
+//   latitude          Float?
+
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+
+//   contacts    Contact[]
+//   territories Territory[]
+// }
+
+// model Contact {
+//   id            String  @id @default(cuid())
+//   firstName     String?
+//   middleName    String?
+//   lastName      String?
+//   preferredName String?
+//   title         String?
+//   designation   String?
+//   department    String?
+
+//   contactNumber String?
+
+//   primaryBusinessEmail   String?
+//   secondaryBusinessEmail String?
+//   alternativeEmail       String?
+
+//   profilePhoto     String?
+//   topicsOfInterest String[]
+
+//   division  String?
+//   specialty String?
+//   country   String?
+
+//   account   Account? @relation(fields: [accountId], references: [id])
+//   accountId String?
+
+//   divisionalContact DivisionalContact[]
+
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+// }
+
+// model DivisionalContact {
+//   id               String   @id @default(cuid())
+//   contactName      String?
+//   division         String?
+//   function         String?
+//   phone            String?
+//   specialty        String?
+//   subSpecialty     String?
+//   topicsOfInterest String[]
+
+//   contact   Contact? @relation(fields: [contactId], references: [id])
+//   contactId String?
+// }
+
+// model Complaint {
+//   id          String   @id @default(cuid())
+//   title       String?
+//   description String?
+//   name        String?
+//   status      String
+//   type        String?
+//   createdDate DateTime
+//   awareDate   DateTime
+//   divisions   String[]
+//   country     String?
+//   createdBy   User?    @relation(fields: [createdById], references: [id])
+//   createdById String?
+//   createdAt   DateTime @default(now())
+//   updatedAt   DateTime @updatedAt
+// }

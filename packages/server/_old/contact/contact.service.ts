@@ -12,35 +12,6 @@ export class ContactService {
     return await this.prisma.contact.findMany(input);
   }
 
-  async findManyByTerritory(input: ContactByTerritoryInput) {
-    const { where: territoryId } = input;
-    delete input.where.territoryId;
-
-    const accounts = await this.prisma.account.findMany({
-      where: {
-        territories: {
-          every: {
-            territoryId: territoryId as string,
-          },
-        },
-      },
-    });
-
-    return await this.prisma.contact.findMany({
-      where: {
-        account: {
-          territories: {
-            every: {
-              territoryId: territoryId as string,
-            },
-          },
-        },
-        ...(input.where as Prisma.ContactWhereInput),
-      },
-      ...(input as Prisma.ContactFindManyArgs),
-    });
-  }
-
   async findOne(input: Prisma.ContactFindUniqueArgs) {
     return await this.prisma.contact.findUnique(input);
   }

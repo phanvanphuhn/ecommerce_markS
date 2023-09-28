@@ -4,8 +4,8 @@ import { Account } from "@generated/nestgraphql/account/account.model";
 
 @Resolver(() => Account)
 export class AccountResolver {
-  @ResolveField("contact")
-  async contact(@Parent() account: Account) {
-    return account.contact;
+  @ResolveField("contacts")
+  async contacts(@Parent() account: Account) {
+    return account.contacts;
   }
 }

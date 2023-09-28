@@ -1,4 +1,4 @@
-export enum DIVISIONS {
+export enum DIVISION {
   CRM = "CRM",
   ENDO = "Endo",
   EP = "EP",

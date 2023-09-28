@@ -1,9 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 
-import { UserSeeder } from "./seedModules/UserSeeder";
-import { AccountSeeder } from "./seedModules/AccountSeeder";
-import { TerritorySeeder } from "./seedModules/TerritorySeeder";
-import { ContactSeeder } from "./seedModules/ContactSeeder";
+// import { UserSeeder } from "./seedModules/UserSeeder";
+// import { AccountSeeder } from "./seedModules/AccountSeeder";
+// import { TerritorySeeder } from "./seedModules/TerritorySeeder";
+// import { ContactSeeder } from "./seedModules/ContactSeeder";
 
 const prisma = new PrismaClient({
   datasources: {
@@ -14,21 +14,17 @@ const prisma = new PrismaClient({
 });
 
 async function main() {
-  await prisma.contact.deleteMany();
-  await prisma.profile.deleteMany();
-
-  // TERRITORY MUST BE CREATED FIRST
-  const territorySeeder = new TerritorySeeder(prisma);
-  await territorySeeder.seed();
-
-  const userSeeder = new UserSeeder(prisma);
-  await userSeeder.seed();
-
-  const accountSeeder = new AccountSeeder(prisma);
-  await accountSeeder.seed();
-
-  const contactSeeder = new ContactSeeder(prisma);
-  await contactSeeder.seed();
+  // await prisma.contact.deleteMany();
+  // await prisma.profile.deleteMany();
+  // // TERRITORY MUST BE CREATED FIRST
+  // const territorySeeder = new TerritorySeeder(prisma);
+  // await territorySeeder.seed();
+  // const userSeeder = new UserSeeder(prisma);
+  // await userSeeder.seed();
+  // const accountSeeder = new AccountSeeder(prisma);
+  // await accountSeeder.seed();
+  // const contactSeeder = new ContactSeeder(prisma);
+  // await contactSeeder.seed();
 }
 
 main()

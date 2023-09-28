@@ -4,18 +4,25 @@ import {
   Args,
   Parent,
   ResolveField,
+  Query,
 } from "@nestjs/graphql";
+import { UseGuards } from "@nestjs/common";
+import { GraphQLJSON } from "graphql-scalars";
 
 import { AuthService } from "./auth.service";
 import { LoginInput } from "./dto/login.input";
 import { RefreshTokenInput } from "./dto/refresh-token.input";
 import { SignupInput } from "./dto/signup.input";
-import { Auth } from "./models/auth.model";
 import { Token } from "./models/token.model";
+import { AzureAuthGuard } from "./guards/azure-ad.guard";
 
-import { User } from "@generated/nestgraphql/user/user.model";
-
-@Resolver(() => Auth)
+@Resolver(() => Token)
 export class AuthResolver {
-  constructor(private readonly auth: AuthService) {}
+  @Query(() => String, { name: "login" })
+  @UseGuards(AzureAuthGuard)
+  async login(@Args("data") data: LoginInput) {
+    const test = data;
+    console.log(test);
+    return "hi";
+  }
 }

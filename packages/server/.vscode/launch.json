@@ -9,6 +9,20 @@
       "cwd": "${workspaceFolder}/src/main.ts",
       "protocol": "inspector",
       "sourceMaps": true
+    },
+    {
+      "type": "node",
+      "request": "attach",
+      "name": "Debug NestJS in Docker",
+      "address": "localhost",
+      "protocol": "inspector",
+      "port": 9229,
+      "sourceMaps": true,
+      "restart": true,
+      "console": "integratedTerminal",
+      "localRoot": "${workspaceFolder}",
+      "remoteRoot": "/app",
+      "outFiles": ["${workspaceFolder}/dist/**/*.js"]
     }
   ]
 }

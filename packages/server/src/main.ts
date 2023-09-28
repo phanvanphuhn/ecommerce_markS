@@ -11,6 +11,8 @@ import type {
   SwaggerConfig,
 } from "./common/configs/config.interface";
 
+declare const module: any;
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     snapshot: true,
@@ -49,5 +51,9 @@ async function bootstrap() {
   }
 
   await app.listen(process.env.PORT || nestConfig.port || 3000);
+  if (module.hot) {
+    module.hot.accept();
+    module.hot.dispose(() => app.close());
+  }
 }
 bootstrap();

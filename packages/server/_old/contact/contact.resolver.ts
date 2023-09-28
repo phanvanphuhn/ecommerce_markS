@@ -18,15 +18,4 @@ export class ContactResolver {
       ...new PrismaSelect(info).value,
     });
   }
-
-  @Query(() => [Contact])
-  async contactsByTerritory(
-    @Args() filter: ContactByTerritoryInput,
-    @Info() info
-  ) {
-    return this.contactService.findManyByTerritory({
-      ...filter,
-      ...new PrismaSelect(info).value,
-    });
-  }
 }

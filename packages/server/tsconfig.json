@@ -3,7 +3,6 @@
     "module": "commonjs",
     "declaration": true,
     "removeComments": true,
-    "emitDecoratorMetadata": false,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     "target": "ES2021",
@@ -17,11 +16,14 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
-    "emitDecoratorMetadata": false,
+    "emitDecoratorMetadata": true,
     "paths": {
       "@generated/*": ["./src/@generated/*"],
-      "@/*": ["./src/*"],
-    },
+      "@/*": ["./src/*"]
+    }
+  },
+  "watchOptions": {
+    "watchFile": "fixedPollingInterval"
   },
   "include": ["src/**/*.ts", "test/**/*.ts", "@generated/*", "prisma/*.ts"]
 }

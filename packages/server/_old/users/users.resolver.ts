@@ -12,7 +12,7 @@ import { PrismaService } from "nestjs-prisma";
 import { PrismaSelect } from "@paljs/plugins";
 
 import { UserEntity } from "../../common/decorators/user.decorator";
-import { GqlAuthGuard } from "../auth/gql-auth.guard";
+import { GqlAuthGuard } from "../auth/guards/gql-auth.guard";
 
 import { ChangePasswordInput } from "./dto/change-password.input";
 import { UpdateUserInput } from "./dto/update-user.input";

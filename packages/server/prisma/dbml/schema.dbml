@@ -2,151 +2,32 @@
 //// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 //// ------------------------------------------------------
 
-Table User {
-  id String [pk]
-  email String [unique, not null]
-  employeeName String [not null]
-  jobTitle String
+Table ContactSearch {
+  id Int [pk, increment]
+  networkId String
+  hospital String
+  topicsOfInterest String
+  doctorName String
+  doctorEmail String
+  doctorAlternativeEmail String
+  doctorDivision String
+  doctorProfilePhoto String
+  doctorSpecialty String
+  doctorSalutation String
+  doctorTitle String
+}
+
+Table Complaint {
+  id Int [pk, increment]
+  networkId String
+  complaintName String
+  recordType String
+  complaintStatus String
+  eventDate DateTime
+  createdDate DateTime
+  complaintTitle String
   division String
-  azureADStatus ADStatus [not null]
-  azureADId String
-  reportingTo User
-  reportedBy User
-  reportedById String [unique]
-  profile Profile
-  costCenterId Int
-  territory Territory
-  territoryId String
-  createdAt DateTime [default: `now()`, not null]
-  updatedAt DateTime [not null]
-}
-
-Table Profile {
-  id String [pk]
-  title String
-  mobile String [not null]
-  preferredLanguage String [not null]
-  user User [not null]
-  userId String [unique, not null]
-  createdAt DateTime [default: `now()`, not null]
-  updatedAt DateTime [not null]
-}
-
-Table Territory {
-  id String [pk]
-  countryName String [not null]
-  countryCode String [not null]
-  description String
-  division String [not null]
-  productType String [not null, default: 'Others']
-  createdAt DateTime [default: `now()`, not null]
-  updatedAt DateTime [not null]
-  users User [not null]
-  accounts TerritoryToAccount [not null]
-}
-
-Table TerritoryToAccount {
-  territory Territory
-  territoryId String [not null]
-  account Account
-  accountId String [not null]
-  percentageSharing String [not null]
-  startDate DateTime [not null]
-  endDate DateTime
-  isActive Boolean [not null, default: true]
-
-  indexes {
-    (territoryId, accountId) [pk]
-  }
-}
-
-Table Account {
-  id String [pk]
-  accountName String
-  addressCity String
-  addressPostalCode String
-  addressState String
-  addressStreet String
-  classification String
   country String
-  divisions String[] [not null]
-  email String
-  facilityType String
-  phone String
-  website String
-  status String
-  longitude Float
-  latitude Float
-  createdAt DateTime [default: `now()`, not null]
-  updatedAt DateTime [not null]
-  territories TerritoryToAccount [not null]
-  contacts AccountToContact [not null]
+  awareDate DateTime
+  timeOfEvent String
 }
-
-Table AccountToContact {
-  account Account
-  accountId String [not null]
-  contact Contact
-  contactId String [not null]
-
-  indexes {
-    (accountId, contactId) [pk]
-  }
-}
-
-Table Contact {
-  id String [pk]
-  firstName String
-  middleName String
-  lastName String
-  preferredName String
-  title String
-  designation String
-  department String
-  bscBU String
-  bscRepName String
-  bscRepId String
-  contactNumber String
-  primaryBusinessEmail String
-  secondaryBusinessEmail String
-  comments String
-  accounts AccountToContact [not null]
-  divisionalContact DivisionalContact [not null]
-}
-
-Table DivisionalContact {
-  id String [pk]
-  contactName String
-  division String
-  function String
-  phone String
-  specialty String
-  subSpecialty String
-  topicsOfInterest String[] [not null]
-  contact Contact
-  contactId String
-}
-
-Enum ADStatus {
-  Pending
-  Active
-  Inactive
-  Blocked
-  Deleted
-}
-
-Ref: User.reportedById - User.id
-
-Ref: User.territoryId > Territory.id [delete: Set Null]
-
-Ref: Profile.userId - User.id [delete: Cascade]
-
-Ref: TerritoryToAccount.territoryId > Territory.id [delete: Cascade]
-
-Ref: TerritoryToAccount.accountId > Account.id
-
-Ref: AccountToContact.accountId > Account.id [delete: Cascade]
-
-Ref: AccountToContact.contactId > Contact.id
-
-Ref: DivisionalContact.contactId > Contact.id

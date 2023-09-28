@@ -33,8 +33,8 @@ export class TerritoryResolver {
     });
   }
 
-  @ResolveField("accounts", () => [Account])
+  @ResolveField("account", () => [Account])
   async accounts(@Parent() territory: Territory, @Info() info) {
-    return territory.accounts;
+    return territory.account;
   }
 }
