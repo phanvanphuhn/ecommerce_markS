@@ -2,11 +2,38 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type ContactSearchOutput {
+  doctorDivision: String
+  doctorEmail: String
+  doctorName: String
+  doctorPhone: String
+  doctorSpecialty: String
+  doctorTitle: String
+  hospital: String
+  id: Int
+}
+
+type DoctorDetail {
+  doctorDivision: String
+  doctorEmail: String
+  doctorName: String
+  doctorPhone: String
+  doctorSpecialty: String
+  doctorTitle: String
+  hospital: String
+  id: Int
+}
+
 input LoginInput {
   email: String!
   password: String!
 }
 
 type Query {
+  getDoctorProfile(doctorEmail: String!): DoctorDetail!
+  getDoctorSearchList(doctorDivision: String, doctorName: String, doctorSpecialty: String, doctorTitle: String, hospital: String, networkId: String!): [ContactSearchOutput!]!
+  getFilterDivisionList(networkId: String!): [String!]!
+  getFilterHospitalList(networkId: String!): [String!]!
+  getFilterSpecialtyList(networkId: String!): [String!]!
   login(data: LoginInput!): String!
 }

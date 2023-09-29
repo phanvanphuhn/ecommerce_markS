@@ -16,14 +16,14 @@ generator client {
   // previewFeatures = []
 }
 
-generator nestgraphql {
-  provider             = "prisma-nestjs-graphql"
-  output               = "../src/@generated/nestgraphql"
-  combineScalarFilters = true
-  noAtomicOperations   = true
-  emitCompiled         = true
-  purgeOutput          = true
-}
+// generator nestgraphql {
+//   provider             = "prisma-nestjs-graphql"
+//   output               = "../src/@generated/nestgraphql"
+//   combineScalarFilters = true
+//   noAtomicOperations   = true
+//   emitCompiled         = true
+//   purgeOutput          = true
+// }
 
 generator dbml {
   provider = "prisma-dbml-generator"
@@ -42,6 +42,7 @@ model ContactSearch {
   doctorSpecialty        String?
   doctorSalutation       String?
   doctorTitle            String?
+  doctorPhone            String?
 }
 
 model Complaint {

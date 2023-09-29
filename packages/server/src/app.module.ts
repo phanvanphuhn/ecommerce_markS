@@ -5,10 +5,10 @@ import { GraphQLModule } from "@nestjs/graphql";
 import { PrismaModule, QueryInfo, loggingMiddleware } from "nestjs-prisma";
 
 import config from "./common/configs/config";
-import { GqlConfigService } from "./gql-config.service";
 import { DatabaseModule } from "./modules/_database/database.module";
 import { AuthModule } from "./modules/auth/auth.module";
 import { GraphqlConfig } from "./common/configs/config.interface";
+import { ContactSearchModule } from "./modules/contact-search/contact-search.module";
 
 @Module({
   imports: [
@@ -69,6 +69,7 @@ import { GraphqlConfig } from "./common/configs/config.interface";
       },
     }),
     AuthModule,
+    ContactSearchModule,
   ],
   controllers: [],
   providers: [],

@@ -15,6 +15,7 @@ Table ContactSearch {
   doctorSpecialty String
   doctorSalutation String
   doctorTitle String
+  doctorPhone String
 }
 
 Table Complaint {

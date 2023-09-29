@@ -1,5 +1,10 @@
-import { Kysely } from 'kysely';
+import { Kysely } from "kysely";
 
-import { DB } from '@generated/kysely/types';
+import { Complaint, ContactSearch } from "@generated/kysely/types";
+
+interface DB {
+  "marks.ContactSearch": ContactSearch;
+  "marks.Complaint": Complaint;
+}
 
 export class Database extends Kysely<DB> {}
