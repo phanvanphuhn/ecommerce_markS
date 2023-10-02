@@ -9,8 +9,6 @@ import {
 } from "./dto/contact-search.dto";
 import { DoctorDetail } from "./dto/doctor-profile.dto";
 
-import { ContactSearch } from "@generated/kysely/types";
-
 @Injectable()
 export class ContactSearchService {
   constructor(private readonly database: Database) {}

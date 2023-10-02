@@ -32,3 +32,12 @@ Table Complaint {
   awareDate DateTime
   timeOfEvent String
 }
+
+Table UserProfile {
+  id Int [pk, increment]
+  fullName String
+  email String
+  country String
+  division String
+  reportingTo String
+}
