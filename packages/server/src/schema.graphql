@@ -18,22 +18,28 @@ type DoctorDetail {
   doctorEmail: String
   doctorName: String
   doctorPhone: String
+  doctorSalutation: String
   doctorSpecialty: String
   doctorTitle: String
   hospital: String
   id: Int
 }
 
-input LoginInput {
-  email: String!
-  password: String!
-}
-
 type Query {
-  getDoctorProfile(doctorEmail: String!): DoctorDetail!
+  getDoctorProfile(doctorName: String!): [DoctorDetail!]!
   getDoctorSearchList(doctorDivision: String, doctorName: String, doctorSpecialty: String, doctorTitle: String, hospital: String, networkId: String!): [ContactSearchOutput!]!
   getFilterDivisionList(networkId: String!): [String!]!
   getFilterHospitalList(networkId: String!): [String!]!
   getFilterSpecialtyList(networkId: String!): [String!]!
-  login(data: LoginInput!): String!
+  getUserProfileByNetworkId(networkId: String!): [UserProfileOutput!]!
+}
+
+type UserProfileOutput {
+  country: String
+  division: String
+  email: String
+  fullName: String
+  id: Int
+  networkId: String
+  reportingTo: String
 }

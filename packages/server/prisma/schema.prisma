@@ -63,6 +63,7 @@ model Complaint {
 model UserProfile {
   id Int @id @default(autoincrement())
 
+  networkId   String?
   fullName    String?
   email       String?
   country     String?

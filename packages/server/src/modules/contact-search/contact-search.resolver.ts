@@ -16,9 +16,9 @@ export class ContactSearchResolver {
     return this.contactSearchService.getDoctorSearchList(filter);
   }
 
-  @Query(() => DoctorDetail)
-  async getDoctorProfile(@Args("doctorEmail") email: string) {
-    return this.contactSearchService.getDoctorProfileByDoctorEmail(email);
+  @Query(() => [DoctorDetail])
+  async getDoctorProfile(@Args("doctorName") doctorName: string) {
+    return this.contactSearchService.getDoctorProfileByDoctorName(doctorName);
   }
 
   @Query(() => [String])

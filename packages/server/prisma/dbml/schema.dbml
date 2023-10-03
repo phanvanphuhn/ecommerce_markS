@@ -35,6 +35,7 @@ Table Complaint {
 
 Table UserProfile {
   id Int [pk, increment]
+  networkId String
   fullName String
   email String
   country String

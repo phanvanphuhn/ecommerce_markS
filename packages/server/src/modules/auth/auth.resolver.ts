@@ -22,7 +22,6 @@ export class AuthResolver {
   @UseGuards(AzureAuthGuard)
   async login(@Args("data") data: LoginInput) {
     const test = data;
-    console.log(test);
     return "hi";
   }
 }

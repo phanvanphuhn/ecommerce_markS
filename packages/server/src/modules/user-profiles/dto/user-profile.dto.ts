@@ -1,27 +1,22 @@
 import { Field, ObjectType } from "@nestjs/graphql";
 
 @ObjectType()
-export class DoctorDetail {
-  constructor(data: Partial<DoctorDetail>) {
+export class UserProfileOutput {
+  constructor(data: Partial<UserProfileOutput>) {
     Object.assign(this, data);
   }
   @Field(() => Number, { nullable: true })
   id: number;
   @Field(() => String, { nullable: true })
-  doctorName: string;
+  networkId: string;
   @Field(() => String, { nullable: true })
-  doctorTitle: string;
+  fullName: string;
   @Field(() => String, { nullable: true })
-  hospital: string;
+  email: string;
   @Field(() => String, { nullable: true })
-  doctorDivision: string;
+  country: string;
   @Field(() => String, { nullable: true })
-  doctorSpecialty: string;
-
+  division: string;
   @Field(() => String, { nullable: true })
-  doctorEmail: string;
-  @Field(() => String, { nullable: true })
-  doctorPhone: string;
-  @Field(() => String, { nullable: true })
-  doctorSalutation: string;
+  reportingTo: string;
 }

@@ -19,7 +19,7 @@ const config = {
     passReqToCallback: false,
     loggingLevel: "info",
   },
-  exposedScopes: ["Files.Read"],
+  // exposedScopes: ["Files.Read"],
 };
 
 @Injectable()
@@ -36,7 +36,7 @@ export class AzureAdStrategy extends PassportStrategy(
       validateIssuer: config.settings.validateIssuer,
       passReqToCallback: config.settings.passReqToCallback,
       loggingLevel: config.settings.loggingLevel,
-      scope: config.exposedScopes,
+      // scope: config.exposedScopes,
       loggingNoPII: false,
     });
   }

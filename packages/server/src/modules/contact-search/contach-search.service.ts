@@ -118,9 +118,9 @@ export class ContactSearchService {
     return dbResponse.map((row) => row.doctorDivision);
   }
 
-  async getDoctorProfileByDoctorEmail(
-    doctorEmail: string
-  ): Promise<DoctorDetail> {
+  async getDoctorProfileByDoctorName(
+    doctorName: string
+  ): Promise<DoctorDetail[]> {
     const dbResponse = await this.database
       .selectFrom("marks.ContactSearch")
       .select([
@@ -132,10 +132,11 @@ export class ContactSearchService {
         "doctorSpecialty",
         "doctorEmail",
         "doctorPhone",
+        "doctorSalutation",
       ])
-      .where("doctorEmail", "=", doctorEmail)
-      .executeTakeFirst();
+      .where("doctorName", "=", doctorName)
+      .execute();
 
-    return dbResponse as DoctorDetail;
+    return dbResponse as DoctorDetail[];
   }
 }

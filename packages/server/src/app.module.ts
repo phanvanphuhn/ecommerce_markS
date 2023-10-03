@@ -9,6 +9,7 @@ import { DatabaseModule } from "./modules/_database/database.module";
 import { AuthModule } from "./modules/auth/auth.module";
 import { GraphqlConfig } from "./common/configs/config.interface";
 import { ContactSearchModule } from "./modules/contact-search/contact-search.module";
+import { UserProfilesModule } from "./modules/user-profiles/user-profiles.module";
 
 @Module({
   imports: [
@@ -70,6 +71,7 @@ import { ContactSearchModule } from "./modules/contact-search/contact-search.mod
     }),
     AuthModule,
     ContactSearchModule,
+    UserProfilesModule,
   ],
   controllers: [],
   providers: [],
