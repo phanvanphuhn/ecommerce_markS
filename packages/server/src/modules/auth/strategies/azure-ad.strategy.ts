@@ -8,6 +8,7 @@ const config = {
     tenantID: process.env.AZURE_TENANT_ID || "",
     clientID: process.env.AZURE_CLIENT_ID || "",
     audience: process.env.AZURE_CLIENT_ID || "",
+    clientSecret: process.env.AZURE_CLIENT_SECRET || "",
   },
   metadata: {
     authority: "login.microsoftonline.com",
@@ -19,7 +20,7 @@ const config = {
     passReqToCallback: false,
     loggingLevel: "info",
   },
-  // exposedScopes: ["Files.Read"],
+  exposedScopes: ["email", "user.read"],
 };
 
 @Injectable()
@@ -38,6 +39,7 @@ export class AzureAdStrategy extends PassportStrategy(
       loggingLevel: config.settings.loggingLevel,
       // scope: config.exposedScopes,
       loggingNoPII: false,
+      clientSecret: config.credentials.clientSecret,
     });
   }
 

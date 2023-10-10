@@ -9,6 +9,8 @@ import {
 import { UseGuards } from "@nestjs/common";
 import { GraphQLJSON } from "graphql-scalars";
 
+import { UserEntity } from '@/common/decorators/user.decorator';
+
 import { AuthService } from "./auth.service";
 import { LoginInput } from "./dto/login.input";
 import { RefreshTokenInput } from "./dto/refresh-token.input";
@@ -18,10 +20,9 @@ import { AzureAuthGuard } from "./guards/azure-ad.guard";
 
 @Resolver(() => Token)
 export class AuthResolver {
-  @Query(() => String, { name: "login" })
+  @Query(() => GraphQLJSON, { name: "xxxx" })
   @UseGuards(AzureAuthGuard)
-  async login(@Args("data") data: LoginInput) {
-    const test = data;
-    return "hi";
+  async login(@UserEntity() user: any) {
+    return user;
   }
 }

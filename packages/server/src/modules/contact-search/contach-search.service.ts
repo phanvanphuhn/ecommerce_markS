@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { Expression, Sql, SqlBool } from "kysely";
+import { Expression, SqlBool } from "kysely";
 
 import { Database } from "../_database/database";
 
