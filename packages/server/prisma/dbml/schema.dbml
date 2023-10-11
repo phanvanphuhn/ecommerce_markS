@@ -4,7 +4,8 @@
 
 Table ContactSearch {
   id Int [pk, increment]
-  networkId String
+  salesRepEmail String
+  hospitalId String
   hospital String
   topicsOfInterest String
   doctorName String
@@ -15,12 +16,12 @@ Table ContactSearch {
   doctorSpecialty String
   doctorSalutation String
   doctorTitle String
-  doctorPhone String
+  doctorPhone BigInt
 }
 
 Table Complaint {
   id Int [pk, increment]
-  networkId String
+  salesRepEmail String
   complaintName String
   recordType String
   complaintStatus String
@@ -35,9 +36,8 @@ Table Complaint {
 
 Table UserProfile {
   id Int [pk, increment]
-  networkId String
+  salesRepEmail String
   fullName String
-  email String
   country String
   division String
   reportingTo String

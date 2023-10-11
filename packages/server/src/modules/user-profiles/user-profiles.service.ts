@@ -8,12 +8,12 @@ import { UserProfileOutput } from "./dto/user-profile.dto";
 export class UserProfilesService {
   constructor(private readonly database: Database) {}
 
-  async getUserProfileByNetworkId(
-    networkId: string
+  async getUserProfileBySalesRepEmail(
+    salesRepEmail: string
   ): Promise<UserProfileOutput[]> {
     const result = await this.database
       .selectFrom("marks.UserProfile")
-      .where("networkId", "=", networkId)
+      .where("salesRepEmail", "=", salesRepEmail)
       .selectAll()
       .execute();
     return result.map((item) => new UserProfileOutput(item));

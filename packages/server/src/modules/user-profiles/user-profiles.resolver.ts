@@ -8,7 +8,7 @@ export class UserProfilesResolver {
   constructor(private readonly userProfilesService: UserProfilesService) {}
 
   @Query(() => [UserProfileOutput])
-  async getUserProfileByNetworkId(@Args("networkId") networkId: string) {
-    return this.userProfilesService.getUserProfileByNetworkId(networkId);
+  async getUserProfileBySalesRepEmail(@Args("salesRepEmail") salesRepEmail: string) {
+    return this.userProfilesService.getUserProfileBySalesRepEmail(salesRepEmail);
   }
 }

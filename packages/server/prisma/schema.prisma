@@ -31,7 +31,8 @@ generator dbml {
 
 model ContactSearch {
   id                     Int     @id @default(autoincrement())
-  networkId              String?
+  salesRepEmail          String?
+  hospitalId             String?
   hospital               String?
   topicsOfInterest       String?
   doctorName             String?
@@ -42,12 +43,12 @@ model ContactSearch {
   doctorSpecialty        String?
   doctorSalutation       String?
   doctorTitle            String?
-  doctorPhone            String?
+  doctorPhone            BigInt?
 }
 
 model Complaint {
   id              Int       @id @default(autoincrement())
-  networkId       String?
+  salesRepEmail   String?
   complaintName   String?
   recordType      String?
   complaintStatus String?
@@ -63,10 +64,9 @@ model Complaint {
 model UserProfile {
   id Int @id @default(autoincrement())
 
-  networkId   String?
-  fullName    String?
-  email       String?
-  country     String?
-  division    String?
-  reportingTo String?
+  salesRepEmail String?
+  fullName      String?
+  country       String?
+  division      String?
+  reportingTo   String?
 }

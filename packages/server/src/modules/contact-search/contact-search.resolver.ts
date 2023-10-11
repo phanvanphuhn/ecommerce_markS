@@ -22,17 +22,17 @@ export class ContactSearchResolver {
   }
 
   @Query(() => [String])
-  async getFilterHospitalList(@Args("networkId") networkId: string) {
-    return this.contactSearchService.getFilterHospitalList(networkId);
+  async getFilterHospitalList(@Args("salesRepEmail") salesRepEmail: string) {
+    return this.contactSearchService.getFilterHospitalList(salesRepEmail);
   }
 
   @Query(() => [String])
-  async getFilterSpecialtyList(@Args("networkId") networkId: string) {
-    return this.contactSearchService.getFilterSpecialtyList(networkId);
+  async getFilterSpecialtyList(@Args("salesRepEmail") salesRepEmail: string) {
+    return this.contactSearchService.getFilterSpecialtyList(salesRepEmail);
   }
 
   @Query(() => [String])
-  async getFilterDivisionList(@Args("networkId") networkId: string) {
-    return this.contactSearchService.getFilterDivisionList(networkId);
+  async getFilterDivisionList(@Args("salesRepEmail") salesRepEmail: string) {
+    return this.contactSearchService.getFilterDivisionList(salesRepEmail);
   }
 }

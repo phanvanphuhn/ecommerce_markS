@@ -8,11 +8,9 @@ export class UserProfileOutput {
   @Field(() => Number, { nullable: true })
   id: number;
   @Field(() => String, { nullable: true })
-  networkId: string;
-  @Field(() => String, { nullable: true })
   fullName: string;
   @Field(() => String, { nullable: true })
-  email: string;
+  salesRepEmail: string;
   @Field(() => String, { nullable: true })
   country: string;
   @Field(() => String, { nullable: true })

@@ -28,7 +28,7 @@ export class ContactSearchService {
         "doctorEmail",
         "doctorPhone",
       ])
-      .where("networkId", "=", filter.networkId)
+      .where("salesRepEmail", "=", filter.salesRepEmail)
       .orderBy("doctorName", "asc")
       .groupBy([
         "id",
@@ -82,11 +82,11 @@ export class ContactSearchService {
     return dbResponse.map((row) => new ContactSearchOutput(row));
   }
 
-  async getFilterHospitalList(networkId: string): Promise<string[]> {
+  async getFilterHospitalList(salesRepEmail: string): Promise<string[]> {
     const dbResponse = await this.database
       .selectFrom("marks.ContactSearch")
       .select(["hospital"])
-      .where("networkId", "=", networkId)
+      .where("salesRepEmail", "=", salesRepEmail)
       .orderBy("hospital", "asc")
       .groupBy(["hospital"])
       .execute();
@@ -94,11 +94,11 @@ export class ContactSearchService {
     return dbResponse.map((row) => row.hospital);
   }
 
-  async getFilterSpecialtyList(networkId: string): Promise<string[]> {
+  async getFilterSpecialtyList(salesRepEmail: string): Promise<string[]> {
     const dbResponse = await this.database
       .selectFrom("marks.ContactSearch")
       .select(["doctorSpecialty"])
-      .where("networkId", "=", networkId)
+      .where("salesRepEmail", "=", salesRepEmail)
       .orderBy("doctorSpecialty", "asc")
       .groupBy(["doctorSpecialty"])
       .execute();
@@ -106,11 +106,11 @@ export class ContactSearchService {
     return dbResponse.map((row) => row.doctorSpecialty);
   }
 
-  async getFilterDivisionList(networkId: string): Promise<string[]> {
+  async getFilterDivisionList(salesRepEmail: string): Promise<string[]> {
     const dbResponse = await this.database
       .selectFrom("marks.ContactSearch")
       .select(["doctorDivision"])
-      .where("networkId", "=", networkId)
+      .where("salesRepEmail", "=", salesRepEmail)
       .orderBy("doctorDivision", "asc")
       .groupBy(["doctorDivision"])
       .execute();

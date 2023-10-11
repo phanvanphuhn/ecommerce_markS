@@ -32,11 +32,11 @@ scalar JSON @specifiedBy(url: "http://www.ecma-international.org/publications/fi
 
 type Query {
   getDoctorProfile(doctorName: String!): [DoctorDetail!]!
-  getDoctorSearchList(doctorDivision: String, doctorName: String, doctorSpecialty: String, doctorTitle: String, hospital: String, networkId: String!): [ContactSearchOutput!]!
-  getFilterDivisionList(networkId: String!): [String!]!
-  getFilterHospitalList(networkId: String!): [String!]!
-  getFilterSpecialtyList(networkId: String!): [String!]!
-  getUserProfileByNetworkId(networkId: String!): [UserProfileOutput!]!
+  getDoctorSearchList(doctorDivision: String, doctorName: String, doctorSpecialty: String, doctorTitle: String, hospital: String, salesRepEmail: String!): [ContactSearchOutput!]!
+  getFilterDivisionList(salesRepEmail: String!): [String!]!
+  getFilterHospitalList(salesRepEmail: String!): [String!]!
+  getFilterSpecialtyList(salesRepEmail: String!): [String!]!
+  getUserProfileBySalesRepEmail(salesRepEmail: String!): [UserProfileOutput!]!
   xxxx: JSON!
 }
 
