@@ -1,10 +1,10 @@
 // best desing in
 // iphone 6 (w:375)
 // android (w:420)
-import { Dimensions, Platform, StatusBar } from 'react-native';
-import { isIphoneX } from 'react-native-iphone-x-helper';
+import {Dimensions, Platform, StatusBar} from 'react-native';
+import {isIphoneX} from 'react-native-iphone-x-helper';
 
-export const { width, height } = Dimensions.get('window');
+export const {width, height} = Dimensions.get('screen');
 
 class Size {
   // HEIGHT_POINT_IOS = 667;
@@ -20,7 +20,8 @@ class Size {
 
   _screen_height = Dimensions.get('window').height;
 
-  _getSize = (value: number) => (value * this.width) / (this.os === 'ios' ? 414 : 414);
+  _getSize = (value: number) =>
+    (value * this.width) / (this.os === 'ios' ? 414 : 414);
 
   _1sdp = this._getSize(1);
 
@@ -2090,10 +2091,10 @@ class Size {
         ? this._40sdp
         : this._20sdp
       : Platform.Version >= 21
+      ? StatusBar.currentHeight
         ? StatusBar.currentHeight
-          ? StatusBar.currentHeight
-          : 0
-        : 0;
+        : 0
+      : 0;
 
   _header_height = this._statusbar_height + this._50sdp;
 

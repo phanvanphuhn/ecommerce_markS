@@ -1,0 +1,71 @@
+default_platform(:android)
+
+platform :android do
+
+  desc 'Build and upload to Deploygate.'
+  lane :uploadToDeploygate do |params|
+    deploygate(
+      api_token: "aff502f1-5d05-4ada-9736-6a0161a865ac",
+      user: "taikhoantest",
+      apk: "./fastlane/apk/#{params[:envi]}/app-#{params[:envi]}.apk",
+      message: "Build #{lane_context[SharedValues::BUILD_NUMBER]}",
+      )
+  end
+
+  desc 'Build and upload to CHPlay.'
+  lane :playstore do |params|
+    # ...
+    upload_to_play_store(
+      track: 'production',
+      package_name:'com.bsc.marks',
+      aab:"./fastlane/aab/#{params[:envi]}/app-#{params[:envi]}.aab"
+    )
+  end
+
+
+  desc 'Build and upload to App Center.'
+  lane :uploadToAppcenter do |params|
+    appcenter_upload(
+      api_token: ENV["APPCENTER_API_TOKEN"],
+      owner_name: ENV["APPCENTER_OWNER_NAME"],
+      app_name: ENV["APPCENTER_APP_NAME"],
+      apk:"./fastlane/apk/#{params[:envi]}/app-#{params[:envi]}.apk",
+      destinations: ENV["APPCENTER_GROUP"],
+      destination_type: "group"
+    )
+  end
+
+  desc "Build and push a new build to FireBase App Distribution"
+  lane :uploadAPK do |options|
+    environment = "#{
+      options[:envi] == "Production" ? 'Production' : 'Staging'
+    }"
+    gradle(task: 'clean', project_dir: './')
+    if environment == 'Production'
+      gradle(task: 'bundle', build_type: "#{environment}", project_dir: './')
+    else
+      gradle(task: 'assemble', build_type: "#{environment}", project_dir: './')
+    end
+
+    # Copy file build to apk folder
+    copy_artifacts(
+      artifacts: ["*/build/outputs/apk/#{environment}/*.apk"],
+      target_path: "./fastlane/apk/#{environment}"
+    )
+    copy_artifacts(
+      artifacts: ["*/build/outputs/bundle/#{environment}/*.aab"],
+      target_path: "./fastlane/aab/#{environment}"
+    )
+    copy_artifacts(
+      artifacts: ["*/build/outputs/apk/#{environment}/*.json"],
+      target_path: "./fastlane/apk/#{environment}"
+    )
+    if options[:envi] == "Staging"
+      uploadToAppcenter(envi: environment)
+    end
+    # if options[:envi] == "Production"
+    #   playstore(envi: environment)
+    # end
+    #     uploadToAppcenter
+  end
+end

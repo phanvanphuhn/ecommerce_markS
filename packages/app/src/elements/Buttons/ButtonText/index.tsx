@@ -2,11 +2,12 @@ import {useTheme} from 'configs/ChangeTheme';
 import Text, {TextProps} from 'elements/Text';
 import React, {memo} from 'react';
 import {
+  ActivityIndicator,
   ColorValue,
+  DimensionValue,
   StyleSheet,
   TouchableOpacity,
   ViewStyle,
-  ActivityIndicator,
 } from 'react-native';
 import colors from 'res/colors';
 import Theme from 'res/style/Theme';
@@ -25,7 +26,8 @@ interface ButtonTextProps {
   blueLight?: boolean;
   disabled?: boolean;
   isLoading?: boolean;
-  height?: number | string;
+  height?: DimensionValue;
+  boderRadius?: number;
 }
 
 const ButtonText = memo(
@@ -35,14 +37,13 @@ const ButtonText = memo(
     style,
     titleColor = colors.text,
     onPress,
-    borderColor,
     marginLeft,
     white,
-    blueLight,
     hilight,
     disabled,
     isLoading,
     height,
+    boderRadius,
     ...textProps
   }: ButtonTextProps) => {
     const {theme} = useTheme();
@@ -56,15 +57,15 @@ const ButtonText = memo(
             marginLeft: marginLeft,
             backgroundColor: disabled
               ? String(backgroundColor) + '70'
-              : backgroundColor || theme.backgroundItem,
+              : backgroundColor,
             height: height ? height : 42,
+            borderRadius: boderRadius,
           },
           style,
         ]}
         onPress={onPress}
         activeOpacity={0.54}>
         <Text
-          blueLight={blueLight}
           color={disabled ? titleColor + '98' : titleColor}
           white={white}
           hilight={hilight}
@@ -72,7 +73,7 @@ const ButtonText = memo(
           {title}
         </Text>
         {!!isLoading && (
-          <ActivityIndicator color={colors.White} style={{marginLeft: 10}} />
+          <ActivityIndicator color={colors.white} style={{marginLeft: 10}} />
         )}
       </TouchableOpacity>
     );
@@ -83,9 +84,6 @@ export default ButtonText;
 
 const styles = StyleSheet.create({
   container: {
-    borderWidth: 1,
-    borderRadius: 12,
-    borderColor: colors.White,
     ...Theme.center,
   },
 });

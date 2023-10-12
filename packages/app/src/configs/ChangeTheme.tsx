@@ -1,5 +1,5 @@
 import React, {useCallback, useContext, useMemo, useState} from 'react';
-import {ColorValue, StatusBar} from 'react-native';
+import {ColorValue} from 'react-native';
 import colors from 'res/colors';
 
 export type TMode = 'dark' | 'light';

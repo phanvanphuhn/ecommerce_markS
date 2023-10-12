@@ -11,7 +11,7 @@ import {State} from 'res/type/animated';
 type Props = {
   children: React.ReactNode;
   onLayout: (event: LayoutChangeEvent) => void;
-  animatedHeight: Animated.Node<number>;
+  animatedHeight: number;
   state: State;
   style?: StyleProp<Animated.AnimateStyle<ViewStyle>>;
 };

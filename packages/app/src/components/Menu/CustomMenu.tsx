@@ -1,21 +1,22 @@
 import React, {memo} from 'react';
 import {
   Menu,
-  MenuOptions,
   MenuOption,
+  MenuOptions,
   MenuTrigger,
   renderers,
 } from 'react-native-popup-menu';
 import {
-  View,
-  Text,
-  StyleSheet,
-  StyleProp,
-  ViewStyle,
   ScrollView,
+  StyleProp,
+  StyleSheet,
+  Text,
+  View,
+  ViewStyle,
 } from 'react-native';
 import colors from 'res/colors';
-import {height} from 'configs/Const';
+import {height} from 'res/sizes';
+
 const {Popover, ContextMenu, NotAnimatedContextMenu, SlideInMenu} = renderers;
 interface OptionArray {
   value: string;

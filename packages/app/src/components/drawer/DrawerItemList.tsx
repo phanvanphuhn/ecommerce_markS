@@ -7,17 +7,14 @@ import {
 } from '@react-navigation/native';
 import * as React from 'react';
 
-import {
-  DrawerContentScrollView,
-  DrawerContentComponentProps,
-  DrawerItem,
-} from '@react-navigation/drawer';
+import {DrawerItem} from '@react-navigation/drawer';
 import {
   DrawerDescriptorMap,
   DrawerNavigationHelpers,
 } from '@react-navigation/drawer/lib/typescript/src/types';
 import {View} from 'react-native';
-import { Routes } from 'configs/Routes';
+import {Routes} from 'configs/Routes';
+
 type Props = {
   state: DrawerNavigationState<ParamListBase>;
   navigation: DrawerNavigationHelpers;
@@ -35,9 +32,8 @@ export default function DrawerItemList(props: Props) {
 
   const drawerList = props.state.routes.map((route: any, i: number) => {
     const focused = i === props.state.index;
-    const {title, drawerLabel, drawerIcon} = props.descriptors[
-      route.key
-    ].options;
+    const {title, drawerLabel, drawerIcon} =
+      props.descriptors[route.key].options;
 
     if (!visibleRoutes.includes(route.name)) {
       return <View key={route.key} />;

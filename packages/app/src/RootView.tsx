@@ -1,8 +1,8 @@
 import {InternetConnection} from 'components/InternetConnection';
 import UpdateApp from 'components/UpdateApp';
 import React, {ReactNode} from 'react';
-import {LogBox, StatusBar, StyleSheet, View} from 'react-native';
-import colors from 'res/colors';
+import {LogBox, StyleSheet, View} from 'react-native';
+
 LogBox.ignoreLogs(['Remote debugger']);
 interface Props {
   children?: ReactNode;

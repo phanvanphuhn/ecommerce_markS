@@ -1,9 +1,10 @@
 const colors = {
-  primary: '#003C71',
+  primary: '#012965',
   secondary: '#F3F3F3',
   text: '#002F48',
   text2: '#525560',
   gray: '#696969',
+  gray2: '#F2F2F2',
   border: '#E0E0E0',
   lightGray: '#F4F4F4',
   dark: '#292929',
@@ -16,11 +17,14 @@ const colors = {
   error: '#EB5757',
   warning: '#FB8C00',
   horver: '#EAF6EC',
+  pink2: '#DD99FF',
 
   white: '#FFFFFF',
   whiteOpacity: 'rgba(255,255,255,0.3)',
   blue: '#002965',
   blue2: '#013178',
+  blue3: '#0055D4',
+  blue4: '#E6F0FF',
   lightPink: '#FFB6C1',
   tomato: '#FF6347',
   forestGreen: '#228B22',
@@ -58,7 +62,7 @@ const colors = {
   whiteSpaceBottom: '#FDFDFD',
   whiteText: 'rgba(196, 196, 198, 1)',
   placeholder: 'rgba(97, 97, 101, 1)',
-  borderColor: 'rgba(49, 49, 51, 1)',
+  borderColor: '#CCCCCC',
   transparent: 'transparent',
 };
 

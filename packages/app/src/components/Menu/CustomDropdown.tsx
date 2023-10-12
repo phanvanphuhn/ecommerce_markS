@@ -1,23 +1,18 @@
 import React, {memo, useState} from 'react';
+import {renderers} from 'react-native-popup-menu';
 import {
-  Menu,
-  MenuOptions,
-  MenuOption,
-  MenuTrigger,
-  renderers,
-} from 'react-native-popup-menu';
-import {
-  View,
-  Text,
-  StyleSheet,
-  StyleProp,
-  ViewStyle,
   ScrollView,
+  StyleProp,
+  StyleSheet,
+  Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
+  View,
+  ViewStyle,
 } from 'react-native';
 import colors from 'res/colors';
 import {height} from 'configs/Const';
+
 const {Popover, ContextMenu, NotAnimatedContextMenu, SlideInMenu} = renderers;
 interface OptionArray {
   value: string;
@@ -54,7 +49,6 @@ const CustomDropdown = ({
   return (
     <TouchableWithoutFeedback
       onPress={() => {
-        debugger;
         setIsShow(false);
       }}
       {...props}>

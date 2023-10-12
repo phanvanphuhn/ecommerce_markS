@@ -1,14 +1,12 @@
 import React from 'react';
-import * as PropTypes from 'prop-types';
 import Modal from 'react-native-modal';
-import {View, StyleSheet, Text, StyleProp, TextStyle} from 'react-native';
+import {StyleProp, StyleSheet, Text, TextStyle, View} from 'react-native';
 
 // Components
-
 // Styles
-
 import colors from 'res/colors';
 import sizes from 'res/sizes';
+
 interface Props {
   isVisibleModal: boolean;
   title?: string;

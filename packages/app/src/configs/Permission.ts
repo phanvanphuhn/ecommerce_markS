@@ -1,11 +1,5 @@
-import {Alert, Platform} from 'react-native';
-import {
-  check,
-  PERMISSIONS,
-  request,
-  RESULTS,
-  openSettings,
-} from 'react-native-permissions';
+import {Platform} from 'react-native';
+import {check, PERMISSIONS, request} from 'react-native-permissions';
 
 export type PermissionStatus =
   | 'unavailable'

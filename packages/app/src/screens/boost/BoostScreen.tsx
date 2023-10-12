@@ -1,14 +1,15 @@
 import React, {useState} from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import {StyleSheet, Text} from 'react-native';
+import Container from 'elements/Layout/Container';
 
 interface BoostScreenProps {}
 
 const BoostScreen = (props: BoostScreenProps) => {
   const [state, setState] = useState();
   return (
-    <View style={styles.container}>
+    <Container style={styles.container}>
       <Text>BoostScreen</Text>
-    </View>
+    </Container>
   );
 };
 

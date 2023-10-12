@@ -1,6 +1,5 @@
-import CreateEmployeeScreen from 'screens/employee/CreateEmployeeScreen';
-import SelectOptionScreen from 'screens/home/SelectOptionScreen';
-import DrawerStack from 'navigation/DrawerStack';
+import DoctorSearchScreen from 'screens/doctor/DoctorSearchScreen';
+import ScanBarCodeScreen from 'screens/scanBarCode/ScanBarCodeScreen';
 
 enum Routes {
   MainTab = 'MainTab',
@@ -26,11 +25,23 @@ enum Routes {
   ImageViewerScreen = 'ImageViewerScreen',
   SalesScreen = 'SalesScreen',
   BoostScreen = 'BoostScreen',
-  PlanScreen = 'PlanScreen',
   ProfileScreen = 'ProfileScreen',
   ComplaintsScreen = 'ComplaintsScreen',
   CaseLogScreen = 'CaseLogScreen',
   LeaderboardScreen = 'LeaderboardScreen',
+
+  //Plan
+  PlanScreen = 'PlanScreen',
+  CallLogScreen = 'CallLogScreen',
+  CaseLogScreen2 = 'CaseLogScreen2',
+
+  // Doctor
+  DoctorSearchScreen = 'DoctorSearchScreen',
+  FilterDoctorScreen = 'FilterDoctorScreen',
+  FilterHospitalScreen = 'FilterHospitalScreen',
+  DetailDoctorScreen = 'DetailDoctorScreen',
+  ScanBarCodeScreen = 'ScanBarCodeScreen',
+  DetailComplaintScreen = 'DetailComplaintScreen',
 }
 
 export default Routes;

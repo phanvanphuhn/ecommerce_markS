@@ -1,6 +1,8 @@
 import Routes from 'configs/Routes';
 import {ImageSource} from 'react-native-image-viewing/dist/@types';
 import {BaseParam} from 'network/BaseParam';
+import {ItemOptionResponse} from 'network/apis/doctor/DoctorResponse';
+import {ItemComplaintResponse} from 'network/apis/complaints/ComplaintResponse';
 
 export interface MainParamList extends Record<string, object | undefined> {
   [Routes.MainTab]: MainTabParams;
@@ -13,19 +15,12 @@ export interface MainParamList extends Record<string, object | undefined> {
   [Routes.VerifyCodeScreen]: VerifyCodeScreen;
   [Routes.SignUpSuccessful]: undefined;
 
-  [Routes.DetailCategoryScreen]: DetailCategoryScreen;
-
   [Routes.ImageViewerScreen]: ImageViewerScreen;
-  [Routes.SelectOptionScreen]: SelectOptionScreen;
+  [Routes.FilterHospitalScreen]: FilterHospitalParam;
+  [Routes.FilterDoctorScreen]: FilterDoctorParam;
+  [Routes.DetailComplaintScreen]: DetailComplaintParam;
 }
 type LoginScreen = undefined;
-type SelectOptionScreen = {
-  api: (params: BaseParam) => Promise<any>;
-};
-type DetailCategoryScreen = {
-  item?: HotDealsItemProp;
-  slug: string;
-};
 type ImageViewerScreen = {
   data: ImageSource[];
   index: number;
@@ -41,3 +36,23 @@ type VerifyCodeScreen = {
 type MainTabParams = {
   screen: string;
 };
+
+interface FilterHospitalParam {
+  onSelected: (item: ItemOptionResponse[]) => void;
+  listSelected: ItemOptionResponse[];
+}
+interface FilterDoctorParam {
+  onSelected: (
+    hospital: ItemOptionResponse[],
+    special: ItemOptionResponse[],
+    division: ItemOptionResponse[],
+    topics: ItemOptionResponse[],
+  ) => void;
+  hospital: ItemOptionResponse[];
+  special: ItemOptionResponse[];
+  division: ItemOptionResponse[];
+  topics: ItemOptionResponse[];
+}
+interface DetailComplaintParam {
+  item: ItemComplaintResponse;
+}

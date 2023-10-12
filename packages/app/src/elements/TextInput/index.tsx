@@ -120,13 +120,15 @@ export default ({
               styles.textInput,
               {
                 lineHeight: lineHeight,
-                color: theme.text,
+                color: colors.text,
               },
               inputStyle,
             ]}
+            placeholderTextColor={
+              props.placeholderTextColor || colors.borderColor
+            }
             secureTextEntry={secureTextEntry}
             editable={props.editable}
-            placeholderTextColor={colors.GrayBlue}
             autoFocus={autoFocus}
             {...props}
           />
@@ -150,7 +152,7 @@ export default ({
         )}
       </View>
       {!!errorName && touchedName && (
-        <Text size={12} marginTop={5} color={colors.Red}>
+        <Text size={12} marginTop={5} color={colors.red}>
           {errorName}
         </Text>
       )}
@@ -160,11 +162,10 @@ export default ({
 
 const styles = StyleSheet.create({
   borderError: {
-    borderColor: colors.Red,
+    borderColor: colors.red,
   },
   container2: {},
   container: {
-    minHeight: 48,
     justifyContent: 'center',
     paddingHorizontal: 16,
     borderRadius: 8,
@@ -182,7 +183,7 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
     ...Theme.center,
-    marginRight: 16,
+    marginRight: 13,
   },
   muli: {
     paddingBottom: 11,
@@ -193,6 +194,5 @@ const styles = StyleSheet.create({
     height: '100%',
     minHeight: 48,
     color: colors.text,
-    fontFamily: 'Inter-SemiBold',
   },
 });

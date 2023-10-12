@@ -1,14 +1,14 @@
 import React, {Key} from 'react';
 import PropTypes from 'prop-types';
 import {
-  StyleSheet,
-  View,
-  Text,
-  Modal,
   ActivityIndicator,
+  Modal,
   StyleProp,
-  ViewStyle,
+  StyleSheet,
+  Text,
   TextStyle,
+  View,
+  ViewStyle,
 } from 'react-native';
 
 const transparent = 'transparent';
@@ -111,9 +111,12 @@ export default class Spinner extends React.PureComponent<Props, State> {
 
   static getDerivedStateFromProps(props: Props, state: State) {
     const newState: State = {visible: false, textContent: ''};
-    if (state.visible !== props.visible) newState.visible = props.visible;
-    if (state.textContent !== props.textContent)
+    if (state.visible !== props.visible) {
+      newState.visible = props.visible;
+    }
+    if (state.textContent !== props.textContent) {
       newState.textContent = props.textContent;
+    }
     return newState;
   }
 

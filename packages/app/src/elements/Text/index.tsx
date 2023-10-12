@@ -1,6 +1,6 @@
 import {useTheme} from 'configs/ChangeTheme';
 import React from 'react';
-import {ColorValue, StyleProp, StyleSheet, Text, TextStyle} from 'react-native';
+import {ColorValue, StyleSheet, Text, TextStyle} from 'react-native';
 import colors from 'res/colors';
 import scale from 'utils/scale';
 
@@ -136,7 +136,7 @@ export default ({
   //   fontStyle = 'Medium';
   // }
   let textSize = size;
-  let lineHeight = size;
+  let lineHeight;
   if (type) {
     textSize = FontSize[`${type}`];
     lineHeight = LineHeight[`${type}`];
@@ -212,7 +212,7 @@ export default ({
             ? colors.grayBlue
             : white
             ? colors.white
-            : color || colors.text,
+            : color || colors.black,
           fontSize: scale(textSize || 14),
           lineHeight: lineHeight,
           textAlign: textAlign,

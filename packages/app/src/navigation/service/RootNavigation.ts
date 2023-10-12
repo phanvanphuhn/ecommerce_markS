@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { StackActions, NavigationContainerRef, CommonActions } from '@react-navigation/native';
-export const navigationRef = React.createRef<NavigationContainerRef>();
+import {NavigationContainerRef, StackActions} from '@react-navigation/native';
+
+export const navigationRef = React.createRef<NavigationContainerRef<any>>();
 export const isReadyRef: any = React.createRef<boolean>();
 export function navigate(name: string, params?: object) {
   if (isReadyRef.current && navigationRef.current) {
@@ -34,7 +35,7 @@ export function reset(name: string, params?: object) {
   if (isReadyRef.current && navigationRef.current) {
     navigationRef.current?.resetRoot({
       index: 0,
-      routes: [{ name, params }],
+      routes: [{name, params}],
     });
   }
 }

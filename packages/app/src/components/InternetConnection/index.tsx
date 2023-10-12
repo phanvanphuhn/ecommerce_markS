@@ -24,7 +24,7 @@ export const InternetConnection = () => {
 
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener(state => {
-      show(state.isConnected && state.isInternetReachable !== false);
+      show(state.isConnected);
     });
     return () => {
       unsubscribe();
@@ -35,7 +35,7 @@ export const InternetConnection = () => {
     <Animated.View
       style={[
         styles.container,
-        {backgroundColor: colors.Red, height: animation},
+        {backgroundColor: colors.red, height: animation},
       ]}>
       <Text style={styles.text}>{'Không có kết nối mạng'}</Text>
     </Animated.View>

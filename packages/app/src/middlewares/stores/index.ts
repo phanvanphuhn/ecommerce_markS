@@ -1,25 +1,36 @@
-import {persistStore, persistReducer} from 'redux-persist';
+import {configureStore} from '@reduxjs/toolkit';
+import {persistReducer, persistStore} from 'redux-persist';
+import thunk from 'redux-thunk';
 import allReducer from 'middlewares/reducers';
-import {applyMiddleware, createStore, compose} from 'redux';
-import thunkMiddleware from 'redux-thunk';
-import logger from 'redux-logger';
+import loggerMiddleware from 'middlewares/enhancers/logger';
+import {useDispatch, useSelector} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
 };
-
-const middleware = [];
-
-middleware.push(thunkMiddleware);
+// Setup Middlewares
+const middleware: any[] = [thunk, loggerMiddleware];
 
 if (__DEV__) {
-  middleware.push(logger);
+  const createDebugger = require('redux-flipper').default;
+  middleware.push(createDebugger());
 }
-export const store = createStore(
-  persistReducer(persistConfig, allReducer),
-  {},
-  compose(applyMiddleware(...middleware)),
-);
+const persistedReducer = persistReducer(persistConfig, allReducer);
+// Create Store
+const store = configureStore({
+  reducer: persistedReducer,
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      immutableCheck: false,
+      serializableCheck: false,
+    }).concat(middleware),
+  devTools: process.env.NODE_ENV !== 'production',
+});
+export type AppDispatch = typeof store.dispatch;
+export const useAppDispatch: () => AppDispatch = useDispatch;
 
-export const persistor = persistStore(store);
+// Setup Store persistence
+const persistor = persistStore(store);
+
+export {store, persistor};

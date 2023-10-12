@@ -1,6 +1,5 @@
-import { memo } from "react";
-import React from "react";
-import { ViewStyle } from "react-native";
+import React, {memo} from 'react';
+import {ViewStyle} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 interface Props {
@@ -9,34 +8,33 @@ interface Props {
   colors?: string[];
   vertical?: boolean;
   locations?: number[];
-  start?: { x: number; y: number };
-  end?: { x: number; y: number };
+  start?: {x: number; y: number};
+  end?: {x: number; y: number};
 }
 
 const LinearColors = memo(
   ({
     children,
     style,
-    colors = ["#D5D1E3", "#F0AAB4"],
+    colors = ['#D5D1E3', '#F0AAB4'],
     vertical = false,
     locations,
     start,
     end,
   }: Props) => {
-    const startLinear = vertical ? { x: 0.5, y: 0 } : { x: 0.0, y: 0.5 };
-    const endLinear = vertical ? { x: 0.5, y: 1 } : { x: 1, y: 0.5 };
+    const startLinear = vertical ? {x: 0.5, y: 0} : {x: 0.0, y: 0.5};
+    const endLinear = vertical ? {x: 0.5, y: 1} : {x: 1, y: 0.5};
     return (
       <LinearGradient
         colors={colors}
         start={start ? start : startLinear}
         end={end ? end : endLinear}
         locations={locations}
-        style={style && style}
-      >
+        style={style && style}>
         {children}
       </LinearGradient>
     );
-  }
+  },
 );
 
 export default LinearColors;

@@ -49,7 +49,9 @@ const ButtonIconHeader = memo(
       }
     }, [onPress]);
     const {theme} = useTheme();
-    if (!canGoBack() && isLeft) return null;
+    if (!canGoBack() && isLeft) {
+      return null;
+    }
     return (
       <TouchableOpacity
         style={[

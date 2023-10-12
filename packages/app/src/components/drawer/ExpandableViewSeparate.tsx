@@ -3,37 +3,25 @@ import {
   DrawerDescriptorMap,
   DrawerNavigationHelpers,
 } from '@react-navigation/drawer/lib/typescript/src/types';
-import {
-  CommonActions,
-  DrawerActions,
-  DrawerNavigationState,
-  ParamListBase,
-} from '@react-navigation/native';
-import {ROLE} from 'common/Constants';
-import {AuthReducer} from 'middlewares/reducers/auth/loginReducer';
+import {DrawerNavigationState, ParamListBase} from '@react-navigation/native';
+import Routes from 'configs/Routes';
 import * as React from 'react';
-import {memo} from 'react';
-import {useMemo} from 'react';
-import {useState} from 'react';
-import {useEffect} from 'react';
+import {memo, useState} from 'react';
 import {
-  LayoutAnimation,
-  StyleSheet,
-  View,
-  Text,
-  ScrollView,
-  UIManager,
-  TouchableOpacity,
-  Platform,
-  ImageSourcePropType,
   Image,
+  ImageSourcePropType,
+  LayoutAnimation,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  UIManager,
+  View,
 } from 'react-native';
-import {useSelector} from 'react-redux';
 import colors from 'res/colors';
 import images from 'res/images';
 import sizes from 'res/sizes';
 import strings from 'res/strings';
-import Routes from 'configs/Routes';
+
 export interface SubMenu {
   id: number;
   value: string;
@@ -85,12 +73,13 @@ export const ExpandableItemComponent = memo(
           icon={({color}) => (
             <Image
               source={item.icon}
-              style={[styles.icon, {tintColor: colors.primary}]}
+              style={[styles.icon, {tintColor: colors.black}]}
             />
           )}
           // focused={true}
           onPress={onPressMenu}
           style={styles.labelStyle}
+          labelStyle={styles.textLabelStyle}
           {...props}
         />
         <View style={[styles.containerContent]}>
@@ -117,38 +106,40 @@ const ExpandableViewSeparate = (props: Props) => {
     {
       category_name: strings.profile,
       route: Routes.ProfileScreen,
-      icon: images.ic_user,
+      icon: images.ic_profile,
     },
     {
       category_name: strings.sales,
       route: Routes.SalesScreen,
-      icon: images.ic_user,
+      icon: images.ic_sale,
     },
     {
       category_name: strings.boost,
       route: Routes.BoostScreen,
-      icon: images.ic_user,
+      icon: images.ic_boost,
     },
     {
       category_name: strings.plan,
       route: Routes.PlanScreen,
-      icon: images.ic_user,
+      icon: images.ic_plan,
     },
     {
       category_name: strings.complaints,
       route: Routes.ComplaintsScreen,
-      icon: images.ic_user,
+      icon: images.ic_complaint,
     },
     {
       category_name: strings.leaderboard,
       route: Routes.LeaderboardScreen,
-      icon: images.ic_user,
+      icon: images.ic_leaderBoard,
+    },
+    {
+      category_name: strings.contact,
+      route: Routes.DoctorSearchScreen,
+      icon: images.ic_contact,
     },
   ]);
   //Main View defined under this Class
-  const userProfile: AuthReducer = useSelector(
-    (state: any) => state.userProfile,
-  );
   React.useLayoutEffect(() => {
     if (Platform.OS === 'android') {
       UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -180,16 +171,24 @@ const ExpandableViewSeparate = (props: Props) => {
 export default ExpandableViewSeparate;
 const styles = StyleSheet.create({
   labelSub: {
-    color: colors.inactive,
+    color: colors.black,
     paddingLeft: sizes._30sdp,
   },
   containerContent: {
     overflow: 'hidden',
   },
-  labelStyle: {borderBottomColor: colors.white, borderBottomWidth: 0.2},
+  textLabelStyle: {
+    color: colors.black,
+    fontWeight: '500',
+    fontSize: 18,
+  },
+  labelStyle: {
+    borderBottomColor: colors.white,
+    borderBottomWidth: 0.2,
+  },
   icon: {
-    width: sizes._20sdp,
-    height: sizes._20sdp,
+    width: sizes._32sdp,
+    height: sizes._32sdp,
     resizeMode: 'contain',
   },
   container: {

@@ -1,19 +1,159 @@
+import Container from 'elements/Layout/Container';
 import React, {useState} from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import colors from 'res/colors';
+import images from 'res/images';
+import InputProfile from './InputProfile';
+import Text from 'elements/Text';
+import Theme from 'res/style/Theme';
 
 interface ProfileScreenProps {}
 
 const ProfileScreen = (props: ProfileScreenProps) => {
-  const [state, setState] = useState();
   return (
-    <View style={styles.container}>
-      <Text>ProfileScreen</Text>
-    </View>
+    <Container title={'My Profile'}>
+      <View style={styles.container}>
+        <View style={styles.wrapHeaderContainer}>
+          <View style={styles.headerContainer}>
+            <Text color={colors.white} size={50} fontWeight={'500'}>
+              JA
+            </Text>
+          </View>
+          <Text size={25} fontWeight={'500'} color={colors.white}>
+            John Appleseed
+          </Text>
+        </View>
+
+        <View style={styles.wrapBodyContainer}>
+          <View style={styles.containerBodyHeader}>
+            <View style={[styles.wrapBodyHeader]}>
+              <Image
+                source={images.ic_goldMedal}
+                style={{height: 70, width: 60}}
+              />
+              <View style={styles.wrapImageTitle}>
+                <Text size={16} fontWeight={'700'} color={colors.black}>
+                  Rank
+                </Text>
+                <Text size={32} fontWeight={'700'} color={colors.black}>
+                  1
+                </Text>
+              </View>
+            </View>
+            <View style={styles.profileInfoContainer}>
+              <Text
+                size={14}
+                color={colors.white}
+                fontWeight={'500'}
+                style={styles.profileTitle}>
+                PROFILE INFO
+              </Text>
+            </View>
+          </View>
+
+          <ScrollView
+            style={{
+              padding: 16,
+              marginTop: 32,
+              flex: 1,
+            }}>
+            <InputProfile title="Email" value="email@email.com" />
+            <InputProfile title="Mobile" value="9111000" />
+            <InputProfile title="Country" value="Singapore" />
+            <InputProfile title="Division" value="IC" />
+            <InputProfile title="Reporting to" value="Jame Tan" />
+            <InputProfile title="Preferred Language" value="English" />
+            <View style={{height: 100}} />
+          </ScrollView>
+        </View>
+      </View>
+    </Container>
   );
 };
 
 export default ProfileScreen;
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    flex: 1,
+    backgroundColor: colors.primary,
+  },
+  wrapHeaderContainer: {
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  headerContainer: {
+    height: 117,
+    width: 117,
+    borderRadius: 999,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'darkblue',
+  },
+  headerProfileTitle: {
+    fontWeight: '500',
+    fontSize: 50,
+  },
+  headerTitle: {
+    fontWeight: '500',
+    fontSize: 25,
+    color: colors.white,
+  },
+  wrapBodyContainer: {
+    flex: 1,
+    backgroundColor: colors.white,
+    borderTopRightRadius: 20,
+    borderTopLeftRadius: 20,
+  },
+  wrapBodyHeader: {
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+
+    flexDirection: 'row',
+  },
+  containerBodyHeader: {
+    backgroundColor: colors.white,
+    shadowColor: '#000000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.18,
+    shadowRadius: 16.0,
+    elevation: 5,
+    borderRadius: 20,
+    paddingTop: 10,
+  },
+  wrapImageTitle: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 5,
+  },
+  imageTitle: {
+    fontWeight: '700',
+    fontSize: 32,
+    color: colors.black,
+  },
+  profileInfoContainer: {
+    backgroundColor: '#0153CC',
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    paddingHorizontal: '10%',
+    paddingVertical: 6,
+    bottom: '-14%',
+  },
+  profileTitle: {
+    color: colors.white,
+    fontSize: 14,
+    fontWeight: '500',
+  },
 });

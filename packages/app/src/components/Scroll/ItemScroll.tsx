@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext } from 'react';
+import {useContext} from 'react';
 import {
   LayoutChangeEvent,
   StyleProp,
@@ -7,7 +7,7 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import { ScrollContext } from './ScrollWrapper';
+import {ScrollContext} from './ScrollWrapper';
 
 interface ItemScrollProps {
   name?: string;
@@ -16,7 +16,7 @@ interface ItemScrollProps {
   children?: React.ReactNode;
 }
 
-const ItemScroll = ({ render, name, style, children }: ItemScrollProps) => {
+const ItemScroll = ({render, name, style, children}: ItemScrollProps) => {
   const scrollContext = useContext(ScrollContext);
   const handleLayout = (event: LayoutChangeEvent) => {
     if (scrollContext && scrollContext.scrollTracker && name) {

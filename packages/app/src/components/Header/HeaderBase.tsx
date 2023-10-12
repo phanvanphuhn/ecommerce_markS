@@ -1,19 +1,22 @@
-import {useLazyQuery} from '@apollo/client';
 import {useNavigation} from '@react-navigation/native';
-import Routes from 'configs/Routes';
-import ButtonIconHeader from 'elements/Buttons/ButtonIconHeader';
 import Text from 'elements/Text';
-import {onAddCountCart} from 'middlewares/actions/cart/actionCart';
-import {RootReducer} from 'middlewares/reducers';
-import {navigate} from 'navigation/service/RootNavigation';
-import React, {useEffect} from 'react';
-import {ImageSourcePropType, SafeAreaView, StyleProp, StyleSheet, View, ViewStyle,} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
+import React from 'react';
+import {
+  ImageSourcePropType,
+  SafeAreaView,
+  StyleProp,
+  StyleSheet,
+  View,
+  ViewStyle,
+  Image,
+} from 'react-native';
 import colors from 'res/colors';
 import images from 'res/images';
 import sizes from 'res/sizes';
 import Theme from 'res/style/Theme';
 import scale from 'utils/scale';
+import ButtonIcon from 'elements/Buttons/ButtonIcon';
+import {useSelector} from 'hooks/useSelector';
 
 export interface HeaderBaseProps {
   title?: string;
@@ -24,6 +27,8 @@ export interface HeaderBaseProps {
   iconLeft?: ImageSourcePropType;
   hideButtonRight?: boolean;
   titleStyle?: StyleProp<ViewStyle>;
+  subTitle?: string | null;
+  iconTile?: ImageSourcePropType;
 }
 const HeaderBase = ({
   title,
@@ -34,30 +39,13 @@ const HeaderBase = ({
   iconLeft,
   hideButtonRight,
   titleStyle,
+  subTitle,
+  iconTile,
 }: HeaderBaseProps) => {
   const router = useNavigation();
-  const cart = useSelector((state: RootReducer) => state.cart);
-  const userProfile = useSelector((state: RootReducer) => state.userProfile);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    const unsubscribe = router.addListener('focus', () => {
-      // The screen is focused
-      // Call any action
-    });
-
-    // Return the function to unsubscribe from the event so it gets removed on unmount
-    return unsubscribe;
-  }, [router]);
+  const userProfile = useSelector(state => state.userProfile);
 
   const onPressBack = () => (onBack ? onBack() : router.goBack());
-  const onSearchCategory = () => router.navigate(Routes.SearchCategoryScreen);
-  const onCart = () => {
-    if (userProfile?.isLogin) {
-      router.navigate(Routes.CartScreen);
-    } else {
-      navigate(Routes.LoginScreen);
-    }
-  };
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.groupHeader}>
@@ -65,33 +53,58 @@ const HeaderBase = ({
           {hideBackButton ? null : buttonLeft ? (
             buttonLeft
           ) : (
-            <ButtonIconHeader
+            <ButtonIcon
               onPress={onPressBack}
               icon={iconLeft ? iconLeft : images.ic_back}
-              isLeft
             />
           )}
         </View>
-        <View style={[styles.containerTitle, titleStyle]}>
-          <Text semiBold size={17} lineHeight={28}>
-            {title}
-          </Text>
+        <View
+          style={[
+            styles.containerTitle,
+            titleStyle,
+            iconTile ? {flexDirection: 'row', alignItems: 'center'} : {},
+          ]}>
+          {iconTile && (
+            <Image
+              source={iconTile}
+              style={{height: 23, width: 23, marginRight: 8}}
+            />
+          )}
+          <View>
+            <Text
+              size={21}
+              fontWeight={'700'}
+              color={colors.white}
+              lineHeight={28}>
+              {title}
+            </Text>
+            {subTitle && (
+              <Text
+                size={14}
+                fontWeight={'300'}
+                color={colors.white}
+                lineHeight={28}>
+                {subTitle}
+              </Text>
+            )}
+          </View>
         </View>
         {buttonRight ? (
           buttonRight
         ) : hideButtonRight ? null : (
           <View style={[Theme.flexRowSpaceAround]}>
-            <ButtonIconHeader
-              icon={images.ic_search}
-              onPress={onSearchCategory}
-            />
-            <ButtonIconHeader
-              icon={images.ic_cart}
-              count={cart?.adOrderCount}
-              marginLeft={10}
-              marginRight={10}
-              onPress={onCart}
-            />
+            {/*<ButtonIconHeader*/}
+            {/*  icon={images.ic_search}*/}
+            {/*  onPress={onSearchCategory}*/}
+            {/*/>*/}
+            {/*<ButtonIconHeader*/}
+            {/*  icon={images.ic_cart}*/}
+            {/*  count={cart?.adOrderCount}*/}
+            {/*  marginLeft={10}*/}
+            {/*  marginRight={10}*/}
+            {/*  onPress={onCart}*/}
+            {/*/>*/}
           </View>
         )}
       </View>
@@ -99,7 +112,7 @@ const HeaderBase = ({
   );
 };
 
-export default HeaderBase;
+export default React.memo(HeaderBase);
 
 const styles = StyleSheet.create({
   buttonHeader: {},
@@ -110,7 +123,7 @@ const styles = StyleSheet.create({
   flex: {flex: 1},
   txtTitle: {
     fontSize: sizes._14sdp,
-    color: colors.White,
+    color: colors.white,
     fontWeight: 'bold',
   },
   containerTitle: {
@@ -135,7 +148,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: scale(16),
   },
   container: {
-    backgroundColor: colors.White,
+    backgroundColor: colors.primary,
     paddingTop: sizes._statusbar_height + 15,
   },
 });

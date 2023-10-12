@@ -6,6 +6,7 @@ import LinearColors from 'elements/LinearColors';
 import Text from 'elements/Text';
 import {useTheme} from 'configs/ChangeTheme';
 import Colors from 'res/colors';
+
 interface ButtonLinearProps {
   title: string;
   style?: ViewStyle;

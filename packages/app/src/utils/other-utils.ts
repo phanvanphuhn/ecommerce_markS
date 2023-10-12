@@ -1,16 +1,10 @@
-import moment from 'moment';
-import {Alert} from 'react-native';
+import {ItemPlanResponse} from 'network/apis/plan/PlanResponse';
+import XDate from 'xdate';
+import {formatNumbers} from 'lib/react-native-calendars/src/dateutils';
+import {TypeDate} from 'res/type/calendar';
+import {useCallback} from 'react';
 import colors from 'res/colors';
-import {
-  AdvertisementProduct,
-  AllOrders,
-  CartCategoryProps,
-  StatusOrderType,
-} from 'res/type/Cart';
-import {AdvertisementProductScheduler, HotDealsItemProp} from 'res/type/Home';
-import short from 'short-uuid';
 
-export const uuidTranslator = short();
 export const checkPhoneNumberVietnamese = /^(\+?84|0|\(\+?84\))[1-9]\d{8,9}$/g;
 const addDate = (endDate: string, endTime: string) => {
   var secondsToMinutes = endTime; //='3:20';
@@ -23,128 +17,9 @@ const addDate = (endDate: string, endTime: string) => {
   date.setHours(hours, minutes, seconds);
   return date;
 };
-export const isVoucher = (e: AdvertisementProductScheduler) => {
-  if (e?.endDate) {
-    let date = addDate(e?.endDate, e?.endTime);
-    let isEndDate = moment(date).diff(moment(), 'second');
-    if (isEndDate > 0) {
-      return true;
-    }
-
-    return false;
-  }
-  return true;
-};
-export const getSlug = (url: string) => {
-  let slug = '';
-  slug = url.split('/').pop() || '';
-
-  return slug;
-};
-export const getPriceVoucher = (item: AdvertisementProduct) => {
-  let price = (item?.schedulers || [])?.reduce((total, curr) => {
-    if (isVoucher(curr)) {
-      if (curr.discountType.toLowerCase() == 'percent') {
-        total = item?.price - (item.price * curr.discountValue) / 100;
-      } else if (curr.discountType.toLowerCase() == 'unit') {
-        total = item.price - curr.discountValue;
-      }
-    } else {
-      total = 0;
-    }
-    return parseInt(String(total));
-  }, 0);
-  return price;
-};
-export const getPriceVoucherColaborator = (item: CartCategoryProps) => {
-  let price = (item?.schedulers || [])?.reduce((total, curr) => {
-    if (curr.discountType.toLowerCase() == 'percent') {
-      total =
-        item?.product?.price -
-        (item?.product?.price * curr.discountValue) / 100;
-    } else if (curr.discountType.toLowerCase() == 'unit') {
-      total = item?.product?.price - curr.discountValue;
-    }
-    return parseInt(String(total));
-  }, 0);
-  return price;
-};
-export const getColor = (status: StatusOrderType, isOpacity?: boolean) => {
-  let color = '';
-  switch (status) {
-    case 'COMPLAIN':
-    case 'RECEIVED':
-      color = colors.Blue;
-      break;
-    case 'PAID':
-      color = colors.borderFocus;
-      break;
-    case 'ON_DELIVERY':
-      color = colors.inactive;
-      break;
-    case 'CANCEL':
-    case 'ORDER_FAILED':
-      color = colors.error;
-      break;
-    case 'BOOKING':
-    case 'AT_WAREHOUSE':
-      color = colors.warning;
-      break;
-
-    default:
-      color = colors.borderFocus;
-      break;
-  }
-  if (isOpacity) {
-    color += '20';
-  }
-  return color;
-};
-export const getNameStatus = (status: StatusOrderType) => {
-  let data = {
-    ['COMPLAIN']: 'Khiếu nại',
-    ['IN_CART']: '',
-    ['BOOKING']: 'Chờ thanh toán',
-    ['PAID']: 'Đã thanh toán',
-    ['ORDERED']: '',
-    ['ORDER_FAILED']: '',
-    ['AT_WAREHOUSE']: '',
-    ['ON_DELIVERY']: 'Đang gửi hàng',
-    ['RECEIVED']: 'Đã nhận',
-    ['CANCEL']: 'Đã hủy',
-  };
-  return data[status];
-};
 export const getFileName = (key: string): string => {
   let fileName = `${key + new Date().getTime()}.jpg`;
   return fileName;
-};
-
-export const createCode = (id: string) => {
-  if (!id) {
-    return '';
-  }
-  return `OH-${uuidTranslator.fromUUID(id)}`;
-};
-export const getCode = (id: string) => {
-  if (!id) {
-    return;
-  }
-  let code = id.split('-')[1];
-  return uuidTranslator.toUUID(String(code));
-};
-export const getPriceProduct = (
-  data: any[],
-  key: 'priceWholeSale' | 'price' | 'feeResale',
-) => {
-  return data.reduce((total, cur) => {
-    if (key == 'feeResale') {
-      total += cur?.[key] * cur.amount || 0;
-    } else {
-      total += cur.product?.[key] * cur.amount || 0;
-    }
-    return total;
-  }, 0);
 };
 
 export function hasOnlyBrChildren(node: any) {
@@ -181,45 +56,61 @@ export const htmltoText = (html: string) => {
   return text;
 };
 
-export const ENVIRONMENT = {
-  DEVELOPMENT: 'DEVELOPMENT',
-  STAGING: 'STAGING',
-  PRODUCTION: 'PRODUCTION',
-};
-export const FIREBASE = {
-  MESSAGING: {
-    TOPIC_BY_ROLE: {
-      ADMIN: 'ADMIN',
-      STAFF: {
-        CUSTOMER_CARE: 'CUSTOMER_CARE',
-        WAREHOUSE: 'WAREHOUSE',
-        ORDER: 'ORDER',
-      },
-      CUSTOMER: 'CUSTOMER',
-      WHOLESALE: 'WHOLESALE',
-    },
-  },
-};
-interface FirebaseTopicParams {
-  forSale?: boolean;
-  forWholeSale?: boolean;
-}
-
-export const getFirebaseTopics = ({
-  forSale,
-  forWholeSale,
-}: FirebaseTopicParams) => {
-  const currentEnvironment = ENVIRONMENT.STAGING;
-
-  let mappedTopics = '';
-
-  if (forSale && forWholeSale) {
-    mappedTopics = `'${currentEnvironment}_${FIREBASE?.MESSAGING?.TOPIC_BY_ROLE?.CUSTOMER}' in topics && '${currentEnvironment}_${FIREBASE?.MESSAGING?.TOPIC_BY_ROLE?.WHOLESALE}' in topics`;
-  } else if (forSale) {
-    mappedTopics = `${currentEnvironment}_${FIREBASE?.MESSAGING?.TOPIC_BY_ROLE?.CUSTOMER}`;
-  } else if (forWholeSale) {
-    mappedTopics = `${currentEnvironment}_${FIREBASE?.MESSAGING?.TOPIC_BY_ROLE?.WHOLESALE}`;
+export const backgroundBodyColor = (item: ItemPlanResponse) => {
+  if (!item) {
+    return;
   }
+  const {status} = item;
+  switch (status) {
+    case 1:
+      return '#FFFFFF';
+    case 2:
+      return '#E7F0FF';
+    case 3:
+      return '#FBFBFB';
+    case 4:
+      return '#DBFDFF';
+  }
+};
 
-  return mappedTopics;
+export const getDateOfType = (type: TypeDate, date: string) => {
+  let currentDate = new XDate(date);
+  let str;
+  switch (type) {
+    case 'Day':
+      let dateStart = new XDate(date);
+      let dayStart = dateStart.getDay();
+      let dateEnd = new XDate(date);
+      let dayEnd = dateEnd.getDay();
+      var weekstart = dateStart.addDays(-(dayStart == 0 ? 7 : dayStart) + 1);
+      var weekend = dateEnd.addDays(7 - (dayEnd == 0 ? 7 : dayEnd));
+      str = `${formatNumbers(weekstart?.toString('d MMM'))} - ${formatNumbers(
+        weekend?.toString('d MMM'),
+      )}`;
+      break;
+    case 'Month':
+      str = formatNumbers(currentDate?.toString('MMMM'));
+      break;
+    case '3-day':
+      str = formatNumbers(currentDate?.toString('MMMM'));
+      break;
+  }
+  return str;
+};
+
+export const renderColorComplaint = (status: string) => {
+  switch (status) {
+    case 'submitted':
+      return colors.primary;
+    case 'not_submitted':
+      return '#80C';
+  }
+};
+export const renderStatusComplaint = (status: string) => {
+  switch (status) {
+    case 'submitted':
+      return 'Submitted';
+    case 'not_submitted':
+      return 'Not submitted';
+  }
 };

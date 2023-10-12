@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import {ImageSource} from 'react-native-image-viewing/dist/@types';
 
-export interface TextProps extends ImageProps {
+export interface IImageProps extends ImageProps {
   tintColor?: ColorValue | string;
   isPreview?: boolean;
   data?: ImageSource[];
@@ -28,16 +28,19 @@ export default ({
   index,
   defaultImage,
   ...props
-}: TextProps) => {
+}: IImageProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
   const {navigate} = useNavigation<BaseUseNavigationProps<MainParamList>>();
   const onPreviewImage = () => {
-    if (data?.length)
+    if (data?.length) {
       navigate(Routes.ImageViewerScreen, {data, index: index || 0});
+    }
   };
   useEffect(() => {
-    if (!props?.source?.uri) setError(true);
+    if (!props?.source?.uri) {
+      setError(true);
+    }
   }, [props?.source?.uri]);
   return (
     <TouchableOpacity onPress={onPreviewImage} disabled={!isPreview}>

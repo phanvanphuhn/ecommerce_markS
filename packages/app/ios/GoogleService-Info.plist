@@ -2,22 +2,18 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CLIENT_ID</key>
-	<string>782462108009-0vpkmqp29ste8kljqhlja6ki1lstnvu7.apps.googleusercontent.com</string>
-	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.782462108009-0vpkmqp29ste8kljqhlja6ki1lstnvu7</string>
 	<key>API_KEY</key>
-	<string>AIzaSyBy-wYSPVQ5AqxmuzR-1j6T02Bs0Sy1oxo</string>
+	<string>AIzaSyCzBphez4WgU6cdB0InzWiFTAgrJOeDTt4</string>
 	<key>GCM_SENDER_ID</key>
-	<string>782462108009</string>
+	<string>614963482879</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.marks.jarvis</string>
+	<string>com.bostonscientific.marks</string>
 	<key>PROJECT_ID</key>
-	<string>jarvis-9a3f3</string>
+	<string>jarvis-mark-s</string>
 	<key>STORAGE_BUCKET</key>
-	<string>jarvis-9a3f3.appspot.com</string>
+	<string>jarvis-mark-s.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:782462108009:ios:045992f32237205431bdf8</string>
+	<string>1:614963482879:ios:0ac18f429562dc92397cca</string>
 </dict>
 </plist>

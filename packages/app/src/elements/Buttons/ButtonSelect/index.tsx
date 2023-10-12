@@ -1,10 +1,10 @@
 import Text from 'elements/Text';
 import * as React from 'react';
 import {
-  View,
+  StyleProp,
   StyleSheet,
   TouchableOpacity,
-  StyleProp,
+  View,
   ViewProps,
 } from 'react-native';
 import colors from 'res/colors';
@@ -64,7 +64,7 @@ const ButtonSelect = (props: ButtonSelectProps) => {
         styles.container,
         props?.style,
       ]}>
-      {!!props?.isSelected ? (
+      {props?.isSelected ? (
         <View style={styles.containerSelected}>
           <View style={styles.selected} />
         </View>

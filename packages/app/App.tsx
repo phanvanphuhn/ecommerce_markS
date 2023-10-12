@@ -21,6 +21,7 @@ import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import 'utils/string-utils';
 import RootView from './src/RootView';
+import SplashScreen from 'screens/SplashScreen/SplashScreen';
 
 const App = () => {
   const loadingRef: any = React.useRef();

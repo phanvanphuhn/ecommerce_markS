@@ -5,6 +5,7 @@ import {
   KeyboardAwareScrollView,
   KeyboardAwareScrollViewProps,
 } from 'react-native-keyboard-aware-scroll-view';
+
 interface IProps extends KeyboardAwareScrollViewProps {
   formik: FormikProps2;
   children: React.ReactNode;
@@ -45,7 +46,9 @@ const ScrollWrapper = ({formik, children, ...props}: IProps) => {
   const scrollRef = useRef<any>();
 
   const setScrollRef = (ref: any) => {
-    if (ref) scrollRef.current = ref;
+    if (ref) {
+      scrollRef.current = ref;
+    }
   };
   const getFirstConditionalKey = (errors: any): string => {
     let position = Infinity;

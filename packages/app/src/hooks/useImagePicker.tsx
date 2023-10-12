@@ -5,6 +5,7 @@ import {
 import ImagePicker, {ImageOrVideo} from 'react-native-image-crop-picker';
 import {PermissionStatus} from 'react-native-permissions';
 import strings from 'res/strings';
+
 const useImagePicker = () => {
   const onChooseCamera = (): Promise<ImageOrVideo> => {
     return new Promise((resolve, reject) => {

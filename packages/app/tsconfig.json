@@ -49,6 +49,9 @@
       "res/*": [
         "src/res/*"
       ],
+      "lib/*": [
+        "src/lib/*"
+      ],
     }
   },
   "exclude": [

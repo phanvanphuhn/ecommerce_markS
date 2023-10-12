@@ -11,22 +11,22 @@ import React, {
   useState,
 } from 'react';
 import {
-  KeyboardTypeOptions,
-  StyleSheet,
-  TouchableOpacity,
-  ViewStyle,
-  TextInput,
   ColorValue,
-  View,
-  TextInputProps,
+  KeyboardTypeOptions,
   LayoutChangeEvent,
+  StyleSheet,
+  TextInput,
   TextStyle,
+  TouchableOpacity,
+  View,
+  ViewStyle,
 } from 'react-native';
 import colors from 'res/colors';
 import Theme from 'res/style/Theme';
 import _ from 'lodash';
 import scale from 'utils/scale';
 import {useScroll} from 'components/Scroll/ScrollWrapper';
+
 interface InputAppProps {
   value: string;
   onChangeText?: (text: string) => void | Dispatch<SetStateAction<string>>;

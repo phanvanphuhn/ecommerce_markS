@@ -1,13 +1,10 @@
-import {useState} from 'react';
-import {useSelector} from 'hooks/useSelector';
 import messaging from '@react-native-firebase/messaging';
 import NotificationApi from 'network/apis/notification/NotificationApi';
 
 interface useNotificationProps {}
 
 const useNotification = () => {
-  const [state, setState] = useState();
-  const userProfile = useSelector(state => state.userProfile);
+  // const userProfile = useSelector(state => state.userProfile);
   const requestPermission = () => {
     messaging()
       .requestPermission()

@@ -1,15 +1,16 @@
 import HeaderBase, {HeaderBaseProps} from 'components/Header/HeaderBase';
 import React from 'react';
 import {
-  View,
+  Platform,
   SafeAreaView,
   StatusBar,
-  Platform,
-  StyleSheet,
   StyleProp,
+  StyleSheet,
+  View,
   ViewStyle,
 } from 'react-native';
 import colors from 'res/colors';
+
 interface Props extends HeaderBaseProps {
   children: React.ReactNode;
   hideHeader?: boolean;
@@ -25,19 +26,38 @@ const Container = ({
   hideHeader,
   style,
   translucent = true,
-  dark = true,
+  dark,
   hideBackground,
   title,
   ...props
 }: Props) => {
   const ContainerComponent = translucent ? View : SafeAreaView;
   return (
-    <View style={[styles.flex, {backgroundColor: colors.White}]}>
+    <View style={[styles.flex, {backgroundColor: colors.white}]}>
       <StatusBar
         backgroundColor={colors.transparent}
         translucent={true}
         barStyle={dark ? 'dark-content' : 'light-content'}
       />
+      {/*<LinearGradient*/}
+      {/*  colors={[*/}
+      {/*    '#137CFF',*/}
+      {/*    '#1775FF',*/}
+      {/*    '#2B6BFF',*/}
+      {/*    '#5457FF',*/}
+      {/*    '#7946FF',*/}
+      {/*    '#B32BFF',*/}
+      {/*    '#BC45FF',*/}
+      {/*    '#AB71FF',*/}
+      {/*    '#9B97FF',*/}
+      {/*    '#91B1FF',*/}
+      {/*    '#80D9FF',*/}
+      {/*    '#77EFFF',*/}
+      {/*  ]}*/}
+      {/*  start={{x: 0.0, y: 0.0}}*/}
+      {/*  end={{x: 0.5, y: 2.0}}*/}
+      {/*  style={{height: 10, width: '100%'}}*/}
+      {/*/>*/}
       {hideHeader ? null : <HeaderBase title={title} {...props} />}
       <ContainerComponent
         style={[styles.flex, translucent ? {} : styles.styleTranslucent]}>

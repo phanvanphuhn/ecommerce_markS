@@ -1,5 +1,5 @@
-import { useEffect, useState, useCallback } from 'react';
-import { Dimensions } from 'react-native';
+import {useCallback, useEffect, useState} from 'react';
+import {Dimensions} from 'react-native';
 
 const screen = Dimensions.get('window');
 
@@ -24,7 +24,7 @@ export function useDeviceOrientation() {
     landscape: isOrientationLandscape(screen),
   });
 
-  const onChange = useCallback((screen) => {
+  const onChange = useCallback(screen => {
     setOrientation({
       portrait: isOrientationPortrait(screen),
       landscape: isOrientationLandscape(screen),
@@ -38,7 +38,7 @@ export function useDeviceOrientation() {
     });
 
     return () => {
-      Dimensions.removeEventListener('change', ()=>{
+      Dimensions.removeEventListener('change', () => {
         const screen = Dimensions.get('window');
         onChange(screen);
       });

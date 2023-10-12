@@ -1,0 +1,73 @@
+# update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  desc 'Fetch certificates and provisioning profiles'
+  lane :certificates do
+    enable_automatic_code_signing
+  end
+
+  desc "Register new devices"
+  lane :register do
+    device_name = prompt(text: "Enter the device name: ")
+    device_udid = prompt(text: "Enter the device UDID: ")
+    device_hash = {}
+    device_hash[device_name] = device_udid
+    register_devices(devices: device_hash)
+    match(force: true)
+  end
+
+  desc 'Fetch certificates. Build the iOS application.'
+  lane :build do
+
+  end
+
+  desc 'Fetch certificates, build and upload to Deploygate.'
+  lane :uploadToDeploygate do |params|
+    deploygate(
+      api_token: "aff502f1-5d05-4ada-9736-6a0161a865ac",
+      user: "taikhoantest",
+      ipa: "./fastlane/ipa/#{params[:envi]}/#{params[:envi]}.ipa",
+      message: "Build #{lane_context[SharedValues::BUILD_NUMBER]}",
+      )
+  end
+
+  desc 'Fetch certificates, build and upload to App Center.'
+  lane :uploadToAppcenter do |params|
+    appcenter_upload(
+      api_token: ENV["APPCENTER_API_TOKEN"],
+      owner_name: ENV["APPCENTER_OWNER_NAME"],
+      app_name: ENV["APPCENTER_APP_NAME"],
+      ipa: "./fastlane/ipa/#{params[:envi]}/#{params[:envi]}.ipa",
+      destinations: ENV["APPCENTER_GROUP"],
+      destination_type: "group"
+    )
+  end
+
+  desc "Push a new build to Fabric and FireBase App Distribution"
+  lane :uploadIPA do |options|
+    environment = "#{
+      options[:envi] == "Production" ? 'Production' : 'Staging'
+    }"
+    enable_automatic_code_signing
+    gym(
+      clean: true,
+      scheme: "#{environment}",
+      workspace: "./marks.xcworkspace",
+      output_directory: "./fastlane/ipa/#{environment}",
+      output_name: "#{environment}.ipa",
+      export_options: { compileBitcode: false },
+      # project: './ios/YourAppName.xcodeproj', # Use this command if you don't have an iOS .xcworkspace file.
+      export_method: options[:envi] == "Production" ? 'app-store' : 'development'
+    )
+    #     uploadToAppcenter
+    if options[:envi] == "Staging"
+      uploadToAppcenter(envi: environment)
+    end
+    # if options[:envi] == "Production"
+    #   uploadToStore()
+    # end
+  end
+
+end

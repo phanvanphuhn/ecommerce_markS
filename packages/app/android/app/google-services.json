@@ -1,43 +1,26 @@
 {
   "project_info": {
-    "project_number": "782462108009",
-    "project_id": "jarvis-9a3f3",
-    "storage_bucket": "jarvis-9a3f3.appspot.com"
+    "project_number": "614963482879",
+    "project_id": "jarvis-mark-s",
+    "storage_bucket": "jarvis-mark-s.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:782462108009:android:f849163024cc59ca31bdf8",
+        "mobilesdk_app_id": "1:614963482879:android:9a6ca6db0a803eb3397cca",
         "android_client_info": {
-          "package_name": "com.marks.jarvis"
+          "package_name": "com.bsc.marks"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "782462108009-8rmonhansbkmaap740gm7mnb4lcl0ifp.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCIK_c-Z7rHz5raqizNj9EKMxO7xUEQsRE"
+          "current_key": "AIzaSyBtQuM2EZVbQo8f7PRU2WHe7NqsuPVQRdE"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "782462108009-8rmonhansbkmaap740gm7mnb4lcl0ifp.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "782462108009-0vpkmqp29ste8kljqhlja6ki1lstnvu7.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.marks.jarvis"
-              }
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

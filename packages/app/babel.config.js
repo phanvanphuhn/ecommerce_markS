@@ -18,9 +18,16 @@ module.exports = {
           res: './src/res',
           screens: './src/screens',
           utils: './src/utils',
+          lib: './src/lib',
         },
       },
     ],
-    'react-native-reanimated/plugin',
+    [
+        'react-native-reanimated/plugin',
+        {
+            globals: ['__scanCodes'],
+        },
+    ],
+
   ],
 };

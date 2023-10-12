@@ -1,0 +1,8 @@
+app_identifier("com.bostonscientific.marks") # The bundle identifier of your app
+apple_id("jeff.phan@bsci.com") # Your Apple email address
+team_id("5M726XS88S") # Developer Portal Team ID
+# github_token("")
+
+
+# For more information about the Appfile, see:
+#     https://docs.fastlane.tools/advanced/#appfile

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import CodePush from 'react-native-code-push';
 import DeviceInfo from 'react-native-device-info';
 import Modal from 'react-native-modal';
@@ -7,6 +7,7 @@ import Modal from 'react-native-modal';
 import * as Progress from 'react-native-progress';
 import codepushUtils from 'utils/codepush-utils';
 import colors from 'res/colors';
+import Text from 'elements/Text';
 const VERSION = DeviceInfo.getVersion() + '.' + DeviceInfo.getBuildNumber();
 
 interface IProgress {
@@ -225,7 +226,7 @@ const styles = StyleSheet.create({
   },
   container: {
     alignItems: 'center',
-    backgroundColor: colors.White,
+    backgroundColor: colors.white,
     paddingTop: 50,
     borderRadius: 10,
   },

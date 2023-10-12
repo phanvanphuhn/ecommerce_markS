@@ -41,20 +41,10 @@ const loginReducer = (
         role: action.role,
         isLogin: true,
       };
-    case actionTypes.SAVE_TIME_SHOW_POPUP:
-      return {
-        ...state,
-        timeShowPopup: action.payload,
-      };
     case actionTypes.SAVE_LOGIN:
       return {
         ...state,
         userLogin: {...state.userLogin, ...action.payload},
-      };
-    case actionTypes.SELECT_POSITION:
-      return {
-        ...state,
-        position: action.payload,
       };
     case actionTypes.LOGOUT:
       return {

@@ -9,7 +9,6 @@ import {
   ViewStyle,
 } from 'react-native';
 import colors from 'res/colors';
-import images from 'res/images';
 import Theme from 'res/style/Theme';
 
 interface ButtonTextProps {

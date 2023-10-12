@@ -97,9 +97,9 @@ export default StyleSheet.create({
     shadowColor: '#000000',
     shadowOffset: {
       width: 0,
-      height: 4,
+      height: 2,
     },
-    shadowOpacity: 0.05,
+    shadowOpacity: 0.8,
     shadowRadius: 4,
     elevation: 4,
   },

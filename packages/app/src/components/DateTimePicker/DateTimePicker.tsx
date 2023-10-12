@@ -1,21 +1,12 @@
 import BottomModal from 'components/ModalBase/ModalBottom';
 import ButtonLinear from 'elements/Buttons/ButtonLinear';
 import Text from 'elements/Text';
-import useModal from 'hooks/useModal';
 import moment from 'moment';
-import React, {
-  useRef,
-  useEffect,
-  useCallback,
-  forwardRef,
-  useState,
-  Ref,
-} from 'react';
+import React, {forwardRef, Ref, useCallback, useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import DatePicker, {DatePickerProps} from 'react-native-date-picker';
+import DatePicker from 'react-native-date-picker';
 import colors from 'res/colors';
 import sizes from 'res/sizes';
-import strings from 'res/strings';
 // import { formatDateDDMMYYYY, formatDateDD_MM_YY } from 'utils/DateTimeUtils';
 
 type TimeType = 'date' | 'time' | 'datetime';

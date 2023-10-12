@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import colors from 'res/colors';
 import Theme from 'res/style/Theme';
-import loading from 'components/Loading/Loading';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 interface ButtonBorderProps {

@@ -1,10 +1,7 @@
 import {useTheme} from 'configs/ChangeTheme';
-import {width} from 'configs/Const';
-import Container from 'elements/Layout/Container';
 import Text from 'elements/Text';
 import React, {memo} from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
-import {getBottomSpace} from 'react-native-iphone-x-helper';
 import colors from 'res/colors';
 import Theme from 'res/style/Theme';
 

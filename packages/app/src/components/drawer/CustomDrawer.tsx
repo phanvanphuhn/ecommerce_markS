@@ -1,30 +1,20 @@
-import * as React from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
 import {
   DrawerContentComponentProps,
   DrawerContentScrollView,
 } from '@react-navigation/drawer';
+import * as React from 'react';
+import {Image, StyleSheet, View} from 'react-native';
+import Animated from 'react-native-reanimated';
 import colors from 'res/colors';
-import Animated, {interpolate} from 'react-native-reanimated';
+import images from 'res/images';
+import sizes from 'res/sizes';
+import strings from 'res/strings';
 import ExpandableViewSeparate, {
   ExpandableItemComponent,
 } from './ExpandableViewSeparate';
-import images from 'res/images';
-import sizes from 'res/sizes';
-import {useDispatch, useSelector} from 'react-redux';
-import {AuthReducer} from 'middlewares/reducers/auth/loginReducer';
-import ButtonText from 'elements/Buttons/ButtonText';
-import strings from 'res/strings';
 // import DrawerItemList from './DrawerItemList';
 
 const CustomDrawer = ({progress, ...props}: DrawerContentComponentProps) => {
-  console.log('props: ', props);
-  const translateX = interpolate(progress, [0, 1], [-100, 0]);
-
-  const userProfile: AuthReducer = useSelector(
-    (state: any) => state.userProfile,
-  );
-  const dispatch = useDispatch();
   const onLogout = () => {
     // dispatch(logout());
     props.navigation.closeDrawer();
@@ -35,9 +25,12 @@ const CustomDrawer = ({progress, ...props}: DrawerContentComponentProps) => {
   return (
     <DrawerContentScrollView {...props}>
       <Animated.View>
-        <View style={styles.containerProfile}>
-          <Text>a</Text>
+        <View style={{overflow: 'hidden', paddingLeft: 16, paddingRight: 16}}>
+          <View style={styles.containerProfile}>
+            <Image source={images.ic_setting} />
+          </View>
         </View>
+
         <ExpandableViewSeparate {...props} />
         <ExpandableItemComponent
           onPress={onLogout}
@@ -59,7 +52,12 @@ const styles = StyleSheet.create({
   },
   containerProfile: {
     alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    paddingLeft: 16,
+    paddingRight: 16,
+    paddingBottom: 16,
+    borderBottomWidth: 1,
   },
   txtName: {
     color: colors.white,

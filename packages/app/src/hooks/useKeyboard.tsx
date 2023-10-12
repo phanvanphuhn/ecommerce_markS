@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {Keyboard, KeyboardEventListener, ScreenRect} from 'react-native';
+import {Keyboard, KeyboardEventListener} from 'react-native';
 
 const emptyCoordinates = Object.freeze({
   screenX: 0,
@@ -15,8 +15,8 @@ const initialValue = {
 const useKeyboard = () => {
   const [shown, setShown] = useState(false);
   const [coordinates, setCoordinates] = useState<{
-    start?: ScreenRect;
-    end: ScreenRect;
+    start?: any;
+    end: any;
   }>(initialValue);
   const [keyboardHeight, setKeyboardHeight] = useState<number>(0);
 

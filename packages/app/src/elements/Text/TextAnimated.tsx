@@ -1,13 +1,6 @@
 import {useTheme} from 'configs/ChangeTheme';
 import React from 'react';
-import {
-  ColorValue,
-  StyleProp,
-  StyleSheet,
-  Text,
-  TextStyle,
-  Animated,
-} from 'react-native';
+import {Animated, ColorValue, StyleSheet, TextStyle} from 'react-native';
 import colors from 'res/colors';
 
 type SizeHeight = {

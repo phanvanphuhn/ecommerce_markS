@@ -1,4 +1,3 @@
-import Routes from "configs/Routes";
-import Constants from "configs/Const";
+import Routes from 'configs/Routes';
 
-export { Routes, Constants };
+export {Routes};

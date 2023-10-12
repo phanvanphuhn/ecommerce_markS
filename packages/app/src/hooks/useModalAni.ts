@@ -1,12 +1,12 @@
-import { useCallback, useState, useRef } from "react";
-import { Animated } from "react-native";
-import { height } from "configs/Const";
+import {useCallback, useState, useRef} from 'react';
+import {Animated} from 'react-native';
+import {height} from 'res/sizes';
 
 const useModalAni = (initValue: boolean = false) => {
   const [visible, setValue] = useState<boolean>(initValue);
   const translateY = useRef(new Animated.Value(height)).current;
   const open = useCallback(() => {
-    setValue((value) => true);
+    setValue(value => true);
     Animated.timing(translateY, {
       toValue: 0,
       duration: 200,

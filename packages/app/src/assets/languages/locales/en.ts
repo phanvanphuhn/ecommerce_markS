@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default {
-  profile: 'Proffile',
+  profile: 'Profile',
   home: 'Home',
   sales: 'Sales',
   boost: 'Boost',
@@ -9,5 +9,28 @@ export default {
   caseLog: 'Case Log',
   complaints: 'Complaints',
   leaderboard: 'Leaderboard',
+  contact: 'Contact Directory',
   logout: 'Logout',
+  loginWithSSO: 'Log in with SSO',
+  filter: 'Filter',
+  sort: 'Sort',
+  search: 'Search',
+  recents: 'Recents',
+  select: 'Select',
+  reset: 'Reset',
+  hospital: 'Hospital',
+  edit: 'Edit',
+  cancel: 'Cancel',
+  salesAchievement: 'Sales Achievement',
+  daily: 'Daily',
+  planScreen: {
+    myEvent: 'My Events',
+  },
+  complaint: {
+    allComplaints: 'All Complaints',
+  },
+  doctor: {
+    titleSearch: 'Contact Search',
+    titleDetail: "Contact's Details",
+  },
 };

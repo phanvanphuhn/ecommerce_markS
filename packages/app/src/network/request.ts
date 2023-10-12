@@ -1,14 +1,15 @@
-import Axios, { AxiosInstance } from 'axios';
-import { logError, logResponse } from 'utils/log-utils';
-import { store } from 'middlewares/stores';
+import Axios from 'axios';
+import {logError} from 'utils/log-utils';
+import {store} from 'middlewares/stores';
 import strings from 'res/strings';
 import HostConfig from './HostConfig';
-import { AuthReducer } from 'middlewares/reducers/auth/loginReducer';
-import { hideLoading, showLoading } from 'components/Loading/LoadingComponent';
+import {AuthReducer} from 'middlewares/reducers/auth/loginReducer';
+import {hideLoading, showLoading} from 'components/Loading/LoadingComponent';
 import ResponseCode from './ResponseCode';
-import { BaseResponse } from './BaseResponse';
+import {BaseResponse} from './BaseResponse';
 import snackbarUtils from 'utils/snackbar-utils';
 import RNFetchBlob from 'rn-fetch-blob';
+
 const codeMessage: any = {
   200: 'Máy chủ đã trả lại thành công dữ liệu được yêu cầu.',
   201: 'Dữ liệu mới hoặc đã sửa đổi thành công.',
@@ -80,7 +81,7 @@ export enum RequestMethod {
 const TIMEOUT_MESSAGE = 'TIMEOUT';
 const TIMEOUT = 30 * 1000; // 30 seconds
 const TIMEOUT_UPLOAD_FILE = 5 * 60 * 1000; // 5 minutes
-const { CancelToken } = Axios;
+const {CancelToken} = Axios;
 
 const instance = Axios.create({
   baseURL: HostConfig.BASE_URL + HostConfig.PREFIX,
@@ -113,7 +114,7 @@ class ApiClient {
         configTemp.cancelToken = new CancelToken(cancel => {
           this.mapRequestCancel.set(url, cancel);
         });
-        const { user, role, loginToken }: AuthReducer =
+        const {user, role, loginToken}: AuthReducer =
           store.getState().userProfile;
         if (loginToken && loginToken.length > 0) {
           configTemp.headers.Authorization = loginToken;
@@ -154,13 +155,16 @@ class ApiClient {
         };
       }
       console.log('config: ', config);
-      request = instance.post(url, params, { headers: config, withCredentials: true });
+      request = instance.post(url, params, {
+        headers: config,
+        withCredentials: true,
+      });
     } else if (method === RequestMethod.PUT) {
       request = instance.put(url, params);
     } else if (method === RequestMethod.DELETE) {
-      request = instance.delete(url, { data: params });
+      request = instance.delete(url, {data: params});
     } else {
-      request = instance.get(url, { params });
+      request = instance.get(url, {params});
     }
     return Promise.race([
       request,
@@ -291,8 +295,10 @@ class ApiClient {
           }
         }
         if (response.status == ResponseCode.UNAUTHORIZED) {
-          snackbarUtils.show(response?.message || "Bạn phải đăng nhập để sử dụng chức năng này!", 'danger');
-
+          snackbarUtils.show(
+            response?.message || 'Bạn phải đăng nhập để sử dụng chức năng này!',
+            'danger',
+          );
         }
         return response;
         // }

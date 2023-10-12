@@ -10,7 +10,6 @@ import {
   ViewStyle,
 } from 'react-native';
 import colors from 'res/colors';
-import images from 'res/images';
 import Theme from 'res/style/Theme';
 
 interface ButtonIconProps {
@@ -25,8 +24,6 @@ interface ButtonIconProps {
   marginLeft?: number;
   marginHorizontal?: number;
   marginVertical?: number;
-  borderColor?: string;
-  borderRadius?: number;
   disabled?: boolean;
   onPress?: () => void;
 }
@@ -34,14 +31,12 @@ interface ButtonIconProps {
 const ButtonIcon = memo(
   ({
     icon,
-    backgroundColor = colors.White,
+    backgroundColor,
     tintColor,
     marginRight,
     marginLeft,
     marginHorizontal,
     marginVertical,
-    borderColor,
-    borderRadius = 16,
     height = 32,
     width = 32,
     style,
@@ -61,18 +56,11 @@ const ButtonIcon = memo(
         style={[
           styles.container,
           {
-            backgroundColor: disabled ? colors.Platinum : backgroundColor,
+            backgroundColor: disabled ? colors.gray : backgroundColor,
             marginRight: marginRight,
             marginLeft: marginLeft,
             marginHorizontal: marginHorizontal,
             marginVertical: marginVertical,
-            borderColor: borderColor
-              ? borderColor
-              : disabled
-              ? colors.Platinum
-              : backgroundColor,
-            borderWidth: 1,
-            borderRadius: borderRadius,
             height: height,
             width: width,
           },
