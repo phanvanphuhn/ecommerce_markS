@@ -3,7 +3,12 @@ apply plugin: "com.facebook.react"
 apply plugin: 'com.google.gms.google-services'
 apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
 apply from: file("../../node_modules/react-native-vector-icons/fonts.gradle")
-
+project.ext.envConfigFiles = [
+        Production: ".env.production",
+        debug: ".env.development",
+        Staging: ".env.staging",
+]
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 import com.android.build.OutputFile
 
 /**

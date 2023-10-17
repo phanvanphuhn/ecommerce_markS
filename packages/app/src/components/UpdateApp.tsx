@@ -24,7 +24,10 @@ interface IState {
 class UpdateApp extends Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
-    this.state = {restartAllowed: true, isVisibleModal: false};
+    this.state = {
+      restartAllowed: true,
+      isVisibleModal: false,
+    };
   }
 
   componentDidMount() {
@@ -38,11 +41,14 @@ class UpdateApp extends Component<IProps, IState> {
     codepushUtils
       .checkupDate()
       .then(update => {
+        console.log('=>(UpdateApp.tsx:49) update', update);
         if (update) {
           this.setState({isVisibleModal: true});
         }
       })
-      .catch(err => {});
+      .catch(err => {
+        console.log('=>(UpdateApp.tsx:52) err', err);
+      });
     //   }
     // });
   }
@@ -50,10 +56,10 @@ class UpdateApp extends Component<IProps, IState> {
   codePushStatusDidChange(syncStatus) {
     switch (syncStatus) {
       case CodePush.SyncStatus.CHECKING_FOR_UPDATE:
-        this.setState({syncMessage: 'Đang kiểm tra cập nhật'});
+        this.setState({syncMessage: 'Checking for updates'});
         break;
       case CodePush.SyncStatus.DOWNLOADING_PACKAGE:
-        this.setState({syncMessage: 'Đang tải xuống'});
+        this.setState({syncMessage: 'Downloading...'});
         break;
       case CodePush.SyncStatus.AWAITING_USER_ACTION:
         this.setState({syncMessage: 'Awaiting user action.'});
@@ -84,7 +90,7 @@ class UpdateApp extends Component<IProps, IState> {
         break;
       case CodePush.SyncStatus.UNKNOWN_ERROR:
         this.setState({
-          syncMessage: 'Có lỗi xảy ra vui lòng thử lại!',
+          syncMessage: 'An error occurred, please try again!',
           progress: undefined,
         });
         break;
@@ -151,7 +157,12 @@ class UpdateApp extends Component<IProps, IState> {
         <View style={{paddingTop: 10}}>
           <Progress.Bar progress={percent / 100} width={200} />
           <Text style={styles.messages}>
-            {this.state.progress.receivedBytes}/{this.state.progress.totalBytes}
+            {(
+              (this.state.progress.receivedBytes /
+                this.state.progress.totalBytes) *
+              100
+            ).toFixed()}
+            %
           </Text>
         </View>
       );
@@ -160,36 +171,28 @@ class UpdateApp extends Component<IProps, IState> {
       <Modal
         isVisible={this.state.isVisibleModal}
         style={styles.containerModal}
-        animationIn="zoomInDown"
-        animationOut="zoomOutUp"
+        animationIn="slideInDown"
+        animationOut="slideOutDown"
         backdropOpacity={0.8}
         animationInTiming={600}
         animationOutTiming={600}
         backdropTransitionInTiming={0}
         backdropTransitionOutTiming={0}>
         <View style={styles.container}>
-          <Text style={{textAlign: 'center', fontSize: 18}}>
-            Ứng dụng đã có phiên bản mới. Bạn vui lòng cập nhật để có trải
-            nghiệm tốt nhất!
+          <Text size={20} fontWeight={'700'}>
+            Notification
+          </Text>
+          <Text marginTop={10} size={18} center={true} fontWeight={'300'}>
+            The application has a new version
           </Text>
           {progressView}
           <Text style={styles.messages}>{this.state.syncMessage || ''}</Text>
-          <Text>Phiên bản {VERSION}</Text>
+          <Text>Current Version: {VERSION}</Text>
           <View style={styles.containerButtonUpdate}>
-            <TouchableOpacity
-              onPress={this.onCloseModal}
-              style={[
-                styles.buttonUpdate,
-                {
-                  borderRightColor: '#00000060',
-                },
-              ]}>
-              <Text style={styles.txLabelButton}>Để sau</Text>
-            </TouchableOpacity>
             <TouchableOpacity
               onPress={this.syncImmediate.bind(this)}
               style={styles.buttonUpdate}>
-              <Text style={styles.txLabelButton}>Cập nhật</Text>
+              <Text style={styles.txLabelButton}>Update</Text>
             </TouchableOpacity>
           </View>
           {/* {this.props.children} */}
@@ -227,11 +230,11 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     backgroundColor: colors.white,
-    paddingTop: 50,
+    paddingTop: 20,
     borderRadius: 10,
   },
   messages: {
-    marginTop: 30,
+    marginTop: 10,
     textAlign: 'center',
   },
   restartToggleButton: {
@@ -250,12 +253,5 @@ const styles = StyleSheet.create({
  * different check frequency, such as ON_APP_START, for a 'hands-off' approach where CodePush.sync() does not
  * need to be explicitly called. All options of CodePush.sync() are also available in this decorator.
  */
-let codePushOptions = {
-  checkFrequency: CodePush.CheckFrequency.MANUAL,
-  //   checkFrequency: CodePush.CheckFrequency.ON_APP_RESUME,
-  updateDialog: false,
-  installMode: CodePush.InstallMode.IMMEDIATE,
-  mandatoryInstallMode: CodePush.InstallMode.IMMEDIATE,
-};
 
-export default CodePush(codePushOptions)(UpdateApp);
+export default UpdateApp;

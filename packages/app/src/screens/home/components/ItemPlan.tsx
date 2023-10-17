@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import colors from 'res/colors';
 import SemiCircleProgress from 'screens/home/components/SemiCircleProgress';
@@ -11,15 +11,26 @@ import Theme from 'res/style/Theme';
 import Image from 'elements/Image';
 import images from 'res/images';
 import strings from 'res/strings';
+import CircleSlider from 'components/Slider/CircleSlider';
+import {useNavigation} from '@react-navigation/core';
+import {BaseUseNavigationProps} from 'navigation/BaseNavigationProps';
+import {MainParamList} from 'navigation/service/NavigationParams';
+import {Routes} from 'configs';
 
 interface ItemPlanProps {
   isPriority?: boolean;
 }
 
 const ItemPlan = (props: ItemPlanProps) => {
-  const [speed, setSpeed] = useState(40);
+  const [speed, setSpeed] = useState(200);
+  const navigation = useNavigation<BaseUseNavigationProps<MainParamList>>();
+  const onDetail = () => {
+    navigation.navigate(Routes.PlanScreen);
+  };
   return (
-    <View style={[Theme.shadow, styles.container]}>
+    <TouchableOpacity
+      onPress={onDetail}
+      style={[Theme.shadow, styles.container]}>
       <View
         style={[
           Theme.flexRowSpace,
@@ -34,32 +45,38 @@ const ItemPlan = (props: ItemPlanProps) => {
         </Text>
         <Image source={images.ic_boost_with_bg} style={{opacity: 0}} />
       </View>
-      <RadialSlider
-        value={speed}
-        min={0}
+      <CircleSlider
         max={200}
-        linearGradient={[
-          {color: '#EFE2AE', offset: '0%'},
-          {color: '#DBA747', offset: '100%'},
-        ]}
-        linearGradientPlaceholder={[
-          {color: '#609', offset: '100%'},
-          {color: '#B22DF3', offset: '0%'},
-        ]}
-        disabled={true}
-        radius={width / 7}
-        thumbRadius={12}
-        sliderWidth={20}
         isHideCircle={true}
-        onChange={setSpeed}>
+        disabled={true}
+        linearGradientColor={[
+          '#0152CB',
+          '#0152CB',
+          '#002563',
+          '#002563',
+          '#001c4d',
+        ]}
+        linearGradientBackgroundColor={[
+          '#474747',
+          '#e6e6e6',
+          '#f2f2f2',
+          '#fff',
+        ]}
+        value={200}
+        width={width / 2 - 50}
+        thumbRadius={22}
+        onUpdate={value => {
+          console.log('=>(SalesScreen.tsx:157) value', value);
+        }}
+        strokeWidth={20}>
         <Text size={17} fontWeight={'700'}>
           2
           <Text size={11} color={colors.borderColor}>
             /2
           </Text>
         </Text>
-      </RadialSlider>
-    </View>
+      </CircleSlider>
+    </TouchableOpacity>
   );
 };
 

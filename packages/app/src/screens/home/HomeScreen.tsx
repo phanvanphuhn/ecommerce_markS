@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {
+  ImageBackground,
   Platform,
   ScrollView,
   StyleSheet,
@@ -26,6 +27,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import Theme from 'res/style/Theme';
 import ItemPlan from 'screens/home/components/ItemPlan';
 import ItemLeaderBoard from 'screens/home/components/ItemLeaderBoard';
+import ItemUser from 'screens/home/components/ItemUser';
 
 interface HomeScreenProps {
   data: UserProfile[];
@@ -121,7 +123,7 @@ const HomeScreen = (props: BaseNavigationProps<MainParamList>) => {
         <View
           style={{
             backgroundColor: colors.blue2,
-            height: height / 4,
+            height: height / 3,
             top: 0,
             left: 0,
             right: 0,
@@ -130,9 +132,7 @@ const HomeScreen = (props: BaseNavigationProps<MainParamList>) => {
         />
         <View style={[Theme.flex1]}>
           <ScrollView>
-            <View>
-              <Text color={colors.white}>aa</Text>
-            </View>
+            <ItemUser />
             <View
               style={{
                 flexDirection: 'row',

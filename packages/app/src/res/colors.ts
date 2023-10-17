@@ -18,6 +18,7 @@ const colors = {
   warning: '#FB8C00',
   horver: '#EAF6EC',
   pink2: '#DD99FF',
+  pink3: '#80C',
 
   white: '#FFFFFF',
   whiteOpacity: 'rgba(255,255,255,0.3)',
@@ -51,7 +52,7 @@ const colors = {
   black68: '#00000068',
   black34: '#00000034',
   //Orange:
-  orange: '#FE9870',
+  orange: '#E5C470',
   //Blue
   //Shadow
   boxShadow: 'rgba(0, 64, 128, 0.04)',
@@ -64,6 +65,7 @@ const colors = {
   placeholder: 'rgba(97, 97, 101, 1)',
   borderColor: '#CCCCCC',
   transparent: 'transparent',
+  green: '#52A545',
 };
 
 export default colors;

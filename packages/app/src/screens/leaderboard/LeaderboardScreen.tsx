@@ -1,14 +1,15 @@
 import React, {useState} from 'react';
 import {Text, View, StyleSheet} from 'react-native';
+import Container from 'elements/Layout/Container';
 
 interface LeaderboardScreenProps {}
 
 const LeaderboardScreen = (props: LeaderboardScreenProps) => {
   const [state, setState] = useState();
   return (
-    <View style={styles.container}>
+    <Container title={'Leader Board'} style={styles.container}>
       <Text>LeaderboardScreen</Text>
-    </View>
+    </Container>
   );
 };
 

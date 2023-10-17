@@ -1,25 +1,31 @@
 import React, {useState} from 'react';
-import {StyleSheet, View} from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import colors from 'res/colors';
-import SemiCircleProgress from 'screens/home/components/SemiCircleProgress';
 import Text from 'elements/Text';
-import ColorPickerSlider from 'screens/home/components/SemiCiclePicker';
-import {RadialSlider} from 'lib/react-native-radial-slider';
 import {width} from 'res/sizes';
 import Theme from 'res/style/Theme';
 import Image from 'elements/Image';
 import images from 'res/images';
 import strings from 'res/strings';
+import {useNavigation} from '@react-navigation/core';
+import {BaseUseNavigationProps} from 'navigation/BaseNavigationProps';
+import {MainParamList} from 'navigation/service/NavigationParams';
+import {Routes} from 'configs';
 
 interface ItemLeaderBoardProps {
   isPriority?: boolean;
 }
 
 const ItemLeaderBoard = (props: ItemLeaderBoardProps) => {
-  const [speed, setSpeed] = useState(40);
+  const [speed, setSpeed] = useState(100);
+  const navigation = useNavigation<BaseUseNavigationProps<MainParamList>>();
+  const onDetail = () => {
+    navigation.navigate(Routes.LeaderboardScreen);
+  };
   return (
-    <View style={[Theme.shadow, styles.container]}>
+    <TouchableOpacity
+      onPress={onDetail}
+      style={[Theme.shadow, styles.container]}>
       <View
         style={[
           Theme.flexRowSpace,
@@ -34,32 +40,11 @@ const ItemLeaderBoard = (props: ItemLeaderBoardProps) => {
         </Text>
         <Image source={images.ic_boost_with_bg} style={{opacity: 0}} />
       </View>
-      <RadialSlider
-        value={speed}
-        min={0}
-        max={200}
-        linearGradient={[
-          {color: '#EFE2AE', offset: '0%'},
-          {color: '#DBA747', offset: '100%'},
-        ]}
-        linearGradientPlaceholder={[
-          {color: '#609', offset: '100%'},
-          {color: '#B22DF3', offset: '0%'},
-        ]}
-        disabled={true}
-        radius={width / 7}
-        thumbRadius={12}
-        sliderWidth={20}
-        isHideCircle={true}
-        onChange={setSpeed}>
-        <Text size={17} fontWeight={'700'}>
-          2
-          <Text size={11} color={colors.borderColor}>
-            /2
-          </Text>
-        </Text>
-      </RadialSlider>
-    </View>
+      <Image
+        source={images.ic_leader_board_gold}
+        style={{width: width / 2 - 80, height: width / 2 - 80, marginTop: 20}}
+      />
+    </TouchableOpacity>
   );
 };
 

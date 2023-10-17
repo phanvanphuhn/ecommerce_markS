@@ -5,11 +5,12 @@ export interface ItemOptionResponse {
 }
 
 export interface IDoctorSearchList {
-  name: string;
-  avatar: string;
-  description: string;
+  doctorDivision: string;
+  doctorEmail: string;
+  doctorName: string;
+  doctorPhone: string;
+  doctorSpecialty: string;
+  doctorTitle: string;
   hospital: string;
-  address: string;
-  mail: string;
-  phone: string;
+  id: number;
 }

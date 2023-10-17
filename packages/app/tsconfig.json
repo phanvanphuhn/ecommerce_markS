@@ -52,6 +52,9 @@
       "lib/*": [
         "src/lib/*"
       ],
+      "apollo/*": [
+        "src/apollo/*"
+      ],
     }
   },
   "exclude": [

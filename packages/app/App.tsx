@@ -22,6 +22,8 @@ import {PersistGate} from 'redux-persist/integration/react';
 import 'utils/string-utils';
 import RootView from './src/RootView';
 import SplashScreen from 'screens/SplashScreen/SplashScreen';
+import NetworkProvider from 'apollo/NetworkProvider';
+import CodePush from 'react-native-code-push';
 
 const App = () => {
   const loadingRef: any = React.useRef();
@@ -36,13 +38,15 @@ const App = () => {
       <PersistGate loading={null} persistor={persistor}>
         <LocalizationProvider>
           <RootView>
-            <NotificationConfig>
-              <MenuProvider>
-                <RootApp />
-                <FlashMessage style={{paddingTop: 20}} />
-              </MenuProvider>
-              <LoadingComponent ref={loadingRef} />
-            </NotificationConfig>
+            <NetworkProvider>
+              <NotificationConfig>
+                <MenuProvider>
+                  <RootApp />
+                  <FlashMessage style={{paddingTop: 20}} />
+                </MenuProvider>
+                <LoadingComponent ref={loadingRef} />
+              </NotificationConfig>
+            </NetworkProvider>
           </RootView>
         </LocalizationProvider>
       </PersistGate>
@@ -51,5 +55,11 @@ const App = () => {
 };
 
 const styles = StyleSheet.create({});
-
-export default App;
+let codePushOptions = {
+  checkFrequency: CodePush.CheckFrequency.MANUAL,
+  //   checkFrequency: CodePush.CheckFrequency.ON_APP_RESUME,
+  updateDialog: false,
+  installMode: CodePush.InstallMode.IMMEDIATE,
+  mandatoryInstallMode: CodePush.InstallMode.IMMEDIATE,
+};
+export default CodePush(codePushOptions)(App);

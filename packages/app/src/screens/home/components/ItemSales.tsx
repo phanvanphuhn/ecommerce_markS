@@ -1,33 +1,32 @@
 import React, {useState} from 'react';
-import {StyleSheet, View} from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import colors from 'res/colors';
-import SemiCircleProgress from 'screens/home/components/SemiCircleProgress';
 import Text from 'elements/Text';
-import ColorPickerSlider from 'screens/home/components/SemiCiclePicker';
-import {RadialSlider} from 'lib/react-native-radial-slider';
 import {width} from 'res/sizes';
 import Theme from 'res/style/Theme';
 import Image from 'elements/Image';
 import images from 'res/images';
 import strings from 'res/strings';
+import SemiCircleSlider from 'components/Slider/SemiCircleSlider';
+import {useNavigation} from '@react-navigation/core';
+import {BaseUseNavigationProps} from 'navigation/BaseNavigationProps';
+import {MainParamList} from 'navigation/service/NavigationParams';
+import {Routes} from 'configs';
 
 interface ItemSalesProps {
   isPriority?: boolean;
 }
 
 const ItemSales = (props: ItemSalesProps) => {
-  const [speed, setSpeed] = useState(40);
+  const [speed, setSpeed] = useState(100);
   const [size, setSize] = useState(0);
+  const navigation = useNavigation<BaseUseNavigationProps<MainParamList>>();
+  const onDetail = () => {
+    navigation.navigate(Routes.SalesScreen);
+  };
   return (
-    <View
-      onLayout={event => {
-        setSize(event.nativeEvent.layout.width);
-        console.log(
-          '=>(ItemSales.tsx:80) event',
-          event.nativeEvent.layout.width,
-        );
-      }}
+    <TouchableOpacity
+      onPress={onDetail}
       style={[Theme.shadow, styles.container]}>
       <View style={[Theme.flexRow, Theme.pt05, Theme.pl10, Theme.pr10]}>
         <View style={[Theme.flexRow, Theme.flex1]}>
@@ -65,24 +64,32 @@ const ItemSales = (props: ItemSalesProps) => {
           />
         )}
       </View>
-      <RadialSlider
-        value={speed}
-        min={0}
+      <SemiCircleSlider
         max={200}
-        linearGradient={[
-          {color: '#EFE2AE', offset: '0%'},
-          {color: '#DBA747', offset: '100%'},
-        ]}
-        linearGradientPlaceholder={[
-          {color: '#609', offset: '100%'},
-          {color: '#B22DF3', offset: '0%'},
-        ]}
-        disabled={true}
-        radius={props.isPriority ? width / 5 : width / 7}
-        thumbRadius={12}
-        sliderWidth={props.isPriority ? 30 : 20}
         isHideCircle={true}
-        onChange={setSpeed}>
+        disabled={true}
+        linearGradientColor={[
+          '#f7ebd4',
+          '#EFE2AE',
+          '#DBA747',
+          '#d5992a',
+          '#956b1d',
+        ]}
+        linearGradientBackgroundColor={[
+          '#e6b3ff',
+          '#c44dff',
+          '#9900e6',
+          '#7700b3',
+          '#609',
+          '440066',
+        ]}
+        value={100}
+        width={width - 100}
+        thumbRadius={22}
+        onUpdate={value => {
+          console.log('=>(SalesScreen.tsx:157) value', value);
+        }}
+        strokeWidth={45}>
         <Text size={props.isPriority ? 24 : 18} fontWeight={'700'}>
           ${'26000'.formatPrice()}
         </Text>
@@ -92,8 +99,8 @@ const ItemSales = (props: ItemSalesProps) => {
           color={colors.dotActive}>
           118% over Target
         </Text>
-      </RadialSlider>
-    </View>
+      </SemiCircleSlider>
+    </TouchableOpacity>
   );
 };
 

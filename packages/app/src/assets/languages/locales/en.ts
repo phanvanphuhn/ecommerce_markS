@@ -23,6 +23,9 @@ export default {
   cancel: 'Cancel',
   salesAchievement: 'Sales Achievement',
   daily: 'Daily',
+  sale: {
+    mySales: 'My Sales',
+  },
   planScreen: {
     myEvent: 'My Events',
   },

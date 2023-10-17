@@ -1,26 +1,36 @@
-import React, {useState} from 'react';
-import {StyleSheet, View} from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
+import React from 'react';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import colors from 'res/colors';
-import SemiCircleProgress from 'screens/home/components/SemiCircleProgress';
 import Text from 'elements/Text';
-import ColorPickerSlider from 'screens/home/components/SemiCiclePicker';
-import {RadialSlider} from 'lib/react-native-radial-slider';
 import {width} from 'res/sizes';
 import Theme from 'res/style/Theme';
 import Image from 'elements/Image';
 import images from 'res/images';
 import strings from 'res/strings';
-import CircularMultipleSlider from 'screens/home/components/CircularMultipleSlider';
+import CircleSlider from 'components/Slider/CircleSlider';
+import useStateCustom from 'hooks/useStateCustom';
+import {useNavigation} from '@react-navigation/core';
+import {BaseUseNavigationProps} from 'navigation/BaseNavigationProps';
+import {MainParamList} from 'navigation/service/NavigationParams';
+import {Routes} from 'configs';
 
 interface ItemBoostProps {
   isPriority?: boolean;
 }
 
 const ItemBoost = (props: ItemBoostProps) => {
-  const [speed, setSpeed] = useState(40);
+  const [state, setState] = useStateCustom({
+    value: 50,
+    max: 100,
+  });
+  const navigation = useNavigation<BaseUseNavigationProps<MainParamList>>();
+  const onDetail = () => {
+    navigation.navigate(Routes.BoostScreen);
+  };
   return (
-    <View style={[Theme.shadow, styles.container]}>
+    <TouchableOpacity
+      onPress={onDetail}
+      style={[Theme.shadow, styles.container]}>
       <View
         style={[
           Theme.flexRowSpace,
@@ -35,29 +45,39 @@ const ItemBoost = (props: ItemBoostProps) => {
         </Text>
         <Image source={images.ic_boost_with_bg} style={{opacity: 0}} />
       </View>
-      <CircularMultipleSlider
-        componentType={'slider'} //Default type is slider
-        values={[20, 0, 40]}
-        colors={['transparent', '#C6D68F', 'red']}
-        onUpdate={values => {
-          console.log('=>(ItemBoost.tsx:63) values', values);
+
+      <CircleSlider
+        max={state.max}
+        isHideCircle={true}
+        // disabled={true}
+        linearGradientColor={[
+          '#0152CB',
+          '#0152CB',
+          '#002563',
+          '#002563',
+          '#001c4d',
+        ]}
+        linearGradientBackgroundColor={[
+          '#474747',
+          '#e6e6e6',
+          '#f2f2f2',
+          '#fff',
+        ]}
+        value={state.value}
+        width={width / 2 - 50}
+        thumbRadius={22}
+        onUpdate={value => {
+          console.log('=>(SalesScreen.tsx:157) value', value);
         }}
-        // dividerComponent={[
-        //   this.getDividerComponentImage(REACT_IMAGE),
-        //   this.getDividerComponentImage(ANGULAR_IMAGE),
-        //   this.getDividerComponentImage(SWIFT_IMAGE),
-        //   this.getDividerComponentImage(ANDROID_IMAGE),
-        // ]}
-        // dividerComponentSize={DIVIDER_COMPONENT_SIZE}
-        slideDividerType={'circle'}
-        borderColor={'#0088a0'}
-        borderWidth={3}
-        strokeWidth={20}
-        radius={width / 6}
-        separatorColor="#171717"
-        minimumStopValue={0.5}
-      />
-    </View>
+        strokeWidth={20}>
+        <Text size={17} fontWeight={'700'}>
+          1
+          <Text size={11} color={colors.borderColor}>
+            /2
+          </Text>
+        </Text>
+      </CircleSlider>
+    </TouchableOpacity>
   );
 };
 

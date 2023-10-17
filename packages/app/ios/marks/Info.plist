@@ -19,7 +19,7 @@
         <string>AzureAuth</string>
         <key>CFBundleURLSchemes</key>
         <array>
-            <string>com.bsc.marks</string>
+            <string>com.bostonscientific.marks</string>
         </array>
     </dict>
 	</array>

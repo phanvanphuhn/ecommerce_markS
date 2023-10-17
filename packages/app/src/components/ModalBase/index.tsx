@@ -1,5 +1,5 @@
 import React from 'react';
-import Modal from 'react-native-modal';
+import Modal, {ModalProps} from 'react-native-modal';
 import {StyleProp, StyleSheet, Text, TextStyle, View} from 'react-native';
 
 // Components
@@ -7,7 +7,7 @@ import {StyleProp, StyleSheet, Text, TextStyle, View} from 'react-native';
 import colors from 'res/colors';
 import sizes from 'res/sizes';
 
-interface Props {
+interface Props extends ModalProps {
   isVisibleModal: boolean;
   title?: string;
   description?: string;
@@ -24,6 +24,7 @@ function ModalBase({
   onCloseModal,
   styleTitle,
   styleDescription,
+  ...props
 }: Props) {
   return (
     <Modal
@@ -37,7 +38,8 @@ function ModalBase({
       backdropTransitionInTiming={0}
       backdropTransitionOutTiming={0}
       onBackButtonPress={onCloseModal}
-      onBackdropPress={onCloseModal}>
+      onBackdropPress={onCloseModal}
+      {...props}>
       <View style={styles.content}>
         <View style={styles.body}>
           {title && <Text style={[styles.title, styleTitle]}>{title}</Text>}
