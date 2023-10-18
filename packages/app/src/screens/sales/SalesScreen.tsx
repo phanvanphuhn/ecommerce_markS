@@ -16,6 +16,7 @@ import CircleMultipleSlider from 'components/Slider/CircleMultipleSlider';
 import {width} from 'res/sizes';
 import SemiCircleSlider from 'components/Slider/SemiCircleSlider';
 import ContainerProgress from 'screens/sales/components/ContainerProgress';
+import ItemTab from 'components/ItemTab';
 
 interface SalesScreenProps {}
 export type TabDateType = 'month' | 'quarter' | 'year';
@@ -38,44 +39,27 @@ const SalesScreen = (props: SalesScreenProps) => {
         }}>
         <View style={styles.containerUnder} />
         <View style={[Theme.shadow, styles.containerTab]}>
-          <TouchableOpacity
-            onPress={() => setState({type: 'month'})}
-            style={[
-              styles.buttonTab,
-              state.type == 'month' ? styles.buttonTabActive : {},
-            ]}>
-            <Text
-              fontWeight={'600'}
-              color={state.type == 'month' ? colors.white : colors.borderColor}>
-              MONTH
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => setState({type: 'quarter'})}
-            style={[
-              styles.buttonTab,
-              state.type == 'quarter' ? styles.buttonTabActive : {},
-            ]}>
-            <Text
-              fontWeight={'600'}
-              color={
-                state.type == 'quarter' ? colors.white : colors.borderColor
-              }>
-              QUARTER
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => setState({type: 'year'})}
-            style={[
-              styles.buttonTab,
-              state.type == 'year' ? styles.buttonTabActive : {},
-            ]}>
-            <Text
-              fontWeight={'600'}
-              color={state.type == 'year' ? colors.white : colors.borderColor}>
-              YEAR
-            </Text>
-          </TouchableOpacity>
+          <ItemTab
+            title={'MONTH'}
+            isFocused={state.type == 'month'}
+            onPress={() => {
+              setState({type: 'month'});
+            }}
+          />
+          <ItemTab
+            title={'QUARTER'}
+            isFocused={state.type == 'quarter'}
+            onPress={() => {
+              setState({type: 'quarter'});
+            }}
+          />
+          <ItemTab
+            title={'YEAR'}
+            isFocused={state.type == 'year'}
+            onPress={() => {
+              setState({type: 'year'});
+            }}
+          />
         </View>
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
