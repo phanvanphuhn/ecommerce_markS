@@ -1,38 +1,54 @@
-import { Args, Query, Resolver } from "@nestjs/graphql";
+import { Args, Query, Resolver } from '@nestjs/graphql';
+import { UseGuards } from '@nestjs/common';
 
-import { ContactSearchService } from "./contach-search.service";
+import { UserEntity } from '@/common/decorators/user.decorator';
+
+import { AzureAuthGuard } from '../auth/guards/azure-ad.guard';
+
+import { ContactSearchService } from './contach-search.service';
 import {
   ContactSearchArgs,
   ContactSearchOutput,
-} from "./dto/contact-search.dto";
-import { DoctorDetail } from "./dto/doctor-profile.dto";
+} from './dto/contact-search.dto';
+import { DoctorDetail } from './dto/doctor-profile.dto';
 
 @Resolver()
 export class ContactSearchResolver {
   constructor(private contactSearchService: ContactSearchService) {}
 
   @Query(() => [ContactSearchOutput])
-  async getDoctorSearchList(@Args() filter: ContactSearchArgs) {
-    return this.contactSearchService.getDoctorSearchList(filter);
+  @UseGuards(AzureAuthGuard)
+  async getDoctorSearchList(
+    @UserEntity() userInfo,
+    @Args() filter: ContactSearchArgs,
+  ) {
+    return this.contactSearchService.getDoctorSearchList({
+      ...filter,
+      salesRepEmail: userInfo.email,
+    });
   }
 
   @Query(() => [DoctorDetail])
-  async getDoctorProfile(@Args("doctorEmail") doctorEmail: string) {
+  @UseGuards(AzureAuthGuard)
+  async getDoctorProfile(@Args('doctorEmail') doctorEmail: string) {
     return this.contactSearchService.getDoctorProfileByDoctorEmail(doctorEmail);
   }
 
   @Query(() => [String])
-  async getFilterHospitalList(@Args("salesRepEmail") salesRepEmail: string) {
-    return this.contactSearchService.getFilterHospitalList(salesRepEmail);
+  @UseGuards(AzureAuthGuard)
+  async getFilterHospitalList(@UserEntity() userInfo) {
+    return this.contactSearchService.getFilterHospitalList(userInfo.email);
   }
 
   @Query(() => [String])
-  async getFilterSpecialtyList(@Args("salesRepEmail") salesRepEmail: string) {
-    return this.contactSearchService.getFilterSpecialtyList(salesRepEmail);
+  @UseGuards(AzureAuthGuard)
+  async getFilterSpecialtyList(@UserEntity() userInfo) {
+    return this.contactSearchService.getFilterSpecialtyList(userInfo.email);
   }
 
   @Query(() => [String])
-  async getFilterDivisionList(@Args("salesRepEmail") salesRepEmail: string) {
-    return this.contactSearchService.getFilterDivisionList(salesRepEmail);
+  @UseGuards(AzureAuthGuard)
+  async getFilterDivisionList(@UserEntity() userInfo) {
+    return this.contactSearchService.getFilterDivisionList(userInfo.eail);
   }
 }

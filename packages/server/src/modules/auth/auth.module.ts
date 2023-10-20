@@ -1,18 +1,15 @@
-import { Module } from "@nestjs/common";
-import { ConfigModule, ConfigService } from "@nestjs/config";
-import { PassportModule } from "@nestjs/passport";
+import { Module } from '@nestjs/common';
+import { PassportModule } from '@nestjs/passport';
 
-import { AuthResolver } from "./auth.resolver";
-import { AuthService } from "./auth.service";
-import { GqlAuthGuard } from "./guards/gql-auth.guard";
-import { PasswordService } from "./password.service";
-import { AzureAdStrategy } from "./strategies/azure-ad.strategy";
-import { AuthController } from "./auth.controller";
+import { AuthResolver } from './auth.resolver';
+import { AuthService } from './auth.service';
+import { PasswordService } from './password.service';
+import { AzureAdStrategy } from './strategies/azure-ad.strategy';
 
 @Module({
-  imports: [PassportModule.register({ defaultStrategy: "azure-ad" })],
+  imports: [PassportModule.register({ defaultStrategy: 'azure-ad' })],
   providers: [AuthResolver, AzureAdStrategy],
-  controllers: [AuthController],
+  controllers: [],
   exports: [],
 })
 export class AuthModule {}

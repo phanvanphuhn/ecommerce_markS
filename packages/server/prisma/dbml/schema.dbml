@@ -21,6 +21,7 @@ Table ContactSearch {
 
 Table Complaint {
   id Int [pk, increment]
+  complaintId String
   salesRepEmail String
   complaintName String
   recordType String
@@ -41,4 +42,21 @@ Table UserProfile {
   country String
   division String
   reportingTo String
+}
+
+Table SliderAndCommission {
+  id Int [pk, increment]
+  lowerBound String
+  upperBound String
+  variablePayoutPercentage String
+  territoryCategory String
+  commissionPercentage String
+}
+
+Table TerritorySize {
+  id Int [pk, increment]
+  year String
+  lowerBound String
+  upperBound String
+  territoryCategory String
 }
