@@ -48,6 +48,7 @@ model ContactSearch {
 
 model Complaint {
   id              Int       @id @default(autoincrement())
+  complaintId     String?
   salesRepEmail   String?
   complaintName   String?
   recordType      String?
@@ -69,4 +70,23 @@ model UserProfile {
   country       String?
   division      String?
   reportingTo   String?
+}
+
+model SliderAndCommission {
+  id Int @id @default(autoincrement())
+
+  lowerBound               String?
+  upperBound               String?
+  variablePayoutPercentage String?
+  territoryCategory        String?
+  commissionPercentage     String?
+}
+
+model TerritorySize {
+  id Int @id @default(autoincrement())
+
+  year              String?
+  lowerBound        String?
+  upperBound        String?
+  territoryCategory String?
 }

@@ -1,15 +1,16 @@
-import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
-import { Logger, Module } from "@nestjs/common";
-import { ConfigModule, ConfigService } from "@nestjs/config";
-import { GraphQLModule } from "@nestjs/graphql";
-import { PrismaModule, QueryInfo, loggingMiddleware } from "nestjs-prisma";
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { Logger, Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { GraphQLModule } from '@nestjs/graphql';
+import { PrismaModule, QueryInfo, loggingMiddleware } from 'nestjs-prisma';
 
-import config from "./common/configs/config";
-import { DatabaseModule } from "./modules/_database/database.module";
-import { AuthModule } from "./modules/auth/auth.module";
-import { GraphqlConfig } from "./common/configs/config.interface";
-import { ContactSearchModule } from "./modules/contact-search/contact-search.module";
-import { UserProfilesModule } from "./modules/user-profiles/user-profiles.module";
+import config from './common/configs/config';
+import { DatabaseModule } from './modules/_database/database.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { GraphqlConfig } from './common/configs/config.interface';
+import { ContactSearchModule } from './modules/contact-search/contact-search.module';
+import { UserProfilesModule } from './modules/user-profiles/user-profiles.module';
+import { ComplaintsModule } from './modules/complaints/complaints.module';
 
 @Module({
   imports: [
@@ -22,11 +23,11 @@ import { UserProfilesModule } from "./modules/user-profiles/user-profiles.module
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
-        host: configService.get("POSTGRES_HOST"),
-        port: configService.get("POSTGRES_PORT"),
-        user: configService.get("POSTGRES_USER"),
-        password: configService.get("POSTGRES_PASSWORD"),
-        database: configService.get("POSTGRES_DB"),
+        host: configService.get('POSTGRES_HOST'),
+        port: configService.get('POSTGRES_PORT'),
+        user: configService.get('POSTGRES_USER'),
+        password: configService.get('POSTGRES_PASSWORD'),
+        database: configService.get('POSTGRES_DB'),
       }),
     }),
 
@@ -34,13 +35,13 @@ import { UserProfilesModule } from "./modules/user-profiles/user-profiles.module
       isGlobal: true,
       prismaServiceOptions: {
         prismaOptions: {
-          log: ["query"],
+          log: ['query'],
         },
         middlewares: [
           // configure your prisma middleware
           loggingMiddleware({
-            logger: new Logger("PrismaMiddleware"),
-            logLevel: "debug",
+            logger: new Logger('PrismaMiddleware'),
+            logLevel: 'debug',
             logMessage: (query: QueryInfo) =>
               `[Prisma Query] ${query.model}.${query.action} - ${query.executionTime}ms`,
           }),
@@ -52,14 +53,14 @@ import { UserProfilesModule } from "./modules/user-profiles/user-profiles.module
       driver: ApolloDriver,
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
-        const graphqlConfig = configService.get<GraphqlConfig>("graphql");
+        const graphqlConfig = configService.get<GraphqlConfig>('graphql');
         return {
           // schema options
           autoSchemaFile:
-            graphqlConfig.schemaDestination || "./src/schema.graphql",
+            graphqlConfig.schemaDestination || './src/schema.graphql',
           sortSchema: graphqlConfig.sortSchema,
           buildSchemaOptions: {
-            numberScalarMode: "integer",
+            numberScalarMode: 'integer',
           },
           // subscription
           installSubscriptionHandlers: true,
@@ -72,6 +73,7 @@ import { UserProfilesModule } from "./modules/user-profiles/user-profiles.module
     AuthModule,
     ContactSearchModule,
     UserProfilesModule,
+    ComplaintsModule,
   ],
   controllers: [],
   providers: [],
