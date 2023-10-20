@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {ImageBackground, StyleSheet} from 'react-native';
+import {ImageBackground, Platform, StyleSheet} from 'react-native';
 import images from 'res/images';
 import Image from 'elements/Image';
 import ButtonText from 'elements/Buttons/ButtonText';
@@ -16,10 +16,10 @@ export const azureAuth = new AzureAuth({
   tenant: 'b5b8b483-5597-4ae7-8e27-fcc464a3b584',
   // authorityUrl: 'https://login.microsoftonline.com/common',
 
-  // redirectUri:
-  //   Platform.OS === 'ios'
-  //     ? 'msauth.com.bostonscientific.marks://auth'
-  //     : 'msauth://com.bsc.marks/iyXLYHxafPK15%2BOWQdNF0cfHGnY%3D',
+  redirectUri:
+    Platform.OS === 'ios'
+      ? 'msauth.com.bostonscientific.marks://auth'
+      : 'msauth://com.bsc.marks/iyXLYHxafPK15%2BOWQdNF0cfHGnY%3D',
 });
 const LoginScreen = (props: LoginScreenProps) => {
   const [azureToken, setAzureToken] = React.useState();
@@ -28,9 +28,9 @@ const LoginScreen = (props: LoginScreenProps) => {
     try {
       // await azureAuth.webAuth.clearSession({closeOnLoad: true});
       let tokens = await azureAuth.webAuth.authorize({
-        scope: 'openid profile User.Read Mail.Read',
+        scope: 'openid',
       });
-      console.log('tokens: ', tokens.accessToken);
+      console.log('tokens: ', tokens);
       setAzureToken({accessToken: tokens?.accessToken});
       let info = await azureAuth.auth.msGraphRequest({
         token: tokens.accessToken,
@@ -44,6 +44,7 @@ const LoginScreen = (props: LoginScreenProps) => {
   };
   const onLogin = () => {
     reset(Routes.DrawerStack);
+    getAzureToken();
   };
   return (
     <Container hideHeader={true}>
