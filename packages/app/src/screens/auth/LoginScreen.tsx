@@ -16,7 +16,10 @@ import {hideLoading, showLoading} from 'components/Loading/LoadingComponent';
 
 interface LoginScreenProps {}
 export const azureAuth = new AzureAuth({
-  clientId: '9c15d13f-0379-4238-b024-99e03709f8dd',
+  //prod
+    clientId: '9c15d13f-0379-4238-b024-99e03709f8dd',
+  //uat
+  // clientId: '488a032d-e391-4559-a255-42cb071b4557',
   tenant: 'b5b8b483-5597-4ae7-8e27-fcc464a3b584',
   // authorityUrl: 'https://login.microsoftonline.com/common',
 
