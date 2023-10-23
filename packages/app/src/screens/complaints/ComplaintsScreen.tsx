@@ -96,13 +96,14 @@ const ComplaintsScreen = (props: ComplaintsScreenProps) => {
   };
 
   const onSearch = (text: string) => {
-    let list = data.filter(e =>
-      e.accName
-        ?.unsignText()
-        .toLowerCase()
-        .includes(text.unsignText().toLowerCase()),
-    );
-    console.log('=>(ComplaintsScreen.tsx:100) data', data);
+    let list = data.filter((e: any) => {
+      return Object.keys(e).some((key: any) =>
+        e[key]
+          ?.unsignText()
+          .toLowerCase()
+          .includes(text.unsignText().toLowerCase()),
+      );
+    });
     setState({data: list});
   };
   return (
