@@ -13,6 +13,7 @@ import Recommended from 'screens/boost/components/Recommended';
 import BoostProvider, {
   IStateBoost,
 } from 'screens/boost/components/BoostProvider';
+import ContainerProvider from 'components/ContainerProvider';
 
 interface BoostScreenProps {}
 
@@ -30,7 +31,7 @@ const BoostScreen = (props: BoostScreenProps) => {
     type: 'all',
   });
   return (
-    <BoostProvider state={state} setState={setState}>
+    <ContainerProvider state={state} setState={setState}>
       <Container title={'My Boost'} style={styles.container}>
         <View
           style={{
@@ -92,7 +93,7 @@ const BoostScreen = (props: BoostScreenProps) => {
           </ScrollView>
         </View>
       </Container>
-    </BoostProvider>
+    </ContainerProvider>
   );
 };
 

@@ -38,14 +38,15 @@ export interface Bank {
   bankName: string;
 }
 export interface UserProfile {
+  businessPhones: number[];
+  displayName: string;
+  givenName: string;
   id: string;
-  username?: string;
-  name: string;
-  avatar?: string;
-  email?: string;
-  phone: string;
-  dob?: string;
-  position?: string;
-  createdAt: string;
-  updatedAt: string;
+  jobTitle: string;
+  mail: string;
+  mobilePhone?: string;
+  officeLocation?: string;
+  preferredLanguage?: string;
+  surname?: string;
+  userPrincipalName?: string;
 }

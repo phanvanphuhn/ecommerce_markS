@@ -2,30 +2,17 @@ import {ActionPersist} from './../../actions/ActionData';
 import actionTypes from 'middlewares/actions/actionTypes';
 import {RoleType} from 'common/Constants';
 import {UserProfile} from 'res/type/Auth';
-export interface UserLogin {
-  username?: string;
-  password?: string;
-  isSave: boolean;
-}
 export interface AuthReducer {
   user?: UserProfile | null;
   isLogin: boolean;
-  count: number;
-  role: RoleType | '';
+  countNotiffication: number;
   loginToken: string;
-  field: any;
-  timeShowPopup?: number | null;
-  userLogin: UserLogin;
 }
 const initialState: AuthReducer = {
   user: null,
   isLogin: false,
   loginToken: '',
-  count: 0,
-  role: '',
-  field: null,
-  timeShowPopup: new Date().getTime(),
-  userLogin: {isSave: false},
+  countNotiffication: 0,
 };
 
 const loginReducer = (
@@ -40,11 +27,6 @@ const loginReducer = (
         loginToken: action.token,
         role: action.role,
         isLogin: true,
-      };
-    case actionTypes.SAVE_LOGIN:
-      return {
-        ...state,
-        userLogin: {...state.userLogin, ...action.payload},
       };
     case actionTypes.LOGOUT:
       return {

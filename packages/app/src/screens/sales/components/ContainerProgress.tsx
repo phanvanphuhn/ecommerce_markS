@@ -1,4 +1,4 @@
-import React, {useMemo, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -17,17 +17,16 @@ import moment from 'moment/moment';
 import Text from 'elements/Text';
 import {useSharedValue} from 'react-native-reanimated';
 import useStateCustom from 'hooks/useStateCustom';
-import {TabDateType} from 'screens/sales/SalesScreen';
+import {IStateSales, TabDateType} from 'screens/sales/SalesScreen';
 import ModalBase from 'components/ModalBase';
 import ButtonBorder from 'elements/Buttons/ButtonBorder';
 import useModal from 'hooks/useModal';
+import {useContainerContext} from 'components/ContainerProvider';
 
-interface ContainerProgressProps {
-  tabDateType?: TabDateType;
-}
+interface ContainerProgressProps {}
 
 const ContainerProgress = (props: ContainerProgressProps) => {
-  const [state, setState] = useStateCustom({
+  const [state2, setState2] = useStateCustom({
     dateType: '',
     currentDate: moment(),
     dataGuidelines: [
@@ -41,9 +40,11 @@ const ContainerProgress = (props: ContainerProgressProps) => {
     ],
   });
   const [isOpen, open, close] = useModal();
-  const renderDate = () => {
-    let date = state.currentDate || moment();
-    switch (props.tabDateType) {
+  const {state, setState} = useContainerContext<IStateSales>();
+  console.log('=>(ContainerProgress.tsx:46) state', state);
+  const renderDate = useCallback(() => {
+    let date = state.currentDate ? moment(state.currentDate) : moment();
+    switch (state.type) {
       case 'quarter':
         return `Q${Math.ceil((date.month() + 1) / 3)} ${date.year()}`;
       case 'year':
@@ -51,24 +52,29 @@ const ContainerProgress = (props: ContainerProgressProps) => {
       case 'month':
         return date.format('MMM YYYY');
     }
-  };
-  const changeDate = (isNext: boolean) => {
-    let date = state.currentDate || moment();
-    switch (props.tabDateType) {
-      case 'quarter':
-        date.add(isNext ? 3 : -3, 'month');
-        setState({currentDate: date});
-        break;
-      case 'year':
-        date.add(isNext ? 1 : -1, 'year');
-        setState({currentDate: date});
-        break;
-      case 'month':
-        date.add(isNext ? 1 : -1, 'month');
-        setState({currentDate: date});
-        break;
-    }
-  };
+  }, [state.currentDate, state.type]);
+  const changeDate = useCallback(
+    (isNext: boolean) => {
+      let date = state.currentDate
+        ? moment(state.currentDate, 'YYYY-MM-DD')
+        : moment();
+      switch (state.type) {
+        case 'quarter':
+          date.add(isNext ? 3 : -3, 'month');
+          setState({currentDate: date.format('YYYY-MM-DD')});
+          break;
+        case 'year':
+          date.add(isNext ? 1 : -1, 'year');
+          setState({currentDate: date.format('YYYY-MM-DD')});
+          break;
+        case 'month':
+          date.add(isNext ? 1 : -1, 'month');
+          setState({currentDate: date.format('YYYY-MM-DD')});
+          break;
+      }
+    },
+    [state.type, state.currentDate],
+  );
   return (
     <>
       <Animated.View style={styles.container}>
@@ -115,7 +121,7 @@ const ContainerProgress = (props: ContainerProgressProps) => {
               width={width - 100}
               thumbRadius={22}
               onUpdate={value => {
-                console.log('=>(SalesScreen.tsx:157) value', value);
+                setState({percentage: value});
               }}
               strokeWidth={45}>
               <View
@@ -175,7 +181,7 @@ const ContainerProgress = (props: ContainerProgressProps) => {
               horizontal={false}
               showsHorizontalScrollIndicator={false}>
               <View style={{flex: 1}}>
-                {state.dataGuidelines?.map((e, i) => {
+                {state2.dataGuidelines?.map((e, i) => {
                   return (
                     <View
                       key={i}

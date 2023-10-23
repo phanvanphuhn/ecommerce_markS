@@ -15,6 +15,7 @@ import ItemClaim, {ClaimProps} from 'screens/boost/components/ItemClaim';
 import keyExtractor from 'utils/keyExtractor';
 import _ from 'lodash';
 import {useBoost} from 'screens/boost/components/BoostProvider';
+import {useContainerContext} from 'components/ContainerProvider';
 
 interface DailyProps {}
 const Daily = (props: DailyProps) => {
@@ -38,7 +39,7 @@ const Daily = (props: DailyProps) => {
       total: 3,
     },
   ]);
-  const {state, setState} = useBoost();
+  const {state, setState} = useContainerContext();
   // useEffect(() => {
   //   setState({daily: listDaily.filter(e => e.isClaim).length});
   // }, []);

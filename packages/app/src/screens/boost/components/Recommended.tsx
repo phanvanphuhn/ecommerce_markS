@@ -7,6 +7,7 @@ import Text from 'elements/Text';
 import ItemClaim, {ClaimProps} from 'screens/boost/components/ItemClaim';
 import _ from 'lodash';
 import {useBoost} from 'screens/boost/components/BoostProvider';
+import {useContainerContext} from 'components/ContainerProvider';
 
 interface RecoProps {}
 
@@ -41,7 +42,7 @@ const Recommended = (props: RecoProps) => {
     },
   ]);
 
-  const {state, setState} = useBoost();
+  const {state, setState} = useContainerContext();
   // useEffect(() => {
   //   setState({recommended: listRecommended.filter(e => e.isClaim).length});
   // }, []);

@@ -6,7 +6,6 @@ const _login = (payload: any, token?: string, role?: string) => {
     type: actionTypes.LOGIN,
     payload,
     token,
-    role,
   };
 };
 const _savelogin = (payload: any) => {
@@ -30,9 +29,8 @@ export const onLogout = () => async (dispatch: any, getState: any) => {
   dispatch(_logout());
 };
 export const onLogin =
-  (user: any, token: string, role: RoleType) =>
-  async (dispatch: any, getState: any) => {
-    dispatch(_login(user, token, role));
+  (user: any, token: string) => async (dispatch: any, getState: any) => {
+    dispatch(_login(user, token));
   };
 export const onSaveLogin =
   (username: string, password: string, isSave: boolean) =>

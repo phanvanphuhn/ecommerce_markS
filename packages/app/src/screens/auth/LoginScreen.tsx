@@ -9,6 +9,10 @@ import {reset} from 'navigation/service/RootNavigation';
 import Routes from 'configs/Routes';
 import Container from 'elements/Layout/Container';
 import AzureAuth from 'react-native-azure-auth';
+import {useAppDispatch} from 'middlewares/stores';
+import {onLogin} from 'middlewares/actions/auth/actionLogin';
+import {UserProfile} from 'res/type/Auth';
+import {hideLoading, showLoading} from 'components/Loading/LoadingComponent';
 
 interface LoginScreenProps {}
 export const azureAuth = new AzureAuth({
@@ -24,26 +28,30 @@ export const azureAuth = new AzureAuth({
 const LoginScreen = (props: LoginScreenProps) => {
   const [azureToken, setAzureToken] = React.useState();
   const [azureUserInfo, setAzureUserInfo] = React.useState();
+  const dispatch = useAppDispatch();
   const getAzureToken = async () => {
     try {
+      showLoading();
       // await azureAuth.webAuth.clearSession({closeOnLoad: true});
-      let tokens = await azureAuth.webAuth.authorize({
+      let auth = await azureAuth.webAuth.authorize({
         scope: 'openid',
       });
-      console.log('tokens: ', tokens);
-      setAzureToken({accessToken: tokens?.accessToken});
-      let info = await azureAuth.auth.msGraphRequest({
-        token: tokens.accessToken,
-        path: '/me',
-      });
-      console.log('info: ', info);
-      setAzureUserInfo({user: info.displayName, userId: tokens.userId});
+      if (auth?.accessToken) {
+        let info: UserProfile = await azureAuth.auth.msGraphRequest({
+          token: auth.accessToken,
+          path: '/me',
+        });
+        dispatch(onLogin(info, auth.accessToken));
+        reset(Routes.DrawerStack);
+        hideLoading();
+      }
     } catch (error) {
+      hideLoading();
+
       console.log(error);
     }
   };
-  const onLogin = () => {
-    reset(Routes.DrawerStack);
+  const _onLogin = () => {
     getAzureToken();
   };
   return (
@@ -58,7 +66,7 @@ const LoginScreen = (props: LoginScreenProps) => {
             width: '70%',
           }}
           height={50}
-          onPress={onLogin}
+          onPress={_onLogin}
           title={strings.loginWithSSO}
           textProps={{
             size: 18,

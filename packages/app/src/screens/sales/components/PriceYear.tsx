@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import {View, StyleSheet, ScrollView} from 'react-native';
 import Theme from 'res/style/Theme';
 import colors from 'res/colors';
@@ -6,12 +6,25 @@ import ItemCollapsible from 'screens/sales/components/ItemCollapsible';
 import images from 'res/images';
 import ItemPrice from 'screens/sales/components/ItemPrice';
 import Text from 'elements/Text';
+import {useContainerContext} from 'components/ContainerProvider';
+import {IStateSales} from 'screens/sales/SalesScreen';
+import moment from 'moment';
 
 interface PriceYearProps {}
 
 const PriceYear = (props: PriceYearProps) => {
-  const [state, setState] = useState();
-
+  const {state, setState} = useContainerContext<IStateSales>();
+  const renderDate = useMemo(() => {
+    let date = state.currentDate ? moment(state.currentDate) : moment();
+    switch (state.type) {
+      case 'quarter':
+        return `Q${Math.ceil((date.month() + 1) / 3)}`;
+      case 'year':
+        return date.year();
+      case 'month':
+        return date.format('MMM YYYY');
+    }
+  }, [state.currentDate, state.type]);
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View
@@ -30,7 +43,7 @@ const PriceYear = (props: PriceYearProps) => {
                 borderRadius: 20,
               }}>
               <Text size={13} color={colors.white}>
-                2023
+                {renderDate}
               </Text>
             </View>
           </View>
