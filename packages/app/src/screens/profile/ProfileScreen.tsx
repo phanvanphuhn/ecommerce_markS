@@ -1,5 +1,5 @@
 import Container from 'elements/Layout/Container';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Image,
   ScrollView,
@@ -12,10 +12,16 @@ import images from 'res/images';
 import InputProfile from './InputProfile';
 import Text from 'elements/Text';
 import Theme from 'res/style/Theme';
+import {useLazyQuery} from '@apollo/client';
+import {GET_USER_PROFILE_BY_SALES_REP_EMAIL} from 'apollo/query/getUserProfileBySalesRepEmail';
 
 interface ProfileScreenProps {}
 
 const ProfileScreen = (props: ProfileScreenProps) => {
+  const [getData] = useLazyQuery(GET_USER_PROFILE_BY_SALES_REP_EMAIL);
+  useEffect(() => {
+    getData();
+  }, []);
   return (
     <Container title={'My Profile'}>
       <View style={styles.container}>
