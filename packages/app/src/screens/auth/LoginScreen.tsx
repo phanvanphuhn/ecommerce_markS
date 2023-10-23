@@ -41,7 +41,8 @@ const LoginScreen = (props: LoginScreenProps) => {
           token: auth.accessToken,
           path: '/me',
         });
-        dispatch(onLogin(info, auth.accessToken));
+        console.log('=>(LoginScreen.tsx:45) auth', auth);
+        dispatch(onLogin(info, auth.rawIdToken));
         reset(Routes.DrawerStack);
         hideLoading();
       }
