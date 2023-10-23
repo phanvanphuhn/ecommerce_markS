@@ -90,3 +90,21 @@ model TerritorySize {
   upperBound        String?
   territoryCategory String?
 }
+
+model Leaderboard {
+  id Int @id @default(autoincrement())
+
+  salesRepEmail          String?
+  fullName               String?
+  country                String?
+  year                   String?
+  quarter                String?
+  month                  String?
+  targetAchievedYtd      String?
+  rankYtd                String?
+  targetAchievedQtd      String?
+  rankQtd                String?
+  targetAchievedMtd      String?
+  rankMtd                String?
+  lastRefreshedTimestamp DateTime?
+}
