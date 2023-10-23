@@ -60,3 +60,20 @@ Table TerritorySize {
   upperBound String
   territoryCategory String
 }
+
+Table Leaderboard {
+  id Int [pk, increment]
+  salesRepEmail String
+  fullName String
+  country String
+  year String
+  quarter String
+  month String
+  targetAchievedYtd String
+  rankYtd String
+  targetAchievedQtd String
+  rankQtd String
+  targetAchievedMtd String
+  rankMtd String
+  lastRefreshedTimestamp DateTime
+}
