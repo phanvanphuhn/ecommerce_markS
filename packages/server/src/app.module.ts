@@ -11,6 +11,7 @@ import { GraphqlConfig } from './common/configs/config.interface';
 import { ContactSearchModule } from './modules/contact-search/contact-search.module';
 import { UserProfilesModule } from './modules/user-profiles/user-profiles.module';
 import { ComplaintsModule } from './modules/complaints/complaints.module';
+import { LeaderboardModule } from './modules/leaderboard/leaderboard.module';
 
 @Module({
   imports: [
@@ -74,6 +75,7 @@ import { ComplaintsModule } from './modules/complaints/complaints.module';
     ContactSearchModule,
     UserProfilesModule,
     ComplaintsModule,
+    LeaderboardModule,
   ],
   controllers: [],
   providers: [],

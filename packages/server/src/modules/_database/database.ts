@@ -1,11 +1,16 @@
-import { Kysely } from "kysely";
-
-import { Complaint, ContactSearch, UserProfile } from "@generated/kysely/types";
+import { Kysely } from 'kysely';
+import {
+  Complaint,
+  ContactSearch,
+  Leaderboard,
+  UserProfile,
+} from '@generated/kysely/types';
 
 interface DB {
-  "marks.ContactSearch": ContactSearch;
-  "marks.Complaint": Complaint;
-  "marks.UserProfile": UserProfile;
+  'marks.ContactSearch': ContactSearch;
+  'marks.Complaint': Complaint;
+  'marks.UserProfile': UserProfile;
+  'marks.Leaderboard': Leaderboard;
 }
 
 export class Database extends Kysely<DB> {}
