@@ -13,12 +13,12 @@ import InputProfile from './InputProfile';
 import Text from 'elements/Text';
 import Theme from 'res/style/Theme';
 import {useLazyQuery} from '@apollo/client';
-import {GET_USER_PROFILE_BY_SALES_REP_EMAIL} from 'apollo/query/getUserProfileBySalesRepEmail';
+import {GET_ME} from 'apollo/query/me';
 
 interface ProfileScreenProps {}
 
 const ProfileScreen = (props: ProfileScreenProps) => {
-  const [getData] = useLazyQuery(GET_USER_PROFILE_BY_SALES_REP_EMAIL);
+  const [getData, {data}] = useLazyQuery(GET_ME);
   useEffect(() => {
     getData();
   }, []);
@@ -28,11 +28,12 @@ const ProfileScreen = (props: ProfileScreenProps) => {
         <View style={styles.wrapHeaderContainer}>
           <View style={styles.headerContainer}>
             <Text color={colors.white} size={50} fontWeight={'500'}>
-              JA
+              {data?.data?.family_name?.substring(0, 1)}
+              {data?.data?.given_name?.substring(0, 1)}
             </Text>
           </View>
           <Text size={25} fontWeight={'500'} color={colors.white}>
-            John Appleseed
+            {data?.data?.name}
           </Text>
         </View>
 
@@ -69,7 +70,7 @@ const ProfileScreen = (props: ProfileScreenProps) => {
               marginTop: 32,
               flex: 1,
             }}>
-            <InputProfile title="Email" value="email@email.com" />
+            <InputProfile title="Email" value={data?.data?.email || ''} />
             <InputProfile title="Mobile" value="9111000" />
             <InputProfile title="Country" value="Singapore" />
             <InputProfile title="Division" value="IC" />
