@@ -120,9 +120,9 @@ const ComplaintsScreen = (props: ComplaintsScreenProps) => {
           </Text>
           <View
             style={[
-              Theme.flexRow,
               {
                 zIndex: 999,
+                flexDirection: 'row',
               },
             ]}>
             <Dropdown
@@ -141,7 +141,7 @@ const ComplaintsScreen = (props: ComplaintsScreenProps) => {
                 </View>
               }
               value={state.filterSelected}
-              style={[Theme.mr10]}
+              style={[Theme.mr10, Theme.flex1]}
               iconLeft={images.ic_filter2}
               title={strings.filter}
               type={'filter'}
