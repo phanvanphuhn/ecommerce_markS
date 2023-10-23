@@ -95,7 +95,10 @@ const Dropdown = (props: DropdownProps) => {
   };
   const renderClear = () => {
     return (
-      <TouchableOpacity onPress={onClear} style={[Theme.flex1]}>
+      <TouchableOpacity
+        onPress={onClear}
+        style={[Theme.flex1, {paddingVertical: 8}]}
+        hitSlop={{top: 10, bottom: 10, right: 10, left: 10}}>
         <Text size={18} color={colors.blue3} fontWeight={'700'}>
           Clear Filter
         </Text>
@@ -111,6 +114,7 @@ const Dropdown = (props: DropdownProps) => {
             backgroundColor: renderColorComplaint(
               (props.value as string) || '',
             ),
+            marginVertical: 8,
           },
           Theme.center,
         ]}>
@@ -127,6 +131,7 @@ const Dropdown = (props: DropdownProps) => {
           styles.containerSelect,
           {
             backgroundColor: colors.blue3,
+            marginVertical: 8,
           },
         ]}>
         <Text color={colors.white}>
@@ -140,7 +145,7 @@ const Dropdown = (props: DropdownProps) => {
   };
   const renderDefault = () => {
     return (
-      <View style={[Theme.flexRow, Theme.flex1]}>
+      <View style={[Theme.flexRow, Theme.flex1, {paddingVertical: 8}]}>
         {!!props.iconLeft && (
           <Image source={props.iconLeft} style={styles.icon} />
         )}
@@ -212,11 +217,11 @@ const styles = StyleSheet.create({
     zIndex: 999,
     flex: 1,
     backgroundColor: colors.blue4,
+    justifyContent: 'center',
   },
   button: {
     backgroundColor: colors.blue4,
     paddingHorizontal: 10,
-    paddingVertical: 8,
     borderRadius: 10,
   },
   icon: {
