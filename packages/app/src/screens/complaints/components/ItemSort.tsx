@@ -29,9 +29,9 @@ const ItemSort = (props: ItemSortProps) => {
         }
         key={props.index}>
         <View style={[styles.containerSelect]}>
-          <Text color={colors.white}>
+          <Text color={colors.white} size={12}>
             Event Date:{' '}
-            <Text color={colors.white} fontWeight={'600'}>
+            <Text color={colors.white} fontWeight={'600'} size={12}>
               {props.value?.eventDate == 'Newest' ? 'Oldest' : 'Newest'}
             </Text>
           </Text>
@@ -46,9 +46,9 @@ const ItemSort = (props: ItemSortProps) => {
         }
         key={props.index}>
         <View style={[styles.containerSelect]}>
-          <Text color={colors.white}>
+          <Text color={colors.white} size={12}>
             Created Date:{' '}
-            <Text color={colors.white} fontWeight={'600'}>
+            <Text color={colors.white} fontWeight={'600'} size={12}>
               {props.value?.createdDate == 'Newest' ? 'Oldest' : 'Newest'}
             </Text>
           </Text>
@@ -69,5 +69,6 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     marginBottom: 5,
     backgroundColor: colors.blue3,
+    width: '100%'
   },
 });
