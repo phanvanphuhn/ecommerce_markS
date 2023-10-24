@@ -127,7 +127,9 @@ const ComplaintsScreen = (props: ComplaintsScreenProps) => {
               },
             ]}>
             <Dropdown
-              onClear={() => setState({filterSelected: ''})}
+              onClear={() => {
+                setState({data: data, filterSelected: ''});
+              }}
               content={
                 <View style={styles.containerDropdown}>
                   {['submitted', 'not_submitted'].map((e, i) => {
@@ -187,7 +189,7 @@ const ComplaintsScreen = (props: ComplaintsScreenProps) => {
                   />
                 </View>
               }
-              onClear={() => setState({sortBy: null})}
+              onClear={() => setState({data: data, sortBy: null})}
               iconLeft={images.ic_sort}
               title={strings.sort}
               value={state.sortBy}
