@@ -117,7 +117,7 @@ const ComplaintsScreen = (props: ComplaintsScreenProps) => {
             flex: 1,
           }}>
           <Text size={18} fontWeight={'700'} lineHeight={26} marginBottom={10}>
-            {strings.complaint.allComplaints}
+            {state.data.length < data.length ? 'Search Results': strings.complaint.allComplaints}
           </Text>
           <View
             style={[
