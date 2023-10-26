@@ -12,6 +12,7 @@ import { ContactSearchModule } from './modules/contact-search/contact-search.mod
 import { UserProfilesModule } from './modules/user-profiles/user-profiles.module';
 import { ComplaintsModule } from './modules/complaints/complaints.module';
 import { LeaderboardModule } from './modules/leaderboard/leaderboard.module';
+import { SalesModule } from './modules/sales/sales.module';
 
 @Module({
   imports: [
@@ -76,6 +77,7 @@ import { LeaderboardModule } from './modules/leaderboard/leaderboard.module';
     UserProfilesModule,
     ComplaintsModule,
     LeaderboardModule,
+    SalesModule,
   ],
   controllers: [],
   providers: [],
