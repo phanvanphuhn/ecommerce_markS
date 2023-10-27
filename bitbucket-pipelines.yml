@@ -1,0 +1,22 @@
+image: atlassian/default-image:3
+options:
+  docker: true
+  size: 2x
+
+pipelines:
+  custom:
+    build-and-deploy-to-dev:
+      - step:
+          name: Build image
+          services:
+            - docker
+          size: 2x
+          deployment: Test
+          script:
+            - cd ./packages/server
+            - docker build . -t $AWS_ECR_REPOSITORY --build-arg "POSTGRES_USER=$POSTGRES_USER" --build-arg "POSTGRES_PASSWORD=$POSTGRES_PASSWORD" --build-arg "POSTGRES_DB=$POSTGRES_DB" --build-arg "DB_HOST=$DB_HOST" --build-arg "DB_PORT=$DB_PORT" --build-arg "DB_SCHEMA=$DB_SCHEMA" --build-arg "DATABASE_URL=postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$DB_HOST:$DB_PORT/$POSTGRES_DB?schema=$DB_SCHEMA&sslmode=prefer" --build-arg "NEST_PORT=$NEST_PORT" --build-arg "AZURE_TENANT_ID=$AZURE_TENANT_ID" --build-arg "AZURE_CLIENT_ID=$AZURE_CLIENT_ID" --build-arg "AZURE_CLIENT_SECRET=$AZURE_CLIENT_SECRET"
+
+definitions:
+  services:
+    docker:
+      memory: 4096
