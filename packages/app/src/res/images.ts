@@ -1,8 +1,8 @@
 /* eslint-disable global-require */
 /**
-* @author GNURT
-* @flow
-*/
+ * @author GNURT
+ * @flow
+ */
 
 const images = {
   LoadingScreen: require('../assets/images/LoadingScreen.png'),
@@ -74,5 +74,9 @@ const images = {
   ic_x: require('../assets/images/ic_x.png'),
   img_background: require('../assets/images/img_background.png'),
   img_logo: require('../assets/images/img_logo.png'),
+  ic_like_grey: require('../assets/images/ic_like_grey.png'),
+  ic_top1: require('../assets/images/ic_top1.png'),
+  ic_top2: require('../assets/images/ic_top2.png'),
+  ic_top3: require('../assets/images/ic_top3.png'),
 };
 export default images;
