@@ -140,7 +140,7 @@ android {
         debug {
             signingConfig signingConfigs.debug
             matchingFallbacks = ['debug', 'release'] // Addded this
-            resValue "string", "CodePushDeploymentKey", '"BQlj2L570dv_2hqf18PYPjK64fw-zENOC6ocm"'
+            resValue "string", "CodePushDeploymentKey", '"hDUZR-yMq9yUL2gls_p5GoydJfZwUBiKcMqvB"'
         }
         Staging {
             // Caution! In production, you need to generate your own keystore file.
@@ -149,7 +149,7 @@ android {
             minifyEnabled enableProguardInReleaseBuilds
             matchingFallbacks = ['release'] // Addded this
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-            resValue "string", "CodePushDeploymentKey", '"BQlj2L570dv_2hqf18PYPjK64fw-zENOC6ocm"'
+            resValue "string", "CodePushDeploymentKey", '"hDUZR-yMq9yUL2gls_p5GoydJfZwUBiKcMqvB"'
         }
         Production {
             // Caution! In production, you need to generate your own keystore file.
@@ -158,7 +158,7 @@ android {
             minifyEnabled enableProguardInReleaseBuilds
             matchingFallbacks = ['release'] // Addded this
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-            resValue "string", "CodePushDeploymentKey", '"pVnHApnf-zPzGe-Nh-wr1g7Ec1UbEecqdYGCj"'
+            resValue "string", "CodePushDeploymentKey", '"UAvRAK0W2z61GmTsFWBEQAfnMO-ywKBQgfc5D"'
         }
     }
 

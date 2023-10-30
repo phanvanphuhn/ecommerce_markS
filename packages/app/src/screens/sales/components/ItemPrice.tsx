@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {memo, useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import Theme from 'res/style/Theme';
 import Text from 'elements/Text';
@@ -6,7 +6,7 @@ import colors from 'res/colors';
 
 interface ItemPriceProps {
   currentValue?: number;
-  potentialValue?: number;
+  potentialValue?: string | number;
   title: string;
 }
 
@@ -43,7 +43,7 @@ const ItemPrice = (props: ItemPriceProps) => {
   );
 };
 
-export default ItemPrice;
+export default memo(ItemPrice);
 
 const styles = StyleSheet.create({
   container: {},

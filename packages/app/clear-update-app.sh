@@ -1,2 +1,2 @@
-appcenter codepush deployment clear -a gnurt250394/APP-ORDER-SEOULLIFE-ANDROID Production
-appcenter codepush deployment clear -a gnurt250394/APP-ORDER-SEOULLIFE-IOS Production
+appcenter codepush deployment clear -a Marks-Jarvis/Jarvis-android Production
+appcenter codepush deployment clear -a Marks-Jarvis/Jarvis-ios Production

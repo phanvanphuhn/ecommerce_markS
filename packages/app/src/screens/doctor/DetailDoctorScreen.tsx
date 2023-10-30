@@ -28,7 +28,6 @@ const DetailDoctorScreen = (props: DetailDoctorScreenProps) => {
   const aref = useAnimatedRef<Animated.ScrollView>();
   const scrollHandler = useScrollViewOffset(aref);
   let translateImage = useAnimatedStyle(() => {
-    console.log(scrollHandler.value);
     return {
       transform: [
         {
@@ -100,7 +99,6 @@ const DetailDoctorScreen = (props: DetailDoctorScreenProps) => {
             translateImage,
           ]}>
           <Image
-            source={''}
             defaultImage={images.ic_doctor_default}
             style={{
               borderWidth: 1,

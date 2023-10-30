@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {memo, useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -53,7 +53,7 @@ const ItemCollapsible = (props: ItemCollapsibleProps) => {
               ]}>
               <View style={[Theme.flex1]}>
                 {props.potentialValue ? (
-                  <Text center={true} marginRight={20}>
+                  <Text center={true} color={colors.orange} marginRight={20}>
                     {props.potentialValue}
                   </Text>
                 ) : (
@@ -80,7 +80,7 @@ const ItemCollapsible = (props: ItemCollapsibleProps) => {
   );
 };
 
-export default ItemCollapsible;
+export default memo(ItemCollapsible);
 
 const styles = StyleSheet.create({
   container: {

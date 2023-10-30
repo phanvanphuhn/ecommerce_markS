@@ -63,9 +63,7 @@ const CircleMultipleSlider: React.FC<CircleMultipleSliderProps> = ({
     percentBottom: valueBottom / (maxBottom || 1) || 0,
   });
   const center = width / 2;
-  console.log('=>(CircleMultipleSlider.tsx:66) center', center);
   const r = (width - strokeWidth) / 2 - 10;
-  console.log('=>(CircleMultipleSlider.tsx:68) r', r);
   const startAngle = Math.PI;
   const endAngle = 2 * Math.PI;
   const polarToCartesian = (
@@ -189,14 +187,7 @@ const CircleMultipleSlider: React.FC<CircleMultipleSliderProps> = ({
         width: thumbRadius,
         height: thumbRadius,
       };
-      console.log('=>(CircleMultipleSlider.tsx:197) rect', rect);
-      console.log('=>(CircleMultipleSlider.tsx:189) x', x);
-      console.log('=>(CircleMultipleSlider.tsx:190) y', y);
       if (insideBounds(rect, x, y)) {
-        console.log(
-          '=>(CircleMultipleSlider.tsx:200) insideBounds(rect, x, y)',
-          insideBounds(rect, x, y),
-        );
       }
     },
   });

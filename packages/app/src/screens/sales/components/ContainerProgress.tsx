@@ -1,4 +1,11 @@
-import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import React, {
+  memo,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import {
   View,
   StyleSheet,
@@ -41,7 +48,6 @@ const ContainerProgress = (props: ContainerProgressProps) => {
   });
   const [isOpen, open, close] = useModal();
   const {state, setState} = useContainerContext<IStateSales>();
-  console.log('=>(ContainerProgress.tsx:46) state', state);
   const renderDate = useCallback(() => {
     let date = state.currentDate ? moment(state.currentDate) : moment();
     switch (state.type) {
@@ -121,7 +127,10 @@ const ContainerProgress = (props: ContainerProgressProps) => {
               width={width - 100}
               thumbRadius={22}
               onUpdate={value => {
-                setState({percentage: value});
+                console.log('=>(ContainerProgress.tsx:225) value', value);
+                setState({
+                  percentage: value,
+                });
               }}
               strokeWidth={45}>
               <View
@@ -215,7 +224,7 @@ const ContainerProgress = (props: ContainerProgressProps) => {
   );
 };
 
-export default ContainerProgress;
+export default memo(ContainerProgress);
 
 const styles = StyleSheet.create({
   container: {
