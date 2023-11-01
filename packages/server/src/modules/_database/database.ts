@@ -3,6 +3,7 @@ import {
   Complaint,
   ContactSearch,
   Leaderboard,
+  Mobile_Sales,
   Sales,
   SliderAndCommission,
   TerritoryCategorization,
@@ -17,6 +18,7 @@ interface DB {
   'marks.SliderAndCommission': SliderAndCommission;
   'marks.TerritoryCategorization': TerritoryCategorization;
   'marks.Sales': Sales;
+  'marks.Mobile_Sales': Mobile_Sales;
 }
 
 export class Database extends Kysely<DB> {}
