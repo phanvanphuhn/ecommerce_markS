@@ -22,7 +22,10 @@ interface ItemCollapsibleProps {
 const ItemCollapsible = (props: ItemCollapsibleProps) => {
   const [isShow, setIsShow] = useState(false);
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      style={styles.container}
+      disabled={!props.children}
+      onPress={() => setIsShow(!isShow)}>
       <View style={[Theme.flexRowSpace, {alignItems: 'flex-start'}]}>
         <Image source={props.icon} />
         <View style={[Theme.flex1, Theme.pl10]}>
@@ -70,13 +73,13 @@ const ItemCollapsible = (props: ItemCollapsibleProps) => {
           <Image
             source={images.ic_dropdown}
             tintColor={colors.black}
-            style={{marginTop: 5}}
+            style={{marginTop: 5, marginRight: 2}}
           />
         ) : (
           <Image source={images.ic_dropdown} style={{opacity: 0}} />
         )}
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

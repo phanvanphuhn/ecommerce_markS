@@ -120,10 +120,10 @@ const PriceYear = (props: PriceYearProps) => {
               </Text>
             </View>
           </View>
-          <Text style={{width: '30%'}} marginRight={10}>
+          <Text style={{width: '30%'}} marginRight={6}>
             Current Est.$
           </Text>
-          <Text style={{width: '30%'}} marginRight={10}>
+          <Text style={{width: '30%'}} marginRight={6}>
             Potential Est.$
           </Text>
         </View>
