@@ -15,7 +15,7 @@ const ItemUser = (props: ItemUserProps) => {
   });
   return (
     <View style={[Theme.flexRow, styles.container]}>
-      <View style={{}}>
+      {/* <View style={{}}>
         <Image
           source={images.ic_doctor_default}
           style={{width: 100, height: 100, borderRadius: 50}}
@@ -35,7 +35,7 @@ const ItemUser = (props: ItemUserProps) => {
             }}
           />
         </View>
-      </View>
+      </View> */}
       <View style={[Theme.pt15, Theme.pl15]}>
         <Text size={25} fontWeight={'700'} color={colors.white}>
           Hi, John Appleseed
@@ -43,7 +43,7 @@ const ItemUser = (props: ItemUserProps) => {
         <Text size={15} fontWeight={'400'} color={colors.white}>
           Rank 5, 3000pts
         </Text>
-        <Rating
+        {/* <Rating
           rating={state.rating}
           max={10}
           iconHeight={20}
@@ -51,7 +51,7 @@ const ItemUser = (props: ItemUserProps) => {
           onRate={value => {
             setState({rating: value});
           }}
-        />
+        /> */}
       </View>
     </View>
   );

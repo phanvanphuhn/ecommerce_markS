@@ -75,7 +75,7 @@ const HeaderComplaint = ({title, onSearch}: HeaderComplaintProps) => {
     <View style={styles.groupHeader}>
       <Animated.View style={[{flex: 1, marginRight: 10}, styleAnim]}>
         <TextInput
-          placeholder={'Search Complaints'}
+          placeholder={'Search'}
           backgroundColor={colors.white}
           style={{borderRadius: 50, height: 30, paddingLeft: 5}}
           editable={true}
