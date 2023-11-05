@@ -209,7 +209,7 @@ const PriceYear = (props: PriceYearProps) => {
               potentialValue={0}
             />
             <ItemPrice
-              title={'Service Conteact'}
+              title={'Service Contract'}
               currentValue={0}
               potentialValue={0}
             />
