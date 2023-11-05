@@ -27,7 +27,7 @@ const ItemCollapsible = (props: ItemCollapsibleProps) => {
       disabled={!props.children}
       onPress={() => setIsShow(!isShow)}>
       <View style={[Theme.flexRowSpace, {alignItems: 'flex-start'}]}>
-        <Image source={props.icon} />
+        <Image source={props.icon} style={{paddingRight: 4}} />
         <View style={[Theme.flex1, Theme.pl10]}>
           <TouchableOpacity
             disabled={!props.children}
@@ -73,7 +73,7 @@ const ItemCollapsible = (props: ItemCollapsibleProps) => {
           <Image
             source={images.ic_dropdown}
             tintColor={colors.black}
-            style={{marginTop: 5, marginRight: 2}}
+            style={{marginTop: 4, paddingRight: 8}}
           />
         ) : (
           <Image source={images.ic_dropdown} style={{opacity: 0}} />
