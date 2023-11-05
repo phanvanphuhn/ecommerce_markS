@@ -169,3 +169,21 @@ model Sales {
   variablePayoutQ5_forNewHire                 String?
   commissionPayoutQ5_forNewHire               String?
 }
+
+enum mobileSalesTargetType {
+  year
+  quarter
+}
+
+model Mobile_Sales {
+  id Int @id @default(autoincrement())
+
+  salesRepEmail   String?
+  targetByQuarter String?
+  targetByYear    String?
+
+  quarter String?
+  year    String?
+
+  type mobileSalesTargetType @default(year)
+}

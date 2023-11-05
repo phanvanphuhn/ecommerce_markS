@@ -1,4 +1,4 @@
-import { Args, Query, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { SliderAndCommission } from '@generated/kysely/types';
 
@@ -13,6 +13,12 @@ import {
   SliderAndCommissionOutput,
   TerritoryCategorizationOutput,
 } from './dto/sales.dto';
+import {
+  MobileSalesFilterArgs,
+  MobileSalesOutput,
+  UpserMobileSalestQuarterArgs,
+  UpserMobileSalestYearArgs,
+} from './dto/mobile.sales.dto';
 
 @Resolver()
 export class SalesResolver {
@@ -32,10 +38,37 @@ export class SalesResolver {
 
   @Query(() => [SalesOutput])
   @UseGuards(AzureAuthGuard)
-  async getSalesByEmail(
-    @UserEntity() userInfo,
-    @Args() filter: SalesFilterArgs,
-  ) {
+  async getSales(@UserEntity() userInfo, @Args() filter: SalesFilterArgs) {
     return await this.salesService.getSalesByEmail(userInfo.email, filter);
+  }
+
+  @Query(() => [MobileSalesOutput])
+  @UseGuards(AzureAuthGuard)
+  async getMobileSales(
+    @UserEntity() userInfo,
+    @Args() filter: MobileSalesFilterArgs,
+  ) {
+    return await this.salesService.getMobileSales(userInfo.email, filter);
+  }
+
+  @Mutation(() => Boolean)
+  @UseGuards(AzureAuthGuard)
+  async upsertMobileSalesQuarter(
+    @Args() data: UpserMobileSalestQuarterArgs,
+    @UserEntity() userInfo,
+  ) {
+    return await this.salesService.upsertMobileSalesQuarter(
+      userInfo.email,
+      data,
+    );
+  }
+
+  @Mutation(() => Boolean)
+  @UseGuards(AzureAuthGuard)
+  async upsertMobileSalesYear(
+    @Args() data: UpserMobileSalestYearArgs,
+    @UserEntity() userInfo,
+  ) {
+    return await this.salesService.upsertMobileSalesYear(userInfo.email, data);
   }
 }
