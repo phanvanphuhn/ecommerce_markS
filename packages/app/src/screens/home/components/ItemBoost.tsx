@@ -66,6 +66,7 @@ const ItemBoost = (props: ItemBoostProps) => {
         value={state.value}
         width={width / 2 - 50}
         thumbRadius={22}
+        disabled={true}
         onUpdate={value => {
           console.log('=>(SalesScreen.tsx:157) value', value);
         }}

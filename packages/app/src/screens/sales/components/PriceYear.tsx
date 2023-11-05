@@ -10,11 +10,13 @@ import {useContainerContext} from 'components/ContainerProvider';
 import {IStateSales} from 'screens/sales/SalesScreen';
 import moment from 'moment';
 import {SliderData} from 'screens/sales/dataExample';
+import Biometric from 'screens/sales/components/Biometric';
 
 interface PriceYearProps {}
 
 const PriceYear = (props: PriceYearProps) => {
   const {state, setState} = useContainerContext<IStateSales>();
+  const [isBiometric, setIsBiometric] = useState(true);
   console.log('=>(PriceYear.tsx:18) state', state);
   const renderDate = useMemo(() => {
     let date = state.currentDate ? moment(state.currentDate) : moment();
@@ -53,7 +55,7 @@ const PriceYear = (props: PriceYearProps) => {
           '=>(PriceYear.tsx:36) getVariablePercent',
           getVariablePercent,
         );
-        return price.toFixed();
+        return (price < 0 ? 0 : price).toFixed();
       case 'year':
         return 0;
       case 'month':
@@ -62,6 +64,34 @@ const PriceYear = (props: PriceYearProps) => {
         return 0;
     }
   }, [state.type, state.data, getVariablePercent]);
+  const getKicker = useMemo(() => {
+    const {data} = state;
+    console.log('=>(PriceYear.tsx:31) data', data);
+    switch (state.type) {
+      case 'quarter':
+        return 804;
+      case 'year':
+        return 0;
+      case 'month':
+        return 0;
+      default:
+        return 0;
+    }
+  }, [state.type, state.data]);
+  const getEarlyBird = useMemo(() => {
+    const {data} = state;
+    console.log('=>(PriceYear.tsx:31) data', data);
+    switch (state.type) {
+      case 'quarter':
+        return 200;
+      case 'year':
+        return 0;
+      case 'month':
+        return 0;
+      default:
+        return 0;
+    }
+  }, [state.type, state.data]);
 
   const getCommissionSale = useMemo(() => {
     const {data} = state;
@@ -88,7 +118,7 @@ const PriceYear = (props: PriceYearProps) => {
           getCommissionPercent,
         );
         console.log('=>(PriceYear.tsx:61) price', price);
-        return price.toFixed();
+        return (price < 0 ? 0 : price).toFixed();
       case 'year':
         return 0;
       case 'month':
@@ -98,6 +128,11 @@ const PriceYear = (props: PriceYearProps) => {
     }
   }, [state.type, state.data, getCommissionSale, getCommissionPercent]);
 
+  if (isBiometric) {
+    return (
+      <Biometric key={state.type} onSuccess={() => setIsBiometric(false)} />
+    );
+  }
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View
@@ -148,17 +183,18 @@ const PriceYear = (props: PriceYearProps) => {
         <ItemCollapsible
           icon={images.ic_booster}
           title={'Sales Booster'}
-          currentValue={2000}>
+          currentValue={1000}
+          potentialValue={getKicker + getEarlyBird}>
           <View style={{}}>
             <ItemPrice
               title={'Kicker'}
               currentValue={1000}
-              potentialValue={2000}
+              potentialValue={getKicker}
             />
             <ItemPrice
               title={'Early Bird'}
               currentValue={0}
-              potentialValue={2000}
+              potentialValue={getEarlyBird}
             />
           </View>
         </ItemCollapsible>
@@ -170,12 +206,12 @@ const PriceYear = (props: PriceYearProps) => {
             <ItemPrice
               title={'Capital Equipment'}
               currentValue={1000}
-              potentialValue={2000}
+              potentialValue={0}
             />
             <ItemPrice
               title={'Service Conteact'}
               currentValue={0}
-              potentialValue={2000}
+              potentialValue={0}
             />
           </View>
         </ItemCollapsible>
@@ -183,6 +219,12 @@ const PriceYear = (props: PriceYearProps) => {
           icon={images.ic_total}
           title={'Total'}
           currentValue={2000}
+          potentialValue={
+            Number(getVariable) +
+            Number(getCommission) +
+            getKicker +
+            getEarlyBird
+          }
         />
       </View>
     </ScrollView>

@@ -42,6 +42,7 @@ interface CircleMultipleSliderProps {
   valueBottom: number;
   children?: React.ReactNode;
   onUpdate: (value: number) => void;
+  disabled?: boolean;
 }
 interface IState {
   percentTop?: number;
@@ -57,6 +58,7 @@ const CircleMultipleSlider: React.FC<CircleMultipleSliderProps> = ({
   maxBottom,
   valueBottom,
   onUpdate,
+  disabled,
 }) => {
   const [state, setState] = useStateCustom<IState>({
     percentTop: valueTop / (maxTop || 1) || 0,
@@ -104,6 +106,9 @@ const CircleMultipleSlider: React.FC<CircleMultipleSliderProps> = ({
 
   const gesture = Gesture.Pan()
     .onUpdate(({translationX, translationY, absoluteX}) => {
+      if (disabled) {
+        return;
+      }
       const oldCanvasX = translationX + previousPositionX.value;
       const oldCanvasY = translationY + previousPositionY.value;
       const xPrime = oldCanvasX - center;

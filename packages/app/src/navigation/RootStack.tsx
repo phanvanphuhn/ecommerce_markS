@@ -16,6 +16,7 @@ import FilterHospitalScreen from 'screens/doctor/FilterHospitalScreen';
 import DetailDoctorScreen from 'screens/doctor/DetailDoctorScreen';
 import ScanBarCodeScreen from 'screens/scanBarCode/ScanBarCodeScreen';
 import DetailComplaintScreen from 'screens/complaints/DetailComplaintScreen';
+import SearchPlanScreen from 'screens/plan/SearchPlanScreen';
 
 const Stack = createStackNavigator();
 
@@ -61,6 +62,10 @@ const RootStack = memo(() => {
       <Stack.Screen
         name={Routes.DetailComplaintScreen}
         component={DetailComplaintScreen}
+      />
+      <Stack.Screen
+        name={Routes.SearchPlanScreen}
+        component={SearchPlanScreen}
       />
 
       <Stack.Group

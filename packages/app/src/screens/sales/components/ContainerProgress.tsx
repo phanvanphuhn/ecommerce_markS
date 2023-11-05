@@ -123,6 +123,7 @@ const ContainerProgress = (props: ContainerProgressProps) => {
               maxBottom={100}
               valueBottom={100}
               maxTop={100}
+              disabled={state.type != 'quarter'}
               valueTop={85}
               width={width - 100}
               thumbRadius={22}

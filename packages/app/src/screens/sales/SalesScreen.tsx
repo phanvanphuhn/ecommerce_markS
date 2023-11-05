@@ -119,7 +119,9 @@ const SalesScreen = (props: SalesScreenProps) => {
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
           <ContainerProgress />
-          {(state.type == 'year' || state.type == 'quarter') && <PriceYear />}
+          {(state.type == 'year' || state.type == 'quarter') && (
+            <PriceYear key={state.type} />
+          )}
           {state.type == 'month' && <PriceMonth />}
         </ScrollView>
       </Container>

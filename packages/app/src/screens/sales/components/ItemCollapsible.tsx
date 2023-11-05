@@ -56,7 +56,7 @@ const ItemCollapsible = (props: ItemCollapsibleProps) => {
               ]}>
               <View style={[Theme.flex1]}>
                 {props.potentialValue ? (
-                  <Text center={true} color={colors.orange} marginRight={20}>
+                  <Text center={true} color={colors.orange}>
                     {props.potentialValue}
                   </Text>
                 ) : (

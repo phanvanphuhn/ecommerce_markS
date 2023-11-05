@@ -28,6 +28,7 @@ import CalendarMonth, {
   CalendarListRef,
 } from 'screens/plan/components/CalendarMonth';
 import {TypeDate} from 'res/type/calendar';
+import {Routes} from 'configs';
 
 interface PlanScreenProps {}
 interface IState {
@@ -131,7 +132,12 @@ const PlanScreen = (props: PlanScreenProps) => {
             }}
             iconStyle={{tintColor: colors.white}}
           />
-          <ButtonIcon icon={images.ic_search} marginLeft={15} />
+          <ButtonIcon
+            icon={images.ic_search}
+            tintColor={colors.white}
+            onPress={() => navigation.navigate(Routes.SearchPlanScreen)}
+            marginLeft={15}
+          />
         </View>
       }
       style={styles.container}>

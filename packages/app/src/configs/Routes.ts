@@ -34,6 +34,7 @@ enum Routes {
   PlanScreen = 'PlanScreen',
   CallLogScreen = 'CallLogScreen',
   CaseLogScreen2 = 'CaseLogScreen2',
+  SearchPlanScreen = 'SearchPlanScreen',
 
   // Doctor
   DoctorSearchScreen = 'DoctorSearchScreen',
