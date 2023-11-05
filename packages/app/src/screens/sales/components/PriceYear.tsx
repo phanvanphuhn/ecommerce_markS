@@ -18,6 +18,7 @@ const PriceYear = (props: PriceYearProps) => {
   const {state, setState} = useContainerContext<IStateSales>();
   const [isBiometric, setIsBiometric] = useState(true);
   console.log('=>(PriceYear.tsx:18) state', state);
+
   const renderDate = useMemo(() => {
     let date = state.currentDate ? moment(state.currentDate) : moment();
     switch (state.type) {
@@ -29,6 +30,49 @@ const PriceYear = (props: PriceYearProps) => {
         return date.format('MMM YYYY');
     }
   }, [state.currentDate, state.type]);
+
+  const getQuarterTargetAchieved = useMemo(() => {
+    return state.data.Sales_achievement_percentage_by_quarter >= 100 ? 1 : 0;
+  }, [state.data.Sales_achievement_percentage_by_quarter]);
+
+  const getPreviousQuarterTargetAchieved = useMemo(() => {
+    let date = state.currentDate ? moment(state.currentDate) : moment();
+    let quarter = Math.ceil((date.month() + 1) / 3);
+    if (quarter == 1) {
+      return 0;
+    } else {
+      return quarter - 1;
+    }
+  }, [state.currentDate, getQuarterTargetAchieved]);
+
+  const getTotalConsecQuarter = useMemo(() => {
+    return getQuarterTargetAchieved + getPreviousQuarterTargetAchieved;
+  }, [getPreviousQuarterTargetAchieved, getQuarterTargetAchieved]);
+
+  const getTargetAchieved = useMemo(() => {
+    return state.data.YTD_total_sales >= state.data.Target_by_quarter ? 1 : 0;
+  }, [state.data.YTD_total_sales]);
+
+  const getKicker = useMemo(() => {
+    if (state.type != 'quarter') {
+      return 0;
+    }
+    console.log(
+      '=>(PriceYear.tsx:67) getTotalConsecQuarter',
+      getTotalConsecQuarter,
+    );
+    switch (getTotalConsecQuarter) {
+      case 2:
+        return 600;
+      case 3:
+        return 800;
+      case 4:
+        return 1000;
+      default:
+        return 600;
+    }
+  }, [getTotalConsecQuarter, state.type]);
+
   const getCommissionPercent = useMemo(() => {
     let obj = SliderData.find(
       e =>
@@ -37,6 +81,7 @@ const PriceYear = (props: PriceYearProps) => {
     );
     return obj?.Commission_percentage || 0;
   }, [state.percentage]);
+
   const getVariablePercent = useMemo(() => {
     let obj = SliderData.find(
       e =>
@@ -45,6 +90,7 @@ const PriceYear = (props: PriceYearProps) => {
     );
     return obj?.Variable_payout_percentage || 0;
   }, [state.percentage]);
+
   const getVariable = useMemo(() => {
     const {data} = state;
     console.log('=>(PriceYear.tsx:31) data', data);
@@ -64,26 +110,17 @@ const PriceYear = (props: PriceYearProps) => {
         return 0;
     }
   }, [state.type, state.data, getVariablePercent]);
-  const getKicker = useMemo(() => {
-    const {data} = state;
-    console.log('=>(PriceYear.tsx:31) data', data);
-    switch (state.type) {
-      case 'quarter':
-        return 804;
-      case 'year':
-        return 0;
-      case 'month':
-        return 0;
-      default:
-        return 0;
-    }
-  }, [state.type, state.data]);
+
   const getEarlyBird = useMemo(() => {
     const {data} = state;
-    console.log('=>(PriceYear.tsx:31) data', data);
+    let date = state.currentDate ? moment(state.currentDate) : moment();
     switch (state.type) {
       case 'quarter':
-        return 200;
+        if (date.month() + 1 == 10 && getTargetAchieved == 1) {
+          return 1500;
+        } else if (date.month() + 1 == 11 && getTargetAchieved == 1) {
+          return 750;
+        }
       case 'year':
         return 0;
       case 'month':
@@ -91,7 +128,7 @@ const PriceYear = (props: PriceYearProps) => {
       default:
         return 0;
     }
-  }, [state.type, state.data]);
+  }, [state.type, state.data, getTargetAchieved, state.currentDate]);
 
   const getCommissionSale = useMemo(() => {
     const {data} = state;
@@ -108,6 +145,7 @@ const PriceYear = (props: PriceYearProps) => {
         return 0;
     }
   }, [state.type, state.data, getCommissionPercent]);
+
   const getCommission = useMemo(() => {
     const {data} = state;
     switch (state.type) {

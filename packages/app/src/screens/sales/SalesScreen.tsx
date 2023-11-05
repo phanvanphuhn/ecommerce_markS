@@ -52,7 +52,7 @@ interface IDataVariable {
 
 const SalesScreen = (props: SalesScreenProps) => {
   const [state, setState] = useStateCustom<IStateSales>({
-    percentage: 0,
+    percentage: 100,
     type: 'month',
     currentDate: moment('2023-06-01', 'YYYY-MM-DD').format('YYYY-MM-DD'),
     data: {
@@ -81,7 +81,7 @@ const SalesScreen = (props: SalesScreenProps) => {
       Service_contract_sales: 0,
       Kicker: 0,
       Early_bird: 0,
-      YTD_total_sales: 0,
+      YTD_total_sales: 133500,
     },
   });
   return (

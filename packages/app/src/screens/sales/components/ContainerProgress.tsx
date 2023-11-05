@@ -124,7 +124,7 @@ const ContainerProgress = (props: ContainerProgressProps) => {
               valueBottom={100}
               maxTop={100}
               disabled={state.type != 'quarter'}
-              valueTop={85}
+              valueTop={state.data.Sales_achievement_percentage_by_quarter}
               width={width - 100}
               thumbRadius={22}
               onUpdate={value => {

@@ -123,11 +123,7 @@ const Biometric = (props: BiometricProps) => {
     }
   };
   const [state, setState] = useState();
-  return (
-    <View style={styles.container}>
-      <Text>Biometric</Text>
-    </View>
-  );
+  return <View style={styles.container} />;
 };
 
 export default Biometric;
