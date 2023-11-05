@@ -3,7 +3,7 @@ import {StyleSheet, Text, TextInput, View} from 'react-native';
 import colors from 'res/colors';
 
 const InputForm = (props: any) => {
-  const [value, setValue] = React.useState<String | null>();
+  const [value, setValue] = React.useState<string>('');
 
   return (
     <View style={styles.container}>
@@ -11,6 +11,7 @@ const InputForm = (props: any) => {
 
       <View style={styles.textInputContainer}>
         <TextInput
+          value={value}
           onChangeText={text => setValue(text)}
           placeholder={props?.placeholder}
           style={[
