@@ -3,33 +3,47 @@ import Routes from 'configs/Routes';
 import {BaseUseNavigationProps} from 'navigation/BaseNavigationProps';
 import {MainParamList} from 'navigation/service/NavigationParams';
 import React, {useState} from 'react';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Dimensions,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 import IconEntypo from 'react-native-vector-icons/Entypo';
 import colors from 'res/colors';
 import images from 'res/images';
 
-const FloatButton = () => {
+const SCREEN_HEIGHT = Dimensions.get('window').height;
+const SCREEN_WIDTH = Dimensions.get('window').width;
+
+type TProps = {
+  isOpen: boolean;
+  setState: ({}) => void;
+};
+
+const FloatButton = (props: TProps) => {
+  const {isOpen, setState} = props;
   const navigation = useNavigation<BaseUseNavigationProps<MainParamList>>();
 
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-
   const onPressFloatButton = () => {
-    setIsOpen(!isOpen);
+    setState({isShowCreateCaseLog: !isOpen});
   };
 
   const onCreateCaseLog = () => {
-    setIsOpen(!isOpen);
+    setState({isShowCreateCaseLog: !isOpen});
     navigation.navigate(Routes.CaseLogScreen2, {isCreateNew: true});
   };
 
   const onCreatePlanCall = () => {
-    setIsOpen(!isOpen);
+    setState({isShowCreateCaseLog: !isOpen});
     navigation.navigate(Routes.CallLogScreen, {isCreateNew: true});
   };
 
   return (
-    <>
+    <View>
       {isOpen && (
         <View style={[styles.container, {bottom: 130}]}>
           <Text style={styles.title}>New Plan Call</Text>
@@ -69,7 +83,7 @@ const FloatButton = () => {
           )}
         </TouchableOpacity>
       </View>
-    </>
+    </View>
   );
 };
 

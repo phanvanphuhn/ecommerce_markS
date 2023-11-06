@@ -651,6 +651,8 @@ PODS:
     - React-Core
   - SocketRocket (0.6.1)
   - SSZipArchive (2.2.3)
+  - TouchID (4.4.1):
+    - React
   - vision-camera-code-scanner (0.2.0):
     - GoogleMLKit/BarcodeScanning
     - React-Core
@@ -747,6 +749,7 @@ DEPENDENCIES:
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
+  - TouchID (from `../node_modules/react-native-touch-id`)
   - vision-camera-code-scanner (from `../node_modules/vision-camera-code-scanner`)
   - VisionCamera (from `../node_modules/react-native-vision-camera`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -903,6 +906,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-svg"
   RNVectorIcons:
     :path: "../node_modules/react-native-vector-icons"
+  TouchID:
+    :path: "../node_modules/react-native-touch-id"
   vision-camera-code-scanner:
     :path: "../node_modules/vision-camera-code-scanner"
   VisionCamera:
@@ -1003,6 +1008,7 @@ SPEC CHECKSUMS:
   RNVectorIcons: 8b5bb0fa61d54cd2020af4f24a51841ce365c7e9
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9
+  TouchID: ba4c656d849cceabc2e4eef722dea5e55959ecf4
   vision-camera-code-scanner: dda884a7f3ec8243a2a6d6489b91860648371bca
   VisionCamera: 523b49054bee9dace64189ab6631cb41e8b83fe0
   Yoga: 065f0b74dba4832d6e328238de46eb72c5de9556

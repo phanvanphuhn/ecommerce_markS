@@ -18,41 +18,70 @@ export interface IStateSales {
   type?: TabDateType;
   percentage?: number;
   currentDate?: string;
-  data?: any;
+  data: IDataVariable;
+}
+
+interface IDataVariable {
+  New_hire: boolean;
+  MixedBag_70: boolean;
+  Variable_pay_by_year: number;
+  Variable_pay_by_quarter: number;
+  Variable_pay_by_month: number;
+  Sales_by_year: number;
+  Sales_by_quarter: number;
+  Sales_by_month: number;
+  Target_by_year: number;
+  Target_by_quarter: number;
+  Target_by_month: number;
+  Sales_achievement_percentage_by_year: number;
+  Sales_achievement_percentage_by_quarter: number;
+  Sales_achievement_percentage_by_month: number;
+  Variable_payout_percentage: number;
+  Target_by_year_USD: number;
+  Territory_category: number;
+  Commission_percentage: number;
+  Commisionable_sales_by_quarter: number;
+  Variable_payout_by_quarter: number;
+  Commission_payout_by_quarter: number;
+  Capital_equipment_sales: number;
+  Service_contract_sales: number;
+  Kicker: number;
+  Early_bird: number;
+  YTD_total_sales: number;
 }
 
 const SalesScreen = (props: SalesScreenProps) => {
   const [state, setState] = useStateCustom<IStateSales>({
-    percentage: 0,
+    percentage: 100,
     type: 'month',
     currentDate: moment('2023-06-01', 'YYYY-MM-DD').format('YYYY-MM-DD'),
     data: {
-      New_hire: '',
-      MixedBag_70: '',
-      Variable_pay_by_year: '7,750',
-      Variable_pay_by_quarter: '1,550',
-      Variable_pay_by_month: '516.67',
-      Sales_by_year: '103000',
-      Sales_by_quarter: '51600',
-      Sales_by_month: '8500',
-      Target_by_year: '30500',
-      Target_by_quarter: '9105',
-      Target_by_month: '1500',
-      Sales_achievement_percentage_by_year: '85',
-      Sales_achievement_percentage_by_quarter: '85',
-      Sales_achievement_percentage_by_month: '85',
-      Variable_payout_percentage: '',
-      Target_by_year_USD: '',
-      Territory_category: '',
-      Commission_percentage: '',
-      Commisionable_sales_by_quarter: '',
-      Variable_payout_by_quarter: '',
-      Commission_payout_by_quarter: '',
-      Capital_equipment_sales: '',
-      Service_contract_sales: '',
-      Kicker: '',
-      Early_bird: '',
-      YTD_total_sales: '',
+      New_hire: false,
+      MixedBag_70: true,
+      Variable_pay_by_year: 7750,
+      Variable_pay_by_quarter: 1550,
+      Variable_pay_by_month: 516.67,
+      Sales_by_year: 103000,
+      Sales_by_quarter: 51600,
+      Sales_by_month: 8500,
+      Target_by_year: 30500,
+      Target_by_quarter: 51600,
+      Target_by_month: 1500,
+      Sales_achievement_percentage_by_year: 85,
+      Sales_achievement_percentage_by_quarter: 85,
+      Sales_achievement_percentage_by_month: 85,
+      Variable_payout_percentage: 100,
+      Target_by_year_USD: 0,
+      Territory_category: 0,
+      Commission_percentage: 0,
+      Commisionable_sales_by_quarter: 0,
+      Variable_payout_by_quarter: 0,
+      Commission_payout_by_quarter: 0,
+      Capital_equipment_sales: 0,
+      Service_contract_sales: 0,
+      Kicker: 0,
+      Early_bird: 0,
+      YTD_total_sales: 133500,
     },
   });
   return (
@@ -90,7 +119,9 @@ const SalesScreen = (props: SalesScreenProps) => {
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
           <ContainerProgress />
-          {(state.type == 'year' || state.type == 'quarter') && <PriceYear />}
+          {(state.type == 'year' || state.type == 'quarter') && (
+            <PriceYear key={state.type} />
+          )}
           {state.type == 'month' && <PriceMonth />}
         </ScrollView>
       </Container>

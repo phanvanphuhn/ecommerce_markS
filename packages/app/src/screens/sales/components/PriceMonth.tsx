@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {memo, useState} from 'react';
 import {View, StyleSheet, FlatList} from 'react-native';
 import Text from 'elements/Text';
 import Theme from 'res/style/Theme';
@@ -98,7 +98,7 @@ const PriceMonth = (props: PriceMonthProps) => {
   );
 };
 
-export default PriceMonth;
+export default memo(PriceMonth);
 
 const styles = StyleSheet.create({
   container: {padding: 15, flex: 1},

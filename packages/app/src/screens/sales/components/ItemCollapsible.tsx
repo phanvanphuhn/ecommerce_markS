@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {memo, useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -22,9 +22,12 @@ interface ItemCollapsibleProps {
 const ItemCollapsible = (props: ItemCollapsibleProps) => {
   const [isShow, setIsShow] = useState(false);
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      style={styles.container}
+      disabled={!props.children}
+      onPress={() => setIsShow(!isShow)}>
       <View style={[Theme.flexRowSpace, {alignItems: 'flex-start'}]}>
-        <Image source={props.icon} />
+        <Image source={props.icon} style={{paddingRight: 4}} />
         <View style={[Theme.flex1, Theme.pl10]}>
           <TouchableOpacity
             disabled={!props.children}
@@ -53,7 +56,7 @@ const ItemCollapsible = (props: ItemCollapsibleProps) => {
               ]}>
               <View style={[Theme.flex1]}>
                 {props.potentialValue ? (
-                  <Text center={true} marginRight={20}>
+                  <Text center={true} color={colors.orange}>
                     {props.potentialValue}
                   </Text>
                 ) : (
@@ -70,17 +73,17 @@ const ItemCollapsible = (props: ItemCollapsibleProps) => {
           <Image
             source={images.ic_dropdown}
             tintColor={colors.black}
-            style={{marginTop: 5}}
+            style={{marginTop: 4, paddingRight: 8}}
           />
         ) : (
           <Image source={images.ic_dropdown} style={{opacity: 0}} />
         )}
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
-export default ItemCollapsible;
+export default memo(ItemCollapsible);
 
 const styles = StyleSheet.create({
   container: {

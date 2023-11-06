@@ -12,7 +12,7 @@ echo "${options[choice]}"
 
 
 echo "RUN: clear ANDROID ${options[choice]}"
-appcenter codepush deployment clear -a gnurt250394/APP-ORDER-SEOULLIFE-ANDROID "${options[choice]}"
+appcenter codepush deployment clear -a Marks-Jarvis/Jarvis-android "${options[choice]}"
 
 echo "RUN: clear IOS ${options[choice]}"
-appcenter codepush deployment clear -a gnurt250394/APP-ORDER-SEOULLIFE-IOS "${options[choice]}"
+appcenter codepush deployment clear -a Marks-Jarvis/Jarvis-ios "${options[choice]}"

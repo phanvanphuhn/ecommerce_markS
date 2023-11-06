@@ -49,17 +49,19 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Cho phép $(APP_NAME) truy cập máy ảnh của thiết bị này để lưu hoặc cập nhật ảnh cho ứng dụng.</string>
+	<string>Allow $(APP_NAME) to access this device's photos to save or update photos for the app.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Cho phép $(APP_NAME) luôn truy cập vào thông tin vị trí của người dùng.</string>
+	<string>Allow $(APP_NAME) to always access the user's location information.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Cho phép $(APP_NAME) quyền sử dụng địa chỉ để cập nhật vị trí hiện tại của bạn.</string>
+	<string>Allow $(APP_NAME) permission to use the address to update your current location.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Cho phép $(APP_NAME) quyền sử dụng địa chỉ để cập nhật vị trí hiện tại của bạn khi dùng ứng dụng.</string>
+	<string>Allow $(APP_NAME) permission to use your address to update your current location when using the app.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Cho phép $(APP_NAME) truy cập mcrô của thiết bị này để ghi âm và thực hiện cuộc gọi.</string>
+	<string>Allow $(APP_NAME) to access this device's microphone for recording and making calls.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Cho phép $(APP_NAME) truy cập vào thư viện ảnh của thiết bị này để lưu hoặc cập nhật ảnh cho ứng dụng.</string>
+	<string>Allow $(APP_NAME) to access this device's photo library to save or update photos for the app.</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Enabling Face ID allows you quick and secure access to your account.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>

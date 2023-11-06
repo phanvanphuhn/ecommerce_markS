@@ -13,7 +13,7 @@ export class LeaderboardResolver {
   constructor(private readonly leaderboardService: LeaderboardService) {}
 
   @Query(() => [LeaderboardOuput])
-  // @UseGuards(AzureAuthGuard)
+  @UseGuards(AzureAuthGuard)
   async leaderboard(
     @UserEntity() userInfo,
     @Args() filter: LeaderboardFilterArgs,

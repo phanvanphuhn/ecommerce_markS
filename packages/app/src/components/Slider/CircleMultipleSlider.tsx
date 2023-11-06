@@ -42,6 +42,7 @@ interface CircleMultipleSliderProps {
   valueBottom: number;
   children?: React.ReactNode;
   onUpdate: (value: number) => void;
+  disabled?: boolean;
 }
 interface IState {
   percentTop?: number;
@@ -57,15 +58,14 @@ const CircleMultipleSlider: React.FC<CircleMultipleSliderProps> = ({
   maxBottom,
   valueBottom,
   onUpdate,
+  disabled,
 }) => {
   const [state, setState] = useStateCustom<IState>({
     percentTop: valueTop / (maxTop || 1) || 0,
     percentBottom: valueBottom / (maxBottom || 1) || 0,
   });
   const center = width / 2;
-  console.log('=>(CircleMultipleSlider.tsx:66) center', center);
   const r = (width - strokeWidth) / 2 - 10;
-  console.log('=>(CircleMultipleSlider.tsx:68) r', r);
   const startAngle = Math.PI;
   const endAngle = 2 * Math.PI;
   const polarToCartesian = (
@@ -106,6 +106,9 @@ const CircleMultipleSlider: React.FC<CircleMultipleSliderProps> = ({
 
   const gesture = Gesture.Pan()
     .onUpdate(({translationX, translationY, absoluteX}) => {
+      if (disabled) {
+        return;
+      }
       const oldCanvasX = translationX + previousPositionX.value;
       const oldCanvasY = translationY + previousPositionY.value;
       const xPrime = oldCanvasX - center;
@@ -189,14 +192,7 @@ const CircleMultipleSlider: React.FC<CircleMultipleSliderProps> = ({
         width: thumbRadius,
         height: thumbRadius,
       };
-      console.log('=>(CircleMultipleSlider.tsx:197) rect', rect);
-      console.log('=>(CircleMultipleSlider.tsx:189) x', x);
-      console.log('=>(CircleMultipleSlider.tsx:190) y', y);
       if (insideBounds(rect, x, y)) {
-        console.log(
-          '=>(CircleMultipleSlider.tsx:200) insideBounds(rect, x, y)',
-          insideBounds(rect, x, y),
-        );
       }
     },
   });

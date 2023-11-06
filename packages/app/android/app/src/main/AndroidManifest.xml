@@ -9,6 +9,7 @@
     <!-- optionally, if you want to record audio: -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
 
     <application
       android:name=".MainApplication"
