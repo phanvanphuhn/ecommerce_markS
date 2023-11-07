@@ -44,7 +44,7 @@ const LoginScreen = (props: LoginScreenProps) => {
           token: auth.accessToken,
           path: '/me',
         });
-        dispatch(onLogin(info, auth.accessToken));
+        dispatch(onLogin(info, auth.rawIdToken));
         reset(Routes.DrawerStack);
         hideLoading();
       }
@@ -55,8 +55,8 @@ const LoginScreen = (props: LoginScreenProps) => {
     }
   };
   const _onLogin = () => {
-    reset(Routes.DrawerStack);
-    // getAzureToken();
+    // reset(Routes.DrawerStack);
+    getAzureToken();
   };
   return (
     <Container hideHeader={true}>

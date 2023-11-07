@@ -100,17 +100,17 @@ export const getDateOfType = (type: TypeDate, date: string) => {
 
 export const renderColorComplaint = (status: string) => {
   switch (status) {
-    case 'submitted':
+    case 'Submitted':
       return colors.primary;
-    case 'not_submitted':
+    case 'Auto Submitted':
       return '#80C';
   }
 };
 export const renderStatusComplaint = (status: string) => {
   switch (status) {
-    case 'submitted':
+    case 'Submitted':
       return 'Submitted';
-    case 'not_submitted':
-      return 'Not submitted';
+    case 'Auto Submitted':
+      return 'Auto Submitted';
   }
 };

@@ -26,6 +26,7 @@ import {GET_DIVISION_LIST_QUERY} from 'apollo/query/getFilterDivisionList';
 import {GET_HOSPITAL_LIST_QUERY} from 'apollo/query/getFilterHospitalList';
 import {GET_SPECIALTY_LIST_QUERY} from 'apollo/query/getFilterSpecialtyList';
 import {useLazyQuery} from '@apollo/client';
+import {useSelector} from 'hooks/useSelector';
 interface FilterDoctorScreenProps {}
 interface IState {
   special?: ItemOptionResponse[];
@@ -37,6 +38,7 @@ const FilterDoctorScreen = (
   props: BaseNavigationProps<MainParamList, Routes.FilterDoctorScreen>,
 ) => {
   const route = useRoute<BaseRouteProps<Routes.FilterDoctorScreen>>();
+  const userProfile = useSelector(state => state.userProfile);
 
   const [state, setState] = useStateCustom<IState>({
     special: [],
@@ -46,12 +48,12 @@ const FilterDoctorScreen = (
   });
   const [getDivision] = useLazyQuery(GET_DIVISION_LIST_QUERY, {
     variables: {
-      salesRepEmail: 'ChuanBao.Chin@bsci.com',
+      salesRepEmail: userProfile.user?.mail,
     },
   });
   const [getSpecialty] = useLazyQuery(GET_SPECIALTY_LIST_QUERY, {
     variables: {
-      salesRepEmail: 'ChuanBao.Chin@bsci.com',
+      salesRepEmail: userProfile.user?.mail,
     },
   });
   const convertData = (arr: string[]) => {
