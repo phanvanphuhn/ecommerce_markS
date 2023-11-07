@@ -44,7 +44,6 @@ const LoginScreen = (props: LoginScreenProps) => {
           token: auth.accessToken,
           path: '/me',
         });
-        console.log('=>(LoginScreen.tsx:45) auth', auth);
         dispatch(onLogin(info, auth.rawIdToken));
         reset(Routes.DrawerStack);
         hideLoading();
@@ -56,6 +55,7 @@ const LoginScreen = (props: LoginScreenProps) => {
     }
   };
   const _onLogin = () => {
+    // reset(Routes.DrawerStack);
     getAzureToken();
   };
   return (

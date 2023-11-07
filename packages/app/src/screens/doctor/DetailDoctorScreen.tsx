@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import Container from 'elements/Layout/Container';
 import strings from 'res/strings';
@@ -18,13 +18,37 @@ import Animated, {
   useScrollViewOffset,
 } from 'react-native-reanimated';
 import useStateCustom from 'hooks/useStateCustom';
+import {useLazyQuery} from '@apollo/client';
+import {GET_DOCTOR_QUERY} from 'apollo/query/getDoctorSearchList';
+import {GET_DOCTOR_PROFILE_QUERY} from 'apollo/query/getDoctorProfile';
+import {doc} from 'prettier';
+import {BaseNavigationProps} from 'navigation/BaseNavigationProps';
+import {MainParamList} from 'navigation/service/NavigationParams';
+import {Routes} from 'configs';
 
 interface DetailDoctorScreenProps {}
 
-const DetailDoctorScreen = (props: DetailDoctorScreenProps) => {
+const DetailDoctorScreen = (
+  props: BaseNavigationProps<MainParamList, Routes.DetailDoctorScreen>,
+) => {
   const [state, setState] = useStateCustom({
     isEdit: false,
+    listHospital: [],
+    hospital: {},
   });
+  const [getData, {data, loading}] = useLazyQuery(GET_DOCTOR_PROFILE_QUERY);
+
+  useEffect(() => {
+    getData({
+      variables: {
+        doctorEmail: props.route.params.item.doctorEmail,
+      },
+      onCompleted: response => {
+        console.log('=>(DetailDoctorScreen.tsx:50) response', response);
+        setState({listHospital: response.data, hospital: response.data[0]});
+      },
+    });
+  }, []);
   const aref = useAnimatedRef<Animated.ScrollView>();
   const scrollHandler = useScrollViewOffset(aref);
   let translateImage = useAnimatedStyle(() => {
@@ -125,10 +149,10 @@ const DetailDoctorScreen = (props: DetailDoctorScreenProps) => {
                 justifyContent: 'center',
               }}>
               <Text size={21} lineHeight={26} marginBottom={5}>
-                Prof. Alistair Chong
+                {data?.data[0].doctorName}
               </Text>
               <Text lineHeight={24} size={15}>
-                Associate Professor Senior Consultant
+                {data?.data[0].doctorTitle}
               </Text>
               <View style={[Theme.flexRowSpace, Theme.mt20]}>
                 <TouchableOpacity
@@ -169,7 +193,7 @@ const DetailDoctorScreen = (props: DetailDoctorScreenProps) => {
                 Email
               </Text>
               <TextInput
-                value={'alistair.chong@singhealth.com.sg'}
+                value={data?.data[0].doctorEmail}
                 editable={state.isEdit}
                 style={styles.input}
               />
@@ -185,7 +209,7 @@ const DetailDoctorScreen = (props: DetailDoctorScreenProps) => {
                 Mobile Number
               </Text>
               <TextInput
-                value={'98765432'}
+                value={data?.data[0].doctorPhone}
                 editable={state.isEdit}
                 style={styles.input}
               />
@@ -202,19 +226,32 @@ const DetailDoctorScreen = (props: DetailDoctorScreenProps) => {
                   Theme.flexRow,
                   {flexWrap: 'wrap', height: undefined},
                 ]}>
-                {['Raffles Hospita', 'National Heart Centre'].map((e, i) => {
+                {state.listHospital.map((e, i) => {
+                  console.log('=>(DetailDoctorScreen.tsx:297) e', e);
                   return (
-                    <View style={styles.containerSelect} key={i}>
-                      <Text>{e}</Text>
+                    <View
+                      style={[
+                        styles.containerSelect,
+                        {
+                          backgroundColor:
+                            state.hospital?.hospital == e.hospital
+                              ? colors.gray2
+                              : colors.gray3,
+                        },
+                      ]}
+                      key={i}>
+                      <Text
+                        color={
+                          state.hospital?.hospital == e.hospital
+                            ? colors.black
+                            : colors.white
+                        }>
+                        {e.hospital}
+                      </Text>
                     </View>
                   );
                 })}
               </View>
-              <TextInput
-                value={'aaaa@gmail.com'}
-                editable={state.isEdit}
-                style={styles.input}
-              />
               <Text
                 lineHeight={18}
                 size={13}
@@ -223,7 +260,7 @@ const DetailDoctorScreen = (props: DetailDoctorScreenProps) => {
                 Country
               </Text>
               <TextInput
-                value={'Singapore'}
+                value={''}
                 editable={state.isEdit}
                 style={styles.input}
               />
@@ -235,7 +272,7 @@ const DetailDoctorScreen = (props: DetailDoctorScreenProps) => {
                 Specialty
               </Text>
               <TextInput
-                value={'Cardiology'}
+                value={state.hospital.doctorSpecialty}
                 editable={state.isEdit}
                 style={styles.input}
               />
@@ -247,7 +284,7 @@ const DetailDoctorScreen = (props: DetailDoctorScreenProps) => {
                 Division
               </Text>
               <TextInput
-                value={'IC'}
+                value={state.hospital.doctorDivision}
                 editable={state.isEdit}
                 style={styles.input}
               />
@@ -287,13 +324,11 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   containerSelect: {
-    borderColor: colors.border,
-    borderWidth: 1,
     borderRadius: 20,
     paddingHorizontal: 10,
     paddingVertical: 3,
     marginTop: 15,
-    backgroundColor: colors.gray2,
+    backgroundColor: colors.gray3,
     marginRight: 5,
   },
 });

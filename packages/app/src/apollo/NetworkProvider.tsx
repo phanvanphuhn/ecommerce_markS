@@ -52,7 +52,7 @@ const authMiddleware = new ApolloLink((operation, forward) => {
   console.log('=>(NetworkProvider.tsx:51) loginToken', loginToken);
   operation.setContext({
     headers: {
-      authorization: isLogin ? `Bearer ${loginToken}` : '',
+      Authorization: isLogin ? `Bearer ${loginToken}` : '',
     },
   });
   return forward(operation);
