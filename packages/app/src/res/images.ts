@@ -78,5 +78,6 @@ const images = {
   ic_top1: require('../assets/images/ic_top1.png'),
   ic_top2: require('../assets/images/ic_top2.png'),
   ic_top3: require('../assets/images/ic_top3.png'),
+  ic_logoLeaderBoard: require('../assets/images/ic_logoLeaderBoard.png'),
 };
 export default images;
