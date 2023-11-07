@@ -24,7 +24,7 @@ const LeaderBoard = (props: TData) => {
       {data.map(item => {
         return (
           <LinearGradient
-            colors={[colors.primary, '#2f2f82', colors.primary]}
+            colors={['#001c45', colors.primary, '#001c45']}
             style={styles.wrapContainer}>
             <View style={styles.wrapItemContainer}>
               <View
