@@ -48,6 +48,14 @@ export class ContactSearchResolver {
 
   @Query(() => [String])
   @UseGuards(AzureAuthGuard)
+  async getFilterTopicsOfInterestList(@UserEntity() userInfo) {
+    return this.contactSearchService.getFilterTopicsOfInterestList(
+      userInfo.email,
+    );
+  }
+
+  @Query(() => [String])
+  @UseGuards(AzureAuthGuard)
   async getFilterDivisionList(@UserEntity() userInfo) {
     return this.contactSearchService.getFilterDivisionList(userInfo.eail);
   }

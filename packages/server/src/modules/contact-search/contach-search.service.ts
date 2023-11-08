@@ -27,6 +27,8 @@ export class ContactSearchService {
         'doctorSpecialty',
         'doctorEmail',
         'doctorPhone',
+        'doctorAlternativeEmail',
+        'topicsOfInterest',
       ])
       .where('salesRepEmail', '=', filter.salesRepEmail)
       .orderBy('doctorName', 'asc')
@@ -39,6 +41,8 @@ export class ContactSearchService {
         'doctorSpecialty',
         'doctorEmail',
         'doctorPhone',
+        'doctorAlternativeEmail',
+        'topicsOfInterest',
       ]);
 
     if (
@@ -46,7 +50,10 @@ export class ContactSearchService {
       filter.doctorTitle ||
       filter.hospital ||
       filter.doctorDivision ||
-      filter.doctorSpecialty
+      filter.doctorSpecialty ||
+      filter.doctorAlternativeEmail ||
+      filter.doctorCountry ||
+      filter.topicsOfInterest
     ) {
       query = query.where((eb) => {
         const ors: Expression<SqlBool>[] = [];
@@ -70,6 +77,26 @@ export class ContactSearchService {
         if (filter.doctorSpecialty) {
           ors.push(
             eb('doctorSpecialty', 'like', `%${filter.doctorSpecialty}%`),
+          );
+        }
+
+        if (filter.doctorAlternativeEmail) {
+          ors.push(
+            eb(
+              'doctorAlternativeEmail',
+              'like',
+              `%${filter.doctorAlternativeEmail}%`,
+            ),
+          );
+        }
+
+        if (filter.doctorCountry) {
+          ors.push(eb('doctorCountry', 'like', `%${filter.doctorCountry}%`));
+        }
+
+        if (filter.topicsOfInterest) {
+          ors.push(
+            eb('topicsOfInterest', 'like', `%${filter.topicsOfInterest}%`),
           );
         }
 
@@ -118,6 +145,20 @@ export class ContactSearchService {
     return dbResponse.map((row) => row.doctorDivision);
   }
 
+  async getFilterTopicsOfInterestList(
+    salesRepEmail: string,
+  ): Promise<string[]> {
+    const dbResponse = await this.database
+      .selectFrom('marks.ContactSearch')
+      .select(['topicsOfInterest'])
+      .where('salesRepEmail', '=', salesRepEmail)
+      .orderBy('topicsOfInterest', 'asc')
+      .groupBy(['topicsOfInterest'])
+      .execute();
+
+    return dbResponse.map((row) => row.topicsOfInterest);
+  }
+
   async getDoctorProfileByDoctorEmail(
     doctorEmail: string,
   ): Promise<DoctorDetail[]> {
@@ -132,6 +173,9 @@ export class ContactSearchService {
         'doctorEmail',
         'doctorPhone',
         'doctorSalutation',
+        'doctorAlternativeEmail',
+        'topicsOfInterest',
+        'doctorCountry',
       ])
       .where('doctorEmail', '=', doctorEmail)
       .groupBy([
@@ -144,6 +188,9 @@ export class ContactSearchService {
         'hospital',
         'doctorDivision',
         'doctorSpecialty',
+        'doctorAlternativeEmail',
+        'topicsOfInterest',
+        'doctorCountry',
       ])
       .execute();
 

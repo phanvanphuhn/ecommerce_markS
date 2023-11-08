@@ -1,4 +1,4 @@
-import { ArgsType, Field, ObjectType } from "@nestjs/graphql";
+import { ArgsType, Field, ObjectType } from '@nestjs/graphql';
 
 @ArgsType()
 export class ContactSearchArgs {
@@ -19,6 +19,15 @@ export class ContactSearchArgs {
 
   @Field(() => String, { nullable: true })
   doctorSpecialty?: string;
+
+  @Field(() => String, { nullable: true })
+  doctorAlternativeEmail?: string;
+
+  @Field(() => String, { nullable: true })
+  doctorCountry?: string;
+
+  @Field(() => String, { nullable: true })
+  topicsOfInterest?: string;
 }
 
 @ObjectType()
@@ -44,4 +53,10 @@ export class ContactSearchOutput {
   doctorEmail!: string;
   @Field(() => String, { nullable: true })
   doctorPhone!: string;
+  @Field(() => String, { nullable: true })
+  doctorAlternativeEmail!: string;
+  @Field(() => String, { nullable: true })
+  topicsOfInterest!: string;
+  @Field(() => String, { nullable: true })
+  doctorCountry!: string;
 }
