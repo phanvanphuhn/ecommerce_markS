@@ -39,6 +39,22 @@ Build and upload to CHPlay.
 
 Build and upload to App Center.
 
+### android uploadToFirebase
+
+```sh
+[bundle exec] fastlane android uploadToFirebase
+```
+
+Build and upload to Firebase.
+
+### android increment_version
+
+```sh
+[bundle exec] fastlane android increment_version
+```
+
+Increase build version.
+
 ### android uploadAPK
 
 ```sh

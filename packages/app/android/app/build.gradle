@@ -107,7 +107,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 5
-        versionName "1.0.0"
+        versionName "1.0.2"
         resValue 'string', "CODE_PUSH_APK_BUILD_TIME", String.format("\"%d\"", System.currentTimeMillis())
         resValue "string", "build_config_package", "com.bsc.marks"
     }

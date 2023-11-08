@@ -34,6 +34,23 @@ platform :android do
       destination_type: "group"
     )
   end
+  desc 'Build and upload to Firebase.'
+  lane :uploadToFirebase do |params|
+    firebase_app_distribution(
+      app: "1:614963482879:android:9a6ca6db0a803eb3397cca",
+      android_artifact_path:"./fastlane/apk/#{params[:envi]}/app-#{params[:envi]}.apk",
+      # testers: "tester1@company.com, tester2@company.com",
+      # release_notes: "Lots of amazing new features to test out!"
+    )
+  end
+
+  desc 'Increase build version.'
+  lane :increment_version do
+    latest_release = firebase_app_distribution_get_latest_release(
+      app: "1:614963482879:android:9a6ca6db0a803eb3397cca"
+    )
+    increment_version_code({ version_code: latest_release[:buildVersion].to_i + 1 })
+  end
 
   desc "Build and push a new build to FireBase App Distribution"
   lane :uploadAPK do |options|
