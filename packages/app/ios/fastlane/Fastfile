@@ -30,7 +30,7 @@ platform :ios do
       user: "taikhoantest",
       ipa: "./fastlane/ipa/#{params[:envi]}/#{params[:envi]}.ipa",
       message: "Build #{lane_context[SharedValues::BUILD_NUMBER]}",
-      )
+    )
   end
 
   desc 'Fetch certificates, build and upload to App Center.'
@@ -43,6 +43,24 @@ platform :ios do
       destinations: ENV["APPCENTER_GROUP"],
       destination_type: "group"
     )
+  end
+
+  desc 'Build and upload to Firebase.'
+  lane :uploadToFirebase do |params|
+    firebase_app_distribution(
+      app: "1:614963482879:android:9a6ca6db0a803eb3397cca",
+      ipa_path: "./fastlane/ipa/#{params[:envi]}/#{params[:envi]}.ipa",
+    # testers: "tester1@company.com, tester2@company.com",
+    # release_notes: "Lots of amazing new features to test out!"
+    )
+  end
+
+  desc 'Increase build version.'
+  lane :increment_version do
+    latest_release = firebase_app_distribution_get_latest_release(
+      app: "1:614963482879:android:9a6ca6db0a803eb3397cca"
+    )
+    increment_build_number({ build_number: latest_release[:buildVersion].to_i + 1 })
   end
 
   desc "Push a new build to Fabric and FireBase App Distribution"

@@ -2,16 +2,25 @@ import React, {useState} from 'react';
 import {View, StyleSheet, ScrollView} from 'react-native';
 import Container from 'elements/Layout/Container';
 import Text from 'elements/Text';
-import LeaderRanking from './LeaderRanking';
+import LeaderRanking from './components/LeaderRanking';
 import scale from 'utils/scale';
 import colors from 'res/colors';
-import LeaderBoard from './LeaderBoard';
+import LeaderBoard from './components/LeaderBoard';
+import useStateCustom from 'hooks/useStateCustom';
+import Theme from 'res/style/Theme';
+import ItemTab from 'components/ItemTab';
 
 interface LeaderboardScreenProps {}
 
-const LeaderboardScreen = (props: LeaderboardScreenProps) => {
-  const [state, setState] = useState();
+export type TabDateType = 'MTD' | 'QTD' | 'YTD';
+export interface IStateSales {
+  type?: TabDateType;
+}
 
+const LeaderboardScreen = (props: LeaderboardScreenProps) => {
+  const [state, setState] = useStateCustom<IStateSales>({
+    type: 'MTD',
+  });
   const data = [
     {
       like: '3,500',
@@ -59,14 +68,40 @@ const LeaderboardScreen = (props: LeaderboardScreenProps) => {
   return (
     <Container title={'Leaderboard'} style={styles.container}>
       <View style={styles.wrapContainer}>
+        <View style={[Theme.shadow, styles.containerTab]}>
+          <ItemTab
+            title={'MTD'}
+            isFocused={state.type == 'MTD'}
+            onPress={() => {
+              setState({type: 'MTD'});
+            }}
+          />
+          <ItemTab
+            title={'QTD'}
+            isFocused={state.type == 'QTD'}
+            onPress={() => {
+              setState({type: 'QTD'});
+            }}
+          />
+          <ItemTab
+            title={'YTD'}
+            isFocused={state.type == 'YTD'}
+            onPress={() => {
+              setState({type: 'YTD'});
+            }}
+          />
+        </View>
+      </View>
+
+      <View>
         <LeaderRanking data={data} />
       </View>
       <View style={styles.wrapButtonContainer}>
         <Text style={styles.wrapButtonTitle}>SALES %</Text>
       </View>
-      <View>
+      <ScrollView style={{flex: 1}}>
         <LeaderBoard data={dataLeaderBoard} />
-      </View>
+      </ScrollView>
     </Container>
   );
 };
@@ -75,7 +110,11 @@ export default LeaderboardScreen;
 
 const styles = StyleSheet.create({
   container: {},
-  wrapContainer: {},
+  wrapContainer: {
+    width: '100%',
+    backgroundColor: colors.primary,
+    paddingBottom: scale(8),
+  },
   wrapButtonContainer: {
     padding: scale(8),
     width: scale(200),
@@ -89,5 +128,13 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 15,
     color: colors.white,
+  },
+  containerTab: {
+    backgroundColor: colors.white,
+    alignSelf: 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 50,
+    shadowOpacity: 0.2,
   },
 });

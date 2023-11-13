@@ -33,6 +33,7 @@ interface HeaderPlanProps {
   title?: string;
   onSearch: (text?: string) => void;
   onFilter: (text: string) => void;
+  value: string;
 }
 
 interface IState {
@@ -40,7 +41,7 @@ interface IState {
   keyword?: string;
   filter: 'All' | 'Cases' | 'Calls';
 }
-const HeaderPlan = ({title, onSearch, onFilter}: HeaderPlanProps) => {
+const HeaderPlan = ({title, value, onSearch, onFilter}: HeaderPlanProps) => {
   const [state, setState] = useStateCustom<IState>({
     isShowSearch: false,
     keyword: '',
@@ -58,18 +59,10 @@ const HeaderPlan = ({title, onSearch, onFilter}: HeaderPlanProps) => {
     },
   ];
   const router = useNavigation();
-  const anim = useSharedValue(0);
-  const styleAnim = useAnimatedStyle(() => ({
-    transform: [
-      {
-        scaleX: interpolate(anim.value, [0, 1], [0, 1]),
-      },
-    ],
-    opacity: interpolate(anim.value, [0, 1], [0, 1]),
-  }));
+
   useEffect(() => {
-    anim.value = withTiming(state.isShowSearch ? 1 : 0, {duration: 500});
-  }, [state.isShowSearch]);
+    setState({keyword: value});
+  }, [value]);
 
   useEffect(() => {
     let timeout = setTimeout(() => {
@@ -81,6 +74,9 @@ const HeaderPlan = ({title, onSearch, onFilter}: HeaderPlanProps) => {
       }
     };
   }, [state.keyword]);
+  useEffect(() => {
+    onFilter && onFilter(state.filter);
+  }, [state.filter]);
 
   const onChangeText = (text: string) => {
     setState({keyword: text});
@@ -118,30 +114,28 @@ const HeaderPlan = ({title, onSearch, onFilter}: HeaderPlanProps) => {
           }}
         />
       </View>
-      {onFilter && (
-        <View style={styles.wrapButtonContainer}>
-          {dataFilter.map(item => {
-            return (
-              <TouchableOpacity
+      <View style={styles.wrapButtonContainer}>
+        {dataFilter.map(item => {
+          return (
+            <TouchableOpacity
+              style={
+                item.title == state.filter
+                  ? styles.wrapButtonChoose
+                  : styles.wrapButton
+              }
+              onPress={() => setState({filter: item.title})}>
+              <Text
                 style={
                   item.title == state.filter
-                    ? styles.wrapButtonChoose
-                    : styles.wrapButton
-                }
-                onPress={() => setState({filter: item.title})}>
-                <Text
-                  style={
-                    item.title == state.filter
-                      ? styles.wrapButtonTextChoose
-                      : styles.wrapButtonText
-                  }>
-                  {item.title}
-                </Text>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
-      )}
+                    ? styles.wrapButtonTextChoose
+                    : styles.wrapButtonText
+                }>
+                {item.title}
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
+      </View>
     </>
   );
   return <SafeAreaView style={styles.container}>{renderSearch()}</SafeAreaView>;

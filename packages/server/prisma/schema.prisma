@@ -44,6 +44,7 @@ model ContactSearch {
   doctorSalutation       String?
   doctorTitle            String?
   doctorPhone            BigInt?
+  doctorCountry          String?
 }
 
 model Complaint {
@@ -60,6 +61,14 @@ model Complaint {
   country         String?
   awareDate       DateTime?
   timeOfEvent     String?
+
+  accName                         String?
+  patientId                       String?
+  procedureType                   String?
+  procedureDate                   DateTime?
+  treatedFor                      String?
+  procedureOutcome                String?
+  reasonsForUnsuccessfulProcedure String?
 }
 
 model UserProfile {

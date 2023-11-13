@@ -1,8 +1,8 @@
 /* eslint-disable global-require */
 /**
- * @author GNURT
- * @flow
- */
+* @author GNURT
+* @flow
+*/
 
 const images = {
   LoadingScreen: require('../assets/images/LoadingScreen.png'),
@@ -43,8 +43,10 @@ const images = {
   ic_leader_board_gold: require('../assets/images/ic_leader_board_gold.png'),
   ic_leader_with_bg: require('../assets/images/ic_leader_with_bg.png'),
   ic_like: require('../assets/images/ic_like.png'),
+  ic_like_grey: require('../assets/images/ic_like_grey.png'),
   ic_location: require('../assets/images/ic_location.png'),
   ic_logo: require('../assets/images/ic_logo.png'),
+  ic_logoLeaderBoard: require('../assets/images/ic_logoLeaderBoard.png'),
   ic_logout: require('../assets/images/ic_logout.png'),
   ic_mail: require('../assets/images/ic_mail.png'),
   ic_month: require('../assets/images/ic_month.png'),
@@ -57,6 +59,7 @@ const images = {
   ic_rating_gold: require('../assets/images/ic_rating_gold.png'),
   ic_rating_unselected: require('../assets/images/ic_rating_unselected.png'),
   ic_recent: require('../assets/images/ic_recent.png'),
+  ic_recent2: require('../assets/images/ic_recent2.png'),
   ic_sale: require('../assets/images/ic_sale.png'),
   ic_sales_call: require('../assets/images/ic_sales_call.png'),
   ic_scanBarcode: require('../assets/images/ic_scanBarcode.png'),
@@ -67,6 +70,9 @@ const images = {
   ic_statusCancel: require('../assets/images/ic_statusCancel.png'),
   ic_three_day: require('../assets/images/ic_three_day.png'),
   ic_time: require('../assets/images/ic_time.png'),
+  ic_top1: require('../assets/images/ic_top1.png'),
+  ic_top2: require('../assets/images/ic_top2.png'),
+  ic_top3: require('../assets/images/ic_top3.png'),
   ic_total: require('../assets/images/ic_total.png'),
   ic_user: require('../assets/images/ic_user.png'),
   ic_view_file: require('../assets/images/ic_view_file.png'),
@@ -74,9 +80,5 @@ const images = {
   ic_x: require('../assets/images/ic_x.png'),
   img_background: require('../assets/images/img_background.png'),
   img_logo: require('../assets/images/img_logo.png'),
-  ic_like_grey: require('../assets/images/ic_like_grey.png'),
-  ic_top1: require('../assets/images/ic_top1.png'),
-  ic_top2: require('../assets/images/ic_top2.png'),
-  ic_top3: require('../assets/images/ic_top3.png'),
 };
 export default images;

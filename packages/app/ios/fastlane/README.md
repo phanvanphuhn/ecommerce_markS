@@ -55,6 +55,22 @@ Fetch certificates, build and upload to Deploygate.
 
 Fetch certificates, build and upload to App Center.
 
+### ios uploadToFirebase
+
+```sh
+[bundle exec] fastlane ios uploadToFirebase
+```
+
+Build and upload to Firebase.
+
+### ios increment_version
+
+```sh
+[bundle exec] fastlane ios increment_version
+```
+
+Increase build version.
+
 ### ios uploadIPA
 
 ```sh
