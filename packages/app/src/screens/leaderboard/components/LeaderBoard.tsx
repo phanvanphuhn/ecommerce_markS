@@ -33,9 +33,13 @@ const LeaderBoard = (props: TData) => {
                   marginRight: scale(16),
                   marginTop: scale(16),
                 }}>
-                <Text style={styles.rank}>{item.rank}</Text>
+                <Text size={15} fontWeight={'700'} style={styles.rank}>
+                  {item.rank}
+                </Text>
               </View>
-              <Text style={styles.name}>{item.name}</Text>
+              <Text size={15} fontWeight={'400'} style={styles.name}>
+                {item.name}
+              </Text>
               <View
                 style={{
                   height: 2,
@@ -92,13 +96,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   rank: {
-    fontWeight: '700',
-    fontSize: 15,
     color: colors.white,
   },
   name: {
-    fontWeight: '400',
-    fontSize: 15,
     color: colors.white,
   },
   percent: {

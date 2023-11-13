@@ -71,6 +71,7 @@ const LeaderboardScreen = (props: LeaderboardScreenProps) => {
         <View style={[Theme.shadow, styles.containerTab]}>
           <ItemTab
             title={'MTD'}
+            style={[Theme.flex1]}
             isFocused={state.type == 'MTD'}
             onPress={() => {
               setState({type: 'MTD'});
@@ -78,6 +79,7 @@ const LeaderboardScreen = (props: LeaderboardScreenProps) => {
           />
           <ItemTab
             title={'QTD'}
+            style={[Theme.flex1]}
             isFocused={state.type == 'QTD'}
             onPress={() => {
               setState({type: 'QTD'});
@@ -85,6 +87,7 @@ const LeaderboardScreen = (props: LeaderboardScreenProps) => {
           />
           <ItemTab
             title={'YTD'}
+            style={[Theme.flex1]}
             isFocused={state.type == 'YTD'}
             onPress={() => {
               setState({type: 'YTD'});
@@ -93,7 +96,11 @@ const LeaderboardScreen = (props: LeaderboardScreenProps) => {
         </View>
       </View>
 
-      <View>
+      <View
+        style={{
+          backgroundColor: colors.primary,
+          marginTop: 0,
+        }}>
         <LeaderRanking data={data} />
       </View>
       <View style={styles.wrapButtonContainer}>
@@ -136,5 +143,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 50,
     shadowOpacity: 0.2,
+    width: '76%',
   },
 });
