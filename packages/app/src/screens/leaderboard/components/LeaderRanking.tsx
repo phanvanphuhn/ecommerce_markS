@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
   },
   wrapContainer: {
     alignItems: 'center',
-    marginBottom: scale(32),
+    marginBottom: scale(12),
   },
   wrapTitleLike: {
     flexDirection: 'row',

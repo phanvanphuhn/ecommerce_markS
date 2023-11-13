@@ -103,8 +103,18 @@ const LeaderboardScreen = (props: LeaderboardScreenProps) => {
         }}>
         <LeaderRanking data={data} />
       </View>
-      <View style={styles.wrapButtonContainer}>
-        <Text style={styles.wrapButtonTitle}>SALES %</Text>
+      <View style={[Theme.mb10]}>
+        <View
+          style={{
+            backgroundColor: colors.primary,
+            height: '50%',
+            position: 'absolute',
+            width: '100%',
+          }}
+        />
+        <View style={styles.wrapButtonContainer}>
+          <Text style={styles.wrapButtonTitle}>SALES %</Text>
+        </View>
       </View>
       <ScrollView style={{flex: 1}}>
         <LeaderBoard data={dataLeaderBoard} />
@@ -128,8 +138,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#0153CC',
     alignItems: 'center',
     borderRadius: scale(20),
-    left: '25%',
-    bottom: 15,
+    alignSelf: 'center',
   },
   wrapButtonTitle: {
     fontWeight: '700',
