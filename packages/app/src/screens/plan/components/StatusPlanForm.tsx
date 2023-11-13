@@ -62,7 +62,11 @@ const StatusPlanForm = (props: IStatusPlanFormProps) => {
       onPress={() => onGotoDetail()}
       style={[
         styles.container,
-        {backgroundColor: backgroundBodyColor(props.item)},
+        {
+          backgroundColor: backgroundBodyColor(props.item),
+          borderColor: backgroundHeaderColor(),
+          borderWidth: 0.5,
+        },
       ]}>
       <View
         style={[
@@ -105,7 +109,7 @@ const StatusPlanForm = (props: IStatusPlanFormProps) => {
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    height: '100%',
+    flex: 1,
   },
   headerContainer: {
     backgroundColor: '#B31921',
