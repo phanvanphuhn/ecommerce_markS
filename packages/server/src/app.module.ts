@@ -13,6 +13,7 @@ import { UserProfilesModule } from './modules/user-profiles/user-profiles.module
 import { ComplaintsModule } from './modules/complaints/complaints.module';
 import { LeaderboardModule } from './modules/leaderboard/leaderboard.module';
 import { SalesModule } from './modules/sales/sales.module';
+import { EventsModule } from './modules/events/events.module';
 
 @Module({
   imports: [
@@ -78,6 +79,7 @@ import { SalesModule } from './modules/sales/sales.module';
     ComplaintsModule,
     LeaderboardModule,
     SalesModule,
+    EventsModule,
   ],
   controllers: [],
   providers: [],
