@@ -103,7 +103,7 @@ const ComplaintsScreen = (props: ComplaintsScreenProps) => {
   };
   const onSelectFilter = (status: string) => {
     // let list = data.filter(e => e.status == status);
-    // setState({data: list, filterSelected: status});
+    setState({filterSelected: status});
   };
 
   const onSearch = (text: string) => {
@@ -145,7 +145,7 @@ const ComplaintsScreen = (props: ComplaintsScreenProps) => {
               }}
               content={
                 <View style={styles.containerDropdown}>
-                  {['submitted', 'not_submitted'].map((e, i) => {
+                  {['Submitted', 'Auto Submitted'].map((e, i) => {
                     return (
                       <ItemFilter
                         item={e}

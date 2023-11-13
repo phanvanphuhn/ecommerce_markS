@@ -43,10 +43,6 @@ const ItemComplaint = (props: ItemComplaintProps) => {
         Acc Name: <Text color={colors.borderColor}>{props.item.accName}</Text>
       </Text>
       <Text color={colors.borderColor}>
-        Patient ID:{' '}
-        <Text color={colors.borderColor}>{props.item.patientId}</Text>
-      </Text>
-      <Text color={colors.borderColor}>
         Event Date:{' '}
         <Text color={colors.borderColor}>{props.item.eventDate}</Text>
       </Text>
