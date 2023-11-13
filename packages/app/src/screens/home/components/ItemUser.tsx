@@ -15,7 +15,7 @@ const ItemUser = (props: ItemUserProps) => {
   });
   return (
     <View style={[Theme.flexRow, styles.container]}>
-      {/* <View style={{}}>
+      <View style={{overflow: 'hidden', borderRadius: 50}}>
         <Image
           source={images.ic_doctor_default}
           style={{width: 100, height: 100, borderRadius: 50}}
@@ -23,19 +23,19 @@ const ItemUser = (props: ItemUserProps) => {
         <View
           style={{
             position: 'absolute',
-            top: 0,
+            bottom: 0,
             left: 0,
+            right: 0,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: colors.dotActive,
+            paddingVertical: 2,
           }}>
-          <Image
-            source={images.ic_bg_avatar}
-            style={{
-              width: 100,
-              height: 120,
-              borderRadius: 70,
-            }}
-          />
+          <Text size={13} color={colors.white}>
+            Edit
+          </Text>
         </View>
-      </View> */}
+      </View>
       <View style={[Theme.pt15, Theme.pl15]}>
         <Text size={25} fontWeight={'700'} color={colors.white}>
           Hi, John Appleseed
