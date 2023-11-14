@@ -7,7 +7,7 @@ import {
   PlanCallInput,
   PlanCallOutput,
 } from './dto/plan-call.dto';
-import { PlanCallActivityType } from './types/plan-call.types';
+import { PlanCallActivityType, PlanCallStatus } from './types/plan-call.types';
 
 @Injectable()
 export class EventsService {
@@ -100,6 +100,7 @@ export class EventsService {
         ...input,
         activityOwnerEmail: salesRepEmail,
         activityType: PlanCallActivityType.EVENT,
+        status: PlanCallStatus[input.status],
       })
       .onConflict((oc) =>
         oc.column('id').doUpdateSet({
@@ -107,6 +108,7 @@ export class EventsService {
           updatedAt: new Date(),
           activityOwnerEmail: salesRepEmail,
           activityType: PlanCallActivityType.EVENT,
+          status: PlanCallStatus[input.status],
         }),
       )
       .returningAll()
