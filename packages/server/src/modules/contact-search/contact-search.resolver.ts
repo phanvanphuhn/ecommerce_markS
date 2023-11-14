@@ -57,6 +57,6 @@ export class ContactSearchResolver {
   @Query(() => [String])
   @UseGuards(AzureAuthGuard)
   async getFilterDivisionList(@UserEntity() userInfo) {
-    return this.contactSearchService.getFilterDivisionList(userInfo.eail);
+    return this.contactSearchService.getFilterDivisionList(userInfo.email);
   }
 }

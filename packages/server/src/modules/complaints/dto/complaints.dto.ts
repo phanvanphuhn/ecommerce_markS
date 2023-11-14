@@ -15,9 +15,6 @@ export class ComplaintsOutput {
   complaintName?: string;
 
   @Field({ nullable: true })
-  recordType?: string;
-
-  @Field({ nullable: true })
   complaintStatus?: string;
 
   @Field({ nullable: true })
@@ -40,4 +37,7 @@ export class ComplaintsOutput {
 
   @Field({ nullable: true })
   timeOfEvent?: string;
+
+  @Field({ nullable: true })
+  typeOfSituationReporting?: string;
 }

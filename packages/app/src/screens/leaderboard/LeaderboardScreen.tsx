@@ -71,6 +71,7 @@ const LeaderboardScreen = (props: LeaderboardScreenProps) => {
         <View style={[Theme.shadow, styles.containerTab]}>
           <ItemTab
             title={'MTD'}
+            style={[Theme.flex1]}
             isFocused={state.type == 'MTD'}
             onPress={() => {
               setState({type: 'MTD'});
@@ -78,6 +79,7 @@ const LeaderboardScreen = (props: LeaderboardScreenProps) => {
           />
           <ItemTab
             title={'QTD'}
+            style={[Theme.flex1]}
             isFocused={state.type == 'QTD'}
             onPress={() => {
               setState({type: 'QTD'});
@@ -85,6 +87,7 @@ const LeaderboardScreen = (props: LeaderboardScreenProps) => {
           />
           <ItemTab
             title={'YTD'}
+            style={[Theme.flex1]}
             isFocused={state.type == 'YTD'}
             onPress={() => {
               setState({type: 'YTD'});
@@ -93,11 +96,25 @@ const LeaderboardScreen = (props: LeaderboardScreenProps) => {
         </View>
       </View>
 
-      <View>
+      <View
+        style={{
+          backgroundColor: colors.primary,
+          marginTop: 0,
+        }}>
         <LeaderRanking data={data} />
       </View>
-      <View style={styles.wrapButtonContainer}>
-        <Text style={styles.wrapButtonTitle}>SALES %</Text>
+      <View style={[Theme.mb10]}>
+        <View
+          style={{
+            backgroundColor: colors.primary,
+            height: '50%',
+            position: 'absolute',
+            width: '100%',
+          }}
+        />
+        <View style={styles.wrapButtonContainer}>
+          <Text style={styles.wrapButtonTitle}>SALES %</Text>
+        </View>
       </View>
       <ScrollView style={{flex: 1}}>
         <LeaderBoard data={dataLeaderBoard} />
@@ -121,8 +138,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#0153CC',
     alignItems: 'center',
     borderRadius: scale(20),
-    left: '25%',
-    bottom: 15,
+    alignSelf: 'center',
   },
   wrapButtonTitle: {
     fontWeight: '700',
@@ -136,5 +152,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 50,
     shadowOpacity: 0.2,
+    width: '76%',
   },
 });
