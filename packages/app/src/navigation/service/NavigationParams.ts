@@ -5,7 +5,7 @@ import {
   IDoctorSearchList,
   ItemOptionResponse,
 } from 'network/apis/doctor/DoctorResponse';
-import {ItemComplaintResponse} from 'network/apis/complaints/ComplaintResponse';
+import {ItemComplaintResponse} from 'apollo/query/complaint';
 
 export interface MainParamList extends Record<string, object | undefined> {
   [Routes.MainTab]: MainTabParams;

@@ -102,20 +102,20 @@ const ComplaintsScreen = (props: ComplaintsScreenProps) => {
     return <ItemComplaint item={item} />;
   };
   const onSelectFilter = (status: string) => {
-    // let list = data.filter(e => e.status == status);
-    setState({filterSelected: status});
+    let list = data?.data?.filter(e => e.complaintStatus == status);
+    setState({data: list, filterSelected: status});
   };
 
   const onSearch = (text: string) => {
-    // let list = data.filter((e: any) => {
-    //   return Object.keys(e).some((key: any) =>
-    //     e[key]
-    //       ?.unsignText()
-    //       .toLowerCase()
-    //       .includes(text.unsignText().toLowerCase()),
-    //   );
-    // });
-    // setState({data: list});
+    let list = data?.data?.filter((e: any) => {
+      return Object.keys(e).some((key: any) =>
+        e[key]
+          ?.unsignText()
+          .toLowerCase()
+          .includes(text.unsignText().toLowerCase()),
+      );
+    });
+    setState({data: list});
   };
   return (
     <DropdownProvider>
@@ -141,7 +141,7 @@ const ComplaintsScreen = (props: ComplaintsScreenProps) => {
             ]}>
             <Dropdown
               onClear={() => {
-                setState({data: data, filterSelected: ''});
+                setState({data: data?.data, filterSelected: ''});
               }}
               content={
                 <View style={styles.containerDropdown}>
@@ -169,15 +169,12 @@ const ComplaintsScreen = (props: ComplaintsScreenProps) => {
                 <View style={styles.containerDropdown}>
                   <ItemSort
                     onSelected={(type, value) => {
-                      console.log('=>(ComplaintsScreen.tsx:159) type', type);
-                      console.log('=>(ComplaintsScreen.tsx:159) value', value);
                       let sort: 'asc' | 'desc' = 'desc';
                       if (value == 'Newest') {
                         sort = 'desc';
                       } else {
                         sort = 'asc';
                       }
-                      console.log('=>(ComplaintsScreen.tsx:155) sort', sort);
                       let list = _.orderBy(
                         state.data,
                         function (dateObj: any) {
@@ -185,7 +182,6 @@ const ComplaintsScreen = (props: ComplaintsScreenProps) => {
                         },
                         sort,
                       );
-                      console.log('=>(ComplaintsScreen.tsx:158) list', list);
                       setState({
                         sortBy: {
                           type,
@@ -202,7 +198,7 @@ const ComplaintsScreen = (props: ComplaintsScreenProps) => {
                   />
                 </View>
               }
-              onClear={() => setState({data: data, sortBy: null})}
+              onClear={() => setState({data: data?.data, sortBy: null})}
               iconLeft={images.ic_sort}
               title={strings.sort}
               value={state.sortBy}
