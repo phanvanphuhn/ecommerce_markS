@@ -15,9 +15,6 @@ export class ComplaintsOutput {
   complaintName?: string;
 
   @Field({ nullable: true })
-  recordType?: string;
-
-  @Field({ nullable: true })
   complaintStatus?: string;
 
   @Field({ nullable: true })
