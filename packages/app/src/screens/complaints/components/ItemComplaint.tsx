@@ -9,6 +9,7 @@ import {MainParamList} from 'navigation/service/NavigationParams';
 import {Routes} from 'configs';
 import {renderColorComplaint, renderStatusComplaint} from 'utils/other-utils';
 import {ItemComplaintResponse} from 'apollo/query/complaint';
+import moment from 'moment/moment';
 
 interface ItemComplaintProps {
   item: ItemComplaintResponse;
@@ -44,11 +45,19 @@ const ItemComplaint = (props: ItemComplaintProps) => {
       </Text>
       <Text color={colors.borderColor}>
         Event Date:{' '}
-        <Text color={colors.borderColor}>{props.item.eventDate}</Text>
+        {!!props.item.eventDate && (
+          <Text color={colors.borderColor}>
+            {moment.unix(props.item.eventDate).format('DD/MM/YYYY')}
+          </Text>
+        )}
       </Text>
       <Text color={colors.borderColor}>
         Created Date:{' '}
-        <Text color={colors.borderColor}>{props.item.createdDate}</Text>
+        {!!props.item.createdDate && (
+          <Text color={colors.borderColor}>
+            {moment.unix(props.item.createdDate).format('DD/MM/YYYY')}
+          </Text>
+        )}
       </Text>
       <Text color={colors.borderColor}>
         Complaint Name:{' '}

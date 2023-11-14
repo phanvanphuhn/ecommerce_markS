@@ -11,19 +11,22 @@ export interface ItemComplaintResponse {
   division: string;
   eventDate: string;
   id: number;
-  recordType: string;
   salesRepEmail: string;
   timeOfEvent: string;
+  typeOfSituationReporting: string;
 }
 interface Data {
   data: ItemComplaintResponse;
 }
 
-interface Variables {}
+interface Variables {
+  id: number;
+}
 
 export let GET_COMPLAINT_QUERY: TypedDocumentNode<Data, Variables> = gql`
-  query complaint {
-    data: complaint {
+  query complaint($id: Int!) {
+    data: complaint(id: $id) {
+      typeOfSituationReporting
       awareDate
       complaintId
       complaintName
@@ -34,7 +37,6 @@ export let GET_COMPLAINT_QUERY: TypedDocumentNode<Data, Variables> = gql`
       division
       eventDate
       id
-      recordType
       salesRepEmail
       timeOfEvent
     }

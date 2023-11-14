@@ -10,6 +10,7 @@ interface Variables {}
 export let GET_COMPLAINTS_QUERY: TypedDocumentNode<Data, Variables> = gql`
   query complaints {
     data: complaints {
+      typeOfSituationReporting
       awareDate
       complaintId
       complaintName
@@ -20,7 +21,6 @@ export let GET_COMPLAINTS_QUERY: TypedDocumentNode<Data, Variables> = gql`
       division
       eventDate
       id
-      recordType
       salesRepEmail
       timeOfEvent
     }

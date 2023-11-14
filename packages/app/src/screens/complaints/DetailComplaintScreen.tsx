@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {View, StyleSheet, TouchableOpacity, ScrollView} from 'react-native';
 import Container from 'elements/Layout/Container';
 import {BaseNavigationProps} from 'navigation/BaseNavigationProps';
@@ -9,6 +9,10 @@ import Text from 'elements/Text';
 import colors from 'res/colors';
 import images from 'res/images';
 import Theme from 'res/style/Theme';
+import {useLazyQuery} from '@apollo/client';
+import {GET_COMPLAINTS_QUERY} from 'apollo/query/complaints';
+import {GET_COMPLAINT_QUERY} from 'apollo/query/complaint';
+import moment from 'moment';
 
 interface DetailComplaintScreenProps {}
 
@@ -16,27 +20,35 @@ const DetailComplaintScreen = (
   props: BaseNavigationProps<MainParamList, Routes.DetailComplaintScreen>,
 ) => {
   const [state, setState] = useState();
+  const [getData, {data, loading}] = useLazyQuery(GET_COMPLAINT_QUERY);
+  useEffect(() => {
+    getData({
+      variables: {
+        id: props.route.params.item.id,
+      },
+    });
+  }, []);
   const renderColor = useCallback((status: string) => {
     switch (status) {
-      case 'submitted':
+      case 'Submitted':
         return colors.primary;
-      case 'not_submitted':
+      case 'Auto Submitted':
         return '#80C';
     }
   }, []);
   const renderStatus = useCallback((status: string) => {
     switch (status) {
-      case 'submitted':
+      case 'Submitted':
         return 'Submitted';
-      case 'not_submitted':
-        return 'Not submitted';
+      case 'Auto Submitted':
+        return 'Auto Submitted';
     }
   }, []);
   return (
     <Container
-      title={'GCMS-TW ' + props?.route.params?.item?.name}
+      title={'GCMS-TW ' + props?.route.params?.item?.complaintName}
       style={styles.container}>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         {/* <View style={[Theme.flexRowCenter, Theme.mt10]}>
           <TouchableOpacity
             style={[
@@ -84,7 +96,7 @@ const DetailComplaintScreen = (
           </Text>
           <View style={styles.containerText}>
             <Text size={15} fontWeight={'700'} lineHeight={23}>
-              CP-0000059399
+              {data?.data?.complaintName}
             </Text>
           </View>
           <Text
@@ -98,14 +110,16 @@ const DetailComplaintScreen = (
             <View
               style={[
                 {
-                  backgroundColor: renderColor(props.route.params.item.status),
+                  backgroundColor: renderColor(
+                    props.route.params.item.complaintStatus,
+                  ),
                   alignSelf: 'flex-start',
                   paddingHorizontal: 10,
                   borderRadius: 10,
                 },
               ]}>
               <Text color={colors.white} size={15} lineHeight={23}>
-                {renderStatus(props.route.params.item.status)}
+                {renderStatus(props.route.params.item.complaintStatus)}
               </Text>
             </View>
           </View>
@@ -118,7 +132,7 @@ const DetailComplaintScreen = (
           </Text>
           <View style={styles.containerText}>
             <Text size={15} fontWeight={'700'} lineHeight={23}>
-              Product and/or Patient Event
+              {data?.data?.typeOfSituationReporting}
             </Text>
           </View>
           <Text
@@ -130,7 +144,7 @@ const DetailComplaintScreen = (
           </Text>
           <View style={styles.containerText}>
             <Text size={15} fontWeight={'700'} lineHeight={23}>
-              IC
+              {data?.data?.division}
             </Text>
           </View>
           <Text
@@ -142,7 +156,7 @@ const DetailComplaintScreen = (
           </Text>
           <View style={styles.containerText}>
             <Text size={15} fontWeight={'700'} lineHeight={23}>
-              Singapore
+              {data?.data?.country}
             </Text>
           </View>
           <Text
@@ -154,7 +168,7 @@ const DetailComplaintScreen = (
           </Text>
           <View style={styles.containerText}>
             <Text size={15} fontWeight={'700'} lineHeight={23}>
-              12/16/2022
+              {moment.unix(data?.data?.awareDate).format('DD/MM/YYYY')}
             </Text>
           </View>
 
@@ -167,7 +181,7 @@ const DetailComplaintScreen = (
           </Text>
           <View style={styles.containerText}>
             <Text size={15} fontWeight={'700'} lineHeight={23}>
-              12/16/2022
+              {moment.unix(data?.data?.eventDate).format('DD/MM/YYYY')}
             </Text>
           </View>
           <Text
@@ -179,7 +193,7 @@ const DetailComplaintScreen = (
           </Text>
           <View style={styles.containerText}>
             <Text size={15} fontWeight={'700'} lineHeight={23}>
-              12/16/2022
+              {data?.data?.timeOfEvent}
             </Text>
           </View>
 
