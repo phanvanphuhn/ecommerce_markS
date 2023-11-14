@@ -1,4 +1,4 @@
-import { Query, Resolver } from '@nestjs/graphql';
+import { Args, Query, Resolver } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 
 import { AzureAuthGuard } from '../auth/guards/azure-ad.guard';
@@ -18,7 +18,7 @@ export class ComplaintsResolver {
 
   @Query(() => ComplaintsOutput)
   @UseGuards(AzureAuthGuard)
-  complaint(id: number) {
+  complaint(@Args('id') id: number) {
     return this.complaintsService.getComplaint(id);
   }
 }
