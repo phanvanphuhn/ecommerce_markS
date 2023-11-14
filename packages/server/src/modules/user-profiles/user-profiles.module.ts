@@ -4,6 +4,7 @@ import { UserProfilesService } from './user-profiles.service';
 import { UserProfilesResolver } from './user-profiles.resolver';
 
 @Module({
-  providers: [UserProfilesResolver, UserProfilesService]
+  providers: [UserProfilesResolver, UserProfilesService],
+  exports: [UserProfilesService],
 })
 export class UserProfilesModule {}

@@ -1,6 +1,7 @@
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [pgcrypto]
 }
 
 generator kysely {
@@ -12,8 +13,8 @@ generator kysely {
 }
 
 generator client {
-  provider = "prisma-client-js"
-  // previewFeatures = []
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
 }
 
 // generator nestgraphql {
@@ -48,22 +49,21 @@ model ContactSearch {
 }
 
 model Complaint {
-  id              Int       @id @default(autoincrement())
-  complaintId     String?
-  salesRepEmail   String?
-  complaintName   String?
-  recordType      String?
-  complaintStatus String?
-  eventDate       DateTime?
-  createdDate     DateTime?
-  complaintTitle  String?
-  division        String?
-  country         String?
-  awareDate       DateTime?
-  timeOfEvent     String?
+  id                       Int       @id @default(autoincrement())
+  complaintId              String?
+  salesRepEmail            String?
+  complaintName            String?
+  complaintStatus          String?
+  eventDate                DateTime?
+  createdDate              DateTime?
+  complaintTitle           String?
+  division                 String?
+  country                  String?
+  awareDate                DateTime?
+  timeOfEvent              String?
+  typeOfSituationReporting String?
 
   accName                         String?
-  patientId                       String?
   procedureType                   String?
   procedureDate                   DateTime?
   treatedFor                      String?
@@ -195,4 +195,42 @@ model Mobile_Sales {
   year    String?
 
   type mobileSalesTargetType @default(year)
+}
+
+model PlanCall {
+  id                 String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  salesForceId       String?
+  subject            String?
+  startDate          DateTime?
+  endDate            DateTime?
+  description        String?
+  location           String?
+  account            String?
+  contactName        String?
+  division           String?
+  activityType       String?
+  activitySubtype    String?
+  activityOwnerName  String?
+  activityOwnerEmail String?
+  ownerCountry       String?
+  status             String?
+
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+model CaseLog {
+  id                  String    @id @default(uuid())
+  procedureName       String?
+  startDate           DateTime?
+  endDate             DateTime?
+  account             String?
+  comments            String?
+  physician           String?
+  implantingPhysician String?
+  activityOwnerName   String?
+  activityOwnerId     String?
+
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
 }
