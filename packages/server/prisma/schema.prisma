@@ -49,18 +49,19 @@ model ContactSearch {
 }
 
 model Complaint {
-  id              Int       @id @default(autoincrement())
-  complaintId     String?
-  salesRepEmail   String?
-  complaintName   String?
-  complaintStatus String?
-  eventDate       DateTime?
-  createdDate     DateTime?
-  complaintTitle  String?
-  division        String?
-  country         String?
-  awareDate       DateTime?
-  timeOfEvent     String?
+  id                       Int       @id @default(autoincrement())
+  complaintId              String?
+  salesRepEmail            String?
+  complaintName            String?
+  complaintStatus          String?
+  eventDate                DateTime?
+  createdDate              DateTime?
+  complaintTitle           String?
+  division                 String?
+  country                  String?
+  awareDate                DateTime?
+  timeOfEvent              String?
+  typeOfSituationReporting String?
 
   accName                         String?
   procedureType                   String?

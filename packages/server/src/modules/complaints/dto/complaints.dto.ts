@@ -37,4 +37,7 @@ export class ComplaintsOutput {
 
   @Field({ nullable: true })
   timeOfEvent?: string;
+
+  @Field({ nullable: true })
+  typeOfSituationReporting?: string;
 }
