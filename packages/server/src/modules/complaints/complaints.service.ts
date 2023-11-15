@@ -14,6 +14,7 @@ export class ComplaintsService {
     return this.database
       .selectFrom('marks.Complaint')
       .where('id', '=', id)
+      .selectAll()
       .executeTakeFirst();
   }
 }
