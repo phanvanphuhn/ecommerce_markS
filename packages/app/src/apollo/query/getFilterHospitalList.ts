@@ -15,7 +15,7 @@ interface Variables {
 }
 
 export let GET_HOSPITAL_LIST_QUERY: TypedDocumentNode<Data, Variables> = gql`
-  query getFilterHospitalList($salesRepEmail: String!) {
-    data: getFilterHospitalList(salesRepEmail: $salesRepEmail)
+  query getFilterHospitalList {
+    data: getFilterHospitalList
   }
 `;

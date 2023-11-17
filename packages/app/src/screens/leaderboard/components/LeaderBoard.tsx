@@ -5,15 +5,14 @@ import colors from 'res/colors';
 import images from 'res/images';
 import scale from 'utils/scale';
 import LinearGradient from 'react-native-linear-gradient';
-
-type TProps = {
-  rank: String;
-  name: String;
-  percent: String;
-};
+import {ItemLeaderBoardResponse} from 'apollo/query/leaderboard';
+import item from 'lib/react-native-calendars/src/calendar-list/item';
+import {TabDateType} from 'screens/leaderboard/LeaderboardScreen';
+import {getRank, getTargetAchieved} from 'utils/other-utils';
 
 type TData = {
-  data: TProps[];
+  data?: ItemLeaderBoardResponse[];
+  type?: TabDateType;
 };
 
 const LeaderBoard = (props: TData) => {
@@ -21,7 +20,7 @@ const LeaderBoard = (props: TData) => {
 
   return (
     <View style={styles.container}>
-      {data.map(item => {
+      {data?.map(item => {
         return (
           <LinearGradient
             colors={['#001c45', colors.primary, '#001c45']}
@@ -34,11 +33,11 @@ const LeaderBoard = (props: TData) => {
                   marginTop: scale(16),
                 }}>
                 <Text size={15} fontWeight={'700'} style={styles.rank}>
-                  {item.rank}
+                  {getRank(item, props.type)}
                 </Text>
               </View>
               <Text size={15} fontWeight={'400'} style={styles.name}>
-                {item.name}
+                {item.fullName}
               </Text>
               <View
                 style={{
@@ -52,7 +51,9 @@ const LeaderBoard = (props: TData) => {
               />
             </View>
             <View style={styles.wrapItemContainer}>
-              <Text style={styles.percent}>{item.percent}%</Text>
+              <Text style={styles.percent}>
+                {getTargetAchieved(item, props.type)}%
+              </Text>
               <Image
                 source={images.ic_logoLeaderBoard}
                 style={{

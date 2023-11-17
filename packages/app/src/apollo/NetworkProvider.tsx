@@ -48,8 +48,6 @@ const httpLink = new HttpLink({uri: `${Config.API_URL}/graphql`});
 const authMiddleware = new ApolloLink((operation, forward) => {
   // add the authorization to the headers
   const {loginToken, isLogin}: AuthReducer = store.getState().userProfile;
-  console.log('=>(NetworkProvider.tsx:51) isLogin', isLogin);
-  console.log('=>(NetworkProvider.tsx:51) loginToken', loginToken);
   operation.setContext({
     headers: {
       Authorization: isLogin ? `Bearer ${loginToken}` : '',

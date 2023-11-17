@@ -4,6 +4,8 @@ import {formatNumbers} from 'lib/react-native-calendars/src/dateutils';
 import {TypeDate} from 'res/type/calendar';
 import {useCallback} from 'react';
 import colors from 'res/colors';
+import {ItemLeaderBoardResponse} from 'apollo/query/leaderboard';
+import {TabDateType} from 'screens/leaderboard/LeaderboardScreen';
 
 export const checkPhoneNumberVietnamese = /^(\+?84|0|\(\+?84\))[1-9]\d{8,9}$/g;
 const addDate = (endDate: string, endTime: string) => {
@@ -112,5 +114,33 @@ export const renderStatusComplaint = (status: string) => {
       return 'Submitted';
     case 'Auto Submitted':
       return 'Auto Submitted';
+  }
+};
+
+export const getRank = (item: ItemLeaderBoardResponse, type?: TabDateType) => {
+  switch (type) {
+    case 'Month':
+      return item.rankMtd;
+    case 'Quarter':
+      return item.rankQtd;
+    case 'Year':
+      return item.rankYtd;
+    default:
+      return '';
+  }
+};
+export const getTargetAchieved = (
+  item: ItemLeaderBoardResponse,
+  type?: TabDateType,
+) => {
+  switch (type) {
+    case 'Month':
+      return item.targetAchievedMtd;
+    case 'Quarter':
+      return item.targetAchievedQtd;
+    case 'Year':
+      return item.targetAchievedYtd;
+    default:
+      return '';
   }
 };

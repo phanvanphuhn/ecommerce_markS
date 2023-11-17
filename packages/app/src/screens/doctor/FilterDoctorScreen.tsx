@@ -27,6 +27,7 @@ import {GET_HOSPITAL_LIST_QUERY} from 'apollo/query/getFilterHospitalList';
 import {GET_SPECIALTY_LIST_QUERY} from 'apollo/query/getFilterSpecialtyList';
 import {useLazyQuery} from '@apollo/client';
 import {useSelector} from 'hooks/useSelector';
+import {GET_TOPICS_LIST_QUERY} from 'apollo/query/getFilterTopicsOfInterestList';
 interface FilterDoctorScreenProps {}
 interface IState {
   special?: ItemOptionResponse[];
@@ -56,6 +57,11 @@ const FilterDoctorScreen = (
       salesRepEmail: userProfile.user?.mail,
     },
   });
+  const [getTopics] = useLazyQuery(GET_TOPICS_LIST_QUERY, {
+    variables: {
+      salesRepEmail: userProfile.user?.mail,
+    },
+  });
   const convertData = (arr: string[]) => {
     return arr.map(e => ({id: new Date().getTime(), name: e}));
   };
@@ -70,6 +76,11 @@ const FilterDoctorScreen = (
     getSpecialty({
       onCompleted: data => {
         setState({special: convertData(data.data)});
+      },
+    });
+    getTopics({
+      onCompleted: data => {
+        setState({topics: convertData(data.data)});
       },
     });
   }, []);
@@ -174,6 +185,9 @@ const FilterDoctorScreen = (
             </Text>
             <View style={[Theme.flexRow, {flexWrap: 'wrap'}]}>
               {state.special?.map((item, index) => {
+                if (!item?.name) {
+                  return null;
+                }
                 return (
                   <TouchableOpacity
                     key={index.toString()}
@@ -200,6 +214,9 @@ const FilterDoctorScreen = (
             </Text>
             <View style={[Theme.flexRow, {flexWrap: 'wrap'}]}>
               {state.division?.map((item, index) => {
+                if (!item?.name) {
+                  return null;
+                }
                 return (
                   <TouchableOpacity
                     onPress={() => {
@@ -226,6 +243,9 @@ const FilterDoctorScreen = (
             </Text>
             <View style={[Theme.flexRow, {flexWrap: 'wrap'}]}>
               {state.topics.map((item, index) => {
+                if (!item?.name) {
+                  return null;
+                }
                 return (
                   <TouchableOpacity
                     key={index.toString()}
