@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {View, StyleSheet, ScrollView} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {View, StyleSheet, ScrollView, LayoutAnimation} from 'react-native';
 import Container from 'elements/Layout/Container';
 import Text from 'elements/Text';
 import LeaderRanking from './components/LeaderRanking';
@@ -9,61 +9,54 @@ import LeaderBoard from './components/LeaderBoard';
 import useStateCustom from 'hooks/useStateCustom';
 import Theme from 'res/style/Theme';
 import ItemTab from 'components/ItemTab';
+import {useLazyQuery} from '@apollo/client';
+import {GET_COMPLAINTS_QUERY} from 'apollo/query/complaints';
+import {
+  GET_LEADERBOARD_QUERY,
+  ItemLeaderBoardResponse,
+} from 'apollo/query/leaderboard';
+import {getRank} from 'utils/other-utils';
 
 interface LeaderboardScreenProps {}
 
-export type TabDateType = 'MTD' | 'QTD' | 'YTD';
+export type TabDateType = 'Month' | 'Quarter' | 'Year';
 export interface IStateSales {
   type?: TabDateType;
+  dataTop?: ItemLeaderBoardResponse[];
+  dataSurrounding?: ItemLeaderBoardResponse[];
 }
 
 const LeaderboardScreen = (props: LeaderboardScreenProps) => {
   const [state, setState] = useStateCustom<IStateSales>({
-    type: 'MTD',
+    type: 'Month',
+    dataTop: [],
+    dataSurrounding: [],
   });
-  const data = [
-    {
-      like: '3,500',
-      rank: '2',
-      name: 'Emma, Charlotte',
-      percent: '109',
-    },
-    {
-      like: '5,000',
-      rank: '1',
-      name: 'Hubert Blaine',
-      percent: '110',
-    },
-    {
-      like: '1,000',
-      rank: '3',
-      name: 'Mia, Isabella',
-      percent: '108',
-    },
-  ];
-
-  const dataLeaderBoard = [
-    {
-      rank: '98',
-      name: 'BSC Supersales',
-      percent: '90',
-    },
-    {
-      rank: '99',
-      name: 'BSC Supersales',
-      percent: '89',
-    },
-    {
-      rank: '100',
-      name: 'BSC Supersales',
-      percent: '88',
-    },
-    {
-      rank: '101',
-      name: 'BSC Supersales',
-      percent: '87',
-    },
-  ];
+  const [getData] = useLazyQuery(GET_LEADERBOARD_QUERY);
+  const [getDataSurround] = useLazyQuery(GET_LEADERBOARD_QUERY);
+  useEffect(() => {
+    getData({
+      variables: {
+        year: '2023',
+        period: state.type,
+        type: 'TopThree',
+      },
+      onCompleted: data => {
+        setState({dataTop: data.data});
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+      },
+    });
+    getDataSurround({
+      variables: {
+        year: '2023',
+        period: state.type,
+        type: 'Surrounding',
+      },
+      onCompleted: data => {
+        setState({dataSurrounding: data.data});
+      },
+    });
+  }, [state?.type]);
 
   return (
     <Container title={'Leaderboard'} style={styles.container}>
@@ -72,25 +65,25 @@ const LeaderboardScreen = (props: LeaderboardScreenProps) => {
           <ItemTab
             title={'MTD'}
             style={[Theme.flex1]}
-            isFocused={state.type == 'MTD'}
+            isFocused={state.type == 'Month'}
             onPress={() => {
-              setState({type: 'MTD'});
+              setState({type: 'Month'});
             }}
           />
           <ItemTab
             title={'QTD'}
             style={[Theme.flex1]}
-            isFocused={state.type == 'QTD'}
+            isFocused={state.type == 'Quarter'}
             onPress={() => {
-              setState({type: 'QTD'});
+              setState({type: 'Quarter'});
             }}
           />
           <ItemTab
             title={'YTD'}
             style={[Theme.flex1]}
-            isFocused={state.type == 'YTD'}
+            isFocused={state.type == 'Year'}
             onPress={() => {
-              setState({type: 'YTD'});
+              setState({type: 'Year'});
             }}
           />
         </View>
@@ -101,7 +94,7 @@ const LeaderboardScreen = (props: LeaderboardScreenProps) => {
           backgroundColor: colors.primary,
           marginTop: 0,
         }}>
-        <LeaderRanking data={data} />
+        <LeaderRanking data={state.dataTop} type={state.type} />
       </View>
       <View style={[Theme.mb10]}>
         <View
@@ -117,7 +110,7 @@ const LeaderboardScreen = (props: LeaderboardScreenProps) => {
         </View>
       </View>
       <ScrollView style={{flex: 1}}>
-        <LeaderBoard data={dataLeaderBoard} />
+        <LeaderBoard data={state?.dataSurrounding} type={state.type} />
       </ScrollView>
     </Container>
   );
