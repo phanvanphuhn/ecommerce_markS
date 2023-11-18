@@ -62,6 +62,8 @@
 	<string>Allow $(APP_NAME) to access this device's photo library to save or update photos for the app.</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Enabling Face ID allows you quick and secure access to your account.</string>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>We need access to your Apple Music library to provide personalized music recommendations.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>
