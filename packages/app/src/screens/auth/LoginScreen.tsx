@@ -55,8 +55,11 @@ const LoginScreen = (props: LoginScreenProps) => {
     }
   };
   const _onLogin = () => {
-    reset(Routes.DrawerStack);
-    // getAzureToken();
+    if (Platform.OS == 'ios') {
+      getAzureToken();
+    } else {
+      reset(Routes.DrawerStack);
+    }
   };
   return (
     <Container hideHeader={true}>
