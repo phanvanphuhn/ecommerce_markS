@@ -1,6 +1,7 @@
 import React, {
   ForwardedRef,
   forwardRef,
+  memo,
   useCallback,
   useContext,
   useEffect,
@@ -257,7 +258,7 @@ const CalendarListScreen = (
   );
 };
 
-export default forwardRef<CalendarListRef, Props>(CalendarListScreen);
+export default memo(forwardRef<CalendarListRef, Props>(CalendarListScreen));
 
 const styles = StyleSheet.create({
   containerDay: {

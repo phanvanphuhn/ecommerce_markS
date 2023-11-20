@@ -78,6 +78,10 @@ const PlanScreen = (props: PlanScreenProps) => {
         : new XDate();
       date.addMonths(isNext ? 1 : -1);
       setState({currentDate: toMarkingFormat(date)});
+      console.log(
+        '=>(PlanScreen.tsx:83) CalendarRef.current',
+        CalendarRef.current,
+      );
       CalendarRef.current?.onScrollItem &&
         CalendarRef.current?.onScrollItem(toMarkingFormat(date));
     },
@@ -145,60 +149,69 @@ const PlanScreen = (props: PlanScreenProps) => {
       }
       style={styles.container}>
       {/*<CalendarListScreen />*/}
-      {!state.isShowCreateCaseLog && (
-        <CalendarProvider
-          date={state?.currentDate || ''}
-          onDateChanged={onDateChanged}
-          showTodayButton
-          disabledOpacity={0.6}
-          // numberOfDays={3}
-        >
-          <View onLayout={onLayout}>
-            <View style={styles.containerHeader}>
-              <View
-                style={[
-                  Theme.flexRow,
-                  {
-                    alignSelf: 'center',
-                  },
-                ]}>
-                <ButtonIcon
-                  icon={images.ic_back}
-                  onPress={() => onSetDate(false)}
-                />
-                <View style={styles.containerTextHeader}>
-                  <Text color={colors.primary}>
-                    {getDateOfType(
-                      state?.typeDate || 'Day',
-                      state?.currentDate || '',
-                    )}
-                  </Text>
-                </View>
-                <ButtonIcon
-                  icon={images.ic_back}
-                  iconStyle={{transform: [{rotate: '180deg'}]}}
-                  onPress={() => onSetDate(true)}
-                />
+      <CalendarProvider
+        date={state?.currentDate || ''}
+        onDateChanged={onDateChanged}
+        showTodayButton
+        disabledOpacity={0.6}
+        // numberOfDays={3}
+      >
+        <View onLayout={onLayout}>
+          <View style={styles.containerHeader}>
+            <View
+              style={[
+                Theme.flexRow,
+                {
+                  alignSelf: 'center',
+                },
+              ]}>
+              <ButtonIcon
+                icon={images.ic_back}
+                onPress={() => onSetDate(false)}
+              />
+              <View style={styles.containerTextHeader}>
+                <Text color={colors.primary}>
+                  {getDateOfType(
+                    state?.typeDate || 'Day',
+                    state?.currentDate || '',
+                  )}
+                </Text>
               </View>
-
-              <View style={styles.containerDayOfWeek}>{renderWeekDays}</View>
+              <ButtonIcon
+                icon={images.ic_back}
+                iconStyle={{transform: [{rotate: '180deg'}]}}
+                onPress={() => onSetDate(true)}
+              />
             </View>
+
+            <View style={styles.containerDayOfWeek}>{renderWeekDays}</View>
           </View>
-          {state.typeDate == 'Day' && <ExpandableCalendarScreen />}
-          {state.typeDate == 'Month' && <CalendarMonth ref={CalendarRef} />}
-          {!!state.isShowDateOption && (
-            <SelectOptionMonth
-              height={state.height}
-              value={state?.typeDate || ''}
-              onClose={() => setState({isShowDateOption: false})}
-              onSelected={(typeDate: TypeDate) => {
-                setState({typeDate});
-              }}
-            />
-          )}
-        </CalendarProvider>
-      )}
-      <View style={{position: 'absolute', zIndex: 999, bottom: 12, right: 12}}>
+        </View>
+        {state.typeDate == 'Day' && <ExpandableCalendarScreen />}
+        {state.typeDate == 'Month' && <CalendarMonth ref={CalendarRef} />}
+        {!!state.isShowDateOption && (
+          <SelectOptionMonth
+            height={state.height}
+            value={state?.typeDate || ''}
+            onClose={() => setState({isShowDateOption: false})}
+            onSelected={(typeDate: TypeDate) => {
+              setState({typeDate});
+            }}
+          />
+        )}
+      </CalendarProvider>
+      <View
+        style={{
+          position: 'absolute',
+          backgroundColor: state.isShowCreateCaseLog
+            ? colors.white
+            : colors.transparent,
+          zIndex: 999,
+          bottom: 0,
+          right: 0,
+          top: state.isShowCreateCaseLog ? 0 : undefined,
+          left: state.isShowCreateCaseLog ? 0 : undefined,
+        }}>
         <FloatButton isOpen={state.isShowCreateCaseLog} setState={setState} />
       </View>
     </Container>
