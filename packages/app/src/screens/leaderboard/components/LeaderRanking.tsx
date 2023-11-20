@@ -93,6 +93,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
     flexDirection: 'row',
     justifyContent: 'center',
+    marginTop: 10,
   },
   wrapContainer: {
     alignItems: 'center',

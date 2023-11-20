@@ -65,6 +65,7 @@ const ProfileScreen = (props: ProfileScreenProps) => {
           </View>
 
           <ScrollView
+            showsVerticalScrollIndicator={false}
             style={{
               padding: 16,
               marginTop: 32,

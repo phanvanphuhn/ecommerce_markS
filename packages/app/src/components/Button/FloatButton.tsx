@@ -6,6 +6,7 @@ import React, {useState} from 'react';
 import {
   Dimensions,
   Image,
+  LayoutAnimation,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -43,9 +44,17 @@ const FloatButton = (props: TProps) => {
   };
 
   return (
-    <View>
+    <View
+      style={{
+        position: 'absolute',
+        zIndex: 999,
+        bottom: 12,
+        right: 24,
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end',
+      }}>
       {isOpen && (
-        <View style={[styles.container, {bottom: 130}]}>
+        <View style={[styles.container]}>
           <Text style={styles.title}>New Plan Call</Text>
           <TouchableOpacity
             style={styles.buttonContainerClose}
@@ -56,7 +65,7 @@ const FloatButton = (props: TProps) => {
       )}
 
       {isOpen && (
-        <View style={[styles.container, {bottom: 71}]}>
+        <View style={[styles.container]}>
           <Text style={styles.title}>New Case Log</Text>
           <TouchableOpacity
             style={styles.buttonContainerClose}
@@ -89,13 +98,10 @@ const FloatButton = (props: TProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
-    zIndex: 999,
-    bottom: 12,
-    right: 24,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: 10,
   },
   buttonContainerClose: {
     height: 51,
