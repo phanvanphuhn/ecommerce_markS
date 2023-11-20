@@ -23,10 +23,10 @@ export const azureAuth = new AzureAuth({
   tenant: 'b5b8b483-5597-4ae7-8e27-fcc464a3b584',
   // authorityUrl: 'https://login.microsoftonline.com/common',
 
-  redirectUri:
-    Platform.OS === 'ios'
-      ? 'msauth.com.bostonscientific.marks://auth'
-      : 'msauth://com.bsc.marks/iyXLYHxafPK15%2BOWQdNF0cfHGnY%3D',
+  // redirectUri:
+  //   Platform.OS === 'ios'
+  //     ? 'msauth.com.bostonscientific.marks://auth'
+  //     : 'msauth://com.bsc.marks/iyXLYHxafPK15%2BOWQdNF0cfHGnY%3D',
 });
 const LoginScreen = (props: LoginScreenProps) => {
   const [azureToken, setAzureToken] = React.useState();
@@ -55,11 +55,7 @@ const LoginScreen = (props: LoginScreenProps) => {
     }
   };
   const _onLogin = () => {
-    if (Platform.OS == 'ios') {
-      getAzureToken();
-    } else {
-      reset(Routes.DrawerStack);
-    }
+    getAzureToken();
   };
   return (
     <Container hideHeader={true}>
