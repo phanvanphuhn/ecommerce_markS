@@ -87,13 +87,6 @@ const LeaderboardScreen = (props: LeaderboardScreenProps) => {
             }}
           />
         </View>
-      </View>
-
-      <View
-        style={{
-          backgroundColor: colors.primary,
-          marginTop: 0,
-        }}>
         <LeaderRanking data={state.dataTop} type={state.type} />
       </View>
 

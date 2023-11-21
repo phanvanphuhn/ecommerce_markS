@@ -29,8 +29,9 @@ const DateTimePicker = React.memo(
     const [date, setDate] = useState<Date>(new Date());
 
     useEffect(() => {
+      console.log('=>(DateTimePicker.tsx:32) props.value', props.value);
       if (props.value) {
-        setDate(moment(props.value, props.format || 'DD/MM/YYYY').toDate());
+        setDate(moment(props.value, props.format).toDate());
       }
     }, [props.value]);
 
@@ -47,8 +48,8 @@ const DateTimePicker = React.memo(
     var renderDatePicker = useCallback(() => {
       return (
         <View style={modalDatePicker.containerDate}>
-          <Text bold center hilight size={17}>
-            {props.title ?? 'Chọn ngày'}
+          <Text fontWeight={'700'} center hilight size={17}>
+            {props.title ?? 'Choose Date'}
           </Text>
           <DatePicker
             date={date}
@@ -61,7 +62,7 @@ const DateTimePicker = React.memo(
           />
           <ButtonLinear
             onPress={onPressClose}
-            title={'Cập nhật'}
+            title={'Update'}
             white
             colors={[colors.primary, colors.primary]}
             style={modalDatePicker.styleButton}
@@ -85,7 +86,7 @@ export default DateTimePicker;
 const modalDatePicker = StyleSheet.create({
   containerDate: {
     paddingVertical: sizes._20sdp,
-    backgroundColor: colors.White,
+    backgroundColor: colors.white,
     borderRadius: 10,
   },
   styleButton: {
@@ -97,7 +98,7 @@ const modalDatePicker = StyleSheet.create({
     height: 'auto',
   },
   textButton: {
-    color: colors.White,
+    color: colors.white,
     fontWeight: '600',
     fontSize: sizes._font_size_17,
   },
