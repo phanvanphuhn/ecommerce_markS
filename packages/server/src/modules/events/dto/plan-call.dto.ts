@@ -25,8 +25,9 @@ registerEnumType(PlanCallActivitySubtype, {
   name: 'PlanCallActivitySubtype',
 });
 
-@ObjectType({ isAbstract: true })
-@InputType({ isAbstract: true })
+@ArgsType()
+@InputType('PlanCallInput')
+@ObjectType()
 export class PlanCall {
   @Field(() => String, { nullable: true })
   id?: string;
