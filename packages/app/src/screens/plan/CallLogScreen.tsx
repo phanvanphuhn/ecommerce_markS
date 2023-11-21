@@ -21,8 +21,12 @@ import Theme from 'res/style/Theme';
 import {useLazyQuery, useMutation} from '@apollo/client';
 import {GET_LEADERBOARD_QUERY} from 'apollo/query/leaderboard';
 import uuid from 'react-native-uuid';
+import {useNavigation} from '@react-navigation/core';
+import {BaseUseNavigationProps} from 'navigation/BaseNavigationProps';
+import {MainParamList} from 'navigation/service/NavigationParams';
 const CallLogScreen = (props: any) => {
   const {route} = props;
+  const navigation = useNavigation<BaseUseNavigationProps<MainParamList>>();
   const [onSubmitData] = useMutation(MUTATION_DATA_CALL_QUERY);
   const formik = useFormik<PlanCallInput>({
     initialValues: {
@@ -40,9 +44,10 @@ const CallLogScreen = (props: any) => {
       status: 'IN_PROGRESS',
       subject: '',
     },
-    onSubmit: values => {
+    onSubmit: async values => {
       console.log('=>(CallLogScreen.tsx:49) values', values);
-      onSubmitData({variables: {data: values}});
+      await onSubmitData({variables: {data: values}});
+      navigation.goBack();
     },
   });
   const onCancel = () => {};

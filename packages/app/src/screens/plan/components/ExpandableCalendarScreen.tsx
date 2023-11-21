@@ -16,6 +16,8 @@ import XDate from 'xdate';
 import {formatNumbers} from 'lib/react-native-calendars/src/dateutils';
 import {ItemPlanResponse} from 'network/apis/plan/PlanResponse';
 import TimeLinePlan from 'screens/plan/components/TimeLinePlan';
+import {PlanCallOutput} from 'apollo/query/upsertPlanCall';
+import moment from 'moment';
 
 LocaleConfig.locales.en = {
   monthNames: [
@@ -66,8 +68,11 @@ interface IState {
     [key: string]: TimelineEventProps[];
   };
 }
+interface TimelineCalendarScreenProps {
+  data: PlanCallOutput[];
+}
 type TypeDate = 'day' | 'month' | '3-day';
-const TimelineCalendarScreen = props => {
+const TimelineCalendarScreen = (props: TimelineCalendarScreenProps) => {
   const [state, setState] = useReducer(
     (preState: IState, newState: Partial<IState>) => ({
       ...preState,
@@ -84,19 +89,18 @@ const TimelineCalendarScreen = props => {
   );
 
   const getData = async () => {
-    // let response = await PlanApi.getPlan();
-    let events = groupBy(EVENTS, e =>
-      CalendarUtils.getCalendarDateString(e.start),
-    );
-    setTimeout(() => {
+    if (props?.data?.length) {
+      let events = groupBy(props.data, e =>
+        CalendarUtils.getCalendarDateString(e.startDate),
+      );
       setState({
         eventsByDate: events,
       });
-    }, 1000);
+    }
   };
   useEffect(() => {
     getData();
-  }, []);
+  }, [props.data]);
 
   return (
     <>

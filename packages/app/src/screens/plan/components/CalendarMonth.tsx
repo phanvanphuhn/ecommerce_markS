@@ -29,9 +29,13 @@ import colors from 'res/colors';
 import Animated from 'react-native-reanimated';
 import useDidUpdate from 'hooks/useDidUpdate';
 import ListSchedule from 'screens/plan/components/ListSchedule';
+import {PlanCallOutput} from 'apollo/query/upsertPlanCall';
+import groupBy from 'lodash/groupBy';
+import {CalendarUtils} from 'lib/react-native-calendars';
 
 interface Props {
   onChange: (date: string) => void;
+  data: PlanCallOutput[];
 }
 
 interface IState {
@@ -61,17 +65,14 @@ const CalendarListScreen = (
   });
 
   useEffect(() => {
-    let toDay = new XDate();
-    let array = [{name: 'DigiX Dig'}];
-    let array2 = [{name: 'DigiX Dig'}, {name: 'DigiX'}];
-    let obj = {
-      [toMarkingFormat(toDay)]: array,
-      [toMarkingFormat(toDay.clone().addDays(1))]: array2,
-      [toMarkingFormat(toDay.clone().addDays(-8))]: array2,
-      [toMarkingFormat(toDay.clone().addMonths(-1))]: array2,
-    };
-    setState({listData: obj});
-  }, []);
+    if (props.data?.length) {
+      let events = groupBy(props.data, e =>
+        CalendarUtils.getCalendarDateString(e.startDate),
+      );
+      console.log('=>(CalendarMonth.tsx:71) events', events);
+      setState({listData: events});
+    }
+  }, [props.data]);
 
   const initialDate = useRef(new XDate());
   const flatlistRef = useRef<Animated.FlatList<XDate>>();

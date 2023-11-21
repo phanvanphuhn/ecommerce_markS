@@ -5,15 +5,15 @@ import {MainParamList} from 'navigation/service/NavigationParams';
 import React from 'react';
 import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
 import images from 'res/images';
-import {ItemPlanResponse} from 'network/apis/plan/PlanResponse';
 import Text from 'elements/Text';
 import {backgroundBodyColor} from 'utils/other-utils';
 import Theme from 'res/style/Theme';
 import moment from 'moment';
 import colors from 'res/colors';
+import {PlanCallOutput} from 'apollo/query/upsertPlanCall';
 
 interface IStatusPlanFormProps {
-  item: ItemPlanResponse;
+  item: PlanCallOutput;
 }
 
 const StatusPlanForm = (props: IStatusPlanFormProps) => {
@@ -21,13 +21,13 @@ const StatusPlanForm = (props: IStatusPlanFormProps) => {
   const backgroundHeaderColor = () => {
     const {status} = props.item;
     switch (status) {
-      case 1:
+      case 'COMPLETED':
         return '#B31921';
-      case 2:
+      case 'COMPLETED':
         return '#AECEFF';
-      case 3:
+      case 'CANCELLED':
         return '#FBFBFB';
-      case 4:
+      case 'IN_PROGRESS':
         return '#00BECC';
     }
   };
@@ -35,27 +35,28 @@ const StatusPlanForm = (props: IStatusPlanFormProps) => {
   const titleColor = () => {
     const {status} = props.item;
     switch (status) {
-      case 1:
+      case 'COMPLETED':
         return '#FFFFFF';
-      case 2:
+      case 'COMPLETED':
         return '#000000';
-      case 3:
+      case 'CANCELLED':
         return '#A5A5A5';
-      case 4:
+      case 'IN_PROGRESS':
         return '#000000';
     }
   };
 
   const onGotoDetail = () => {
-    if (props.item.status === 1) {
+    if (props.item.status === 'COMPLETED') {
       navigation.navigate(Routes.CaseLogScreen2, {item: props.item});
     } else {
       navigation.navigate(Routes.CallLogScreen, {item: props.item});
     }
   };
+  console.log('=>(StatusPlanForm.tsx:108) props', props);
 
   const getDuration = () =>
-    moment(props.item.end).diff(moment(props.item.start), 'minutes');
+    moment(props.item.endDate).diff(moment(props.item.startDate), 'minutes');
 
   return (
     <TouchableOpacity
@@ -79,7 +80,7 @@ const StatusPlanForm = (props: IStatusPlanFormProps) => {
           style={[styles.imageContainer, {height: 20, width: 20}]}
         />
         <Text size={15} fontWeight={'600'} color={titleColor()}>
-          {props.item.title}
+          {props.item.subject}
         </Text>
       </View>
       <View style={[styles.bodyContainer]}>
@@ -88,8 +89,8 @@ const StatusPlanForm = (props: IStatusPlanFormProps) => {
           <Text
             size={13}
             fontWeight={'300'}
-            color={props.item.status === 3 ? '#A5A5A5' : colors.text}>
-            {props.item.desc}
+            color={props.item.status === 'CANCELLED' ? '#A5A5A5' : colors.text}>
+            {props.item.description}
           </Text>
         </View>
         <View style={Theme.flexRow}>
@@ -97,7 +98,7 @@ const StatusPlanForm = (props: IStatusPlanFormProps) => {
           <Text
             size={13}
             fontWeight={'300'}
-            color={props.item.status === 3 ? '#A5A5A5' : colors.text}>
+            color={props.item.status === 'CANCELLED' ? '#A5A5A5' : colors.text}>
             {getDuration() + ' Minutes'}
           </Text>
         </View>
