@@ -1,9 +1,17 @@
 import React from 'react';
 import {StyleSheet, Text, TextInput, View} from 'react-native';
 import colors from 'res/colors';
-
-const InputForm = (props: any) => {
-  const [value, setValue] = React.useState<string>('');
+import {useFormikContext} from 'formik';
+import {PlanCallInput} from 'apollo/query/upsertPlanCall';
+interface InputFormProps {
+  name: keyof PlanCallInput;
+  placeholder?: string;
+  title?: string;
+  numberOfLines?: number;
+  rightIcon?: React.ReactNode;
+}
+const InputForm = (props: InputFormProps) => {
+  const {handleChange, values} = useFormikContext<PlanCallInput>();
 
   return (
     <View style={styles.container}>
@@ -11,11 +19,11 @@ const InputForm = (props: any) => {
 
       <View style={styles.textInputContainer}>
         <TextInput
-          value={value}
-          onChangeText={text => setValue(text)}
+          value={values?.[props.name]}
+          onChangeText={handleChange(props.name)}
           placeholder={props?.placeholder}
           style={[
-            value ? styles.textInput : styles.placeHolder,
+            values[props.name] ? styles.textInput : styles.placeHolder,
             props?.numberOfLines
               ? {height: 73}
               : {paddingVertical: 0, height: 20},
