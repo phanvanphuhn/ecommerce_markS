@@ -3,13 +3,14 @@ import {View, StyleSheet} from 'react-native';
 import Text from 'elements/Text';
 import colors from 'res/colors';
 import item from 'lib/react-native-calendars/src/calendar-list/item';
+import {PlanCallOutput} from 'apollo/query/upsertPlanCall';
 
 interface ListScheduleProps {
-  data: any[];
+  data: PlanCallOutput[];
 }
 
 const ListSchedule = (props: ListScheduleProps) => {
-  const [state, setState] = useState([{name: 'a'}, {name: 'B'}]);
+  const [state, setState] = useState();
   return (
     <View style={styles.container}>
       {props.data.slice(0, 3).map((item, index) => {
@@ -24,7 +25,7 @@ const ListSchedule = (props: ListScheduleProps) => {
               width: '100%',
             }}>
             <Text size={9} color={'#80C'} center={true} fontWeight={'600'}>
-              {item.name}
+              {item.subject}
             </Text>
           </View>
         );

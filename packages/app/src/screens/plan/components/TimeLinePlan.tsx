@@ -31,6 +31,7 @@ const TimeLinePlan = (props: TimeLineListProps) => {
     }),
     [],
   );
+  console.log('=>(TimeLinePlan.tsx:34) props.events', props.events);
   if (!props.events) {
     return null;
   }

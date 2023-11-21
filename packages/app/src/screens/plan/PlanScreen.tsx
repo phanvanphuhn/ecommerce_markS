@@ -1,6 +1,6 @@
 import ButtonIcon from 'elements/Buttons/ButtonIcon';
 import Container from 'elements/Layout/Container';
-import React, {useCallback, useMemo, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {LayoutChangeEvent, StyleSheet, View} from 'react-native';
 import colors from 'res/colors';
 import images from 'res/images';
@@ -29,6 +29,9 @@ import CalendarMonth, {
 } from 'screens/plan/components/CalendarMonth';
 import {TypeDate} from 'res/type/calendar';
 import {Routes} from 'configs';
+import {useLazyQuery} from '@apollo/client';
+import {GET_PLAN_CALLS} from 'apollo/query/getPlanCalls';
+import moment from 'moment/moment';
 
 interface PlanScreenProps {}
 interface IState {
@@ -49,6 +52,11 @@ const PlanScreen = (props: PlanScreenProps) => {
   });
   const CalendarRef = useRef<CalendarListRef>();
   const navigation = useNavigation<BaseUseNavigationProps<MainParamList>>();
+
+  const [getData, {data}] = useLazyQuery(GET_PLAN_CALLS);
+  useEffect(() => {
+    getData();
+  }, []);
   const onCancel = () => {};
 
   const onSave = () => {};
@@ -187,8 +195,33 @@ const PlanScreen = (props: PlanScreenProps) => {
             <View style={styles.containerDayOfWeek}>{renderWeekDays}</View>
           </View>
         </View>
-        {state.typeDate == 'Day' && <ExpandableCalendarScreen />}
-        {state.typeDate == 'Month' && <CalendarMonth ref={CalendarRef} />}
+        {state.typeDate == 'Day' && (
+          <ExpandableCalendarScreen
+            data={data?.data?.map(e => ({
+              ...e,
+              startDate: moment(new Date(Number(e.startDate))).format(
+                'YYYY-MM-DD HH:mm:ss',
+              ),
+              endDate: moment(new Date(Number(e.endDate))).format(
+                'YYYY-MM-DD HH:mm:ss',
+              ),
+            }))}
+          />
+        )}
+        {state.typeDate == 'Month' && (
+          <CalendarMonth
+            ref={CalendarRef}
+            data={data?.data?.map(e => ({
+              ...e,
+              startDate: moment(new Date(Number(e.startDate))).format(
+                'YYYY-MM-DD HH:mm:ss',
+              ),
+              endDate: moment(new Date(Number(e.endDate))).format(
+                'YYYY-MM-DD HH:mm:ss',
+              ),
+            }))}
+          />
+        )}
         {!!state.isShowDateOption && (
           <SelectOptionMonth
             height={state.height}

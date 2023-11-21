@@ -6,6 +6,7 @@ import {useCallback} from 'react';
 import colors from 'res/colors';
 import {ItemLeaderBoardResponse} from 'apollo/query/leaderboard';
 import {TabDateType} from 'screens/leaderboard/LeaderboardScreen';
+import {PlanCallOutput} from 'apollo/query/upsertPlanCall';
 
 export const checkPhoneNumberVietnamese = /^(\+?84|0|\(\+?84\))[1-9]\d{8,9}$/g;
 const addDate = (endDate: string, endTime: string) => {
@@ -58,19 +59,19 @@ export const htmltoText = (html: string) => {
   return text;
 };
 
-export const backgroundBodyColor = (item: ItemPlanResponse) => {
+export const backgroundBodyColor = (item: PlanCallOutput) => {
   if (!item) {
     return;
   }
   const {status} = item;
   switch (status) {
-    case 1:
+    case 'COMPLETED':
       return '#FFFFFF';
-    case 2:
+    case 'COMPLETED':
       return '#E7F0FF';
-    case 3:
+    case 'CANCELLED':
       return '#FBFBFB';
-    case 4:
+    case 'IN_PROGRESS':
       return '#DBFDFF';
   }
 };

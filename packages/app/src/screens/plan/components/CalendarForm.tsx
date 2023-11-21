@@ -15,7 +15,6 @@ const CalendarForm = (props: CalendarFormProps) => {
   const {handleChange, values, setFieldValue} =
     useFormikContext<PlanCallInput>();
   const [visible, open, close] = useModal();
-  const [typeDate, setTypeDate] = useState('date');
   return (
     <>
       <View style={styles.container}>
@@ -44,7 +43,7 @@ const CalendarForm = (props: CalendarFormProps) => {
         type={props?.typeDate || 'date'}
         onCloseModal={close}
         onPressClose={(date, dateString) => {
-          setFieldValue(props.name, date.toISOString());
+          setFieldValue(props.name, moment(date).utc(true).toISOString());
         }}
       />
     </>
