@@ -143,7 +143,7 @@ const ContainerProgress = (props: ContainerProgressProps) => {
                 }}>
                 <Text>YTD Total:</Text>
                 <Text center={true} marginTop={5} size={38} fontWeight={'600'}>
-                  $19990
+                  ${state?.data?.YTD_total_sales}
                 </Text>
                 <View
                   style={{
