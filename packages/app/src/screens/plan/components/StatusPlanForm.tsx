@@ -29,6 +29,8 @@ const StatusPlanForm = (props: IStatusPlanFormProps) => {
         return '#FBFBFB';
       case 'IN_PROGRESS':
         return '#00BECC';
+      default:
+        return '#00BECC';
     }
   };
 
@@ -42,6 +44,8 @@ const StatusPlanForm = (props: IStatusPlanFormProps) => {
       case 'CANCELLED':
         return '#A5A5A5';
       case 'IN_PROGRESS':
+        return '#000000';
+      default:
         return '#000000';
     }
   };

@@ -12,20 +12,24 @@ import {timelineEvents} from 'screens/plan/components/timelineEvents';
 import useStateCustom from 'hooks/useStateCustom';
 import moment from 'moment';
 import Text from 'elements/Text';
+import {useLazyQuery} from '@apollo/client';
+import {GET_PLAN_CALLS} from 'apollo/query/getPlanCalls';
 
 interface SearchPlanScreenProps {}
 
 const SearchPlanScreen = (props: SearchPlanScreenProps) => {
   const [state, setState] = useStateCustom({keyword: '', eventsByDate: []});
-  useEffect(() => {
-    const getData = async () => {
-      // let response = await PlanApi.getPlan();
-      let events = timelineEvents
-        .map(e => moment(e.start).format('DD/MM/YYYY'))
+
+  const [getData] = useLazyQuery(GET_PLAN_CALLS, {
+    onCompleted: data => {
+      let events = data?.data
+        .map(e => moment(new Date(Number(e.startDate))).format('DD/MM/YYYY'))
         .filter((e, index, arr) => arr.indexOf(e) == index)
         .map(item => {
-          let array = timelineEvents.filter(
-            e => moment(e.start).format('DD/MM/YYYY') == item,
+          let array = data?.data.filter(
+            e =>
+              moment(new Date(Number(e.startDate))).format('DD/MM/YYYY') ==
+              item,
           );
           return {
             title: item,
@@ -36,7 +40,10 @@ const SearchPlanScreen = (props: SearchPlanScreenProps) => {
       setState({
         eventsByDate: events,
       });
-    };
+    },
+  });
+  useEffect(() => {
+    // let response = await PlanApi.getPlan();
     getData();
   }, []);
 
