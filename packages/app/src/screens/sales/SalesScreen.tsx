@@ -81,7 +81,7 @@ const SalesScreen = (props: SalesScreenProps) => {
       Service_contract_sales: 0,
       Kicker: 0,
       Early_bird: 0,
-      YTD_total_sales: 133500,
+      YTD_total_sales: 0,
     },
   });
   return (

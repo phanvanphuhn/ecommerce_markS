@@ -1,4 +1,4 @@
-import React, {memo, useCallback, useMemo, useState} from 'react';
+import React, {memo, useCallback, useEffect, useMemo, useState} from 'react';
 import {View, StyleSheet, ScrollView} from 'react-native';
 import Theme from 'res/style/Theme';
 import colors from 'res/colors';
@@ -166,6 +166,19 @@ const PriceYear = (props: PriceYearProps) => {
     }
   }, [state.type, state.data, getCommissionSale, getCommissionPercent]);
 
+  useEffect(() => {
+    setState({
+      data: {
+        ...state.data,
+        YTD_total_sales:
+          Number(getVariable) +
+          Number(getCommission) +
+          getKicker +
+          getEarlyBird,
+      },
+    });
+  }, [getVariable, getCommission, getKicker, getEarlyBird]);
+
   if (isBiometric) {
     return (
       <Biometric key={state.type} onSuccess={() => setIsBiometric(false)} />
@@ -260,12 +273,7 @@ const PriceYear = (props: PriceYearProps) => {
           icon={images.ic_total}
           title={'Total'}
           currentValue={2000}
-          potentialValue={
-            Number(getVariable) +
-            Number(getCommission) +
-            getKicker +
-            getEarlyBird
-          }
+          potentialValue={state?.data?.YTD_total_sales}
         />
       </View>
     </ScrollView>
