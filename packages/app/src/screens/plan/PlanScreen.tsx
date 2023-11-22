@@ -1,7 +1,12 @@
 import ButtonIcon from 'elements/Buttons/ButtonIcon';
 import Container from 'elements/Layout/Container';
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
-import {LayoutChangeEvent, StyleSheet, View} from 'react-native';
+import {
+  ActivityIndicator,
+  LayoutChangeEvent,
+  StyleSheet,
+  View,
+} from 'react-native';
 import colors from 'res/colors';
 import images from 'res/images';
 import strings from 'res/strings';
@@ -33,6 +38,8 @@ import {useLazyQuery} from '@apollo/client';
 import {GET_PLAN_CALLS} from 'apollo/query/getPlanCalls';
 import moment from 'moment/moment';
 import {PlanCallOutput} from 'apollo/query/upsertPlanCall';
+import useDidUpdate from 'hooks/useDidUpdate';
+import useIsMounted from 'hooks/useIsMounted';
 
 interface PlanScreenProps {}
 interface IState {
@@ -55,8 +62,8 @@ const PlanScreen = (props: PlanScreenProps) => {
   });
   const CalendarRef = useRef<CalendarListRef>();
   const navigation = useNavigation<BaseUseNavigationProps<MainParamList>>();
-
-  const [getData] = useLazyQuery(GET_PLAN_CALLS, {
+  useDidUpdate;
+  const [getData, {loading}] = useLazyQuery(GET_PLAN_CALLS, {
     onCompleted: data => {
       setState({
         data: data?.data?.map(e => ({
@@ -157,6 +164,20 @@ const PlanScreen = (props: PlanScreenProps) => {
   const onLayout = (event: LayoutChangeEvent) => {
     setState({height: event.nativeEvent.layout.height});
   };
+  const isMounted = useIsMounted();
+  if (loading || !isMounted) {
+    return (
+      <View
+        style={{
+          backgroundColor: colors.white,
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <ActivityIndicator size={'large'} color={colors.primary} />
+      </View>
+    );
+  }
   return (
     <Container
       title={strings.planScreen.myEvent}
