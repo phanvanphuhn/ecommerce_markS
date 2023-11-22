@@ -32,6 +32,7 @@ import {Routes} from 'configs';
 import {useLazyQuery} from '@apollo/client';
 import {GET_PLAN_CALLS} from 'apollo/query/getPlanCalls';
 import moment from 'moment/moment';
+import {PlanCallOutput} from 'apollo/query/upsertPlanCall';
 
 interface PlanScreenProps {}
 interface IState {
@@ -39,7 +40,8 @@ interface IState {
   height?: number;
   typeDate?: TypeDate;
   isShowDateOption?: boolean;
-  isShowCreateCaseLog: boolean;
+  isShowCreateCaseLog?: boolean;
+  data?: PlanCallOutput[];
 }
 
 const PlanScreen = (props: PlanScreenProps) => {
@@ -49,11 +51,32 @@ const PlanScreen = (props: PlanScreenProps) => {
     typeDate: 'Month',
     isShowDateOption: false,
     isShowCreateCaseLog: false,
+    data: [],
   });
   const CalendarRef = useRef<CalendarListRef>();
   const navigation = useNavigation<BaseUseNavigationProps<MainParamList>>();
 
-  const [getData, {data}] = useLazyQuery(GET_PLAN_CALLS);
+  const [getData] = useLazyQuery(GET_PLAN_CALLS, {
+    onCompleted: data => {
+      setState({
+        data: data?.data?.map(e => ({
+          ...e,
+          start: moment(new Date(Number(e.startDate))).format(
+            'YYYY-MM-DD HH:mm:ss',
+          ),
+          end: moment(new Date(Number(e.endDate))).format(
+            'YYYY-MM-DD HH:mm:ss',
+          ),
+          startDate: moment(new Date(Number(e.startDate))).format(
+            'YYYY-MM-DD HH:mm:ss',
+          ),
+          endDate: moment(new Date(Number(e.endDate))).format(
+            'YYYY-MM-DD HH:mm:ss',
+          ),
+        })),
+      });
+    },
+  });
   useEffect(() => {
     getData();
   }, []);
@@ -196,31 +219,10 @@ const PlanScreen = (props: PlanScreenProps) => {
           </View>
         </View>
         {state.typeDate == 'Day' && (
-          <ExpandableCalendarScreen
-            data={data?.data?.map(e => ({
-              ...e,
-              startDate: moment(new Date(Number(e.startDate))).format(
-                'YYYY-MM-DD HH:mm:ss',
-              ),
-              endDate: moment(new Date(Number(e.endDate))).format(
-                'YYYY-MM-DD HH:mm:ss',
-              ),
-            }))}
-          />
+          <ExpandableCalendarScreen data={state?.data} />
         )}
         {state.typeDate == 'Month' && (
-          <CalendarMonth
-            ref={CalendarRef}
-            data={data?.data?.map(e => ({
-              ...e,
-              startDate: moment(new Date(Number(e.startDate))).format(
-                'YYYY-MM-DD HH:mm:ss',
-              ),
-              endDate: moment(new Date(Number(e.endDate))).format(
-                'YYYY-MM-DD HH:mm:ss',
-              ),
-            }))}
-          />
+          <CalendarMonth ref={CalendarRef} data={state?.data} />
         )}
         {!!state.isShowDateOption && (
           <SelectOptionMonth

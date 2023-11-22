@@ -73,6 +73,8 @@ export const backgroundBodyColor = (item: PlanCallOutput) => {
       return '#FBFBFB';
     case 'IN_PROGRESS':
       return '#DBFDFF';
+    default:
+      return '#DBFDFF';
   }
 };
 
