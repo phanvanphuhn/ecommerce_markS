@@ -1,19 +1,21 @@
 {
+  "$schema": "https://json.schemastore.org/swcrc",
   "sourceMaps": true,
   "module": {
-    "type": "commonjs",
-    "strict": true
+    "type": "commonjs"
   },
   "jsc": {
-    "target": "es2020",
+    "target": "es2021",
     "parser": {
       "syntax": "typescript",
-      "decorators": true
+      "decorators": true,
+      "dynamicImport": true
     },
     "transform": {
-      "legacyDecorator": true,
       "decoratorMetadata": true
     },
+    "externalHelpers": false,
     "keepClassNames": true
   }
+  // "minify": false
 }

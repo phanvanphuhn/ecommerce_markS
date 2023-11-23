@@ -12,11 +12,15 @@ RUN npm install
 
 COPY . .
 
-RUN npm run build
+RUN NODE_OPTIONS=--max_old_space_size=4096 npm run build
 
 FROM node:16
 
 WORKDIR /app
+
+COPY ./prisma/schema.prisma ./prisma/schema.prisma
+COPY --from=BUILDER /app/prisma/migrations ./prisma/migrations
+RUN npm run prisma:generate
 
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package*.json ./
@@ -24,4 +28,4 @@ COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/src/@generated ./dist/@generated
 
 EXPOSE 3000
-CMD [ "npm", "run", "start:prod" ]
+CMD ["sh", "-c", "npm run migrate:deploy", "&&", "npm run start:prod" ]
