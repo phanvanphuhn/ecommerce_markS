@@ -14,6 +14,7 @@ import { ComplaintsModule } from './modules/complaints/complaints.module';
 import { LeaderboardModule } from './modules/leaderboard/leaderboard.module';
 import { SalesModule } from './modules/sales/sales.module';
 import { EventsModule } from './modules/events/events.module';
+import { SearchHistoryModule } from './modules/search-history/search-history.module';
 
 @Module({
   imports: [
@@ -80,6 +81,7 @@ import { EventsModule } from './modules/events/events.module';
     LeaderboardModule,
     SalesModule,
     EventsModule,
+    SearchHistoryModule,
   ],
   controllers: [],
   providers: [],

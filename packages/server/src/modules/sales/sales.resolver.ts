@@ -1,6 +1,6 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
-import { SliderAndCommission } from '@generated/kysely/types';
+
 
 import { UserEntity } from '@/common/decorators/user.decorator';
 
@@ -19,6 +19,8 @@ import {
   UpserMobileSalestQuarterArgs,
   UpserMobileSalestYearArgs,
 } from './dto/mobile.sales.dto';
+
+import { SliderAndCommission } from '@generated/kysely/types';
 
 @Resolver()
 export class SalesResolver {

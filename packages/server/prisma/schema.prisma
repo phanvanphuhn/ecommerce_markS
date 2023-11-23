@@ -220,7 +220,7 @@ model PlanCall {
 }
 
 model CaseLog {
-  id                  String    @id @default(uuid())
+  id                  String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   procedureName       String?
   startDate           DateTime?
   endDate             DateTime?
@@ -230,6 +230,23 @@ model CaseLog {
   implantingPhysician String?
   activityOwnerName   String?
   activityOwnerId     String?
+
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+enum SearchType {
+  CaseLog
+  PlanCall
+  ContactSearch
+}
+
+model SearchHistory {
+  id            String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  salesRepEmail String?
+  searchQuery   String?
+  searchType    SearchType?
+  searchResults Json[]
 
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt

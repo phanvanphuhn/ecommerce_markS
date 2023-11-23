@@ -1,4 +1,5 @@
 import { ArgsType, Field, ObjectType, registerEnumType } from '@nestjs/graphql';
+
 import { mobileSalesTargetType } from '@generated/kysely/types';
 
 registerEnumType(mobileSalesTargetType, {

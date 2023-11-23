@@ -6,6 +6,7 @@ import {
   OmitType,
   registerEnumType,
 } from '@nestjs/graphql';
+import { GraphQLDateTimeISO } from 'graphql-scalars';
 
 import {
   PlanCallStatus,
@@ -77,10 +78,10 @@ export class PlanCall {
   @Field(() => String, { nullable: true })
   ownerCountry?: string;
 
-  @Field(() => String, { nullable: true })
+  @Field(() => GraphQLDateTimeISO, { nullable: true })
   createdAt?: Date;
 
-  @Field(() => String, { nullable: true })
+  @Field(() => GraphQLDateTimeISO, { nullable: true })
   updatedAt?: Date;
 }
 
