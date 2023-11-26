@@ -141,7 +141,13 @@ const ContainerProgress = (props: ContainerProgressProps) => {
                   alignItems: 'center',
                   justifyContent: 'center',
                 }}>
-                <Text>YTD Total:</Text>
+                {state.type == 'month' ? (
+                  <Text>MTD Total:</Text>
+                ) : state.type == 'quarter' ? (
+                  <Text>QTD Total:</Text>
+                ) : (
+                  <Text>YTD Total:</Text>
+                )}
                 <Text center={true} marginTop={5} size={38} fontWeight={'600'}>
                   ${state?.data?.YTD_total_sales}
                 </Text>
