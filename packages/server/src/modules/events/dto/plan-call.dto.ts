@@ -8,6 +8,8 @@ import {
 } from '@nestjs/graphql';
 import { GraphQLDateTimeISO } from 'graphql-scalars';
 
+import { FilterType } from '@/common/types/filter-type';
+
 import {
   PlanCallStatus,
   PlanCallActivitySubtype,
@@ -97,4 +99,7 @@ export class PlanCallOutput extends PlanCall {
 }
 
 @ArgsType()
-export class PlanCallFilterArgs extends OmitType(PlanCall, ['salesForceId']) {}
+export class PlanCallFilterArgs extends OmitType(PlanCall, ['salesForceId']) {
+  @Field(() => FilterType, { nullable: true })
+  filterType?: FilterType;
+}

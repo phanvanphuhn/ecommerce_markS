@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
+import { ComparisonOperatorExpression } from 'kysely';
 
 import { Database } from '../_database/database';
+import { filterTypeMap } from '../../common/types/filter-type';
 
 import {
   PlanCallFilterArgs,
@@ -16,32 +18,52 @@ export class EventsService {
   async getPlanCalls(salesRepEmail: string, filter: PlanCallFilterArgs) {
     let query = this.database.selectFrom('marks.PlanCall').selectAll();
 
+    // determine whether to put "like" or "=" in the where clause for the strings
+    const comparisionOperator: ComparisonOperatorExpression =
+      (filterTypeMap[filter.filterType] as ComparisonOperatorExpression) || '=';
+
     if (filter.account) {
-      query = query.where('account', '=', filter.account);
+      query = query.where('account', comparisionOperator, filter.account);
     }
 
     if (filter.contactName) {
-      query = query.where('contactName', '=', filter.contactName);
+      query = query.where(
+        'contactName',
+        comparisionOperator,
+        filter.contactName,
+      );
     }
 
     if (filter.division) {
-      query = query.where('division', '=', filter.division);
+      query = query.where('division', comparisionOperator, filter.division);
     }
 
     if (filter.activityType) {
-      query = query.where('activityType', '=', filter.activityType);
+      query = query.where(
+        'activityType',
+        comparisionOperator,
+        filter.activityType,
+      );
     }
 
     if (filter.activitySubtype) {
-      query = query.where('activitySubtype', '=', filter.activitySubtype);
+      query = query.where(
+        'activitySubtype',
+        comparisionOperator,
+        filter.activitySubtype,
+      );
     }
 
     if (filter.ownerCountry) {
-      query = query.where('ownerCountry', '=', filter.ownerCountry);
+      query = query.where(
+        'ownerCountry',
+        comparisionOperator,
+        filter.ownerCountry,
+      );
     }
 
     if (filter.status) {
-      query = query.where('status', '=', filter.status);
+      query = query.where('status', comparisionOperator, filter.status);
     }
 
     if (filter.startDate) {
@@ -53,19 +75,27 @@ export class EventsService {
     }
 
     if (filter.activityOwnerName) {
-      query = query.where('activityOwnerName', '=', filter.activityOwnerName);
+      query = query.where(
+        'activityOwnerName',
+        comparisionOperator,
+        filter.activityOwnerName,
+      );
     }
 
     if (filter.subject) {
-      query = query.where('subject', '=', filter.subject);
+      query = query.where('subject', comparisionOperator, filter.subject);
     }
 
     if (filter.description) {
-      query = query.where('description', '=', filter.description);
+      query = query.where(
+        'description',
+        comparisionOperator,
+        filter.description,
+      );
     }
 
     if (filter.location) {
-      query = query.where('location', '=', filter.location);
+      query = query.where('location', comparisionOperator, filter.location);
     }
 
     if (filter.createdAt) {
