@@ -18,52 +18,36 @@ export class EventsService {
   async getPlanCalls(salesRepEmail: string, filter: PlanCallFilterArgs) {
     let query = this.database.selectFrom('marks.PlanCall').selectAll();
 
-    // determine whether to put "like" or "=" in the where clause for the strings
-    const comparisionOperator: ComparisonOperatorExpression =
-      (filterTypeMap[filter.filterType] as ComparisonOperatorExpression) || '=';
-
     if (filter.account) {
-      query = query.where('account', comparisionOperator, filter.account);
+      query = query.where('account', 'like', `%${filter.account}%`);
     }
 
     if (filter.contactName) {
-      query = query.where(
-        'contactName',
-        comparisionOperator,
-        filter.contactName,
-      );
+      query = query.where('contactName', 'like', `%${filter.contactName}%`);
     }
 
     if (filter.division) {
-      query = query.where('division', comparisionOperator, filter.division);
+      query = query.where('division', 'like', `%${filter.division}%`);
     }
 
     if (filter.activityType) {
-      query = query.where(
-        'activityType',
-        comparisionOperator,
-        filter.activityType,
-      );
+      query = query.where('activityType', 'like', `%${filter.activityType}%`);
     }
 
     if (filter.activitySubtype) {
       query = query.where(
         'activitySubtype',
-        comparisionOperator,
-        filter.activitySubtype,
+        'like',
+        `%${filter.activitySubtype}%`,
       );
     }
 
     if (filter.ownerCountry) {
-      query = query.where(
-        'ownerCountry',
-        comparisionOperator,
-        filter.ownerCountry,
-      );
+      query = query.where('ownerCountry', 'like', `%${filter.ownerCountry}%`);
     }
 
     if (filter.status) {
-      query = query.where('status', comparisionOperator, filter.status);
+      query = query.where('status', 'like', `%${filter.status}%`);
     }
 
     if (filter.startDate) {
@@ -77,25 +61,21 @@ export class EventsService {
     if (filter.activityOwnerName) {
       query = query.where(
         'activityOwnerName',
-        comparisionOperator,
-        filter.activityOwnerName,
+        'like',
+        `%${filter.activityOwnerName}%`,
       );
     }
 
     if (filter.subject) {
-      query = query.where('subject', comparisionOperator, filter.subject);
+      query = query.where('subject', 'like', `%${filter.subject}%`);
     }
 
     if (filter.description) {
-      query = query.where(
-        'description',
-        comparisionOperator,
-        filter.description,
-      );
+      query = query.where('description', 'like', filter.description);
     }
 
     if (filter.location) {
-      query = query.where('location', comparisionOperator, filter.location);
+      query = query.where('location', 'like', `%${filter.location}%`);
     }
 
     if (filter.createdAt) {

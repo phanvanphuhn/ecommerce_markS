@@ -100,6 +100,6 @@ export class PlanCallOutput extends PlanCall {
 
 @ArgsType()
 export class PlanCallFilterArgs extends OmitType(PlanCall, ['salesForceId']) {
-  @Field(() => FilterType, { nullable: true })
-  filterType?: FilterType;
+  // @Field(() => FilterType, { nullable: true })
+  // filterType?: FilterType;
 }
