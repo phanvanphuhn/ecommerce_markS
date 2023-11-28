@@ -11,13 +11,27 @@ import {IStateSales} from 'screens/sales/SalesScreen';
 import moment from 'moment';
 import {SliderData} from 'screens/sales/dataExample';
 import Biometric from 'screens/sales/components/Biometric';
+import {height} from 'res/sizes';
+import ButtonBorder from 'elements/Buttons/ButtonBorder';
+import ModalBase from 'components/ModalBase';
+import useModal from 'hooks/useModal';
 
 interface PriceYearProps {}
-
+const dataGuidelines = [
+  'The information as follows are indicative. Please reach out to your financial partner for any details.',
+  'Manual sales transfers are not reflected in JARVIS.',
+  'Sales achievement percentages are downwards rounding, e.g., 99.99% is 99% in SIP books.',
+  'SIP calculations are not applicable for contractors who are not eligible for SIP in JARVIS.',
+  'Capital Equipment & Service Contract sales commissions are subjected to CGM Approvals before being reflected in JARVIS.',
+  'Scrap Management program is currently not reflected in JARVIS.',
+  'Changes due to maternity leaves and/or leave of absence of more than 18 days are not reflected in JARVIS.',
+  'The maximum payout is 350% of your annual variable pay (revised to 250% in 2024).',
+];
 const PriceYear = (props: PriceYearProps) => {
   const {state, setState} = useContainerContext<IStateSales>();
   const [isBiometric, setIsBiometric] = useState(true);
   console.log('=>(PriceYear.tsx:18) state', state);
+  const [isOpen, open, close] = useModal();
 
   const renderDate = useMemo(() => {
     let date = state.currentDate ? moment(state.currentDate) : moment();
@@ -181,102 +195,154 @@ const PriceYear = (props: PriceYearProps) => {
 
   if (isBiometric) {
     return (
-      <Biometric key={state.type} onSuccess={() => setIsBiometric(false)} />
+      <Biometric
+        key={state.type}
+        onSuccess={() => {
+          open();
+          setIsBiometric(false);
+        }}
+      />
     );
   }
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      <View
-        style={{
-          paddingHorizontal: 15,
-          paddingTop: 20,
-        }}>
-        <View style={[Theme.flexRow]}>
-          <View
-            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+    <>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View
+          style={{
+            paddingHorizontal: 15,
+            paddingTop: 20,
+          }}>
+          <View style={[Theme.flexRow]}>
             <View
-              style={{
-                backgroundColor: colors.dotActive,
-                paddingHorizontal: 10,
-                paddingVertical: 2,
-                borderRadius: 20,
-              }}>
-              <Text size={13} color={colors.white}>
-                {renderDate}
-              </Text>
+              style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+              <View
+                style={{
+                  backgroundColor: colors.dotActive,
+                  paddingHorizontal: 10,
+                  paddingVertical: 2,
+                  borderRadius: 20,
+                }}>
+                <Text size={13} color={colors.white}>
+                  {renderDate}
+                </Text>
+              </View>
             </View>
+            <Text size={13} style={{width: '30%', textAlign: 'right'}}>
+              Current Est.$
+            </Text>
+            <Text
+              size={13}
+              style={{width: '28%', textAlign: 'right'}}
+              marginRight={16}>
+              Potential Est.$
+            </Text>
           </View>
-          <Text size={13} style={{width: '30%', textAlign: 'right'}}>
-            Current Est.$
-          </Text>
-          <Text
-            size={13}
-            style={{width: '28%', textAlign: 'right'}}
-            marginRight={16}>
-            Potential Est.$
-          </Text>
+          <ItemCollapsible
+            icon={images.ic_dolar}
+            title={'Rewards'}
+            potentialValue={Number(getVariable) + Number(getCommission)}
+            currentValue={2000}>
+            <View style={{}}>
+              <ItemPrice
+                title={'Variable'}
+                currentValue={1000}
+                potentialValue={Number(getVariable)}
+              />
+              <ItemPrice
+                title={'Commission'}
+                currentValue={1000}
+                potentialValue={Number(getCommission)}
+              />
+            </View>
+          </ItemCollapsible>
+          <ItemCollapsible
+            icon={images.ic_booster}
+            title={'Sales Booster'}
+            currentValue={1000}
+            potentialValue={getKicker + getEarlyBird}>
+            <View style={{}}>
+              <ItemPrice
+                title={'Kicker'}
+                currentValue={1000}
+                potentialValue={getKicker}
+              />
+              <ItemPrice
+                title={'Early Bird'}
+                currentValue={0}
+                potentialValue={getEarlyBird}
+              />
+            </View>
+          </ItemCollapsible>
+          <ItemCollapsible
+            icon={images.ic_dolar}
+            title={'Additional Payout'}
+            currentValue={2000}>
+            <View style={{}}>
+              <ItemPrice
+                title={'Capital Equipment'}
+                currentValue={1000}
+                potentialValue={0}
+              />
+              <ItemPrice
+                title={'Service Contract'}
+                currentValue={0}
+                potentialValue={0}
+              />
+            </View>
+          </ItemCollapsible>
+          <ItemCollapsible
+            icon={images.ic_total}
+            title={'Total'}
+            currentValue={2000}
+            potentialValue={state?.data?.YTD_total_sales}
+          />
         </View>
-        <ItemCollapsible
-          icon={images.ic_dolar}
-          title={'Rewards'}
-          potentialValue={Number(getVariable) + Number(getCommission)}
-          currentValue={2000}>
-          <View style={{}}>
-            <ItemPrice
-              title={'Variable'}
-              currentValue={1000}
-              potentialValue={Number(getVariable)}
-            />
-            <ItemPrice
-              title={'Commission'}
-              currentValue={1000}
-              potentialValue={Number(getCommission)}
-            />
+      </ScrollView>
+      <ModalBase
+        animationIn={'slideInLeft'}
+        animationOut={'slideOutLeft'}
+        isVisibleModal={isOpen}>
+        <View style={styles.containerModal}>
+          <Text size={18} fontWeight={'700'}>
+            Disclaimer
+          </Text>
+          <View style={{height: height / 2}}>
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              horizontal={false}
+              showsHorizontalScrollIndicator={false}>
+              <View style={{flex: 1}}>
+                {dataGuidelines?.map((e, i) => {
+                  return (
+                    <View
+                      key={i}
+                      style={[
+                        Theme.flexRow,
+                        {alignItems: 'flex-start', marginTop: 15, flex: 1},
+                      ]}>
+                      <Text fontWeight={'300'} size={18}>
+                        {i + 1}.
+                      </Text>
+                      <Text fontWeight={'300'} size={18}>
+                        {e}
+                      </Text>
+                    </View>
+                  );
+                })}
+              </View>
+            </ScrollView>
           </View>
-        </ItemCollapsible>
-        <ItemCollapsible
-          icon={images.ic_booster}
-          title={'Sales Booster'}
-          currentValue={1000}
-          potentialValue={getKicker + getEarlyBird}>
-          <View style={{}}>
-            <ItemPrice
-              title={'Kicker'}
-              currentValue={1000}
-              potentialValue={getKicker}
-            />
-            <ItemPrice
-              title={'Early Bird'}
-              currentValue={0}
-              potentialValue={getEarlyBird}
-            />
-          </View>
-        </ItemCollapsible>
-        <ItemCollapsible
-          icon={images.ic_dolar}
-          title={'Additional Payout'}
-          currentValue={2000}>
-          <View style={{}}>
-            <ItemPrice
-              title={'Capital Equipment'}
-              currentValue={1000}
-              potentialValue={0}
-            />
-            <ItemPrice
-              title={'Service Contract'}
-              currentValue={0}
-              potentialValue={0}
-            />
-          </View>
-        </ItemCollapsible>
-        <ItemCollapsible
-          icon={images.ic_total}
-          title={'Total'}
-          currentValue={2000}
-          potentialValue={state?.data?.YTD_total_sales}
-        />
-      </View>
-    </ScrollView>
+          <ButtonBorder
+            borderColor={colors.blue3}
+            height={42}
+            color={colors.blue3}
+            style={[{paddingHorizontal: '30%', marginTop: 10}]}
+            title={'Close'}
+            onPress={close}
+          />
+        </View>
+      </ModalBase>
+    </>
   );
 };
 
@@ -284,4 +350,13 @@ export default memo(PriceYear);
 
 const styles = StyleSheet.create({
   container: {},
+  containerModal: {
+    backgroundColor: colors.white,
+    alignItems: 'center',
+    padding: 20,
+    borderBottomRightRadius: 20,
+    borderBottomLeftRadius: 20,
+    alignSelf: 'center',
+    justifyContent: 'center',
+  },
 });

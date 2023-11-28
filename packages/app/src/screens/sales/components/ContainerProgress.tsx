@@ -33,6 +33,7 @@ import {useContainerContext} from 'components/ContainerProvider';
 interface ContainerProgressProps {}
 
 const ContainerProgress = (props: ContainerProgressProps) => {
+  const percentage = useRef<number>(0);
   const [state2, setState2] = useStateCustom({
     dateType: '',
     currentDate: moment(),
@@ -81,6 +82,9 @@ const ContainerProgress = (props: ContainerProgressProps) => {
     },
     [state.type, state.currentDate],
   );
+  useEffect(() => {
+    percentage.current = state.percentage;
+  }, [state.percentage]);
   return (
     <>
       <Animated.View style={styles.container}>
@@ -122,16 +126,18 @@ const ContainerProgress = (props: ContainerProgressProps) => {
             <CircleMultipleSlider
               maxBottom={100}
               valueBottom={100}
+              disabledMax={120}
               maxTop={100}
               disabled={state.type != 'quarter'}
               valueTop={state.data.Sales_achievement_percentage_by_quarter}
               width={width - 100}
               thumbRadius={22}
               onUpdate={value => {
-                console.log('=>(ContainerProgress.tsx:225) value', value);
-                setState({
-                  percentage: value,
-                });
+                if (percentage.current != state.percentage) {
+                  setState({
+                    percentage: value,
+                  });
+                }
               }}
               strokeWidth={45}>
               <View
