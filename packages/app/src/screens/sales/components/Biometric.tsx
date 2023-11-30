@@ -1,5 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {Text, View, StyleSheet, Platform, Alert} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Platform,
+  Alert,
+  TouchableOpacity,
+} from 'react-native';
 import TouchID from 'react-native-touch-id';
 import {
   check,
@@ -8,6 +14,10 @@ import {
   RESULTS,
 } from 'react-native-permissions';
 import colors from 'res/colors';
+import Image from 'elements/Image';
+import images from 'res/images';
+import Theme from 'res/style/Theme';
+import Text from 'elements/Text';
 interface BiometricProps {
   onSuccess?: () => void;
 }
@@ -123,11 +133,35 @@ const Biometric = (props: BiometricProps) => {
     }
   };
   const [state, setState] = useState();
-  return <View style={styles.container} />;
+  return (
+    <View style={styles.container}>
+      <TouchableOpacity
+        onPress={handleLoginBySecurityDevice}
+        style={{
+          padding: 10,
+          backgroundColor: colors.white,
+          borderRadius: 10,
+          ...Theme.shadow,
+          elevation: 6,
+          ...Theme.center,
+        }}>
+        <Image source={images.ic_face} />
+        <Text color={colors.dotActive} fontWeight={'700'}>
+          Face ID
+        </Text>
+      </TouchableOpacity>
+    </View>
+  );
 };
 
 export default Biometric;
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    padding: 10,
+    paddingTop: 20,
+    justifyContent: 'center',
+  },
 });

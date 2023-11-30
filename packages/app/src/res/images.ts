@@ -33,6 +33,7 @@ const images = {
   ic_down: require('../assets/images/ic_down.png'),
   ic_dropdown: require('../assets/images/ic_dropdown.png'),
   ic_editProfile: require('../assets/images/ic_editProfile.png'),
+  ic_face: require('../assets/images/ic_face.png'),
   ic_filter: require('../assets/images/ic_filter.png'),
   ic_filter2: require('../assets/images/ic_filter2.png'),
   ic_goldMedal: require('../assets/images/ic_goldMedal.png'),
