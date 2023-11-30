@@ -43,7 +43,7 @@ const PlanScreen = (props: PlanScreenProps) => {
   const [state, setState] = useStateCustom<IState>({
     currentDate: getDate(),
     height: 0,
-    typeDate: 'Month',
+    typeDate: 'Day',
     isShowDateOption: false,
     isShowCreateCaseLog: false,
   });
