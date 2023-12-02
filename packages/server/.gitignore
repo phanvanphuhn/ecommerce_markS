@@ -39,4 +39,4 @@ lerna-debug.log*
 /src/schema.graphql
 
 
-/scripts/bitbucket_runner*.yaml
+/scripts/gitlab-*

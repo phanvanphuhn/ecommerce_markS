@@ -1,0 +1,18 @@
+image: docker:latest
+services:
+  - docker:dind
+
+variables:
+  APP_NAME: k8sdotnet
+  IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
+
+stages:
+  - build_container
+
+build_container:
+  stage: build_container
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - cd packages/server/
+    - docker build -t $IMAGE_TAG .
+    - docker push $IMAGE_TAG
