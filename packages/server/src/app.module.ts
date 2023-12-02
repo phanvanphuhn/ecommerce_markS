@@ -1,3 +1,5 @@
+import { readFileSync } from 'fs';
+
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { Logger, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -16,6 +18,24 @@ import { SalesModule } from './modules/sales/sales.module';
 import { EventsModule } from './modules/events/events.module';
 import { SearchHistoryModule } from './modules/search-history/search-history.module';
 
+interface DatabaseCreds {
+  host: string;
+  username: string;
+  password: string;
+  port: number;
+}
+
+function readDatabaseSecrets(): DatabaseCreds {
+  try {
+    const secretFilePath = '/usr/src/app/rds/rds-creds'; // Path to the mounted secret file
+    const secretData = readFileSync(secretFilePath, 'utf8');
+    return JSON.parse(secretData);
+  } catch (error) {
+    console.error('Error reading database secrets:', error);
+    return null;
+  }
+}
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -26,13 +46,26 @@ import { SearchHistoryModule } from './modules/search-history/search-history.mod
     DatabaseModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        host: configService.get('POSTGRES_HOST'),
-        port: configService.get('POSTGRES_PORT'),
-        user: configService.get('POSTGRES_USER'),
-        password: configService.get('POSTGRES_PASSWORD'),
-        database: configService.get('POSTGRES_DB'),
-      }),
+      useFactory: (configService: ConfigService) => {
+        // read DatabaseCreds from mounted secret file
+        const databaseCreds = readDatabaseSecrets();
+        if (databaseCreds) {
+          return {
+            host: databaseCreds.host,
+            port: databaseCreds.port,
+            user: databaseCreds.username,
+            password: databaseCreds.password,
+            database: configService.get('POSTGRES_DB'),
+          };
+        }
+        return {
+          host: configService.get('POSTGRES_HOST'),
+          port: configService.get('POSTGRES_PORT'),
+          user: configService.get('POSTGRES_USER'),
+          password: configService.get('POSTGRES_PASSWORD'),
+          database: configService.get('POSTGRES_DB'),
+        };
+      },
     }),
 
     PrismaModule.forRoot({
