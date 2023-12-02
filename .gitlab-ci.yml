@@ -14,5 +14,17 @@ build_container:
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - cd packages/server/
-    - docker build -t $IMAGE_TAG .
+    - docker build -t $IMAGE_TAG . \
+      --build-arg "POSTGRES_USER=$POSTGRES_USER" \
+      --build-arg "POSTGRES_PASSWORD=$POSTGRES_PASSWORD" \
+      --build-arg "POSTGRES_DB=$POSTGRES_DB" --build-arg "DB_HOST=$DB_HOST" \
+      --build-arg "DB_PORT=$DB_PORT" \
+      --build-arg "DB_SCHEMA=$DB_SCHEMA" \
+      --build-arg "DATABASE_URL=postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$DB_HOST:$DB_PORT/$POSTGRES_DB?schema=$DB_SCHEMA&sslmode=prefer" \
+      --build-arg "NEST_PORT=$NEST_PORT" \
+      --build-arg "AZURE_TENANT_ID=$AZURE_TENANT_ID" \
+      --build-arg "AZURE_CLIENT_ID=$AZURE_CLIENT_ID" \
+      --build-arg "AZURE_CLIENT_SECRET=$AZURE_CLIENT_SECRET"
+
     - docker push $IMAGE_TAG
+# Note: DATABASE_URL will be replaced by k8s deployment file later
