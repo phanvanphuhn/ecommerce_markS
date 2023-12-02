@@ -20,12 +20,13 @@ WORKDIR /app
 
 COPY ./prisma/schema.prisma ./prisma/schema.prisma
 COPY --from=BUILDER /app/prisma/migrations ./prisma/migrations
-RUN npm run prisma:generate
 
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/src/@generated ./dist/@generated
+
+RUN npm run prisma:generate
 
 EXPOSE 3000
 CMD ["sh", "-c", "npm run migrate:deploy", "&&", "npm run start:prod" ]
