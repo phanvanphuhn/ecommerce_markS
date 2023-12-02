@@ -14,7 +14,7 @@ build_container:
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - cd packages/server/
-    - docker build -t $IMAGE_TAG . \
+    - docker build . -t $IMAGE_TAG  \
       --build-arg "POSTGRES_USER=$POSTGRES_USER" \
       --build-arg "POSTGRES_PASSWORD=$POSTGRES_PASSWORD" \
       --build-arg "POSTGRES_DB=$POSTGRES_DB" --build-arg "DB_HOST=$DB_HOST" \
