@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nodetest
+  namespace: jarvis-mark
+spec:
+  serviceAccountName: jarvis-mark14041392661573222138
+  containers:
+    - name: nodetest
+      image: node
+      command: ["sleep"]
+      args: ["10000"]
+      volumeMounts:
+      - name: jarvis-mark-credentials
+        mountPath: /usr/src/app/rds/rds-creds # this path can be customized for your application
+        readOnly: true
+  volumes:
+  - name: jarvis-mark-credentials
+    csi:
+      driver: secrets-store.csi.k8s.io
+      volumeAttributes:
+          secretProviderClass: jarvis-mark-credentials
+      readOnly: true

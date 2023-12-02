@@ -13,12 +13,14 @@ type ComplaintsOutput {
   division: String
   eventDate: String
   id: Int
-  recordType: String
   salesRepEmail: String
   timeOfEvent: String
+  typeOfSituationReporting: String
 }
 
 type ContactSearchOutput {
+  doctorAlternativeEmail: String
+  doctorCountry: String
   doctorDivision: String
   doctorEmail: String
   doctorName: String
@@ -27,9 +29,22 @@ type ContactSearchOutput {
   doctorTitle: String
   hospital: String
   id: Int
+  topicsOfInterest: String
 }
 
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.This scalar is serialized to a string in ISO 8601 format and parsed from a string in ISO 8601 format.
+"""
+scalar DateTimeISO
+
 type DoctorDetail {
+  doctorAlternativeEmail: String
+  doctorCountry: String
   doctorDivision: String
   doctorEmail: String
   doctorName: String
@@ -39,6 +54,12 @@ type DoctorDetail {
   doctorTitle: String
   hospital: String
   id: Int
+  topicsOfInterest: String
+}
+
+enum FilterType {
+  Absolute
+  Relative
 }
 
 """
@@ -46,16 +67,234 @@ The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://
 """
 scalar JSON @specifiedBy(url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf")
 
+"""
+The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSONObject @specifiedBy(url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf")
+
+type LeaderboardOuput {
+  country: String
+  fullName: String
+  id: Int
+  lastRefreshedTimestamp: DateTime
+  month: String
+  rankMtd: String
+  rankQtd: String
+  rankYtd: String
+  salesRepEmail: String
+  targetAchievedMtd: String
+  targetAchievedQtd: String
+  targetAchievedYtd: String
+  year: String
+}
+
+enum LeaderboardPeriod {
+  Month
+  Quarter
+  Year
+}
+
+enum LeaderboardType {
+  Surrounding
+  TopThree
+}
+
+type MobileSalesOutput {
+  quarter: String
+  salesRepEmail: String!
+  targetByQuarter: String
+  targetByYear: String
+  type: mobileSalesTargetType!
+  year: String
+}
+
+input MobileSearchHistoryInput {
+  searchQuery: String!
+  searchType: SearchType!
+}
+
+type MobileSearchHistoryOutput {
+  createdAt: DateTimeISO
+  id: String
+  searchQuery: String
+  searchResults: JSONObject
+  searchType: SearchType
+  updatedAt: DateTimeISO
+}
+
+type Mutation {
+  upsertMobileSalesQuarter(quarter: String!, targetByQuarter: String!, year: String!): Boolean!
+  upsertMobileSalesYear(targetByYear: String!, year: String!): Boolean!
+  upsertPlanCall(data: PlanCallInput!): PlanCallOutput!
+  upsertSearchHistory(data: MobileSearchHistoryInput!): MobileSearchHistoryOutput!
+}
+
+"""
+Possible directions in which to order a list of items when provided an `orderBy` argument.
+"""
+enum OrderDirection {
+  asc
+  desc
+}
+
+enum PlanCallActivitySubtype {
+  CALL
+  CASE_SUPPORT
+  EDETAILING
+  EDETAILING_VIRTUAL
+  EMAIL
+  FOLLOW_UP
+  MARKETING_MATERIAL_PREPARATION
+  MEETING
+  OTHER
+  PRECEPTORSHIP
+  PROCTORSHIP
+  PRODUCT_DEMO
+  REMOTE_CASE_SUPPORT
+  SEND_LETTER
+  SEND_QUOTE
+  WEBINARS
+}
+
+enum PlanCallActivityType {
+  EVENT
+  TASK
+}
+
+input PlanCallInput {
+  account: String
+  activityOwnerEmail: String
+  activityOwnerName: String
+  activitySubtype: PlanCallActivitySubtype
+  activityType: PlanCallActivityType
+  contactName: String
+  createdAt: DateTimeISO
+  description: String
+  division: String
+  endDate: String
+  id: String
+  location: String
+  ownerCountry: String
+  salesForceId: String
+  startDate: String
+  status: PlanCallStatus
+  subject: String
+  updatedAt: DateTimeISO
+}
+
+type PlanCallOutput {
+  account: String
+  activityOwnerEmail: String
+  activityOwnerName: String
+  activitySubtype: PlanCallActivitySubtype
+  activityType: PlanCallActivityType
+  contactName: String
+  createdAt: DateTimeISO
+  description: String
+  division: String
+  endDate: String
+  id: String
+  location: String
+  ownerCountry: String
+  salesForceId: String
+  startDate: String
+  status: PlanCallStatus
+  subject: String
+  updatedAt: DateTimeISO
+}
+
+enum PlanCallStatus {
+  CANCELLED
+  COMPLETED
+  IN_PROGRESS
+}
+
 type Query {
-  complaint: ComplaintsOutput!
+  complaint(id: Int!): ComplaintsOutput!
   complaints: [ComplaintsOutput!]!
   getDoctorProfile(doctorEmail: String!): [DoctorDetail!]!
-  getDoctorSearchList(doctorDivision: String, doctorName: String, doctorSpecialty: String, doctorTitle: String, hospital: String, salesRepEmail: String!): [ContactSearchOutput!]!
-  getFilterDivisionList(salesRepEmail: String!): [String!]!
-  getFilterHospitalList(salesRepEmail: String!): [String!]!
-  getFilterSpecialtyList(salesRepEmail: String!): [String!]!
-  getUserProfileBySalesRepEmail(salesRepEmail: String!): [UserProfileOutput!]!
+  getDoctorSearchList(doctorAlternativeEmail: String, doctorCountry: String, doctorDivision: String, doctorName: String, doctorSpecialty: String, doctorTitle: String, hospital: String, salesRepEmail: String!, topicsOfInterest: String): [ContactSearchOutput!]!
+  getFilterDivisionList: [String!]!
+  getFilterHospitalList: [String!]!
+  getFilterSpecialtyList: [String!]!
+  getFilterTopicsOfInterestList: [String!]!
+  getMobileSales(quarter: String, type: mobileSalesTargetType!, year: String): [MobileSalesOutput!]!
+  getPlanCall(id: String!): PlanCallOutput!
+  getPlanCallTypes: [String!]!
+  getPlanCalls(account: String, activityOwnerEmail: String, activityOwnerName: String, activitySubtype: PlanCallActivitySubtype, activityType: PlanCallActivityType, contactName: String, createdAt: DateTimeISO, description: String, division: String, endDate: String, filterType: FilterType, id: String, location: String, ownerCountry: String, startDate: String, status: PlanCallStatus, subject: String, updatedAt: DateTimeISO): [PlanCallOutput!]!
+  getSales(month: String, quarter: String, year: String): [SalesOutput!]!
+  getSearchHistory(searchType: SearchType, skip: Int, sort: OrderDirection, take: Int): [MobileSearchHistoryOutput!]!
+  getSelfCalendars: JSON!
+  getSliderAndCommisions: [SliderAndCommissionOutput!]!
+  getTerritoryCategorization: [TerritoryCategorizationOutput!]!
+  getUserProfileBySalesRepEmail: [UserProfileOutput!]!
+  leaderboard(country: String, month: String, period: LeaderboardPeriod = Month, type: LeaderboardType = TopThree, year: String!): [LeaderboardOuput!]!
   me: JSON!
+}
+
+type SalesOutput {
+  additionalPayout: String
+  commissionPayoutByQuarter: String
+  commissionPayoutQ5: String
+  commissionPayoutQ5_forNewHire: String
+  commissionPercentageByQuarter: String
+  commissionPercentageQ5: String
+  commissionPercentageQ5_forNewHire: String
+  earlyBird: String
+  earlyBirdEligibility: String
+  guaranttedPayout: String
+  kicker: String
+  mixedBag: String
+  month: String
+  newHire: String
+  productType: String
+  quarter: String
+  salesAchievementPercentageByMonth: String
+  salesAchievementPercentageByQuarter: String
+  salesAchievementPercentageByYear: String
+  salesAchievementPercentageByYear_forNewHire: String
+  salesByMonth: String
+  salesByQuarter: String
+  salesByYear: String
+  salesRepEmail: String
+  targetByMonth: String
+  targetByQuarter: String
+  targetByYear: String
+  targetByYearUSD: String
+  territoryCategory: String
+  variablePayByMonth: String
+  variablePayByQuarter: String
+  variablePayByYear: String
+  variablePayQ5: String
+  variablePayoutByQuarter: String
+  variablePayoutPercentageByQuarter: String
+  variablePayoutPercentageByYear: String
+  variablePayoutPercentageQ5: String
+  variablePayoutPercentageQ5_forNewHire: String
+  variablePayoutQ5: String
+  variablePayoutQ5_forNewHire: String
+  year: String
+}
+
+enum SearchType {
+  CaseLog
+  ContactSearch
+  PlanCall
+}
+
+type SliderAndCommissionOutput {
+  commissionPercentage: String
+  lowerBound: String
+  territoryCategory: String
+  upperBound: String
+  variablePayoutPercentage: String
+}
+
+type TerritoryCategorizationOutput {
+  lowerBound: String
+  territoryCategory: String
+  upperBound: String
+  year: String
 }
 
 type UserProfileOutput {
@@ -65,4 +304,9 @@ type UserProfileOutput {
   id: Int
   reportingTo: String
   salesRepEmail: String
+}
+
+enum mobileSalesTargetType {
+  quarter
+  year
 }

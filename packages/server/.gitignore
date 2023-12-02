@@ -37,3 +37,6 @@ lerna-debug.log*
 
 .env
 /src/schema.graphql
+
+
+/scripts/bitbucket_runner*.yaml

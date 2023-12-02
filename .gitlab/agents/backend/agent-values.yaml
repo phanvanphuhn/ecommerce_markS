@@ -1,0 +1,27 @@
+image:
+  repository: "registry.gitlab.com/gitlab-org/cluster-integration/gitlab-agent/agentk"
+  pullPolicy: IfNotPresent
+  tag: ""
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+rbac:
+  create: false
+serviceAccount:
+  create: false
+  annotations: {}
+  name: "cicd-service-account"
+podAnnotations:
+  prometheus.io/scrape: "true"
+  prometheus.io/path: "/metrics"
+  prometheus.io/port: "8080"
+  "cluster-autoscaler.kubernetes.io/safe-to-evict": "false"
+config:
+  kasAddress: 'wss://kas.gitlab.com'
+extraEnv: []
+resources: {}
+nodeSelector: {}
+tolerations: []
+affinity: {}
+podLabels: {}
+additionalLabels: {}
