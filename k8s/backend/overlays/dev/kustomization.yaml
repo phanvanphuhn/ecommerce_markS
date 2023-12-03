@@ -7,3 +7,5 @@ patchesJson6902:
       kind: Ingress
       name: ${APP_NAME}-ingress
     path: ingress-patch-dev.yaml
+patchesStrategicMerge:
+  - deployment-patch-dev.yaml
