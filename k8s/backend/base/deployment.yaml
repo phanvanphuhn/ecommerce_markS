@@ -29,6 +29,10 @@ spec:
               value: ${CI_COMMIT_SHORT_SHA}
           ports:
             - containerPort: 3000
+          volumeMounts:
+            - name: jarvis-mark14041392661573222138
+              mountPath: /usr/src/app/rds/rds-creds # this path can be customized for your application
+              readOnly: true
           resources:
             requests:
               memory: '128Mi'
@@ -36,3 +40,10 @@ spec:
             limits:
               memory: '512Mi'
               cpu: '1'
+      volumes:
+        - name: jarvis-mark14041392661573222138
+          csi:
+            driver: secrets-store.csi.k8s.io
+            volumeAttributes:
+              secretProviderClass: jarvis-mark14041392661573222138
+            readOnly: true

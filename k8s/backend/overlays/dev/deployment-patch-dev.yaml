@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ${APP_NAME}
+spec:
+  selector:
+    matchLabels:
+      app: ${APP_NAME}
+  template:
+    spec:
+      containers:
+        - name: ${APP_NAME}
+          volumeMounts:
+            - name: jarvis-mark14041392661573222138
+              mountPath: /usr/src/app/rds/rds-creds # Dev environment path
+              readOnly: true
+    volumes:
+      - name: jarvis-mark14041392661573222138
+        csi:
+          driver: secrets-store.csi.k8s.io
+          volumeAttributes:
+            secretProviderClass: jarvis-mark14041392661573222138
+          readOnly: true
