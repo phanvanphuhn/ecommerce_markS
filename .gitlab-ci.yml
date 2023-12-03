@@ -30,4 +30,4 @@ deploy:
   script:
     - apk add --no-cache curl libintl gettext
     - curl ${KUBECTL_URL} -o /usr/local/bin/kubectl && chmod +x /usr/local/bin/kubectl
-    - kubectl kustomize k8s/dev | envsubst | kubectl apply -n ${KUBE_NAMESPACE} -f -
+    - kubectl kustomize k8s/backend/overlays/dev | envsubst | kubectl apply -n ${KUBE_NAMESPACE} -f -
