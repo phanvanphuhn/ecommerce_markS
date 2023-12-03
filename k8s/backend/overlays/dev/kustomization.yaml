@@ -1,0 +1,9 @@
+bases:
+  - ../../base
+patchesJson6902:
+  - target:
+      group: networking.k8s.io
+      version: v1beta1
+      kind: Ingress
+      name: ${APP_NAME}-ingress
+    path: ingress-patch-dev.yaml

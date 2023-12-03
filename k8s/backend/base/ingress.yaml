@@ -1,0 +1,17 @@
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ${APP_NAME}
+  annotations:
+    kubernetes.io/ingress.class: 'nginx'
+    nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+spec:
+  rules:
+    - host: ${APP_NAME}.dev.apps.bsci.com
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: ${APP_NAME}-svc
+              servicePort: 3000

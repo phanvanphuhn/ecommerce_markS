@@ -1,0 +1,38 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ${APP_NAME}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ${APP_NAME}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 50%
+  template:
+    metadata:
+      labels:
+        app: ${APP_NAME}
+    spec:
+      imagePullSecrets:
+        - name: gitlab-registry
+      containers:
+        - name: ${APP_NAME}
+          image: ${IMAGE_TAG}
+          imagePullPolicy: Always
+          env:
+            - name: CI_COMMIT_SHORT_SHA
+              value: ${CI_COMMIT_SHORT_SHA}
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              memory: '128Mi'
+              cpu: '0.25'
+            limits:
+              memory: '512Mi'
+              cpu: '1'
