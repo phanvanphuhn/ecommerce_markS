@@ -1,3 +1,12 @@
-- op: replace
-  path: /spec/rules/0/host
-  value: ${APP_NAME}.dev.apps.bsci.com
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+spec:
+  rules:
+    - host: ${APP_NAME}.dev.apps.bsci.com
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: ${APP_NAME}-svc
+              servicePort: 3000

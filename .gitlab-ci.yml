@@ -27,7 +27,6 @@ deploy:
   stage: deploy
   environment:
     name: dev
-
   script:
     - apk add --no-cache curl libintl gettext
     - curl ${KUBECTL_URL} -o /usr/local/bin/kubectl && chmod +x /usr/local/bin/kubectl
