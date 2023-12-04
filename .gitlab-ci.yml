@@ -27,7 +27,10 @@ deploy:
   stage: deploy
   environment:
     name: dev
+
   script:
     - apk add --no-cache curl libintl gettext
     - curl ${KUBECTL_URL} -o /usr/local/bin/kubectl && chmod +x /usr/local/bin/kubectl
+    - export KUBE_CONTEXT="bostonscientific.com/jarvis/jarvis-mark-s/mark-s:backend"
+    - kubectl config use-context ${KUBE_CONTEXT}
     - kubectl kustomize k8s/backend/overlays/dev | envsubst | kubectl apply -n ${KUBE_NAMESPACE} -f -
