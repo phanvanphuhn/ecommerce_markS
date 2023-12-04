@@ -18,7 +18,7 @@ spec:
       labels:
         app: ${APP_NAME}
     spec:
-      serviceAccountName: jarvis-mark14041392661573222138
+      serviceAccountName: ${SERVICEACCOUNT_NAME}
       imagePullSecrets:
         - name: gitlab-registry
       containers:
@@ -37,15 +37,9 @@ spec:
             - name: DATABASE_URL
               value: ${DATABASE_URL}
             - name: DB_HOST
-              valueFrom:
-                secretKeyRef:
-                  name: jarvis-mark-credentials
-                  key: host
+              value: ${DB_HOST}
             - name: DB_PORT
-              valueFrom:
-                secretKeyRef:
-                  name: jarvis-mark-credentials
-                  key: port
+              value: ${DB_PORT}
             - name: DB_SCHEMA
               value: marks
             - name: NEST_PORT
