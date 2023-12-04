@@ -318,7 +318,12 @@ const PriceYear = (props: PriceYearProps) => {
                       key={i}
                       style={[
                         Theme.flexRow,
-                        {alignItems: 'flex-start', marginTop: 15, flex: 1},
+                        {
+                          alignItems: 'flex-start',
+                          marginTop: 15,
+                          flex: 1,
+                          paddingRight: 13,
+                        },
                       ]}>
                       <Text fontWeight={'300'} size={18}>
                         {i + 1}.
