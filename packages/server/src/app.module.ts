@@ -68,21 +68,38 @@ function readDatabaseSecrets(): DatabaseCreds {
       },
     }),
 
-    PrismaModule.forRoot({
+    PrismaModule.forRootAsync({
       isGlobal: true,
-      prismaServiceOptions: {
-        prismaOptions: {
-          log: ['query'],
-        },
-        middlewares: [
-          // configure your prisma middleware
-          loggingMiddleware({
-            logger: new Logger('PrismaMiddleware'),
-            logLevel: 'debug',
-            logMessage: (query: QueryInfo) =>
-              `[Prisma Query] ${query.model}.${query.action} - ${query.executionTime}ms`,
-          }),
-        ],
+      useFactory: (configService: ConfigService) => {
+        const databaseCreds = readDatabaseSecrets();
+        // if there's databaseCreds, use them to connect to the database
+        // else use env
+
+        const user =
+          databaseCreds?.username || configService.get('POSTGRES_USER');
+        const password =
+          databaseCreds?.password || configService.get('POSTGRES_PASSWORD');
+        const host = databaseCreds?.host || configService.get('POSTGRES_HOST');
+        const port =
+          databaseCreds?.port || configService.get('POSTGRES_PORT') || 5432;
+        const database = configService.get('POSTGRES_DB');
+        const schema = configService.get('POSTGRES_SCHEMA');
+
+        return {
+          prismaOptions: {
+            datasourceUrl: `postgresql://${user}:${password}@${host}:${port}/${database}?schema=${schema}&sslmode=prefer`,
+            log: ['query'],
+          },
+          middlewares: [
+            // configure your prisma middleware
+            loggingMiddleware({
+              logger: new Logger('PrismaMiddleware'),
+              logLevel: 'debug',
+              logMessage: (query: QueryInfo) =>
+                `[Prisma Query] ${query.model}.${query.action} - ${query.executionTime}ms`,
+            }),
+          ],
+        };
       },
     }),
 
