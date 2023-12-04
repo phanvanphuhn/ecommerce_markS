@@ -29,4 +29,4 @@ COPY --from=builder /app/src/@generated ./dist/@generated
 RUN npm run prisma:generate
 
 EXPOSE 3000
-CMD ["sh", "-c", "npm run migrate:deploy", "&&", "npm run start:prod" ]
+CMD ["sh", "-c", "echo ${DATABASE_URL}", "&&","npm run migrate:deploy", "&&", "npm run start:prod" ]
