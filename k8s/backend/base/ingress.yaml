@@ -13,5 +13,7 @@ spec:
         paths:
           - path: /
             backend:
-              serviceName: ${APP_NAME}-svc
-              servicePort: 3000
+              service:
+                name: ${APP_NAME}-svc
+                port:
+                  number: 3000
