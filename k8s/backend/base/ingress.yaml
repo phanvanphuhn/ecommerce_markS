@@ -12,6 +12,7 @@ spec:
       http:
         paths:
           - path: /
+            pathType: Exact
             backend:
               service:
                 name: ${APP_NAME}-svc
