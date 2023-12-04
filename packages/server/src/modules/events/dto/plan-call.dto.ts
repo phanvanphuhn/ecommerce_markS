@@ -6,6 +6,9 @@ import {
   OmitType,
   registerEnumType,
 } from '@nestjs/graphql';
+import { GraphQLDateTimeISO } from 'graphql-scalars';
+
+import { FilterType } from '@/common/types/filter-type';
 
 import {
   PlanCallStatus,
@@ -25,8 +28,9 @@ registerEnumType(PlanCallActivitySubtype, {
   name: 'PlanCallActivitySubtype',
 });
 
-@ObjectType({ isAbstract: true })
-@InputType({ isAbstract: true })
+@ArgsType()
+@InputType('PlanCallInput')
+@ObjectType()
 export class PlanCall {
   @Field(() => String, { nullable: true })
   id?: string;
@@ -76,10 +80,10 @@ export class PlanCall {
   @Field(() => String, { nullable: true })
   ownerCountry?: string;
 
-  @Field(() => String, { nullable: true })
+  @Field(() => GraphQLDateTimeISO, { nullable: true })
   createdAt?: Date;
 
-  @Field(() => String, { nullable: true })
+  @Field(() => GraphQLDateTimeISO, { nullable: true })
   updatedAt?: Date;
 }
 
@@ -95,4 +99,7 @@ export class PlanCallOutput extends PlanCall {
 }
 
 @ArgsType()
-export class PlanCallFilterArgs extends OmitType(PlanCall, ['salesForceId']) {}
+export class PlanCallFilterArgs extends OmitType(PlanCall, ['salesForceId']) {
+  // @Field(() => FilterType, { nullable: true })
+  // filterType?: FilterType;
+}

@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
+import { ComparisonOperatorExpression } from 'kysely';
 
 import { Database } from '../_database/database';
+import { filterTypeMap } from '../../common/types/filter-type';
 
 import {
   PlanCallFilterArgs,
@@ -17,31 +19,35 @@ export class EventsService {
     let query = this.database.selectFrom('marks.PlanCall').selectAll();
 
     if (filter.account) {
-      query = query.where('account', '=', filter.account);
+      query = query.where('account', 'like', `%${filter.account}%`);
     }
 
     if (filter.contactName) {
-      query = query.where('contactName', '=', filter.contactName);
+      query = query.where('contactName', 'like', `%${filter.contactName}%`);
     }
 
     if (filter.division) {
-      query = query.where('division', '=', filter.division);
+      query = query.where('division', 'like', `%${filter.division}%`);
     }
 
     if (filter.activityType) {
-      query = query.where('activityType', '=', filter.activityType);
+      query = query.where('activityType', 'like', `%${filter.activityType}%`);
     }
 
     if (filter.activitySubtype) {
-      query = query.where('activitySubtype', '=', filter.activitySubtype);
+      query = query.where(
+        'activitySubtype',
+        'like',
+        `%${filter.activitySubtype}%`,
+      );
     }
 
     if (filter.ownerCountry) {
-      query = query.where('ownerCountry', '=', filter.ownerCountry);
+      query = query.where('ownerCountry', 'like', `%${filter.ownerCountry}%`);
     }
 
     if (filter.status) {
-      query = query.where('status', '=', filter.status);
+      query = query.where('status', 'like', `%${filter.status}%`);
     }
 
     if (filter.startDate) {
@@ -53,19 +59,23 @@ export class EventsService {
     }
 
     if (filter.activityOwnerName) {
-      query = query.where('activityOwnerName', '=', filter.activityOwnerName);
+      query = query.where(
+        'activityOwnerName',
+        'like',
+        `%${filter.activityOwnerName}%`,
+      );
     }
 
     if (filter.subject) {
-      query = query.where('subject', '=', filter.subject);
+      query = query.where('subject', 'like', `%${filter.subject}%`);
     }
 
     if (filter.description) {
-      query = query.where('description', '=', filter.description);
+      query = query.where('description', 'like', filter.description);
     }
 
     if (filter.location) {
-      query = query.where('location', '=', filter.location);
+      query = query.where('location', 'like', `%${filter.location}%`);
     }
 
     if (filter.createdAt) {

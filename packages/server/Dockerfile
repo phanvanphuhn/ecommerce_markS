@@ -12,16 +12,22 @@ RUN npm install
 
 COPY . .
 
-RUN npm run build
+RUN NODE_OPTIONS=--max_old_space_size=4096 npm run build
 
 FROM node:16
 
 WORKDIR /app
 
+COPY ./prisma/schema.prisma ./prisma/schema.prisma
+COPY --from=builder /app/prisma/migrations ./prisma/migrations
+
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/src/@generated ./dist/@generated
+COPY --from=builder /app/entrypoint.sh ./entrypoint.sh
 
+RUN npm run prisma:generate
+RUN ["chmod", "+x", "./entrypoint.sh"]
 EXPOSE 3000
-CMD [ "npm", "run", "start:prod" ]
+CMD ["sh", "-c", "./entrypoint.sh" ]

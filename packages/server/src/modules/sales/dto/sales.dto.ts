@@ -169,6 +169,12 @@ export class SalesOutput {
 
   @Field(() => String, { nullable: true })
   commissionPayoutQ5_forNewHire: string;
+
+  @Field(() => String, { nullable: true })
+  capitalEquipment: string;
+
+  @Field(() => String, { nullable: true })
+  serviceContract: string;
 }
 
 @ArgsType()

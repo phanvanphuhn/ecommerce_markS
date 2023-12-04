@@ -17,6 +17,7 @@ Table ContactSearch {
   doctorSalutation String
   doctorTitle String
   doctorPhone BigInt
+  doctorCountry String
 }
 
 Table Complaint {
@@ -24,7 +25,6 @@ Table Complaint {
   complaintId String
   salesRepEmail String
   complaintName String
-  recordType String
   complaintStatus String
   eventDate DateTime
   createdDate DateTime
@@ -33,6 +33,13 @@ Table Complaint {
   country String
   awareDate DateTime
   timeOfEvent String
+  typeOfSituationReporting String
+  accName String
+  procedureType String
+  procedureDate DateTime
+  treatedFor String
+  procedureOutcome String
+  reasonsForUnsuccessfulProcedure String
 }
 
 Table UserProfile {
@@ -53,7 +60,7 @@ Table SliderAndCommission {
   commissionPercentage String
 }
 
-Table TerritorySize {
+Table TerritoryCategorization {
   id Int [pk, increment]
   year String
   lowerBound String
@@ -76,4 +83,120 @@ Table Leaderboard {
   targetAchievedMtd String
   rankMtd String
   lastRefreshedTimestamp DateTime
+}
+
+Table Sales {
+  id Int [pk, increment]
+  salesRepEmail String
+  sipEligibility String
+  currency String
+  year String
+  quarter String
+  month String
+  productType String
+  newHire String
+  guaranttedPayout String
+  mixedBag String
+  variablePayByMonth String
+  variablePayByYear String
+  variablePayByQuarter String
+  variablePayQ5 String
+  salesByMonth String
+  salesByYear String
+  salesByQuarter String
+  targetByMonth String
+  targetByYear String
+  targetByQuarter String
+  salesAchievementPercentageByMonth String
+  salesAchievementPercentageByYear String
+  salesAchievementPercentageByQuarter String
+  variablePayoutPercentageByQuarter String
+  variablePayoutPercentageByYear String
+  targetByYearUSD String
+  territoryCategory String
+  commissionPercentageByQuarter String
+  commissionPayoutByQuarter String
+  variablePayoutByQuarter String
+  additionalPayout String
+  kicker String
+  earlyBirdEligibility String
+  earlyBird String
+  variablePayoutPercentageQ5 String
+  variablePayoutQ5 String
+  commissionPercentageQ5 String
+  commissionPayoutQ5 String
+  salesAchievementPercentageByYear_forNewHire String
+  variablePayoutPercentageQ5_forNewHire String
+  commissionPercentageQ5_forNewHire String
+  variablePayoutQ5_forNewHire String
+  commissionPayoutQ5_forNewHire String
+  capitalEquipment String
+  serviceContract String
+}
+
+Table Mobile_Sales {
+  id Int [pk, increment]
+  salesRepEmail String
+  targetByQuarter String
+  targetByYear String
+  quarter String
+  year String
+  type mobileSalesTargetType [not null, default: 'year']
+}
+
+Table PlanCall {
+  id String [pk]
+  salesForceId String
+  subject String
+  startDate DateTime
+  endDate DateTime
+  description String
+  location String
+  account String
+  contactName String
+  division String
+  activityType String
+  activitySubtype String
+  activityOwnerName String
+  activityOwnerEmail String
+  ownerCountry String
+  status String
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime
+}
+
+Table CaseLog {
+  id String [pk]
+  caseName String
+  startDate DateTime
+  endDate DateTime
+  account String
+  location String
+  contact String
+  secondaryContact String
+  activityOwnerName String
+  activityOwnerEmail String
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime
+}
+
+Table SearchHistory {
+  id String [pk]
+  salesRepEmail String
+  searchQuery String
+  searchType SearchType
+  searchResults Json[] [not null]
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime
+}
+
+Enum mobileSalesTargetType {
+  year
+  quarter
+}
+
+Enum SearchType {
+  CaseLog
+  PlanCall
+  ContactSearch
 }

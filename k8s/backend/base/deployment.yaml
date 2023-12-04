@@ -1,0 +1,72 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ${APP_NAME}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ${APP_NAME}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 50%
+  template:
+    metadata:
+      labels:
+        app: ${APP_NAME}
+    spec:
+      serviceAccountName: ${SERVICEACCOUNT_NAME}
+      imagePullSecrets:
+        - name: gitlab-registry
+      containers:
+        - name: ${APP_NAME}
+          image: ${IMAGE_TAG}
+          imagePullPolicy: Always
+          env:
+            - name: CI_COMMIT_SHORT_SHA
+              value: ${CI_COMMIT_SHORT_SHA}
+            - name: AZURE_CLIENT_ID
+              value: ${AZURE_CLIENT_ID}
+            - name: AZURE_CLIENT_SECRET
+              value: ${AZURE_CLIENT_SECRET}
+            - name: AZURE_TENANT_ID
+              value: ${AZURE_TENANT_ID}
+            - name: DATABASE_URL
+              value: ${DATABASE_URL}
+            - name: DB_HOST
+              value: ${DB_HOST}
+            - name: DB_PORT
+              value: '5432'
+            - name: DB_SCHEMA
+              value: marks
+            - name: NEST_PORT
+              value: '3000'
+            - name: POSTGRES_DB
+              value: ${POSTGRES_DB}
+            - name: POSTGRES_USER
+              value: ${POSTGRES_USER}
+            - name: POSTGRES_PASSWORD
+              value: '${POSTGRES_PASSWORD}'
+          ports:
+            - containerPort: 3000
+          volumeMounts:
+            - name: jarvis-mark-credentials
+              mountPath: /usr/src/app/rds/rds-creds # this path can be customized for your application
+              readOnly: true
+          resources:
+            requests:
+              memory: '128Mi'
+              cpu: '0.25'
+            limits:
+              memory: '512Mi'
+              cpu: '1'
+      volumes:
+        - name: jarvis-mark-credentials
+          csi:
+            driver: secrets-store.csi.k8s.io
+            volumeAttributes:
+              secretProviderClass: jarvis-mark-credentials
+            readOnly: true
