@@ -8,16 +8,16 @@ spec:
   containers:
     - name: nodetest
       image: node
-      command: ["sleep"]
-      args: ["10000"]
+      command: ['sleep']
+      args: ['10000']
       volumeMounts:
-      - name: jarvis-mark-credentials
-        mountPath: /usr/src/app/rds/rds-creds # this path can be customized for your application
-        readOnly: true
+        - name: jarvis-mark-credentials
+          mountPath: /usr/src/app/rds/rds-creds # this path can be customized for your application
+          readOnly: true
   volumes:
-  - name: jarvis-mark-credentials
-    csi:
-      driver: secrets-store.csi.k8s.io
-      volumeAttributes:
+    - name: jarvis-mark-credentials
+      csi:
+        driver: secrets-store.csi.k8s.io
+        volumeAttributes:
           secretProviderClass: jarvis-mark-credentials
-      readOnly: true
+        readOnly: true
