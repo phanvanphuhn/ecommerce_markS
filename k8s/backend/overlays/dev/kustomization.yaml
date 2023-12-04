@@ -1,5 +1,11 @@
 bases:
   - ../../base
-patchesStrategicMerge:
-  - ingress-patch-dev.yaml
-  - deployment-patch-dev.yaml
+patches:
+  - target:
+      kind: Ingress
+      name: ${APP_NAME}-ingress
+    path: ./ingress-patch.yaml
+  - target:
+      kind: Deployment
+      name: ${APP_NAME}
+    path: ./deployment-patch.yaml
