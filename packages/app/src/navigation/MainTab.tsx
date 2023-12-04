@@ -22,7 +22,13 @@ const MainTab = memo(() => {
         }}
         tabBar={(props: BottomTabBarProps) => <CustomTab {...props} />}>
         <Tab.Screen name={Routes.HomeScreen} component={HomeScreen} />
-        <Tab.Screen name={Routes.SalesScreen} component={SalesScreen} />
+        <Tab.Screen
+          name={Routes.SalesScreen}
+          component={SalesScreen}
+          options={{
+            unmountOnBlur: true,
+          }}
+        />
         <Tab.Screen name={Routes.BoostScreen} component={BoostScreen} />
         <Tab.Screen
           name={Routes.PlanScreen}

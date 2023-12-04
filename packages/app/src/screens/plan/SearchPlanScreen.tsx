@@ -12,14 +12,15 @@ import {timelineEvents} from 'screens/plan/components/timelineEvents';
 import useStateCustom from 'hooks/useStateCustom';
 import moment from 'moment';
 import Text from 'elements/Text';
-import {useLazyQuery} from '@apollo/client';
+import {useLazyQuery, useMutation} from '@apollo/client';
 import {GET_PLAN_CALLS} from 'apollo/query/getPlanCalls';
+import {upsertSearchHistory} from 'apollo/query/upsertSearchHistory';
 
 interface SearchPlanScreenProps {}
 
 const SearchPlanScreen = (props: SearchPlanScreenProps) => {
   const [state, setState] = useStateCustom({keyword: '', eventsByDate: []});
-
+  const [updateSearch] = useMutation(upsertSearchHistory);
   const [getData] = useLazyQuery(GET_PLAN_CALLS, {
     onCompleted: data => {
       let events = data?.data
@@ -42,10 +43,6 @@ const SearchPlanScreen = (props: SearchPlanScreenProps) => {
       });
     },
   });
-  useEffect(() => {
-    // let response = await PlanApi.getPlan();
-    getData();
-  }, []);
 
   const onFilter = (filter: string) => {
     switch (filter) {
@@ -57,6 +54,28 @@ const SearchPlanScreen = (props: SearchPlanScreenProps) => {
         break;
     }
   };
+
+  useEffect(() => {
+    let timeout = setTimeout(() => {
+      if (state.keyword) {
+        getData({variables: {subject: state.keyword}});
+
+        updateSearch({
+          variables: {
+            data: {
+              searchQuery: state.keyword,
+              searchType: 'PlanCall',
+            },
+          },
+        });
+      }
+    }, 500);
+    return () => {
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+    };
+  }, [state.keyword]);
   const onSearch = (value: string) => {
     setState({keyword: value});
   };

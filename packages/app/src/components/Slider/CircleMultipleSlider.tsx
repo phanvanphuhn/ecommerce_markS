@@ -15,7 +15,7 @@ import {
   TouchHandler,
   useTouchHandler,
 } from '@shopify/react-native-skia';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Dimensions, StyleSheet, View} from 'react-native';
 import {
   Gesture,
@@ -66,6 +66,10 @@ const CircleMultipleSlider: React.FC<CircleMultipleSliderProps> = ({
     percentTop: valueTop / (maxTop || 1) || 0,
     percentBottom: valueBottom / (maxBottom || 1) || 0,
   });
+  useEffect(() => {
+    setState({percentTop: valueTop / (maxTop || 1) || 0});
+    percentCompleteTop.value = valueTop / (maxTop || 1) || 0;
+  }, [valueTop]);
   const center = width / 2;
   const r = (width - strokeWidth) / 2 - 10;
   const startAngle = Math.PI;
