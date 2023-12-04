@@ -70,6 +70,8 @@ function readDatabaseSecrets(): DatabaseCreds {
 
     PrismaModule.forRootAsync({
       isGlobal: true,
+      imports: [ConfigModule],
+      inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
         const databaseCreds = readDatabaseSecrets();
         // if there's databaseCreds, use them to connect to the database
