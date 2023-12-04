@@ -22,18 +22,21 @@ const PriceYear = (props: PriceYearProps) => {
   const renderDate = useMemo(() => {
     let date = state.currentDate ? moment(state.currentDate) : moment();
     switch (state.type) {
-      case 'quarter':
+      case 'Quarter':
         return `Q${Math.ceil((date.month() + 1) / 3)}`;
-      case 'year':
+      case 'Year':
         return date.year();
-      case 'month':
+      case 'Month':
         return date.format('MMM YYYY');
     }
   }, [state.currentDate, state.type]);
 
   const getQuarterTargetAchieved = useMemo(() => {
-    return state.data.Sales_achievement_percentage_by_quarter >= 100 ? 1 : 0;
-  }, [state.data.Sales_achievement_percentage_by_quarter]);
+    return state?.data?.[`salesAchievementPercentageBy${state.type}`] &&
+      state?.data?.[`salesAchievementPercentageBy${state.type}`] >= 100
+      ? 1
+      : 0;
+  }, [state?.data?.[`salesAchievementPercentageBy${state.type}`], state.type]);
 
   const getPreviousQuarterTargetAchieved = useMemo(() => {
     let date = state.currentDate ? moment(state.currentDate) : moment();
@@ -50,11 +53,13 @@ const PriceYear = (props: PriceYearProps) => {
   }, [getPreviousQuarterTargetAchieved, getQuarterTargetAchieved]);
 
   const getTargetAchieved = useMemo(() => {
-    return state.data.YTD_total_sales >= state.data.Target_by_quarter ? 1 : 0;
-  }, [state.data.YTD_total_sales]);
+    return state?.data?.totalSales >= state.data?.[`targetBy${state.type}`]
+      ? 1
+      : 0;
+  }, [state.data.totalSales]);
 
   const getKicker = useMemo(() => {
-    if (state.type != 'quarter') {
+    if (state.type != 'Quarter') {
       return 0;
     }
     console.log(
@@ -74,37 +79,46 @@ const PriceYear = (props: PriceYearProps) => {
   }, [getTotalConsecQuarter, state.type]);
 
   const getCommissionPercent = useMemo(() => {
-    let obj = SliderData.find(
+    let obj = state.listCommission?.find(
       e =>
-        e.Lower_bound_sales_achievement_percentage <= (state.percentage || 0) &&
-        e.Upper_bound_sales_achievement_percentage > (state.percentage || 0),
+        e.lowerBound <= (state.percentage || 0) &&
+        e.upperBound > (state.percentage || 0),
     );
-    return obj?.Commission_percentage || 0;
-  }, [state.percentage]);
+    return obj?.commissionPercentage || 0;
+  }, [state.percentage, state.listCommission]);
 
   const getVariablePercent = useMemo(() => {
-    let obj = SliderData.find(
+    let obj = state.listCommission?.find(
       e =>
-        e.Lower_bound_sales_achievement_percentage <= (state.percentage || 0) &&
-        e.Upper_bound_sales_achievement_percentage > (state.percentage || 0),
+        e.lowerBound <= (state.percentage || 0) &&
+        e.upperBound > (state.percentage || 0),
     );
-    return obj?.Variable_payout_percentage || 0;
-  }, [state.percentage]);
+    console.log(
+      '=>(PriceYear.tsx:91) state.listCommission',
+      state.listCommission,
+    );
+    return obj?.variablePayoutPercentage || 0;
+  }, [state.percentage, state.listCommission]);
 
   const getVariable = useMemo(() => {
     const {data} = state;
     console.log('=>(PriceYear.tsx:31) data', data);
     switch (state.type) {
-      case 'quarter':
-        let price = data?.Variable_pay_by_quarter * (getVariablePercent / 100);
+      case 'Quarter':
+        let price =
+          data?.[`variablePayBy${state.type}`] * (getVariablePercent / 100);
+        console.log(
+          '=>(PriceYear.tsx:110) data?.[`variablePayBy${state.type}`]',
+          data?.[`variablePayBy${state.type}`],
+        );
         console.log(
           '=>(PriceYear.tsx:36) getVariablePercent',
           getVariablePercent,
         );
         return (price < 0 ? 0 : price).toFixed();
-      case 'year':
+      case 'Year':
         return 0;
-      case 'month':
+      case 'Month':
         return 0;
       default:
         return 0;
@@ -115,15 +129,15 @@ const PriceYear = (props: PriceYearProps) => {
     const {data} = state;
     let date = state.currentDate ? moment(state.currentDate) : moment();
     switch (state.type) {
-      case 'quarter':
+      case 'Quarter':
         if (date.month() + 1 == 10 && getTargetAchieved == 1) {
           return 1500;
         } else if (date.month() + 1 == 11 && getTargetAchieved == 1) {
           return 750;
         }
-      case 'year':
+      case 'Year':
         return 0;
-      case 'month':
+      case 'Month':
         return 0;
       default:
         return 0;
@@ -133,13 +147,15 @@ const PriceYear = (props: PriceYearProps) => {
   const getCommissionSale = useMemo(() => {
     const {data} = state;
     switch (state.type) {
-      case 'quarter':
-        let price = data?.Target_by_quarter * 1.05 - data?.Sales_by_quarter;
+      case 'Quarter':
+        let price =
+          data?.[`targetBy${state.type}`] * 1.05 -
+          data?.[`salesBy${state.type}`];
         console.log('=>(PriceYear.tsx:612) price', price);
         return price;
-      case 'year':
+      case 'Year':
         return 0;
-      case 'month':
+      case 'Month':
         return 0;
       default:
         return 0;
@@ -149,7 +165,7 @@ const PriceYear = (props: PriceYearProps) => {
   const getCommission = useMemo(() => {
     const {data} = state;
     switch (state.type) {
-      case 'quarter':
+      case 'Quarter':
         let price = getCommissionSale * (getCommissionPercent / 100);
         console.log(
           '=>(PriceYear.tsx:52) getCommissionPercent',
@@ -157,9 +173,9 @@ const PriceYear = (props: PriceYearProps) => {
         );
         console.log('=>(PriceYear.tsx:61) price', price);
         return (price < 0 ? 0 : price).toFixed();
-      case 'year':
+      case 'Year':
         return 0;
-      case 'month':
+      case 'Month':
         return 0;
       default:
         return 0;
@@ -170,7 +186,7 @@ const PriceYear = (props: PriceYearProps) => {
     setState({
       data: {
         ...state.data,
-        YTD_total_sales:
+        totalSales:
           Number(getVariable) +
           Number(getCommission) +
           getKicker +
@@ -220,16 +236,19 @@ const PriceYear = (props: PriceYearProps) => {
           icon={images.ic_dolar}
           title={'Rewards'}
           potentialValue={Number(getVariable) + Number(getCommission)}
-          currentValue={2000}>
+          currentValue={
+            state?.data?.[`variablePayoutBy${state.type}`] +
+            state?.data?.[`commissionPayoutBy${state.type}`]
+          }>
           <View style={{}}>
             <ItemPrice
               title={'Variable'}
-              currentValue={1000}
+              currentValue={state?.data?.[`variablePayoutBy${state.type}`]}
               potentialValue={Number(getVariable)}
             />
             <ItemPrice
               title={'Commission'}
-              currentValue={1000}
+              currentValue={state?.data?.[`commissionPayoutBy${state.type}`]}
               potentialValue={Number(getCommission)}
             />
           </View>
@@ -237,17 +256,17 @@ const PriceYear = (props: PriceYearProps) => {
         <ItemCollapsible
           icon={images.ic_booster}
           title={'Sales Booster'}
-          currentValue={1000}
+          currentValue={state?.data?.kicker + state?.data?.earlyBird}
           potentialValue={getKicker + getEarlyBird}>
           <View style={{}}>
             <ItemPrice
               title={'Kicker'}
-              currentValue={1000}
+              currentValue={state?.data?.kicker}
               potentialValue={getKicker}
             />
             <ItemPrice
               title={'Early Bird'}
-              currentValue={0}
+              currentValue={state?.data?.earlyBird}
               potentialValue={getEarlyBird}
             />
           </View>
@@ -255,16 +274,18 @@ const PriceYear = (props: PriceYearProps) => {
         <ItemCollapsible
           icon={images.ic_dolar}
           title={'Additional Payout'}
-          currentValue={2000}>
+          currentValue={
+            state?.data?.capitalEquipment + state?.data?.serviceContract
+          }>
           <View style={{}}>
             <ItemPrice
               title={'Capital Equipment'}
-              currentValue={1000}
+              currentValue={state?.data?.capitalEquipment}
               potentialValue={0}
             />
             <ItemPrice
               title={'Service Contract'}
-              currentValue={0}
+              currentValue={state?.data?.serviceContract}
               potentialValue={0}
             />
           </View>
@@ -273,7 +294,7 @@ const PriceYear = (props: PriceYearProps) => {
           icon={images.ic_total}
           title={'Total'}
           currentValue={2000}
-          potentialValue={state?.data?.YTD_total_sales}
+          potentialValue={state?.data?.totalSales}
         />
       </View>
     </ScrollView>

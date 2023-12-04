@@ -33,6 +33,7 @@ import {useContainerContext} from 'components/ContainerProvider';
 interface ContainerProgressProps {}
 
 const ContainerProgress = (props: ContainerProgressProps) => {
+  const percentage = useRef<number>(0);
   const [state2, setState2] = useStateCustom({
     dateType: '',
     currentDate: moment(),
@@ -48,14 +49,15 @@ const ContainerProgress = (props: ContainerProgressProps) => {
   });
   const [isOpen, open, close] = useModal();
   const {state, setState} = useContainerContext<IStateSales>();
+  console.log('=>(ContainerProgress.tsx:52) state', state);
   const renderDate = useCallback(() => {
     let date = state.currentDate ? moment(state.currentDate) : moment();
     switch (state.type) {
-      case 'quarter':
+      case 'Quarter':
         return `Q${Math.ceil((date.month() + 1) / 3)} ${date.year()}`;
-      case 'year':
+      case 'Year':
         return date.year();
-      case 'month':
+      case 'Month':
         return date.format('MMM YYYY');
     }
   }, [state.currentDate, state.type]);
@@ -65,15 +67,15 @@ const ContainerProgress = (props: ContainerProgressProps) => {
         ? moment(state.currentDate, 'YYYY-MM-DD')
         : moment();
       switch (state.type) {
-        case 'quarter':
+        case 'Quarter':
           date.add(isNext ? 3 : -3, 'month');
           setState({currentDate: date.format('YYYY-MM-DD')});
           break;
-        case 'year':
+        case 'Year':
           date.add(isNext ? 1 : -1, 'year');
           setState({currentDate: date.format('YYYY-MM-DD')});
           break;
-        case 'month':
+        case 'Month':
           date.add(isNext ? 1 : -1, 'month');
           setState({currentDate: date.format('YYYY-MM-DD')});
           break;
@@ -81,6 +83,22 @@ const ContainerProgress = (props: ContainerProgressProps) => {
     },
     [state.type, state.currentDate],
   );
+  useEffect(() => {
+    percentage.current = state.percentage;
+  }, [state.percentage]);
+
+  const targetAvchieve = useMemo(() => {
+    switch (state.type) {
+      case 'Month':
+        return state.data?.targetByMonth;
+      case 'Quarter':
+        return parseInt(
+          state?.data?.targetByQuarter * (state.percentage / 100),
+        );
+      case 'Year':
+        return state.data?.targetByYear;
+    }
+  }, [state.data, state.type]);
   return (
     <>
       <Animated.View style={styles.container}>
@@ -122,13 +140,15 @@ const ContainerProgress = (props: ContainerProgressProps) => {
             <CircleMultipleSlider
               maxBottom={100}
               valueBottom={100}
+              disabledMax={120}
               maxTop={100}
-              disabled={state.type != 'quarter'}
-              valueTop={state.data.Sales_achievement_percentage_by_quarter}
+              disabled={state.type != 'Quarter'}
+              valueTop={
+                state?.data?.[`salesAchievementPercentageBy${state.type}`] || 0
+              }
               width={width - 100}
               thumbRadius={22}
               onUpdate={value => {
-                console.log('=>(ContainerProgress.tsx:225) value', value);
                 setState({
                   percentage: value,
                 });
@@ -141,15 +161,15 @@ const ContainerProgress = (props: ContainerProgressProps) => {
                   alignItems: 'center',
                   justifyContent: 'center',
                 }}>
-                {state.type == 'month' ? (
+                {state.type == 'Month' ? (
                   <Text>MTD Total:</Text>
-                ) : state.type == 'quarter' ? (
+                ) : state.type == 'Quarter' ? (
                   <Text>QTD Total:</Text>
                 ) : (
                   <Text>YTD Total:</Text>
                 )}
                 <Text center={true} marginTop={5} size={38} fontWeight={'600'}>
-                  ${state?.data?.YTD_total_sales}
+                  ${targetAvchieve}
                 </Text>
                 <View
                   style={{

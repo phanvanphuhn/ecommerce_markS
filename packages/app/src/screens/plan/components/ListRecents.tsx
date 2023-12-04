@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
 import keyExtractor from 'utils/keyExtractor';
 import Image from 'elements/Image';
@@ -6,29 +6,19 @@ import images from 'res/images';
 import Text from 'elements/Text';
 import Theme from 'res/style/Theme';
 import colors from 'res/colors';
+import {useLazyQuery} from '@apollo/client';
+import {getSearchHistory} from 'apollo/query/getSearchHistory';
 
 interface ListRecentsProps {
   onSearch: (keyword: string) => void;
 }
 
 const ListRecents = (props: ListRecentsProps) => {
-  const [state, setState] = useState([
-    {
-      name: 'khoo tech puat',
-    },
-    {
-      name: 'tan',
-    },
-    {
-      name: 'lim',
-    },
-    {
-      name: 'tan tock seng',
-    },
-    {
-      name: 'sengkang',
-    },
-  ]);
+  const [getData, {data}] = useLazyQuery(getSearchHistory);
+
+  useEffect(() => {
+    getData({variables: {searchType: 'PlanCall', sort: 'desc'}});
+  }, []);
   const renderItem = ({item}) => {
     return (
       <TouchableOpacity
@@ -47,7 +37,7 @@ const ListRecents = (props: ListRecentsProps) => {
   return (
     <View style={styles.container}>
       <FlatList
-        data={state}
+        data={data?.data}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
       />

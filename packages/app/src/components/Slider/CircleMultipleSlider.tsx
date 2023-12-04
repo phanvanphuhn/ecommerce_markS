@@ -15,7 +15,7 @@ import {
   TouchHandler,
   useTouchHandler,
 } from '@shopify/react-native-skia';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Dimensions, StyleSheet, View} from 'react-native';
 import {
   Gesture,
@@ -43,6 +43,7 @@ interface CircleMultipleSliderProps {
   children?: React.ReactNode;
   onUpdate: (value: number) => void;
   disabled?: boolean;
+  disabledMax?: number;
 }
 interface IState {
   percentTop?: number;
@@ -59,11 +60,16 @@ const CircleMultipleSlider: React.FC<CircleMultipleSliderProps> = ({
   valueBottom,
   onUpdate,
   disabled,
+  disabledMax,
 }) => {
   const [state, setState] = useStateCustom<IState>({
     percentTop: valueTop / (maxTop || 1) || 0,
     percentBottom: valueBottom / (maxBottom || 1) || 0,
   });
+  useEffect(() => {
+    setState({percentTop: valueTop / (maxTop || 1) || 0});
+    percentCompleteTop.value = valueTop / (maxTop || 1) || 0;
+  }, [valueTop]);
   const center = width / 2;
   const r = (width - strokeWidth) / 2 - 10;
   const startAngle = Math.PI;
@@ -149,6 +155,12 @@ const CircleMultipleSlider: React.FC<CircleMultipleSliderProps> = ({
 
   useSharedValueEffect(
     () => {
+      let percentBottom = parseInt(
+        (100 - percentCompleteBottom.value * 100 + 100).toFixed(),
+      );
+      if (disabledMax && disabledMax < percentBottom) {
+        return;
+      }
       skiaCx.current = movableCx.value;
       skiaCy.current = movableCy.value;
       skiaFontCx.current = movableCx.value - thumbRadius / 2 - 5;
@@ -167,9 +179,6 @@ const CircleMultipleSlider: React.FC<CircleMultipleSliderProps> = ({
       );
       movablePerCx.current = newCoords.x - thumbRadius / 2 - 5;
       movablePerCy.current = newCoords.y + 5;
-      let percentBottom = parseInt(
-        (100 - percentCompleteBottom.value * 100 + 100).toFixed(),
-      );
       setState({
         percentBottom: percentBottom,
         percentTop: parseInt((percentCompleteTop.value * 100).toFixed()),

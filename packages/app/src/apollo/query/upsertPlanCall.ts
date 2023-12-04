@@ -26,7 +26,7 @@ interface Data {
   data: PlanCallOutput[];
 }
 
-type PlanCallActivitySubtype =
+export type PlanCallActivitySubtype =
   | 'CALL'
   | 'CASE_SUPPORT'
   | 'EDETAILING'
@@ -44,8 +44,8 @@ type PlanCallActivitySubtype =
   | 'SEND_QUOTE'
   | 'WEBINARS';
 
-type PlanCallActivityType = 'EVENT' | 'TASK';
-type PlanCallStatus = 'CANCELLED' | 'COMPLETED' | 'IN_PROGRESS';
+export type PlanCallActivityType = 'EVENT' | 'TASK';
+export type PlanCallStatus = 'CANCELLED' | 'COMPLETED' | 'IN_PROGRESS';
 
 export interface PlanCallInput {
   account?: string;
