@@ -27,7 +27,7 @@ interface DatabaseCreds {
 
 function readDatabaseSecrets(): DatabaseCreds {
   try {
-    const secretFilePath = '/usr/src/app/rds/rds-creds'; // Path to the mounted secret file
+    const secretFilePath = '/usr/src/app/rds/rds-creds/jarvis-mark-credentials'; // Path to the mounted secret file
     const secretData = readFileSync(secretFilePath, 'utf8');
     return JSON.parse(secretData);
   } catch (error) {

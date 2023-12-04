@@ -18,7 +18,7 @@ spec:
       labels:
         app: ${APP_NAME}
     spec:
-      serviceAccountName: ${SERVICEACCOUNT_NAME}
+      serviceAccountName: jarvis-mark14041392661573222138
       imagePullSecrets:
         - name: gitlab-registry
       containers:
@@ -36,19 +36,15 @@ spec:
               value: ${AZURE_TENANT_ID}
             - name: DATABASE_URL
               value: ${DATABASE_URL}
-            - name: SERVICEACCOUNT_NAME
-              value: /usr/src/app/rds/rds-creds
-            - name: SERVICEACCOUNTCLASS_NAME
-              value: jarvis-mark-credentials
             - name: DB_HOST
               valueFrom:
                 secretKeyRef:
-                  name: ${SERVICEACCOUNTCLASS_NAME}
+                  name: jarvis-mark-credentials
                   key: host
             - name: DB_PORT
               valueFrom:
                 secretKeyRef:
-                  name: ${SERVICEACCOUNTCLASS_NAME}
+                  name: jarvis-mark-credentials
                   key: port
             - name: DB_SCHEMA
               value: marks
@@ -63,7 +59,7 @@ spec:
           ports:
             - containerPort: 3000
           volumeMounts:
-            - name: ${SERVICEACCOUNTCLASS_NAME}
+            - name: jarvis-mark-credentials
               mountPath: /usr/src/app/rds/rds-creds # this path can be customized for your application
               readOnly: true
           resources:
@@ -74,9 +70,9 @@ spec:
               memory: '512Mi'
               cpu: '1'
       volumes:
-        - name: ${SERVICEACCOUNTCLASS_NAME}
+        - name: jarvis-mark-credentials
           csi:
             driver: secrets-store.csi.k8s.io
             volumeAttributes:
-              secretProviderClass: ${SERVICEACCOUNTCLASS_NAME}
+              secretProviderClass: jarvis-mark-credentials
             readOnly: true
