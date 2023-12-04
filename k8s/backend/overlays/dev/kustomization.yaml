@@ -1,15 +1,5 @@
 bases:
   - ../../base
-patches:
-  - target:
-      group: networking.k8s.io
-      version: v1
-      kind: Ingress
-      name: ${APP_NAME}-ingress
-    path: ./ingress-patch.yaml
-  - target:
-      group: apps
-      version: v1
-      kind: Deployment
-      name: ${APP_NAME}
-    path: ./deployment-patch.yaml
+patchesStrategicMerge:
+  - ./ingress-patch.yaml
+  - ./deployment-patch.yaml
