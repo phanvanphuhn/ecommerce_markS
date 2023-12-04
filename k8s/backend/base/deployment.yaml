@@ -27,10 +27,40 @@ spec:
           env:
             - name: CI_COMMIT_SHORT_SHA
               value: ${CI_COMMIT_SHORT_SHA}
+            - name: AZURE_CLIENT_ID
+              value: ${AZURE_CLIENT_ID}
+            - name: AZURE_CLIENT_SECRET
+              value: ${AZURE_CLIENT_SECRET}
+            - name: AZURE_TENANT_ID
+              value: ${AZURE_TENANT_ID}
+            - name: DATABASE_URL
+              value: ${DATABASE_URL}
+            - name: SERVICEACCOUNT_NAME
+              value: /usr/src/app/rds/rds-creds
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: ${SERVICEACCOUNT_NAME}
+                  key: host
+            - name: DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: ${SERVICEACCOUNT_NAME}
+                  key: port
+            - name: DB_SCHEMA
+              value: marks
+            - name: NEST_PORT
+              value: '3000'
+            - name: POSTGRES_DB
+              value: ${POSTGRES_DB}
+            - name: POSTGRES_USER
+              value: ${POSTGRES_USER}
+            - name: POSTGRES_PASSWORD
+              value: ${POSTGRES_PASSWORD}
           ports:
             - containerPort: 3000
           volumeMounts:
-            - name: jarvis-mark14041392661573222138
+            - name: ${SERVICEACCOUNT_NAME}
               mountPath: /usr/src/app/rds/rds-creds # this path can be customized for your application
               readOnly: true
           resources:
@@ -41,9 +71,9 @@ spec:
               memory: '512Mi'
               cpu: '1'
       volumes:
-        - name: jarvis-mark14041392661573222138
+        - name: ${SERVICEACCOUNT_NAME}
           csi:
             driver: secrets-store.csi.k8s.io
             volumeAttributes:
-              secretProviderClass: jarvis-mark14041392661573222138
+              secretProviderClass: ${SERVICEACCOUNT_NAME}
             readOnly: true
