@@ -19,7 +19,7 @@ FROM node:16
 WORKDIR /app
 
 COPY ./prisma/schema.prisma ./prisma/schema.prisma
-COPY --from=BUILDER /app/prisma/migrations ./prisma/migrations
+COPY --from=builder /app/prisma/migrations ./prisma/migrations
 
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package*.json ./
@@ -30,4 +30,4 @@ COPY --from=builder /app/entrypoint.sh ./entrypoint.sh
 RUN npm run prisma:generate
 
 EXPOSE 3000
-CMD ["sh", "-c", "entrypoint.sh" ]
+CMD ["sh", "-c", "./entrypoint.sh" ]
