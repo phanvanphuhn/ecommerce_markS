@@ -1,5 +1,6 @@
 import { readFileSync } from 'fs';
 
+import 'isomorphic-fetch';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { Logger, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
