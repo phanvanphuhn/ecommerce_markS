@@ -13,6 +13,9 @@ import {useAppDispatch} from 'middlewares/stores';
 import {onLogin} from 'middlewares/actions/auth/actionLogin';
 import {UserProfile} from 'res/type/Auth';
 import {hideLoading, showLoading} from 'components/Loading/LoadingComponent';
+import {useLazyQuery} from '@apollo/client';
+import {GET_ME} from 'apollo/query/me';
+import Config from 'react-native-config';
 
 interface LoginScreenProps {}
 export const azureAuth = new AzureAuth({
@@ -32,6 +35,8 @@ const LoginScreen = (props: LoginScreenProps) => {
   const [azureToken, setAzureToken] = React.useState();
   const [azureUserInfo, setAzureUserInfo] = React.useState();
   const dispatch = useAppDispatch();
+  const [getData, {data}] = useLazyQuery(GET_ME);
+
   const getAzureToken = async () => {
     try {
       showLoading();
@@ -45,7 +50,14 @@ const LoginScreen = (props: LoginScreenProps) => {
           path: '/me',
         });
         dispatch(onLogin(info, auth.rawIdToken));
-        reset(Routes.DrawerStack);
+        let data = await getData();
+        if (
+          data?.data?.data?.groups.includes(
+            'a6f11bfc-e68e-4033-bce9-922e14d8a4a8',
+          )
+        ) {
+          reset(Routes.DrawerStack);
+        }
         hideLoading();
       }
     } catch (error) {
