@@ -35,21 +35,21 @@ const App = () => {
   }, []);
   return (
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <LocalizationProvider>
-          <RootView>
-            <NetworkProvider>
-              <NotificationConfig>
-                <MenuProvider>
-                  <RootApp />
-                  <FlashMessage style={{paddingTop: 20}} />
-                </MenuProvider>
-                <LoadingComponent ref={loadingRef} />
-              </NotificationConfig>
-            </NetworkProvider>
-          </RootView>
-        </LocalizationProvider>
-      </PersistGate>
+      {/*<PersistGate loading={null} persistor={persistor}>*/}
+      <LocalizationProvider>
+        <RootView>
+          <NetworkProvider>
+            <NotificationConfig>
+              <MenuProvider>
+                <RootApp />
+                <FlashMessage style={{paddingTop: 20}} />
+              </MenuProvider>
+              <LoadingComponent ref={loadingRef} />
+            </NotificationConfig>
+          </NetworkProvider>
+        </RootView>
+      </LocalizationProvider>
+      {/*</PersistGate>*/}
     </Provider>
   );
 };

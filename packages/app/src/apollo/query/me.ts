@@ -16,6 +16,7 @@ export interface IDataMe {
   oid: string;
   onprem_sid: string;
   preferred_username: string;
+  groups: string[];
   rh: string;
   sub: string;
   tid: string;
