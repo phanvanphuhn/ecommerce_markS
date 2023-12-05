@@ -23,10 +23,10 @@ build_container:
     - docker build -t $IMAGE_TAG .
     - docker push $IMAGE_TAG
   only:
-    changes:
-      - ./packages/server/** # Only trigger when changes occur in packages/server directory
-    refs:
-      - main # Only trigger on commits to the main branch
+    - main # Only trigger on commits to the main branch
+  rules:
+    - changes:
+        - ./packages/server/** # Only trigger when changes occur in packages/server directory
 
 deploy:
   stage: deploy
@@ -39,7 +39,7 @@ deploy:
     - kubectl config use-context ${KUBE_CONTEXT}
     - kubectl kustomize k8s/backend/base | envsubst | kubectl apply -n ${KUBE_NAMESPACE} -f -
   only:
-    changes:
-      - ./packages/server/** # Only trigger when changes occur in packages/server directory
-    refs:
-      - main # Only trigger on commits to the main branch
+    - main # Only trigger on commits to the main branch
+  rules:
+    - changes:
+        - ./packages/server/** # Only trigger when changes occur in k8s/backend directory
