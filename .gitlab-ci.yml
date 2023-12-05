@@ -22,9 +22,8 @@ build_container:
     - cd packages/server/
     - docker build -t $IMAGE_TAG .
     - docker push $IMAGE_TAG
-  only:
-    - main # Only trigger on commits to the main branch
   rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH' # Only trigger when changes occur in default branch
     - changes:
         - ./packages/server/** # Only trigger when changes occur in packages/server directory
 
@@ -38,8 +37,7 @@ deploy:
     - export KUBE_CONTEXT="bostonscientific.com/jarvis/jarvis-mark-s/mark-s:backend"
     - kubectl config use-context ${KUBE_CONTEXT}
     - kubectl kustomize k8s/backend/base | envsubst | kubectl apply -n ${KUBE_NAMESPACE} -f -
-  only:
-    - main # Only trigger on commits to the main branch
   rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH' # Only trigger when changes occur in default branch
     - changes:
         - ./packages/server/** # Only trigger when changes occur in k8s/backend directory
