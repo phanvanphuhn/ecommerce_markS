@@ -12,20 +12,25 @@ import {timelineEvents} from 'screens/plan/components/timelineEvents';
 import useStateCustom from 'hooks/useStateCustom';
 import moment from 'moment';
 import Text from 'elements/Text';
+import {useLazyQuery, useMutation} from '@apollo/client';
+import {GET_PLAN_CALLS} from 'apollo/query/getPlanCalls';
+import {upsertSearchHistory} from 'apollo/query/upsertSearchHistory';
 
 interface SearchPlanScreenProps {}
 
 const SearchPlanScreen = (props: SearchPlanScreenProps) => {
   const [state, setState] = useStateCustom({keyword: '', eventsByDate: []});
-  useEffect(() => {
-    const getData = async () => {
-      // let response = await PlanApi.getPlan();
-      let events = timelineEvents
-        .map(e => moment(e.start).format('DD/MM/YYYY'))
+  const [updateSearch] = useMutation(upsertSearchHistory);
+  const [getData] = useLazyQuery(GET_PLAN_CALLS, {
+    onCompleted: data => {
+      let events = data?.data
+        .map(e => moment(new Date(Number(e.startDate))).format('DD/MM/YYYY'))
         .filter((e, index, arr) => arr.indexOf(e) == index)
         .map(item => {
-          let array = timelineEvents.filter(
-            e => moment(e.start).format('DD/MM/YYYY') == item,
+          let array = data?.data.filter(
+            e =>
+              moment(new Date(Number(e.startDate))).format('DD/MM/YYYY') ==
+              item,
           );
           return {
             title: item,
@@ -36,9 +41,8 @@ const SearchPlanScreen = (props: SearchPlanScreenProps) => {
       setState({
         eventsByDate: events,
       });
-    };
-    getData();
-  }, []);
+    },
+  });
 
   const onFilter = (filter: string) => {
     switch (filter) {
@@ -50,6 +54,28 @@ const SearchPlanScreen = (props: SearchPlanScreenProps) => {
         break;
     }
   };
+
+  useEffect(() => {
+    let timeout = setTimeout(() => {
+      if (state.keyword) {
+        getData({variables: {subject: state.keyword}});
+
+        updateSearch({
+          variables: {
+            data: {
+              searchQuery: state.keyword,
+              searchType: 'PlanCall',
+            },
+          },
+        });
+      }
+    }, 500);
+    return () => {
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+    };
+  }, [state.keyword]);
   const onSearch = (value: string) => {
     setState({keyword: value});
   };

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -16,7 +16,6 @@ import Theme from 'res/style/Theme';
 import Text from 'elements/Text';
 import keyExtractor from 'utils/keyExtractor';
 import ItemComplaint from 'screens/complaints/components/ItemComplaint';
-import {ItemComplaintResponse} from 'network/apis/complaints/ComplaintResponse';
 import useStateCustom from 'hooks/useStateCustom';
 import moment from 'moment';
 import CustomDropdown from 'components/Menu/CustomDropdown';
@@ -27,6 +26,10 @@ import ItemFilter from 'screens/complaints/components/ItemFilter';
 import ItemSort from 'screens/complaints/components/ItemSort';
 import _ from 'lodash';
 import HeaderComplaint from 'screens/complaints/components/HeaderComplaint';
+import {ItemComplaintResponse} from 'apollo/query/complaint';
+import {useLazyQuery} from '@apollo/client';
+import {GET_DOCTOR_QUERY} from 'apollo/query/getDoctorSearchList';
+import {GET_COMPLAINTS_QUERY} from 'apollo/query/complaints';
 
 interface ComplaintsScreenProps {}
 const data = [
@@ -83,20 +86,28 @@ const data = [
 ];
 const ComplaintsScreen = (props: ComplaintsScreenProps) => {
   const [state, setState] = useStateCustom({
-    data: data,
+    data: [],
     filterSelected: '',
     sortBy: null,
   });
+  const [getData, {data, loading}] = useLazyQuery(GET_COMPLAINTS_QUERY);
+  useEffect(() => {
+    getData({
+      onCompleted: data => {
+        setState({data: data?.data});
+      },
+    });
+  }, []);
   const renderItem: ListRenderItem<ItemComplaintResponse> = ({item}) => {
     return <ItemComplaint item={item} />;
   };
   const onSelectFilter = (status: string) => {
-    let list = data.filter(e => e.status == status);
+    let list = data?.data?.filter(e => e.complaintStatus == status);
     setState({data: list, filterSelected: status});
   };
 
   const onSearch = (text: string) => {
-    let list = data.filter((e: any) => {
+    let list = data?.data?.filter((e: any) => {
       return Object.keys(e).some((key: any) =>
         e[key]
           ?.unsignText()
@@ -117,7 +128,9 @@ const ComplaintsScreen = (props: ComplaintsScreenProps) => {
             flex: 1,
           }}>
           <Text size={18} fontWeight={'700'} lineHeight={26} marginBottom={10}>
-            {state.data.length < data.length ? 'Search Results': strings.complaint.allComplaints}
+            {/*{state.data.length < data.length*/}
+            {/*  ? 'Search Results'*/}
+            {/*  : strings.complaint.allComplaints}*/}
           </Text>
           <View
             style={[
@@ -128,11 +141,11 @@ const ComplaintsScreen = (props: ComplaintsScreenProps) => {
             ]}>
             <Dropdown
               onClear={() => {
-                setState({data: data, filterSelected: ''});
+                setState({data: data?.data, filterSelected: ''});
               }}
               content={
                 <View style={styles.containerDropdown}>
-                  {['submitted', 'not_submitted'].map((e, i) => {
+                  {['Submitted', 'Auto Submitted'].map((e, i) => {
                     return (
                       <ItemFilter
                         item={e}
@@ -156,15 +169,12 @@ const ComplaintsScreen = (props: ComplaintsScreenProps) => {
                 <View style={styles.containerDropdown}>
                   <ItemSort
                     onSelected={(type, value) => {
-                      console.log('=>(ComplaintsScreen.tsx:159) type', type);
-                      console.log('=>(ComplaintsScreen.tsx:159) value', value);
                       let sort: 'asc' | 'desc' = 'desc';
                       if (value == 'Newest') {
                         sort = 'desc';
                       } else {
                         sort = 'asc';
                       }
-                      console.log('=>(ComplaintsScreen.tsx:155) sort', sort);
                       let list = _.orderBy(
                         state.data,
                         function (dateObj: any) {
@@ -172,7 +182,6 @@ const ComplaintsScreen = (props: ComplaintsScreenProps) => {
                         },
                         sort,
                       );
-                      console.log('=>(ComplaintsScreen.tsx:158) list', list);
                       setState({
                         sortBy: {
                           type,
@@ -189,7 +198,7 @@ const ComplaintsScreen = (props: ComplaintsScreenProps) => {
                   />
                 </View>
               }
-              onClear={() => setState({data: data, sortBy: null})}
+              onClear={() => setState({data: data?.data, sortBy: null})}
               iconLeft={images.ic_sort}
               title={strings.sort}
               value={state.sortBy}

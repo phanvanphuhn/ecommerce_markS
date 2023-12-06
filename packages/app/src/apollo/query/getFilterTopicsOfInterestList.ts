@@ -7,8 +7,8 @@ interface Data {
 
 interface Variables {}
 
-export let GET_DIVISION_LIST_QUERY: TypedDocumentNode<Data, Variables> = gql`
-  query getFilterDivisionList {
-    data: getFilterDivisionList
+export let GET_TOPICS_LIST_QUERY: TypedDocumentNode<Data, Variables> = gql`
+  query getFilterTopicsOfInterestList {
+    data: getFilterTopicsOfInterestList
   }
 `;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import Container from 'elements/Layout/Container';
 import strings from 'res/strings';
@@ -11,79 +11,121 @@ import PriceMonth from 'screens/sales/components/PriceMonth';
 import ContainerProgress from 'screens/sales/components/ContainerProgress';
 import ItemTab from 'components/ItemTab';
 import ContainerProvider from 'components/ContainerProvider';
+import {useLazyQuery, useMutation} from '@apollo/client';
+import {getMobileSales} from 'apollo/query/getMobileSales';
+import {
+  getSliderAndCommisions,
+  SliderAndCommisionsResponse,
+} from 'apollo/query/getSliderAndCommisions';
+import {getSales, SalesOutput} from 'apollo/query/getSales';
+import {upsertMobileSalesQuarter} from 'apollo/query/upsertMobileSalesQuarter';
+import {upsertMobileSalesYear} from 'apollo/query/upsertMobileSalesYear';
 
 interface SalesScreenProps {}
-export type TabDateType = 'month' | 'quarter' | 'year';
+export type TabDateType = 'Month' | 'Quarter' | 'Year';
 export interface IStateSales {
   type?: TabDateType;
   percentage?: number;
   currentDate?: string;
-  data: IDataVariable;
-}
-
-interface IDataVariable {
-  New_hire: boolean;
-  MixedBag_70: boolean;
-  Variable_pay_by_year: number;
-  Variable_pay_by_quarter: number;
-  Variable_pay_by_month: number;
-  Sales_by_year: number;
-  Sales_by_quarter: number;
-  Sales_by_month: number;
-  Target_by_year: number;
-  Target_by_quarter: number;
-  Target_by_month: number;
-  Sales_achievement_percentage_by_year: number;
-  Sales_achievement_percentage_by_quarter: number;
-  Sales_achievement_percentage_by_month: number;
-  Variable_payout_percentage: number;
-  Target_by_year_USD: number;
-  Territory_category: number;
-  Commission_percentage: number;
-  Commisionable_sales_by_quarter: number;
-  Variable_payout_by_quarter: number;
-  Commission_payout_by_quarter: number;
-  Capital_equipment_sales: number;
-  Service_contract_sales: number;
-  Kicker: number;
-  Early_bird: number;
-  YTD_total_sales: number;
+  data?: SalesOutput;
+  listCommission?: SliderAndCommisionsResponse[];
 }
 
 const SalesScreen = (props: SalesScreenProps) => {
   const [state, setState] = useStateCustom<IStateSales>({
     percentage: 100,
-    type: 'month',
+    type: 'Month',
     currentDate: moment('2023-06-01', 'YYYY-MM-DD').format('YYYY-MM-DD'),
-    data: {
-      New_hire: false,
-      MixedBag_70: true,
-      Variable_pay_by_year: 7750,
-      Variable_pay_by_quarter: 1550,
-      Variable_pay_by_month: 516.67,
-      Sales_by_year: 103000,
-      Sales_by_quarter: 51600,
-      Sales_by_month: 8500,
-      Target_by_year: 30500,
-      Target_by_quarter: 51600,
-      Target_by_month: 1500,
-      Sales_achievement_percentage_by_year: 85,
-      Sales_achievement_percentage_by_quarter: 85,
-      Sales_achievement_percentage_by_month: 85,
-      Variable_payout_percentage: 100,
-      Target_by_year_USD: 0,
-      Territory_category: 0,
-      Commission_percentage: 0,
-      Commisionable_sales_by_quarter: 0,
-      Variable_payout_by_quarter: 0,
-      Commission_payout_by_quarter: 0,
-      Capital_equipment_sales: 0,
-      Service_contract_sales: 0,
-      Kicker: 0,
-      Early_bird: 0,
-      YTD_total_sales: 0,
-    },
+    listCommission: [],
+    data: {},
   });
+  console.log('=>(SalesScreen.tsx:42) state', state);
+
+  const [getData] = useLazyQuery(getMobileSales);
+  const [getSlider] = useLazyQuery(getSliderAndCommisions);
+  const [getSalesData] = useLazyQuery(getSales);
+  const [updateTargetQuarter] = useMutation(upsertMobileSalesQuarter);
+  const [updateTargetYear] = useMutation(upsertMobileSalesYear);
+  useEffect(() => {
+    getData({
+      variables: {
+        type: 'quarter',
+      },
+    });
+    let date = moment(state.currentDate);
+    getSalesData({
+      variables: {
+        month: (date.month() + 1).toString(),
+        year: date.year().toString(),
+        quarter: Math.ceil((date.month() + 1) / 3).toString(),
+      },
+      onCompleted: data => {
+        setState({
+          data: data?.data
+            ?.map((item: any) => {
+              Object.keys(item).forEach(function (key) {
+                item[key] = /[\d]+/.test(item[key])
+                  ? parseFloat(item[key].replace('%', ''))
+                  : item[key];
+              });
+              return item;
+            })
+            .find(e => !!e),
+        }),
+          console.log('=>(SalesScreen.tsx:76) data', data);
+      },
+    });
+    getSlider({
+      onCompleted: data =>
+        setState({
+          listCommission: data?.data?.map((item: any) => {
+            Object.keys(item).forEach(function (key) {
+              item[key] = /[\d]+/.test(item[key])
+                ? parseFloat(item[key].replace('%', ''))
+                : item[key];
+            });
+            return item;
+          }),
+        }),
+    });
+  }, []);
+  useEffect(() => {
+    let timeout = setTimeout(() => {
+      let date = moment(state.currentDate);
+      switch (state.type) {
+        case 'Month':
+          break;
+        case 'Year':
+          if (state.data?.targetByYear) {
+            updateTargetYear({
+              variables: {
+                year: date.year().toString(),
+                targetByYear: state.data?.targetByYear,
+              },
+            });
+          }
+          break;
+        case 'Quarter':
+          if (state?.data?.targetByQuarter) {
+            updateTargetQuarter({
+              variables: {
+                quarter: Math.ceil((date.month() + 1) / 3).toString(),
+                year: date.year().toString(),
+                targetByQuarter: parseInt(
+                  state?.data?.targetByQuarter * (state.percentage / 100),
+                ).toString(),
+              },
+            });
+          }
+          break;
+      }
+    }, 500);
+    return () => {
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+    };
+  }, [state.type, state?.data?.targetByQuarter, state.percentage]);
   return (
     <ContainerProvider state={state} setState={setState}>
       <Container title={strings.sale.mySales} style={styles.container}>
@@ -96,33 +138,33 @@ const SalesScreen = (props: SalesScreenProps) => {
           <View style={[Theme.shadow, styles.containerTab]}>
             <ItemTab
               title={'MONTH'}
-              isFocused={state.type == 'month'}
+              isFocused={state.type == 'Month'}
               onPress={() => {
-                setState({type: 'month'});
+                setState({type: 'Month'});
               }}
             />
             <ItemTab
               title={'QUARTER'}
-              isFocused={state.type == 'quarter'}
+              isFocused={state.type == 'Quarter'}
               onPress={() => {
-                setState({type: 'quarter'});
+                setState({type: 'Quarter'});
               }}
             />
             <ItemTab
               title={'YEAR'}
-              isFocused={state.type == 'year'}
+              isFocused={state.type == 'Year'}
               onPress={() => {
-                setState({type: 'year'});
+                setState({type: 'Year'});
               }}
             />
           </View>
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
           <ContainerProgress />
-          {(state.type == 'year' || state.type == 'quarter') && (
+          {(state.type == 'Year' || state.type == 'Quarter') && (
             <PriceYear key={state.type} />
           )}
-          {state.type == 'month' && <PriceMonth />}
+          {state.type == 'Month' && <PriceMonth />}
         </ScrollView>
       </Container>
     </ContainerProvider>

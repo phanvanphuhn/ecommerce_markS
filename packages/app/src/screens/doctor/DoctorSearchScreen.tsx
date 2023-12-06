@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -39,15 +39,30 @@ interface IState {
 }
 import data from './data';
 import useDebounce from 'hooks/useDebounce';
+import useGetDoctorSearchList from 'apollo/logic/doctor/useGetDoctorSearchList';
+import useQueryLazyBase from 'apollo/useQueryLazyBase';
+import {GET_DOCTOR_QUERY} from 'apollo/query/getDoctorSearchList';
+import {useLazyQuery} from '@apollo/client';
+import {useSelector} from 'hooks/useSelector';
 const DoctorSearchScreen = (props: DoctorSearchScreenProps) => {
   const [state, setState] = useStateCustom<IState>({
     keyword: '',
-    data: data.data,
+    data: [],
     hospitalSelected: [],
     specialSelected: [],
     divisionSelected: [],
     topicsSelected: [],
   });
+
+  const userProfile = useSelector(state => state.userProfile);
+  const [getData, {data, loading}] = useLazyQuery(GET_DOCTOR_QUERY);
+  const _getData = async (salesRepEmail?: string) => {
+    await getData({
+      variables: {
+        salesRepEmail: userProfile.user?.mail,
+      },
+    });
+  };
 
   const inset = useSafeAreaInsets();
 
@@ -55,11 +70,11 @@ const DoctorSearchScreen = (props: DoctorSearchScreenProps) => {
   const onFilter = () => {
     navigation.navigate(Routes.FilterDoctorScreen, {
       onSelected: (hospital, special, division, topics) => {
-        let list = data.data.filter(
+        let list = data?.data?.filter(
           e =>
             hospital.map(item => item.name).includes(e.hospital) ||
-            special.map(item => item.name).includes(e.special) ||
-            division.map(item => item.name).includes(e.division) ||
+            special.map(item => item.name).includes(e.doctorSpecialty) ||
+            division.map(item => item.name).includes(e.doctorDivision) ||
             topics.map(item => item.name).includes(e.topic),
         );
         if (
@@ -69,7 +84,6 @@ const DoctorSearchScreen = (props: DoctorSearchScreenProps) => {
           !topics?.length
         ) {
           setState({
-            data: data.data,
             hospitalSelected: hospital,
             specialSelected: special,
             divisionSelected: division,
@@ -97,8 +111,7 @@ const DoctorSearchScreen = (props: DoctorSearchScreenProps) => {
     });
   };
   useDebounce(() => {
-    let list = data.data.filter(e => e.name.includes(state.keyword));
-    setState({data: list});
+    _getData(state.keyword);
   }, [state.keyword]);
   const renderItem: ListRenderItem<IDoctorSearchList> = ({item, index}) => {
     return (
@@ -111,13 +124,13 @@ const DoctorSearchScreen = (props: DoctorSearchScreenProps) => {
         />
         <View style={[Theme.flex1]}>
           <Text size={21} lineHeight={27} fontWeight={'700'} marginBottom={4}>
-            {item.name}
+            {item.doctorName}
           </Text>
-          <Text numberOfLines={1}>{item.description}</Text>
+          <Text numberOfLines={1}>{item.doctorTitle}</Text>
           <View style={[Theme.flexRow, Theme.pl08, Theme.pt05]}>
             <Image source={images.ic_hospital} />
             <Text numberOfLines={1} marginLeft={7}>
-              {item.address}
+              {item.doctorDivision}
             </Text>
           </View>
           <View style={[Theme.flexRow, Theme.pl08, Theme.pt05]}>
@@ -129,12 +142,12 @@ const DoctorSearchScreen = (props: DoctorSearchScreenProps) => {
           <View style={[Theme.flexRow, Theme.pl08, Theme.pt05]}>
             <Image source={images.ic_mail} />
             <Text numberOfLines={1} marginLeft={7}>
-              {item.mail}
+              {item.doctorEmail}
             </Text>
           </View>
           <View style={[Theme.flexRow, Theme.pl08, Theme.pt05]}>
             <Image source={images.ic_phone} />
-            <Text marginLeft={7}>{item.phone}</Text>
+            <Text marginLeft={7}>{item.doctorPhone}</Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -162,6 +175,7 @@ const DoctorSearchScreen = (props: DoctorSearchScreenProps) => {
     state.specialSelected,
     state.topicsSelected,
   ]);
+
   return (
     <Container title={strings.doctor.titleSearch} style={styles.container}>
       <View
@@ -223,7 +237,7 @@ const DoctorSearchScreen = (props: DoctorSearchScreenProps) => {
 
         <View style={[Theme.flex1, Theme.mt20]}>
           <FlatList
-            data={state.data}
+            data={data?.data || []}
             renderItem={renderItem}
             keyExtractor={keyExtractor}
             contentContainerStyle={{paddingBottom: inset.bottom + 10}}

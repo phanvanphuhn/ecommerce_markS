@@ -1,25 +1,60 @@
 import Button1Click from 'components/Button/Button1Click';
 import Container from 'elements/Layout/Container';
-import React from 'react';
-import {
-  ScrollView,
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
+import React, {useId} from 'react';
+import {ScrollView, StyleSheet, View, TouchableOpacity} from 'react-native';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 import CalendarForm from './components/CalendarForm';
 import InputForm from './components/InputForm';
 import images from 'res/images';
 import Button2Click from 'components/Button/Button2Click';
 import {goBack, navigate} from 'navigation/service/RootNavigation';
-
+import {FormikProvider, useFormik} from 'formik';
+import {
+  MUTATION_DATA_CALL_QUERY,
+  PlanCallInput,
+} from 'apollo/query/upsertPlanCall';
+import ScrollWrapper from 'components/Scroll/ScrollWrapper';
+import moment from 'moment';
+import Text from 'elements/Text';
+import colors from 'res/colors';
+import Theme from 'res/style/Theme';
+import {useLazyQuery, useMutation} from '@apollo/client';
+import {GET_LEADERBOARD_QUERY} from 'apollo/query/leaderboard';
+import uuid from 'react-native-uuid';
+import {useNavigation} from '@react-navigation/core';
+import {BaseUseNavigationProps} from 'navigation/BaseNavigationProps';
+import {MainParamList} from 'navigation/service/NavigationParams';
 const CallLogScreen = (props: any) => {
   const {route} = props;
+  const navigation = useNavigation<BaseUseNavigationProps<MainParamList>>();
+  const [onSubmitData] = useMutation(MUTATION_DATA_CALL_QUERY);
+  const formik = useFormik<PlanCallInput>({
+    initialValues: {
+      activitySubtype: 'CALL',
+      activityType: 'EVENT',
+      contactName: '',
+      description: '',
+      division: '',
+      endDate: new Date(),
+      startDate: new Date(),
+      id: uuid.v4(),
+      location: '',
+      ownerCountry: '',
+      salesForceId: '',
+      status: 'IN_PROGRESS',
+      subject: '',
+    },
+    onSubmit: async values => {
+      console.log('=>(CallLogScreen.tsx:49) values', values);
+      await onSubmitData({variables: {data: values}});
+      navigation.goBack();
+    },
+  });
   const onCancel = () => {};
 
-  const onSave = () => {};
+  const onSave = () => {
+    formik.handleSubmit();
+  };
 
   return (
     <>
@@ -35,63 +70,90 @@ const CallLogScreen = (props: any) => {
             </TouchableOpacity>
           )
         }>
-        <ScrollView
+        <ScrollWrapper
+          formik={formik}
           style={{flex: 1, marginBottom: 100}}
           showsVerticalScrollIndicator={false}>
-          {/*{route?.params && <StatusPlanForm data={route?.params} />}*/}
+          <FormikProvider value={formik}>
+            {/*{route?.params && <StatusPlanForm data={route?.params} />}*/}
 
-          <View style={{padding: 16}}>
-            <InputForm title={'Subject'} placeholder={'Procedure'} />
+            <View style={{padding: 16}}>
+              <InputForm
+                title={'Subject'}
+                placeholder={'Call Name'}
+                name={'subject'}
+              />
 
-            <CalendarForm title={'Starts'} />
+              <View
+                style={[
+                  Theme.flexRow,
+                  {justifyContent: 'space-between', marginBottom: 16},
+                ]}>
+                <Text fontWeight={'300'} color={colors.black} size={15}>
+                  Starts
+                </Text>
+                <CalendarForm name={'startDate'} typeDate={'date'} />
+                <CalendarForm name={'startDate'} typeDate={'time'} />
+              </View>
+              <View
+                style={[
+                  Theme.flexRow,
+                  {justifyContent: 'space-between', marginBottom: 16},
+                ]}>
+                <Text fontWeight={'300'} color={colors.black} size={15}>
+                  Ends
+                </Text>
+                <CalendarForm name={'endDate'} typeDate={'date'} />
+                <CalendarForm name={'endDate'} typeDate={'time'} />
+              </View>
 
-            <CalendarForm title={'Ends'} />
+              <InputForm
+                title={'Type'}
+                name={'activitySubtype'}
+                placeholder={'Select Type'}
+                rightIcon={
+                  <IconAntDesign name="downcircle" size={15} color={'black'} />
+                }
+              />
 
-            <InputForm
-              title={'Type'}
-              placeholder={'Select Type'}
-              rightIcon={
-                <IconAntDesign name="downcircle" size={15} color={'black'} />
-              }
-            />
+              <InputForm
+                name={'description'}
+                title={'Description'}
+                placeholder={'Enter Description'}
+                numberOfLines={3}
+              />
 
-            <InputForm
-              title={'Description'}
-              placeholder={'Enter Description'}
-              numberOfLines={3}
-            />
+              <InputForm
+                title={'Location'}
+                name={'location'}
+                placeholder={'Location'}
+              />
+              <InputForm
+                title={'Account'}
+                name={'account'}
+                placeholder={'Account Name'}
+              />
 
-            <InputForm title={'Location'} placeholder={'Location'} />
+              <InputForm
+                title={'Name'}
+                name={'contactName'}
+                placeholder={'Contact Name'}
+                rightIcon={
+                  <IconAntDesign name="search1" size={15} color={'grey'} />
+                }
+              />
 
-            <InputForm title={'Related To'} placeholder={'Related To'} />
-
-            <InputForm
-              title={'Name'}
-              placeholder={'Doctor Name'}
-              rightIcon={
-                <IconAntDesign name="search1" size={15} color={'grey'} />
-              }
-            />
-
-            <InputForm
-              title={'Attendees'}
-              placeholder={'Search Name'}
-              rightIcon={
-                <IconAntDesign name="search1" size={15} color={'grey'} />
-              }
-            />
-
-            <InputForm
-              title={'Division'}
-              placeholder={'Select Division'}
-              rightIcon={
-                <IconAntDesign name="downcircle" size={15} color={'black'} />
-              }
-            />
-
-            <InputForm title={'Assigned To'} placeholder={'Name'} />
-          </View>
-        </ScrollView>
+              <InputForm
+                title={'Division'}
+                name={'division'}
+                placeholder={'Select Division'}
+                rightIcon={
+                  <IconAntDesign name="downcircle" size={15} color={'black'} />
+                }
+              />
+            </View>
+          </FormikProvider>
+        </ScrollWrapper>
       </Container>
       {!route?.params?.isCreateNew ? (
         <Button2Click

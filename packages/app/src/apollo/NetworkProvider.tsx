@@ -2,6 +2,7 @@ import {
   ApolloClient,
   ApolloLink,
   ApolloProvider,
+  concat,
   from,
   getApolloContext,
   HttpLink,
@@ -44,21 +45,20 @@ const errorLink = onError(({graphQLErrors, networkError, response}) => {
   }
 });
 const httpLink = new HttpLink({uri: `${Config.API_URL}/graphql`});
-const authLink = setContext((_, {headers}) => {
-  // get the authentication token from local storage if it exists
+const authMiddleware = new ApolloLink((operation, forward) => {
+  // add the authorization to the headers
   const {loginToken, isLogin}: AuthReducer = store.getState().userProfile;
-  // return the headers to the context so httpLink can read them
-  return {
+  operation.setContext({
     headers: {
-      ...headers,
-      authorization: loginToken && !!isLogin ? `Bearer ${loginToken}` : '',
+      Authorization: isLogin ? `Bearer ${loginToken}` : '',
     },
-  };
+  });
+  return forward(operation);
 });
 export const client = new ApolloClient({
   cache,
   connectToDevTools: true,
-  link: from([errorLink, httpLink, authLink]),
+  link: concat(authMiddleware, errorLink).concat(httpLink),
   defaultOptions: {
     watchQuery: {
       fetchPolicy: 'cache-and-network',

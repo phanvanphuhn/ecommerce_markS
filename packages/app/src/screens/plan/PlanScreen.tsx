@@ -1,7 +1,12 @@
 import ButtonIcon from 'elements/Buttons/ButtonIcon';
 import Container from 'elements/Layout/Container';
-import React, {useCallback, useMemo, useRef, useState} from 'react';
-import {LayoutChangeEvent, StyleSheet, View} from 'react-native';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {
+  ActivityIndicator,
+  LayoutChangeEvent,
+  StyleSheet,
+  View,
+} from 'react-native';
 import colors from 'res/colors';
 import images from 'res/images';
 import strings from 'res/strings';
@@ -29,6 +34,12 @@ import CalendarMonth, {
 } from 'screens/plan/components/CalendarMonth';
 import {TypeDate} from 'res/type/calendar';
 import {Routes} from 'configs';
+import {useLazyQuery} from '@apollo/client';
+import {GET_PLAN_CALLS} from 'apollo/query/getPlanCalls';
+import moment from 'moment/moment';
+import {PlanCallOutput} from 'apollo/query/upsertPlanCall';
+import useDidUpdate from 'hooks/useDidUpdate';
+import useIsMounted from 'hooks/useIsMounted';
 
 interface PlanScreenProps {}
 interface IState {
@@ -36,7 +47,8 @@ interface IState {
   height?: number;
   typeDate?: TypeDate;
   isShowDateOption?: boolean;
-  isShowCreateCaseLog: boolean;
+  isShowCreateCaseLog?: boolean;
+  data?: PlanCallOutput[];
 }
 
 const PlanScreen = (props: PlanScreenProps) => {
@@ -46,9 +58,35 @@ const PlanScreen = (props: PlanScreenProps) => {
     typeDate: 'Day',
     isShowDateOption: false,
     isShowCreateCaseLog: false,
+    data: [],
   });
   const CalendarRef = useRef<CalendarListRef>();
   const navigation = useNavigation<BaseUseNavigationProps<MainParamList>>();
+  useDidUpdate;
+  const [getData, {loading}] = useLazyQuery(GET_PLAN_CALLS, {
+    onCompleted: data => {
+      setState({
+        data: data?.data?.map(e => ({
+          ...e,
+          start: moment(new Date(Number(e.startDate))).format(
+            'YYYY-MM-DD HH:mm:ss',
+          ),
+          end: moment(new Date(Number(e.endDate))).format(
+            'YYYY-MM-DD HH:mm:ss',
+          ),
+          startDate: moment(new Date(Number(e.startDate))).format(
+            'YYYY-MM-DD HH:mm:ss',
+          ),
+          endDate: moment(new Date(Number(e.endDate))).format(
+            'YYYY-MM-DD HH:mm:ss',
+          ),
+        })),
+      });
+    },
+  });
+  useEffect(() => {
+    getData();
+  }, []);
   const onCancel = () => {};
 
   const onSave = () => {};
@@ -126,6 +164,20 @@ const PlanScreen = (props: PlanScreenProps) => {
   const onLayout = (event: LayoutChangeEvent) => {
     setState({height: event.nativeEvent.layout.height});
   };
+  const isMounted = useIsMounted();
+  if (loading || !isMounted) {
+    return (
+      <View
+        style={{
+          backgroundColor: colors.white,
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <ActivityIndicator size={'large'} color={colors.primary} />
+      </View>
+    );
+  }
   return (
     <Container
       title={strings.planScreen.myEvent}
@@ -187,8 +239,12 @@ const PlanScreen = (props: PlanScreenProps) => {
             <View style={styles.containerDayOfWeek}>{renderWeekDays}</View>
           </View>
         </View>
-        {state.typeDate == 'Day' && <ExpandableCalendarScreen />}
-        {state.typeDate == 'Month' && <CalendarMonth ref={CalendarRef} />}
+        {state.typeDate == 'Day' && (
+          <ExpandableCalendarScreen data={state?.data} />
+        )}
+        {state.typeDate == 'Month' && (
+          <CalendarMonth ref={CalendarRef} data={state?.data} />
+        )}
         {!!state.isShowDateOption && (
           <SelectOptionMonth
             height={state.height}

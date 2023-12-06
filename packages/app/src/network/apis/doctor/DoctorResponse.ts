@@ -9,6 +9,7 @@ export interface IDoctorSearchList {
   doctorEmail: string;
   doctorName: string;
   doctorPhone: string;
+  doctorSalutation: string;
   doctorSpecialty: string;
   doctorTitle: string;
   hospital: string;

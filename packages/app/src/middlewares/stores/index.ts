@@ -19,7 +19,7 @@ if (__DEV__) {
 const persistedReducer = persistReducer(persistConfig, allReducer);
 // Create Store
 const store = configureStore({
-  reducer: persistedReducer,
+  reducer: allReducer,
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       immutableCheck: false,

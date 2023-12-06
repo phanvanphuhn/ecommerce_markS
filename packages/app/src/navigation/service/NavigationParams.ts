@@ -1,8 +1,11 @@
 import Routes from 'configs/Routes';
 import {ImageSource} from 'react-native-image-viewing/dist/@types';
 import {BaseParam} from 'network/BaseParam';
-import {ItemOptionResponse} from 'network/apis/doctor/DoctorResponse';
-import {ItemComplaintResponse} from 'network/apis/complaints/ComplaintResponse';
+import {
+  IDoctorSearchList,
+  ItemOptionResponse,
+} from 'network/apis/doctor/DoctorResponse';
+import {ItemComplaintResponse} from 'apollo/query/complaint';
 
 export interface MainParamList extends Record<string, object | undefined> {
   [Routes.MainTab]: MainTabParams;
@@ -19,6 +22,7 @@ export interface MainParamList extends Record<string, object | undefined> {
   [Routes.FilterHospitalScreen]: FilterHospitalParam;
   [Routes.FilterDoctorScreen]: FilterDoctorParam;
   [Routes.DetailComplaintScreen]: DetailComplaintParam;
+  [Routes.DetailDoctorScreen]: DetailDoctorParam;
 }
 type LoginScreen = undefined;
 type ImageViewerScreen = {
@@ -55,4 +59,7 @@ interface FilterDoctorParam {
 }
 interface DetailComplaintParam {
   item: ItemComplaintResponse;
+}
+interface DetailDoctorParam {
+  item: IDoctorSearchList;
 }

@@ -30,6 +30,9 @@ import {ItemOptionResponse} from 'network/apis/doctor/DoctorResponse';
 import data from './data';
 import useDebounce from 'hooks/useDebounce';
 import _ from 'lodash';
+import {useLazyQuery} from '@apollo/client';
+import {GET_SPECIALTY_LIST_QUERY} from 'apollo/query/getFilterSpecialtyList';
+import {GET_HOSPITAL_LIST_QUERY} from 'apollo/query/getFilterHospitalList';
 interface FilterHospitalScreenProps {}
 interface IState {
   keyword?: string;
@@ -44,6 +47,21 @@ const FilterHospitalScreen = (props: FilterHospitalScreenProps) => {
     listSelected: route.params.listSelected || [],
   });
 
+  const convertData = (arr: string[]) => {
+    return arr.map(e => ({id: new Date().getTime(), name: e}));
+  };
+  const [getHospital] = useLazyQuery(GET_HOSPITAL_LIST_QUERY, {
+    variables: {
+      salesRepEmail: 'ChuanBao.Chin@bsci.com',
+    },
+  });
+  useEffect(() => {
+    getHospital({
+      onCompleted: data => {
+        setState({data: convertData(data.data)});
+      },
+    });
+  }, []);
   const onSelected = item => {
     let list = [...state.listSelected];
     let i = list.findIndex(e => e.id === item.id);
@@ -65,17 +83,20 @@ const FilterHospitalScreen = (props: FilterHospitalScreenProps) => {
     navigation.goBack();
   };
 
-  useDebounce(() => {
-    let dataHospital = _.orderBy(
-      data.hospital,
-      ['name', 'id'],
-      ['asc', 'desc'],
-    );
-    let list = dataHospital.filter(e => e.name.includes(state.keyword));
-    setState({data: list});
-  }, [state.keyword]);
+  // useDebounce(() => {
+  //   let dataHospital = _.orderBy(
+  //     data.hospital,
+  //     ['name', 'id'],
+  //     ['asc', 'desc'],
+  //   );
+  //   let list = dataHospital.filter(e => e.name.includes(state.keyword));
+  //   setState({data: list});
+  // }, [state.keyword]);
   const renderItem: ListRenderItem<ItemOptionResponse> = ({item, index}) => {
     let isSelected = state.listSelected.some(e => e.id == item.id);
+    if (!item.name) {
+      return null;
+    }
     return (
       <TouchableOpacity
         onPress={() => onSelected(item)}
@@ -114,7 +135,7 @@ const FilterHospitalScreen = (props: FilterHospitalScreenProps) => {
     );
   };
   return (
-    <Container hideHeader={true} translucent={false} style={styles.container}>
+    <Container hideHeader={true} style={styles.container}>
       <View style={[Theme.flexRowSpace, {paddingHorizontal: 10}]}>
         <ButtonIcon icon={images.ic_x} onPress={() => navigation.goBack()} />
         <Text>{strings.hospital}</Text>
@@ -144,9 +165,14 @@ const FilterHospitalScreen = (props: FilterHospitalScreenProps) => {
       </View>
       <View
         style={{
-          ...Theme.shadow,
+          shadowColor: '#000000',
+          shadowOffset: {
+            width: 0,
+            height: 2,
+          },
+          shadowOpacity: 0.5,
+          elevation: 4,
           backgroundColor: colors.white,
-          marginTop: 10,
           paddingBottom: 30,
           paddingTop: 10,
           paddingHorizontal: 30,

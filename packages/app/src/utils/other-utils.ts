@@ -4,6 +4,9 @@ import {formatNumbers} from 'lib/react-native-calendars/src/dateutils';
 import {TypeDate} from 'res/type/calendar';
 import {useCallback} from 'react';
 import colors from 'res/colors';
+import {ItemLeaderBoardResponse} from 'apollo/query/leaderboard';
+import {TabDateType} from 'screens/leaderboard/LeaderboardScreen';
+import {PlanCallOutput} from 'apollo/query/upsertPlanCall';
 
 export const checkPhoneNumberVietnamese = /^(\+?84|0|\(\+?84\))[1-9]\d{8,9}$/g;
 const addDate = (endDate: string, endTime: string) => {
@@ -56,19 +59,21 @@ export const htmltoText = (html: string) => {
   return text;
 };
 
-export const backgroundBodyColor = (item: ItemPlanResponse) => {
+export const backgroundBodyColor = (item: PlanCallOutput) => {
   if (!item) {
     return;
   }
   const {status} = item;
   switch (status) {
-    case 1:
+    case 'COMPLETED':
       return '#FFFFFF';
-    case 2:
+    case 'COMPLETED':
       return '#E7F0FF';
-    case 3:
+    case 'CANCELLED':
       return '#FBFBFB';
-    case 4:
+    case 'IN_PROGRESS':
+      return '#DBFDFF';
+    default:
       return '#DBFDFF';
   }
 };
@@ -100,17 +105,45 @@ export const getDateOfType = (type: TypeDate, date: string) => {
 
 export const renderColorComplaint = (status: string) => {
   switch (status) {
-    case 'submitted':
+    case 'Submitted':
       return colors.primary;
-    case 'not_submitted':
+    case 'Auto Submitted':
       return '#80C';
   }
 };
 export const renderStatusComplaint = (status: string) => {
   switch (status) {
-    case 'submitted':
+    case 'Submitted':
       return 'Submitted';
-    case 'not_submitted':
-      return 'Not submitted';
+    case 'Auto Submitted':
+      return 'Auto Submitted';
+  }
+};
+
+export const getRank = (item: ItemLeaderBoardResponse, type?: TabDateType) => {
+  switch (type) {
+    case 'Month':
+      return item.rankMtd;
+    case 'Quarter':
+      return item.rankQtd;
+    case 'Year':
+      return item.rankYtd;
+    default:
+      return '';
+  }
+};
+export const getTargetAchieved = (
+  item: ItemLeaderBoardResponse,
+  type?: TabDateType,
+) => {
+  switch (type) {
+    case 'Month':
+      return item.targetAchievedMtd;
+    case 'Quarter':
+      return item.targetAchievedQtd;
+    case 'Year':
+      return item.targetAchievedYtd;
+    default:
+      return '';
   }
 };

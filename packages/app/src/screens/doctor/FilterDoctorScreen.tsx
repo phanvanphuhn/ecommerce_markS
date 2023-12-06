@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, StyleSheet, TouchableOpacity, ScrollView} from 'react-native';
 import Container from 'elements/Layout/Container';
 import strings from 'res/strings';
@@ -20,6 +20,14 @@ import {MainParamList} from 'navigation/service/NavigationParams';
 import {Routes} from 'configs';
 import {ItemOptionResponse} from 'network/apis/doctor/DoctorResponse';
 import data from './data';
+import useQueryLazyBase from 'apollo/useQueryLazyBase';
+import {GET_DOCTOR_QUERY} from 'apollo/query/getDoctorSearchList';
+import {GET_DIVISION_LIST_QUERY} from 'apollo/query/getFilterDivisionList';
+import {GET_HOSPITAL_LIST_QUERY} from 'apollo/query/getFilterHospitalList';
+import {GET_SPECIALTY_LIST_QUERY} from 'apollo/query/getFilterSpecialtyList';
+import {useLazyQuery} from '@apollo/client';
+import {useSelector} from 'hooks/useSelector';
+import {GET_TOPICS_LIST_QUERY} from 'apollo/query/getFilterTopicsOfInterestList';
 interface FilterDoctorScreenProps {}
 interface IState {
   special?: ItemOptionResponse[];
@@ -31,13 +39,52 @@ const FilterDoctorScreen = (
   props: BaseNavigationProps<MainParamList, Routes.FilterDoctorScreen>,
 ) => {
   const route = useRoute<BaseRouteProps<Routes.FilterDoctorScreen>>();
+  const userProfile = useSelector(state => state.userProfile);
 
   const [state, setState] = useStateCustom<IState>({
-    special: data.special,
-    division: data.divisions,
+    special: [],
+    division: [],
     topics: data.topics,
     listHospitalSelected: route.params.hospital || [],
   });
+  const [getDivision] = useLazyQuery(GET_DIVISION_LIST_QUERY, {
+    variables: {
+      salesRepEmail: userProfile.user?.mail,
+    },
+  });
+  const [getSpecialty] = useLazyQuery(GET_SPECIALTY_LIST_QUERY, {
+    variables: {
+      salesRepEmail: userProfile.user?.mail,
+    },
+  });
+  const [getTopics] = useLazyQuery(GET_TOPICS_LIST_QUERY, {
+    variables: {
+      salesRepEmail: userProfile.user?.mail,
+    },
+  });
+  const convertData = (arr: string[]) => {
+    return arr.map(e => ({id: new Date().getTime(), name: e}));
+  };
+  useEffect(() => {
+    getDivision({
+      variables: {},
+      onCompleted: data => {
+        console.log('=>(FilterDoctorScreen.tsx:54) data', data);
+        setState({division: convertData(data.data)});
+      },
+    });
+    getSpecialty({
+      onCompleted: data => {
+        setState({special: convertData(data.data)});
+      },
+    });
+    getTopics({
+      onCompleted: data => {
+        setState({topics: convertData(data.data)});
+      },
+    });
+  }, []);
+
   const navigation =
     useNavigation<
       BaseUseNavigationProps<MainParamList, Routes.FilterDoctorScreen>
@@ -137,7 +184,10 @@ const FilterDoctorScreen = (
               Specialty
             </Text>
             <View style={[Theme.flexRow, {flexWrap: 'wrap'}]}>
-              {state.special.map((item, index) => {
+              {state.special?.map((item, index) => {
+                if (!item?.name) {
+                  return null;
+                }
                 return (
                   <TouchableOpacity
                     key={index.toString()}
@@ -160,10 +210,13 @@ const FilterDoctorScreen = (
           </View>
           <View style={[Theme.pt25]}>
             <Text size={18} lineHeight={24} fontWeight={'600'} marginBottom={8}>
-              Specialty
+              Division
             </Text>
             <View style={[Theme.flexRow, {flexWrap: 'wrap'}]}>
-              {state.division.map((item, index) => {
+              {state.division?.map((item, index) => {
+                if (!item?.name) {
+                  return null;
+                }
                 return (
                   <TouchableOpacity
                     onPress={() => {
@@ -186,10 +239,13 @@ const FilterDoctorScreen = (
           </View>
           <View style={[Theme.pt25]}>
             <Text size={18} lineHeight={24} fontWeight={'600'} marginBottom={8}>
-              Specialty
+              Topics Of Interest
             </Text>
             <View style={[Theme.flexRow, {flexWrap: 'wrap'}]}>
               {state.topics.map((item, index) => {
+                if (!item?.name) {
+                  return null;
+                }
                 return (
                   <TouchableOpacity
                     key={index.toString()}
