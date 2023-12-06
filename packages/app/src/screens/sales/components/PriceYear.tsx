@@ -70,7 +70,7 @@ const PriceYear = (props: PriceYearProps) => {
     return state?.data?.totalSales >= state.data?.[`targetBy${state.type}`]
       ? 1
       : 0;
-  }, [state.data.totalSales]);
+  }, [state.data?.totalSales]);
 
   const getKicker = useMemo(() => {
     if (state.type != 'Quarter') {
@@ -257,7 +257,10 @@ const PriceYear = (props: PriceYearProps) => {
             icon={images.ic_dolar}
             title={'Rewards'}
             potentialValue={Number(getVariable) + Number(getCommission)}
-            currentValue={2000}>
+            currentValue={
+              state?.data?.[`variablePayoutBy${state.type}`] +
+              state?.data?.[`commissionPayoutBy${state.type}`]
+            }>
             <View style={{}}>
               <ItemPrice
                 title={'Variable'}
