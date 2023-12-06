@@ -20,7 +20,10 @@ const ItemUser = (props: ItemUserProps) => {
   return (
     <View style={[Theme.flexRow, styles.container]}>
       <View style={{overflow: 'hidden', borderRadius: 50}}>
-        <DoctorDefault style={{width: 100, height: 100, borderRadius: 50}} />
+        <Image
+          source={images.ic_doctor_default}
+          style={{width: 100, height: 100, borderRadius: 50}}
+        />
       </View>
       <View style={[Theme.pt15, Theme.pl15]}>
         <Text size={25} fontWeight={'700'} color={colors.white}>
