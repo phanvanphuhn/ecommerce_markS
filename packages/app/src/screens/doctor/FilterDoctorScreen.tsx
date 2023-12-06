@@ -44,7 +44,7 @@ const FilterDoctorScreen = (
   const [state, setState] = useStateCustom<IState>({
     special: [],
     division: [],
-    topics: data.topics,
+    topics: [],
     listHospitalSelected: route.params.hospital || [],
   });
   const [getDivision] = useLazyQuery(GET_DIVISION_LIST_QUERY, {

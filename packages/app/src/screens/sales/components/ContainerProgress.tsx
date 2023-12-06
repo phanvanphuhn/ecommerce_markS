@@ -89,13 +89,13 @@ const ContainerProgress = (props: ContainerProgressProps) => {
   const targetAvchieve = useMemo(() => {
     switch (state.type) {
       case 'Month':
-        return state.data?.targetByMonth;
+        return state.data?.targetByMonth || 0;
       case 'Quarter':
         return parseInt(
-          state?.data?.targetByQuarter * (state.percentage / 100),
+          (state?.data?.targetByQuarter || 0) * (state.percentage / 100),
         );
       case 'Year':
-        return state.data?.targetByYear;
+        return state.data?.targetByYear || 0;
     }
   }, [state.data, state.type]);
   return (
