@@ -21,21 +21,6 @@ const ItemUser = (props: ItemUserProps) => {
     <View style={[Theme.flexRow, styles.container]}>
       <View style={{overflow: 'hidden', borderRadius: 50}}>
         <DoctorDefault style={{width: 100, height: 100, borderRadius: 50}} />
-        <View
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: colors.dotActive,
-            paddingVertical: 2,
-          }}>
-          <Text size={13} color={colors.white}>
-            Edit
-          </Text>
-        </View>
       </View>
       <View style={[Theme.pt15, Theme.pl15]}>
         <Text size={25} fontWeight={'700'} color={colors.white}>

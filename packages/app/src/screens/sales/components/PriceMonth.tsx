@@ -60,7 +60,7 @@ const PriceMonth = (props: PriceMonthProps) => {
             justifyContent: 'space-between',
             marginTop: 12,
           }}>
-          <Image
+          {/* <Image
             source={images.ic_dropdown}
             style={{
               transform: [{rotate: '-90deg'}],
@@ -69,7 +69,7 @@ const PriceMonth = (props: PriceMonthProps) => {
               resizeMode: 'contain',
             }}
             tintColor={colors.black}
-          />
+          /> */}
           <Text size={11} fontWeight={'300'} marginTop={10}>
             SGD:
             <Text size={11} fontWeight={'500'} color={colors.green}>
