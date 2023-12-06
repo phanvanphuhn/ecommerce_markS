@@ -1,8 +1,8 @@
 /* eslint-disable global-require */
 /**
-* @author GNURT
-* @flow
-*/
+ * @author GNURT
+ * @flow
+ */
 
 const images = {
   LoadingScreen: require('../assets/images/LoadingScreen.png'),
@@ -81,5 +81,6 @@ const images = {
   ic_x: require('../assets/images/ic_x.png'),
   img_background: require('../assets/images/img_background.png'),
   img_logo: require('../assets/images/img_logo.png'),
+  ic_book: require('../assets/images/ic_book.png'),
 };
 export default images;

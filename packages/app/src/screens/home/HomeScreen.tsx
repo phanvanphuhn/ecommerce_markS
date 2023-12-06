@@ -28,6 +28,7 @@ import Theme from 'res/style/Theme';
 import ItemPlan from 'screens/home/components/ItemPlan';
 import ItemLeaderBoard from 'screens/home/components/ItemLeaderBoard';
 import ItemUser from 'screens/home/components/ItemUser';
+import Routes from 'configs/Routes';
 
 interface HomeScreenProps {
   data: UserProfile[];
@@ -102,6 +103,9 @@ const HomeScreen = (props: BaseNavigationProps<MainParamList>) => {
   const onOpenDrawer = () => {
     navigation.dispatch(DrawerActions.toggleDrawer());
   };
+  const onContactSearch = () => {
+    navigation.navigate(Routes.DoctorSearchScreen);
+  };
   return (
     <Container hideHeader={true} style={styles.container}>
       <View
@@ -161,6 +165,12 @@ const HomeScreen = (props: BaseNavigationProps<MainParamList>) => {
           </ScrollView>
         </View>
       </View>
+      <TouchableOpacity style={styles.floatBtn} onPress={onContactSearch}>
+        <Image
+          source={images.ic_book}
+          style={{height: scale(51), width: scale(51)}}
+        />
+      </TouchableOpacity>
     </Container>
   );
 };
@@ -169,4 +179,9 @@ export default HomeScreen;
 
 const styles = StyleSheet.create({
   container: {flex: 1},
+  floatBtn: {
+    position: 'absolute',
+    bottom: scale(32),
+    right: scale(16),
+  },
 });

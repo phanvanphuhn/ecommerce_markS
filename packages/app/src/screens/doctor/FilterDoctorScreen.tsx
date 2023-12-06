@@ -237,35 +237,42 @@ const FilterDoctorScreen = (
               })}
             </View>
           </View>
-          <View style={[Theme.pt25]}>
-            <Text size={18} lineHeight={24} fontWeight={'600'} marginBottom={8}>
-              Topics Of Interest
-            </Text>
-            <View style={[Theme.flexRow, {flexWrap: 'wrap'}]}>
-              {state.topics.map((item, index) => {
-                if (!item?.name) {
-                  return null;
-                }
-                return (
-                  <TouchableOpacity
-                    key={index.toString()}
-                    onPress={() => {
-                      let data = [...state.topics];
-                      data[index].isSelected = !item.isSelected;
-                      setState({topics: data});
-                    }}
-                    style={[
-                      styles.containerItem,
-                      item.isSelected ? {backgroundColor: colors.blue3} : {},
-                    ]}>
-                    <Text color={item.isSelected ? colors.white : colors.black}>
-                      {item.name}
-                    </Text>
-                  </TouchableOpacity>
-                );
-              })}
+          {state.topics?.length > 0 && (
+            <View style={[Theme.pt25]}>
+              <Text
+                size={18}
+                lineHeight={24}
+                fontWeight={'600'}
+                marginBottom={8}>
+                Topics Of Interest
+              </Text>
+              <View style={[Theme.flexRow, {flexWrap: 'wrap'}]}>
+                {state.topics.map((item, index) => {
+                  if (!item?.name) {
+                    return null;
+                  }
+                  return (
+                    <TouchableOpacity
+                      key={index.toString()}
+                      onPress={() => {
+                        let data = [...state.topics];
+                        data[index].isSelected = !item.isSelected;
+                        setState({topics: data});
+                      }}
+                      style={[
+                        styles.containerItem,
+                        item.isSelected ? {backgroundColor: colors.blue3} : {},
+                      ]}>
+                      <Text
+                        color={item.isSelected ? colors.white : colors.black}>
+                        {item.name}
+                      </Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
             </View>
-          </View>
+          )}
         </View>
       </ScrollView>
       <View
