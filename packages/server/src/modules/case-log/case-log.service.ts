@@ -10,8 +10,8 @@ import { CaseLogInput } from './dto/case-log.dto';
 export class CaseLogService {
   constructor(private database: Database, private s3Service: S3Service) {}
 
-  async testGetFile(filePath: string){
-    return await this.s3Service.getBlob(filePath);
+  async testGetFile(filePath: string) {
+    return (await this.s3Service.getBlob(filePath)).Body;
   }
 
   async testUploadFile(input: CaseLogInput) {
