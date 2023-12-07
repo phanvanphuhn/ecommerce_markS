@@ -2,6 +2,11 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input CaseLogInput {
+  caseName: String
+  files: [Upload!]
+}
+
 type ComplaintsOutput {
   awareDate: String
   complaintId: String
@@ -55,11 +60,6 @@ type DoctorDetail {
   hospital: String
   id: Int
   topicsOfInterest: String
-}
-
-enum FilterType {
-  Absolute
-  Relative
 }
 
 """
@@ -123,6 +123,7 @@ type MobileSearchHistoryOutput {
 }
 
 type Mutation {
+  testUploadFile(data: CaseLogInput!): String!
   upsertMobileSalesQuarter(quarter: String!, targetByQuarter: String!, year: String!): Boolean!
   upsertMobileSalesYear(targetByYear: String!, year: String!): Boolean!
   upsertPlanCall(data: PlanCallInput!): PlanCallOutput!
@@ -221,7 +222,7 @@ type Query {
   getMobileSales(quarter: String, type: mobileSalesTargetType!, year: String): [MobileSalesOutput!]!
   getPlanCall(id: String!): PlanCallOutput!
   getPlanCallTypes: [String!]!
-  getPlanCalls(account: String, activityOwnerEmail: String, activityOwnerName: String, activitySubtype: PlanCallActivitySubtype, activityType: PlanCallActivityType, contactName: String, createdAt: DateTimeISO, description: String, division: String, endDate: String, filterType: FilterType, id: String, location: String, ownerCountry: String, startDate: String, status: PlanCallStatus, subject: String, updatedAt: DateTimeISO): [PlanCallOutput!]!
+  getPlanCalls(account: String, activityOwnerEmail: String, activityOwnerName: String, activitySubtype: PlanCallActivitySubtype, activityType: PlanCallActivityType, contactName: String, createdAt: DateTimeISO, description: String, division: String, endDate: String, id: String, location: String, ownerCountry: String, startDate: String, status: PlanCallStatus, subject: String, updatedAt: DateTimeISO): [PlanCallOutput!]!
   getSales(month: String, quarter: String, year: String): [SalesOutput!]!
   getSearchHistory(searchType: SearchType, skip: Int, sort: OrderDirection, take: Int): [MobileSearchHistoryOutput!]!
   getSelfCalendars: JSON!
@@ -234,6 +235,7 @@ type Query {
 
 type SalesOutput {
   additionalPayout: String
+  capitalEquipment: String
   commissionPayoutByQuarter: String
   commissionPayoutQ5: String
   commissionPayoutQ5_forNewHire: String
@@ -257,6 +259,7 @@ type SalesOutput {
   salesByQuarter: String
   salesByYear: String
   salesRepEmail: String
+  serviceContract: String
   targetByMonth: String
   targetByQuarter: String
   targetByYear: String
@@ -296,6 +299,9 @@ type TerritoryCategorizationOutput {
   upperBound: String
   year: String
 }
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
 
 type UserProfileOutput {
   country: String

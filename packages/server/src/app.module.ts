@@ -18,6 +18,8 @@ import { LeaderboardModule } from './modules/leaderboard/leaderboard.module';
 import { SalesModule } from './modules/sales/sales.module';
 import { EventsModule } from './modules/events/events.module';
 import { SearchHistoryModule } from './modules/search-history/search-history.module';
+import { S3Module } from './modules/_aws/s3.module';
+import { CaseLogModule } from './modules/case-log/case-log.module';
 
 interface DatabaseCreds {
   host: string;
@@ -135,6 +137,8 @@ function readDatabaseSecrets(): DatabaseCreds {
     SalesModule,
     EventsModule,
     SearchHistoryModule,
+    S3Module,
+    CaseLogModule,
   ],
   controllers: [],
   providers: [],
