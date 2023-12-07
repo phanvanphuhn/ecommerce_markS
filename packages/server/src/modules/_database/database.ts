@@ -1,5 +1,4 @@
 import { Kysely } from 'kysely';
-
 import {
   CaseLog,
   Complaint,
@@ -7,6 +6,7 @@ import {
   Leaderboard,
   Mobile_Sales,
   PlanCall,
+  Products,
   Sales,
   SearchHistory,
   SliderAndCommission,
@@ -26,6 +26,7 @@ interface DB {
   'marks.PlanCall': PlanCall;
   'marks.CaseLog': CaseLog;
   'marks.SearchHistory': SearchHistory;
+  'marks.Products': Products;
 }
 
 export class Database extends Kysely<DB> {}

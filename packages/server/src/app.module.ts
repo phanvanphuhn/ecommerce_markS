@@ -20,6 +20,7 @@ import { EventsModule } from './modules/events/events.module';
 import { SearchHistoryModule } from './modules/search-history/search-history.module';
 import { S3Module } from './modules/_aws/s3.module';
 import { CaseLogModule } from './modules/case-log/case-log.module';
+import { ProductsModule } from './modules/products/products.module';
 
 interface DatabaseCreds {
   host: string;
@@ -139,6 +140,7 @@ function readDatabaseSecrets(): DatabaseCreds {
     SearchHistoryModule,
     S3Module,
     CaseLogModule,
+    ProductsModule,
   ],
   controllers: [],
   providers: [],

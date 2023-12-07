@@ -176,6 +176,9 @@ Table CaseLog {
   secondaryContact String
   activityOwnerName String
   activityOwnerEmail String
+  status String
+  productIds String[] [not null]
+  photoPaths String[] [not null]
   createdAt DateTime [default: `now()`]
   updatedAt DateTime
 }
@@ -190,9 +193,22 @@ Table SearchHistory {
   updatedAt DateTime
 }
 
+Table Products {
+  id String [pk]
+  upn String
+  upnDescription String
+  country String
+}
+
 Enum mobileSalesTargetType {
   year
   quarter
+}
+
+Enum CaseLogStatus {
+  In_Progress
+  Completed
+  Cancelled
 }
 
 Enum SearchType {

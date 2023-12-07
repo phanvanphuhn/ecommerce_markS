@@ -3,8 +3,47 @@
 # ------------------------------------------------------
 
 input CaseLogInput {
+  account: String
+  activityOwnerEmail: String
+  activityOwnerName: String
   caseName: String
+  contact: String
+  createdAt: DateTime
+  endDate: DateTime
   files: [Upload!]
+  id: String
+  location: String
+  photoPaths: [String!]
+  productIds: [String!]
+  secondaryContact: String
+  startDate: DateTime
+  status: CaseLogStatus
+  updatedAt: DateTime
+}
+
+type CaseLogOutput {
+  account: String
+  activityOwnerEmail: String
+  activityOwnerName: String
+  caseName: String
+  contact: String
+  createdAt: DateTime
+  endDate: DateTime
+  id: String
+  location: String
+  photoPaths: [String!]
+  productIds: [String!]
+  secondaryContact: String
+  startDate: DateTime
+  status: CaseLogStatus
+  updatedAt: DateTime
+}
+
+"""The status of the case log"""
+enum CaseLogStatus {
+  CANCELLED
+  COMPLETED
+  IN_PROGRESS
 }
 
 type ComplaintsOutput {
@@ -123,7 +162,7 @@ type MobileSearchHistoryOutput {
 }
 
 type Mutation {
-  testUploadFile(data: CaseLogInput!): String!
+  upsertCaseLog(data: CaseLogInput!): CaseLogOutput!
   upsertMobileSalesQuarter(quarter: String!, targetByQuarter: String!, year: String!): Boolean!
   upsertMobileSalesYear(targetByYear: String!, year: String!): Boolean!
   upsertPlanCall(data: PlanCallInput!): PlanCallOutput!
@@ -210,11 +249,23 @@ enum PlanCallStatus {
   IN_PROGRESS
 }
 
+type ProductOutput {
+  country: String
+  createdAt: DateTimeISO
+  id: String
+  updatedAt: DateTimeISO
+  upn: String
+  upnDescription: String
+}
+
 type Query {
   complaint(id: Int!): ComplaintsOutput!
   complaints: [ComplaintsOutput!]!
+  getCaseLog(id: String!): CaseLogOutput!
+  getCaseLogs(account: String, caseName: String, contact: String, createdAt: DateTime, endDate: DateTime, id: String, location: String, photoPaths: [String!], productIds: [String!], secondaryContact: String, startDate: DateTime, status: CaseLogStatus, updatedAt: DateTime): [CaseLogOutput!]!
   getDoctorProfile(doctorEmail: String!): [DoctorDetail!]!
   getDoctorSearchList(doctorAlternativeEmail: String, doctorCountry: String, doctorDivision: String, doctorName: String, doctorSpecialty: String, doctorTitle: String, hospital: String, salesRepEmail: String!, topicsOfInterest: String): [ContactSearchOutput!]!
+  getFile(filePath: String!): JSON!
   getFilterDivisionList: [String!]!
   getFilterHospitalList: [String!]!
   getFilterSpecialtyList: [String!]!
@@ -223,6 +274,9 @@ type Query {
   getPlanCall(id: String!): PlanCallOutput!
   getPlanCallTypes: [String!]!
   getPlanCalls(account: String, activityOwnerEmail: String, activityOwnerName: String, activitySubtype: PlanCallActivitySubtype, activityType: PlanCallActivityType, contactName: String, createdAt: DateTimeISO, description: String, division: String, endDate: String, id: String, location: String, ownerCountry: String, startDate: String, status: PlanCallStatus, subject: String, updatedAt: DateTimeISO): [PlanCallOutput!]!
+  getProductByUpn(upn: String!): ProductOutput!
+  getProducts: ProductOutput!
+  getProductsByUserCountry: ProductOutput!
   getSales(month: String, quarter: String, year: String): [SalesOutput!]!
   getSearchHistory(searchType: SearchType, skip: Int, sort: OrderDirection, take: Int): [MobileSearchHistoryOutput!]!
   getSelfCalendars: JSON!

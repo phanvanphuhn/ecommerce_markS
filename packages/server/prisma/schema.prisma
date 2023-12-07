@@ -222,6 +222,12 @@ model PlanCall {
   updatedAt DateTime? @updatedAt
 }
 
+enum CaseLogStatus {
+  In_Progress
+  Completed
+  Cancelled
+}
+
 model CaseLog {
   id                 String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   caseName           String?
@@ -233,6 +239,10 @@ model CaseLog {
   secondaryContact   String?
   activityOwnerName  String?
   activityOwnerEmail String?
+
+  status     String?
+  productIds String[]
+  photoPaths String[]
 
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
@@ -250,6 +260,16 @@ model SearchHistory {
   searchQuery   String?
   searchType    SearchType?
   searchResults Json[]
+
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+model Products {
+  id             String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  upn            String?
+  upnDescription String?
+  country        String?
 
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt

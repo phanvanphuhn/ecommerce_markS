@@ -19,35 +19,35 @@ export class EventsService {
     let query = this.database.selectFrom('marks.PlanCall').selectAll();
 
     if (filter.account) {
-      query = query.where('account', 'like', `%${filter.account}%`);
+      query = query.where('account', 'ilike', `%${filter.account}%`);
     }
 
     if (filter.contactName) {
-      query = query.where('contactName', 'like', `%${filter.contactName}%`);
+      query = query.where('contactName', 'ilike', `%${filter.contactName}%`);
     }
 
     if (filter.division) {
-      query = query.where('division', 'like', `%${filter.division}%`);
+      query = query.where('division', 'ilike', `%${filter.division}%`);
     }
 
     if (filter.activityType) {
-      query = query.where('activityType', 'like', `%${filter.activityType}%`);
+      query = query.where('activityType', 'ilike', `%${filter.activityType}%`);
     }
 
     if (filter.activitySubtype) {
       query = query.where(
         'activitySubtype',
-        'like',
+        'ilike',
         `%${filter.activitySubtype}%`,
       );
     }
 
     if (filter.ownerCountry) {
-      query = query.where('ownerCountry', 'like', `%${filter.ownerCountry}%`);
+      query = query.where('ownerCountry', 'ilike', `%${filter.ownerCountry}%`);
     }
 
     if (filter.status) {
-      query = query.where('status', 'like', `%${filter.status}%`);
+      query = query.where('status', 'ilike', `%${filter.status}%`);
     }
 
     if (filter.startDate) {
@@ -61,21 +61,21 @@ export class EventsService {
     if (filter.activityOwnerName) {
       query = query.where(
         'activityOwnerName',
-        'like',
+        'ilike',
         `%${filter.activityOwnerName}%`,
       );
     }
 
     if (filter.subject) {
-      query = query.where('subject', 'like', `%${filter.subject}%`);
+      query = query.where('subject', 'ilike', `%${filter.subject}%`);
     }
 
     if (filter.description) {
-      query = query.where('description', 'like', filter.description);
+      query = query.where('description', 'ilike', filter.description);
     }
 
     if (filter.location) {
-      query = query.where('location', 'like', `%${filter.location}%`);
+      query = query.where('location', 'ilike', `%${filter.location}%`);
     }
 
     if (filter.createdAt) {
@@ -92,6 +92,7 @@ export class EventsService {
 
     return planCalls.map((planCall) => new PlanCallOutput(planCall));
   }
+
   async getPlanCall(salesRepEmail: string, id: string) {
     const planCall = await this.database
       .selectFrom('marks.PlanCall')
