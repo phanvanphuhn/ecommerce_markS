@@ -117,11 +117,13 @@ export class CaseLogService {
   }
 
   async upsertCaseLog(salesRepEmail: string, input: CaseLogInput) {
-    for (const file of input.files) {
-      const photo = await file;
-      await this.s3Service.putStream(salesRepEmail, photo);
+    if (input.files) {
+      for (const file of input.files) {
+        const photo = await file;
+        await this.s3Service.putStream(salesRepEmail, photo);
 
-      input.photoPaths.push(photo.filename);
+        input.photoPaths.push(photo.filename);
+      }
     }
 
     const result = await this.database

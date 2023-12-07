@@ -69,7 +69,7 @@ export class CaseLog {
 @InputType()
 export class CaseLogInput extends CaseLog {
   @Field(() => [GraphQLUpload], { nullable: true })
-  files: [Promise<FileUpload>];
+  files?: [Promise<FileUpload>];
 }
 
 @ObjectType()
