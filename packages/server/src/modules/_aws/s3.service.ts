@@ -13,7 +13,7 @@ export class S3Service {
   private bucketName: string;
   constructor(private readonly configService: ConfigService) {
     this.s3 = new S3({});
-    this.bucketName = this.configService.get<string>('S3_BUCKET_NAME');
+    this.bucketName = this.configService.get<string>('s3.bucket');
   }
 
   async putStream(
