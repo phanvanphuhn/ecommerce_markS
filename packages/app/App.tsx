@@ -24,11 +24,25 @@ import RootView from './src/RootView';
 import SplashScreen from 'screens/SplashScreen/SplashScreen';
 import NetworkProvider from 'apollo/NetworkProvider';
 import CodePush from 'react-native-code-push';
+import {useEffect} from 'react';
+import ScanbotBarcodeSDK from 'react-native-scanbot-barcode-scanner-sdk';
+import Config from 'react-native-config';
 
 const App = () => {
   const loadingRef: any = React.useRef();
   React.useEffect(() => {
     loadingRef && LoadingManager.register(loadingRef);
+    const options = {
+      licenseKey: Config.LICENSE_KEY,
+      loggingEnabled: !!__DEV__, // Consider switching logging OFF in production builds for security and performance reasons!
+    };
+    ScanbotBarcodeSDK.initializeSdk(options)
+      .then(res => {
+        console.log('=>(App.tsx:45) res', res);
+      })
+      .catch(err => {
+        console.log('=>(App.tsx:47) err', err);
+      });
     return () => {
       LoadingManager.unregister(loadingRef);
     };

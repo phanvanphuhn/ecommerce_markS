@@ -15,14 +15,18 @@ import {BottomTabBarProps} from '@react-navigation/bottom-tabs/src/types';
 import strings from 'res/strings';
 import Image from 'elements/Image';
 import images from 'res/images';
+import {useSingleBarcodeScanning} from 'hooks/useSingleBarcodeScanning';
 
 const CustomTab = memo(
   ({state, descriptors, navigation}: BottomTabBarProps) => {
     const focusedOptions = descriptors[state.routes[state.index].key].options;
 
+    const onScan = useSingleBarcodeScanning();
+
     if (focusedOptions?.tabBarVisible === false) {
       return null;
     }
+
     return useMemo(
       () => (
         <View style={styles.container1}>
@@ -89,7 +93,7 @@ const CustomTab = memo(
 
                 switch (route.name) {
                   case Routes.CaseLogScreen:
-                    navigation.navigate(Routes.ScanBarCodeScreen);
+                    onScan();
                     return;
 
                   default:

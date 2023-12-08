@@ -189,9 +189,7 @@ dependencies {
     debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {
         exclude group:'com.squareup.okhttp3', module:'okhttp'
     }
-    implementation 'com.google.mlkit:barcode-scanning:17.0.0'
-    implementation 'com.google.android.gms:play-services-mlkit-barcode-scanning:16.1.1'
-
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0'
     debugImplementation("com.facebook.flipper:flipper-fresco-plugin:${FLIPPER_VERSION}")
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")

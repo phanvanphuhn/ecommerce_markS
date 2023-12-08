@@ -222,7 +222,7 @@ const PlanScreen = (props: PlanScreenProps) => {
                 onPress={() => onSetDate(false)}
               />
               <View style={styles.containerTextHeader}>
-                <Text color={colors.primary}>
+                <Text fontWeight={'700'} color={colors.primary}>
                   {getDateOfType(
                     state?.typeDate || 'Day',
                     state?.currentDate || '',
