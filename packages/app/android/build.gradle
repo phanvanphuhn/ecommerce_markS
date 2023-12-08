@@ -24,6 +24,11 @@ buildscript {
     }
 }
 allprojects {
+    repositories {
+        // Scanbot Barcode Scanner SDK Maven repositories:
+        maven { url 'https://nexus.scanbot.io/nexus/content/repositories/releases/' }
+        maven { url 'https://nexus.scanbot.io/nexus/content/repositories/snapshots/' }
+    }
     // append here
     afterEvaluate {
         if (getPlugins().hasPlugin('android') || getPlugins().hasPlugin('android-library')) {

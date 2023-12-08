@@ -1,27 +1,9 @@
-import React, {useEffect, useMemo, useRef, useState} from 'react';
-import {
-  ActivityIndicator,
-  Dimensions,
-  Platform,
-  SafeAreaView,
-  StyleSheet,
-  TouchableOpacity,
-  Vibration,
-  View,
-} from 'react-native';
-import {
-  Camera,
-  frameRateIncluded,
-  useCameraDevices,
-  useFrameProcessor,
-} from 'react-native-vision-camera';
-import {BarcodeFormat, useScanBarcodes} from 'vision-camera-code-scanner';
+import React, {useEffect, useRef} from 'react';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {useIsFocused} from '@react-navigation/core';
 import Container from 'elements/Layout/Container';
-import Theme from 'res/style/Theme';
 import ButtonIcon from 'elements/Buttons/ButtonIcon';
 import images from 'res/images';
-import Text from 'elements/Text';
 import colors from 'res/colors';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {BaseNavigationProps} from 'navigation/BaseNavigationProps';
@@ -30,11 +12,8 @@ import {width} from 'res/sizes';
 import useStateCustom from 'hooks/useStateCustom';
 import {useAppState} from '@react-native-community/hooks';
 import PhotoViewer from 'screens/scanBarCode/components/PhotoViewer';
-import {Routes} from 'configs';
-import {Polygon, Rect, Svg} from 'react-native-svg';
-import {Text as SVGText} from 'react-native-svg/lib/typescript/ReactNativeSVG';
-import {runOnJS, useSharedValue} from 'react-native-reanimated';
-import {Barcode, scanBarcodes} from 'vision-camera-code-scanner/src';
+import ScanbotBarcodeSDK from 'react-native-scanbot-barcode-scanner-sdk';
+import {useSingleBarcodeScanning} from 'hooks/useSingleBarcodeScanning';
 
 interface ScanBarCodeScreenProps {}
 interface IState {
@@ -51,83 +30,17 @@ const ScanBarCodeScreen = (props: BaseNavigationProps<MainParamList>) => {
   const isFocused = useIsFocused();
   const appState = useAppState();
   const isActive = isFocused && appState === 'active';
-  const askPermission = async () => {
-    try {
-      const getPermission = await Camera.getCameraPermissionStatus();
-      if (getPermission === 'denied') {
-        const reqPrmission = await Camera.requestCameraPermission();
-        if (reqPrmission === 'authorized') {
-          setState({cameraAccess: true});
-        } else {
-          props.navigation.goBack();
-        }
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
 
-  useEffect(() => {
-    askPermission();
-  }, []);
   const insets = useSafeAreaInsets();
-  const cameraRef = useRef<Camera>(null);
-  const devices = useCameraDevices();
-  const device = devices.back;
-  const format = useMemo(() => {
-    if (!device?.formats) {
-      return undefined;
-    }
-    const sortedFormats = device.formats.sort((a, b) => a - b);
-    const formatsWith60FPS = sortedFormats.filter(f =>
-      f.frameRateRanges.some(r => frameRateIncluded(r, 60)),
-    );
-    if (formatsWith60FPS.length > 0) {
-      return formatsWith60FPS[1];
-    }
-    if (sortedFormats.length > 0) {
-      return sortedFormats[0];
-    }
-    return undefined;
-  }, [device?.formats]);
-  const fps = useMemo(() => {
-    if (!format) {
-      return undefined;
-    }
-    return Math.max(...format.frameRateRanges.map(range => range.maxFrameRate));
-  }, [format]);
-  const [frameProcessor, barcodes] = useScanBarcodes(
-    [BarcodeFormat.ALL_FORMATS],
-    {
-      checkInverted: true,
-    },
-  );
-  const onQRCodeDetected = Worklets.createRunInJsFn((qrCode: any) => {
-    console.log(
-      '=>(ScanBarCodeScreen.tsx:99) qrCode',
-      qrCode.map(e => e.cornerPoints),
-    );
-    if (!isScan.current) {
-      Vibration.vibrate(100);
-      // props.navigation.goBack();
-      isScan.current = true;
-    }
-  });
-  useEffect(() => {
-    if (barcodes.length > 0) {
-      onQRCodeDetected(barcodes);
-    }
-  }, [onQRCodeDetected, barcodes]);
-  if (!device && !state.cameraAccess && !isFocused) {
-    console.log('camera not found');
-    return <ActivityIndicator style={styles.sectionContainer} size={'large'} />;
-  }
-  const onTakePhoto = async () => {
-    const photo = await cameraRef.current?.takePhoto();
-    console.log('=>(ScanBarCodeScreen.tsx:101) path', photo);
-    setState({pathLocal: photo?.path ? `file://${photo?.path}` : ''});
-  };
-
+  // if (!device && !state.cameraAccess && !isFocused) {
+  //   console.log('camera not found');
+  //   return <ActivityIndicator style={styles.sectionContainer} size={'large'} />;
+  // }
+  // const onTakePhoto = async () => {
+  //   console.log('=>(ScanBarCodeScreen.tsx:101) path', photo);
+  //   setState({pathLocal: photo?.path ? `file://${photo?.path}` : ''});
+  // };
+  const onScan = useSingleBarcodeScanning();
   if (state.pathLocal) {
     return (
       <PhotoViewer
@@ -151,20 +64,6 @@ const ScanBarCodeScreen = (props: BaseNavigationProps<MainParamList>) => {
           tintColor={colors.white}
         />
       </View>
-      <View style={Theme.flex1}>
-        {!!device && (
-          <Camera
-            style={StyleSheet.absoluteFill}
-            ref={cameraRef}
-            device={device}
-            isActive={isActive}
-            enableZoomGesture={true}
-            fps={fps}
-            photo={true}
-            frameProcessor={frameProcessor}
-          />
-        )}
-      </View>
       <View
         style={[
           styles.containerFooter,
@@ -172,7 +71,7 @@ const ScanBarCodeScreen = (props: BaseNavigationProps<MainParamList>) => {
             paddingBottom: insets.bottom + 15,
           },
         ]}>
-        <TouchableOpacity onPress={onTakePhoto} style={styles.buttonSnap}>
+        <TouchableOpacity onPress={onScan} style={styles.buttonSnap}>
           <View style={styles.buttonBorderSnap} />
         </TouchableOpacity>
       </View>
