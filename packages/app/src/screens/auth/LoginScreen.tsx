@@ -50,11 +50,7 @@ const LoginScreen = (props: LoginScreenProps) => {
           path: '/me',
         });
         dispatch(onLogin(info, auth.rawIdToken));
-        let data = await getData({
-          context: {
-            headers: {Authorization: 'Bearer ' + auth.accessToken},
-          },
-        });
+        let data = await getData();
         if (
           data?.data?.data?.groups.includes(
             'a6f11bfc-e68e-4033-bce9-922e14d8a4a8',
