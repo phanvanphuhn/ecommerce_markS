@@ -16,12 +16,13 @@ import strings from 'res/strings';
 import Image from 'elements/Image';
 import images from 'res/images';
 import {useSingleBarcodeScanning} from 'hooks/useSingleBarcodeScanning';
+import {useMultipleBarcodeScanning} from 'hooks/useMultipleBarcodeScanning';
 
 const CustomTab = memo(
   ({state, descriptors, navigation}: BottomTabBarProps) => {
     const focusedOptions = descriptors[state.routes[state.index].key].options;
 
-    const onScan = useSingleBarcodeScanning();
+    const onScan = useMultipleBarcodeScanning();
 
     if (focusedOptions?.tabBarVisible === false) {
       return null;
