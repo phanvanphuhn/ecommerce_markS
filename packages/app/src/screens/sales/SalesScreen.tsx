@@ -35,15 +35,14 @@ const SalesScreen = (props: SalesScreenProps) => {
   const [state, setState] = useStateCustom<IStateSales>({
     percentage: 100,
     type: 'Month',
-    currentDate: moment('2023-06-01', 'YYYY-MM-DD').format('YYYY-MM-DD'),
+    currentDate: moment().format('YYYY-MM-DD'),
     listCommission: [],
     data: {},
   });
-  console.log('=>(SalesScreen.tsx:42) state', state);
 
   const [getData] = useLazyQuery(getMobileSales);
   const [getSlider] = useLazyQuery(getSliderAndCommisions);
-  const [getSalesData] = useLazyQuery(getSales);
+  const [getSalesData, {loading}] = useLazyQuery(getSales);
   const [updateTargetQuarter] = useMutation(upsertMobileSalesQuarter);
   const [updateTargetYear] = useMutation(upsertMobileSalesYear);
   useEffect(() => {
@@ -55,7 +54,8 @@ const SalesScreen = (props: SalesScreenProps) => {
     let date = moment(state.currentDate);
     getSalesData({
       variables: {
-        month: (date.month() + 1).toString(),
+        month:
+          state.type != 'Month' ? undefined : (date.month() + 1).toString(),
         year: date.year().toString(),
         quarter: Math.ceil((date.month() + 1) / 3).toString(),
       },
@@ -64,15 +64,15 @@ const SalesScreen = (props: SalesScreenProps) => {
           data: data?.data
             ?.map((item: any) => {
               Object.keys(item).forEach(function (key) {
-                item[key] = /[\d]+/.test(item[key])
-                  ? parseFloat(item[key].replace('%', ''))
-                  : item[key];
+                item[key] =
+                  /[0-9]+/.test(item[key]) && typeof item[key] === 'string'
+                    ? parseFloat(item[key].replace('%', ''))
+                    : item[key];
               });
               return item;
             })
             .find(e => !!e),
-        }),
-          console.log('=>(SalesScreen.tsx:76) data', data);
+        });
       },
     });
     getSlider({
@@ -88,7 +88,7 @@ const SalesScreen = (props: SalesScreenProps) => {
           }),
         }),
     });
-  }, []);
+  }, [state.currentDate, state.type]);
   useEffect(() => {
     let timeout = setTimeout(() => {
       let date = moment(state.currentDate);

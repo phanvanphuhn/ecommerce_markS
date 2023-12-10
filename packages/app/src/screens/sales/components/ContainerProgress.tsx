@@ -98,6 +98,11 @@ const ContainerProgress = (props: ContainerProgressProps) => {
         return state.data?.targetByYear || 0;
     }
   }, [state.data, state.type]);
+  console.log(
+    '=>(ContainerProgress.tsx:252) state?.data?.[`salesAchievementPercentageBy${state.type}`]',
+    state,
+  );
+  console.log('=>(ContainerProgress.tsx:105) state.type', state.type);
   return (
     <>
       <Animated.View style={styles.container}>
