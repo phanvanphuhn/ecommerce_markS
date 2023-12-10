@@ -66,6 +66,7 @@ const CircleMultipleSlider: React.FC<CircleMultipleSliderProps> = ({
     percentTop: valueTop / (maxTop || 1) || 0,
     percentBottom: valueBottom / (maxBottom || 1) || 0,
   });
+
   useEffect(() => {
     setState({percentTop: valueTop / (maxTop || 1) || 0});
     percentCompleteTop.value = valueTop / (maxTop || 1) || 0;
