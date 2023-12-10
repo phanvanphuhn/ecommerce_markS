@@ -1,6 +1,6 @@
 import groupBy from 'lodash/groupBy';
 
-import React, {memo, useEffect, useReducer} from 'react';
+import React, {memo, useContext, useEffect, useReducer, useState} from 'react';
 import {View} from 'react-native';
 import {
   CalendarProvider,
@@ -18,6 +18,7 @@ import {ItemPlanResponse} from 'network/apis/plan/PlanResponse';
 import TimeLinePlan from 'screens/plan/components/TimeLinePlan';
 import {PlanCallOutput} from 'apollo/query/upsertPlanCall';
 import moment from 'moment';
+import Context from 'lib/react-native-calendars/src/expandableCalendar/Context';
 
 LocaleConfig.locales.en = {
   monthNames: [
@@ -67,6 +68,7 @@ interface IState {
   eventsByDate?: {
     [key: string]: TimelineEventProps[];
   };
+  markedDates: any;
 }
 interface TimelineCalendarScreenProps {
   data: PlanCallOutput[];
@@ -82,11 +84,13 @@ const TimelineCalendarScreen = (props: TimelineCalendarScreenProps) => {
       currentDate: getDate(),
       events: [],
       eventsByDate: undefined,
+      markedDates: {},
     },
     (preState: IState) => ({
       ...preState,
     }),
   );
+  const {date, setDate, updateSource} = useContext(Context);
 
   const getData = async () => {
     if (props?.data?.length) {
@@ -101,7 +105,24 @@ const TimelineCalendarScreen = (props: TimelineCalendarScreenProps) => {
   useEffect(() => {
     getData();
   }, [props.data]);
-
+  useEffect(() => {
+    getDisabledDays(moment(date).month(), moment(date).year(), [6, 7]);
+  }, [date]);
+  const getDisabledDays = (month, year, daysIndexes) => {
+    let pivot = moment().month(month).year(year).startOf('month');
+    const end = moment().month(month).year(year).endOf('month');
+    let dates = {};
+    const disabled = {disabled: true, disableTouchEvent: true};
+    while (pivot.isBefore(end)) {
+      daysIndexes.forEach(day => {
+        const copy = moment(pivot);
+        dates[copy.day(day).format('YYYY-MM-DD')] = disabled;
+      });
+      pivot.add(7, 'days');
+    }
+    setState({markedDates: dates});
+    return dates;
+  };
   return (
     <>
       <ExpandableCalendar
@@ -111,6 +132,8 @@ const TimelineCalendarScreen = (props: TimelineCalendarScreenProps) => {
           backgroundColor: colors.primary,
           display: 'none',
         }}
+        disabledDaysIndexes={[6, 7]}
+        markedDates={state.markedDates}
       />
       <TimeLinePlan events={state.eventsByDate} />
     </>

@@ -40,6 +40,7 @@ import moment from 'moment/moment';
 import {PlanCallOutput} from 'apollo/query/upsertPlanCall';
 import useDidUpdate from 'hooks/useDidUpdate';
 import useIsMounted from 'hooks/useIsMounted';
+import {useSelector} from 'hooks/useSelector';
 
 interface PlanScreenProps {}
 interface IState {
@@ -61,8 +62,8 @@ const PlanScreen = (props: PlanScreenProps) => {
     data: [],
   });
   const CalendarRef = useRef<CalendarListRef>();
+  const userProfile = useSelector(state => state.userProfile.user);
   const navigation = useNavigation<BaseUseNavigationProps<MainParamList>>();
-  useDidUpdate;
   const [getData, {loading}] = useLazyQuery(GET_PLAN_CALLS, {
     onCompleted: data => {
       setState({
