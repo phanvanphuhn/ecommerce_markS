@@ -15,11 +15,20 @@ import ExpandableViewSeparate, {
 import CodePush from 'react-native-code-push';
 import {useEffect} from 'react';
 import Text from 'elements/Text';
+import {useAppDispatch} from 'middlewares/stores';
+import {onLogout} from 'middlewares/actions/auth/actionLogin';
+import {navigate} from 'navigation/service/RootNavigation';
+import {Routes} from 'configs';
+import {useNavigation} from '@react-navigation/native';
 // import DrawerItemList from './DrawerItemList';
 
 const CustomDrawer = ({progress, ...props}: DrawerContentComponentProps) => {
   const [appVersion, setAppVersion] = React.useState('');
   const [appLabel, setAppLabel] = React.useState('');
+
+  const navigation = useNavigation();
+  const dispatch = useAppDispatch();
+
   function getUpdateMetadata() {
     CodePush.getUpdateMetadata(CodePush.UpdateState.RUNNING).then(
       metadata => {
@@ -31,13 +40,17 @@ const CustomDrawer = ({progress, ...props}: DrawerContentComponentProps) => {
       error => {},
     );
   }
+
   useEffect(() => {
     getUpdateMetadata();
   }, []);
-  const onLogout = () => {
-    // dispatch(logout());
+
+  const logout = () => {
+    dispatch(onLogout());
     props.navigation.closeDrawer();
+    navigation.navigate(Routes.LoginScreen, {});
   };
+
   const onLogin = () => {
     // props.navigation.navigate(Routes.LoginScreen, {typeScreen: 'login'});
   };
@@ -52,8 +65,12 @@ const CustomDrawer = ({progress, ...props}: DrawerContentComponentProps) => {
 
         <ExpandableViewSeparate {...props} />
         <ExpandableItemComponent
-          onPress={onLogout}
-          item={{category_name: strings.logout, icon: images.ic_logout}}
+          onPress={logout}
+          item={{
+            category_name: strings.logout,
+            icon: images.ic_logout,
+            isSubMenu: true,
+          }}
           {...props}
         />
         {!!appVersion && (
