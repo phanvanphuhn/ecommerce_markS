@@ -12,6 +12,7 @@ export function useMultipleBarcodeScanning() {
           viewFinderEnabled: false,
           finderTextHint: '',
           codeDensity: 'HIGH',
+          gs1DecodingEnabled: true,
         });
         console.log(
           '=>(useMultipleBarcodeScanning.ts:16) scanResult',
