@@ -22,6 +22,7 @@ export function useMultipleBarcodeScanning() {
             textColor: colors.text,
             textContainerColor: colors.primary,
           },
+          gs1DecodingEnabled: true,
         });
 
         console.log(

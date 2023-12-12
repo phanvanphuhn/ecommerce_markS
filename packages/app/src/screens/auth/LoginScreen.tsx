@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {ImageBackground, Platform, StyleSheet} from 'react-native';
+import {Alert, ImageBackground, Platform, StyleSheet} from 'react-native';
 import images from 'res/images';
 import Image from 'elements/Image';
 import ButtonText from 'elements/Buttons/ButtonText';
@@ -57,9 +57,22 @@ const LoginScreen = (props: LoginScreenProps) => {
           )
         ) {
           reset(Routes.DrawerStack);
+        } else {
+          Alert.alert(
+            'System Alert',
+            'Mark S is not applicable for your profile, contact JARVIS team for more info',
+            [{text: 'OK', onPress: () => {}}],
+          );
         }
         hideLoading();
+      } else {
+        Alert.alert(
+          'System Alert',
+          'Mark S is not applicable for your profile, contact JARVIS team for more info',
+          [{text: 'OK', onPress: () => {}}],
+        );
       }
+      hideLoading();
     } catch (error) {
       hideLoading();
 
