@@ -1,6 +1,6 @@
 image: docker:latest
 services:
-  - docker:dind
+  - docker:stable
 
 variables:
   APP_NAME: mark-server
