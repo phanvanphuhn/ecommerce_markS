@@ -24,6 +24,9 @@ const config: Config = {
     expiresIn: '2m',
     refreshIn: '7d',
     bcryptSaltOrRound: 10,
+    secretsFilePath:
+      process.env.SECRETS_FILE_PATH ||
+      '/usr/src/app/rds/rds-creds/jarvis-mark-credentials',
   },
   s3: {
     bucket: process.env.S3_BUCKET_NAME || 'jarvis-mark-dev',

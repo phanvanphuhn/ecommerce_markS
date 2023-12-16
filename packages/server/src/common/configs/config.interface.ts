@@ -34,6 +34,7 @@ export interface SecurityConfig {
   expiresIn: string;
   refreshIn: string;
   bcryptSaltOrRound: string | number;
+  secretsFilePath: string;
 }
 
 export interface S3Config {

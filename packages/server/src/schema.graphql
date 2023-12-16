@@ -264,10 +264,10 @@ type Query {
   getCaseLog(id: String!): CaseLogOutput!
   getCaseLogs(account: String, caseName: String, contact: String, createdAt: DateTime, endDate: DateTime, id: String, location: String, photoPaths: [String!], productIds: [String!], secondaryContact: String, startDate: DateTime, status: CaseLogStatus, updatedAt: DateTime): [CaseLogOutput!]!
   getDoctorProfile(doctorEmail: String!): [DoctorDetail!]!
-  getDoctorSearchList(doctorAlternativeEmail: String, doctorCountry: String, doctorDivision: String, doctorName: String, doctorSpecialty: String, doctorTitle: String, hospital: String, salesRepEmail: String!, topicsOfInterest: String): [ContactSearchOutput!]!
+  getDoctorSearchList(doctorAlternativeEmail: String, doctorCountry: String, doctorDivision: [String!], doctorName: String, doctorSpecialty: [String!], doctorTitle: String, hospital: String, topicsOfInterest: [String!]): [ContactSearchOutput!]!
   getFile(filePath: String!): JSON!
   getFilterDivisionList: [String!]!
-  getFilterHospitalList: [String!]!
+  getFilterHospitalList(doctorDivision: String, doctorSpecialty: [String!], topicsOfInterest: [String!]): [String!]!
   getFilterSpecialtyList: [String!]!
   getFilterTopicsOfInterestList: [String!]!
   getMobileSales(quarter: String, type: mobileSalesTargetType!, year: String): [MobileSalesOutput!]!
@@ -285,6 +285,7 @@ type Query {
   getUserProfileBySalesRepEmail: [UserProfileOutput!]!
   leaderboard(country: String, month: String, period: LeaderboardPeriod = Month, type: LeaderboardType = TopThree, year: String!): [LeaderboardOuput!]!
   me: JSON!
+  testGetFilterHospitalList(doctorDivision: String, doctorSpecialty: [String!], topicsOfInterest: [String!]): [String!]!
 }
 
 type SalesOutput {

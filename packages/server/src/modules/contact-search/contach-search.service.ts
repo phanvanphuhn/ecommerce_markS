@@ -6,6 +6,7 @@ import { Database } from '../_database/database';
 import {
   ContactSearchArgs,
   ContactSearchOutput,
+  HospitalFilterArgs,
 } from './dto/contact-search.dto';
 import { DoctorDetail } from './dto/doctor-profile.dto';
 
@@ -14,6 +15,7 @@ export class ContactSearchService {
   constructor(private readonly database: Database) {}
 
   async getDoctorSearchList(
+    salesRepEmail: string,
     filter: ContactSearchArgs,
   ): Promise<ContactSearchOutput[]> {
     let query = this.database
@@ -30,7 +32,7 @@ export class ContactSearchService {
         'doctorAlternativeEmail',
         'topicsOfInterest',
       ])
-      .where('salesRepEmail', '=', filter.salesRepEmail)
+      .where('salesRepEmail', '=', salesRepEmail)
       .orderBy('doctorName', 'asc')
       .groupBy([
         'id',
@@ -44,7 +46,6 @@ export class ContactSearchService {
         'doctorAlternativeEmail',
         'topicsOfInterest',
       ]);
-
     if (
       filter.doctorName ||
       filter.doctorTitle ||
@@ -57,29 +58,21 @@ export class ContactSearchService {
     ) {
       query = query.where((eb) => {
         const ors: Expression<SqlBool>[] = [];
-
         if (filter.doctorName) {
           ors.push(eb('doctorName', 'like', `%${filter.doctorName}%`));
         }
-
         if (filter.doctorTitle) {
           ors.push(eb('doctorTitle', 'like', `%${filter.doctorTitle}%`));
         }
-
         if (filter.hospital) {
           ors.push(eb('hospital', 'like', `%${filter.hospital}%`));
         }
-
         if (filter.doctorDivision) {
-          ors.push(eb('doctorDivision', 'like', `%${filter.doctorDivision}%`));
+          ors.push(eb('doctorDivision', 'in', `%${filter.doctorDivision}%`));
         }
-
         if (filter.doctorSpecialty) {
-          ors.push(
-            eb('doctorSpecialty', 'like', `%${filter.doctorSpecialty}%`),
-          );
+          ors.push(eb('doctorSpecialty', 'in', `%${filter.doctorSpecialty}%`));
         }
-
         if (filter.doctorAlternativeEmail) {
           ors.push(
             eb(
@@ -89,34 +82,54 @@ export class ContactSearchService {
             ),
           );
         }
-
         if (filter.doctorCountry) {
           ors.push(eb('doctorCountry', 'like', `%${filter.doctorCountry}%`));
         }
-
         if (filter.topicsOfInterest) {
           ors.push(
-            eb('topicsOfInterest', 'like', `%${filter.topicsOfInterest}%`),
+            eb('topicsOfInterest', 'in', `%${filter.topicsOfInterest}%`),
           );
         }
-
         return eb.or(ors);
       });
     }
-
     const dbResponse = await query.execute();
-
     return dbResponse.map((row) => new ContactSearchOutput(row));
   }
 
-  async getFilterHospitalList(salesRepEmail: string): Promise<string[]> {
-    const dbResponse = await this.database
+  async getFilterHospitalList(
+    salesRepEmail: string,
+    filter: HospitalFilterArgs,
+  ): Promise<string[]> {
+    let query = this.database
       .selectFrom('marks.ContactSearch')
       .select(['hospital'])
       .where('salesRepEmail', '=', salesRepEmail)
       .orderBy('hospital', 'asc')
-      .groupBy(['hospital'])
-      .execute();
+      .groupBy(['hospital']);
+
+    if (
+      filter.doctorDivision ||
+      filter.doctorSpecialty ||
+      filter.topicsOfInterest
+    ) {
+      query = query.where((eb) => {
+        const ors: Expression<SqlBool>[] = [];
+        if (filter.doctorDivision) {
+          ors.push(eb('doctorDivision', 'in', `%${filter.doctorDivision}%`));
+        }
+        if (filter.doctorSpecialty) {
+          ors.push(eb('doctorSpecialty', 'in', `%${filter.doctorSpecialty}%`));
+        }
+        if (filter.topicsOfInterest) {
+          ors.push(
+            eb('topicsOfInterest', 'in', `%${filter.topicsOfInterest}%`),
+          );
+        }
+        return eb.or(ors);
+      });
+    }
+    const dbResponse = await query.execute();
 
     return dbResponse.map((row) => row.hospital);
   }

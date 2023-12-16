@@ -9,6 +9,7 @@ import { ContactSearchService } from './contach-search.service';
 import {
   ContactSearchArgs,
   ContactSearchOutput,
+  HospitalFilterArgs,
 } from './dto/contact-search.dto';
 import { DoctorDetail } from './dto/doctor-profile.dto';
 
@@ -22,10 +23,10 @@ export class ContactSearchResolver {
     @UserEntity() userInfo,
     @Args() filter: ContactSearchArgs,
   ) {
-    return this.contactSearchService.getDoctorSearchList({
-      ...filter,
-      salesRepEmail: userInfo.email,
-    });
+    return this.contactSearchService.getDoctorSearchList(
+      userInfo.email,
+      filter,
+    );
   }
 
   @Query(() => [DoctorDetail])
@@ -36,8 +37,26 @@ export class ContactSearchResolver {
 
   @Query(() => [String])
   @UseGuards(AzureAuthGuard)
-  async getFilterHospitalList(@UserEntity() userInfo) {
-    return this.contactSearchService.getFilterHospitalList(userInfo.email);
+  async getFilterHospitalList(
+    @UserEntity() userInfo,
+    @Args() filter: HospitalFilterArgs,
+  ) {
+    return this.contactSearchService.getFilterHospitalList(
+      userInfo.email,
+      filter,
+    );
+  }
+
+  @Query(() => [String])
+  // @UseGuards(AzureAuthGuard)
+  async testGetFilterHospitalList(
+    @UserEntity() userInfo,
+    @Args() filter: HospitalFilterArgs,
+  ) {
+    return this.contactSearchService.getFilterHospitalList(
+      'Jeff.Phan@bsci.com',
+      filter,
+    );
   }
 
   @Query(() => [String])

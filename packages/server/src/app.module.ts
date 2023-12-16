@@ -29,10 +29,9 @@ interface DatabaseCreds {
   port: number;
 }
 
-function readDatabaseSecrets(): DatabaseCreds {
+function readDatabaseSecrets(secretsFilePath: string): DatabaseCreds {
   try {
-    const secretFilePath = '/usr/src/app/rds/rds-creds/jarvis-mark-credentials'; // Path to the mounted secret file
-    const secretData = readFileSync(secretFilePath, 'utf8');
+    const secretData = readFileSync(secretsFilePath, 'utf8');
     return JSON.parse(secretData);
   } catch (error) {
     console.error('Error reading database secrets:', error);
@@ -52,7 +51,10 @@ function readDatabaseSecrets(): DatabaseCreds {
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
         // read DatabaseCreds from mounted secret file
-        const databaseCreds = readDatabaseSecrets();
+        const databaseCreds = readDatabaseSecrets(
+          configService.get('secretsFilePath'),
+        );
+
         if (databaseCreds) {
           return {
             host: databaseCreds.host,
@@ -62,9 +64,10 @@ function readDatabaseSecrets(): DatabaseCreds {
             database: configService.get('POSTGRES_DB'),
           };
         }
+
         return {
-          host: configService.get('POSTGRES_HOST'),
-          port: configService.get('POSTGRES_PORT'),
+          host: configService.get('DB_HOST'),
+          port: parseInt(configService.get('DB_PORT')),
           user: configService.get('POSTGRES_USER'),
           password: configService.get('POSTGRES_PASSWORD'),
           database: configService.get('POSTGRES_DB'),
@@ -77,7 +80,9 @@ function readDatabaseSecrets(): DatabaseCreds {
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
-        const databaseCreds = readDatabaseSecrets();
+        const databaseCreds = readDatabaseSecrets(
+          configService.get('secretsFilePath'),
+        );
         // if there's databaseCreds, use them to connect to the database
         // else use env
 
@@ -85,11 +90,11 @@ function readDatabaseSecrets(): DatabaseCreds {
           databaseCreds?.username || configService.get('POSTGRES_USER');
         const password =
           databaseCreds?.password || configService.get('POSTGRES_PASSWORD');
-        const host = databaseCreds?.host || configService.get('POSTGRES_HOST');
+        const host = databaseCreds?.host || configService.get('DB_HOST');
         const port =
-          databaseCreds?.port || configService.get('POSTGRES_PORT') || 5432;
+          databaseCreds?.port || configService.get('DB_PORT') || 5432;
         const database = configService.get('POSTGRES_DB');
-        const schema = configService.get('POSTGRES_SCHEMA');
+        const schema = configService.get('DB_SCHEMA');
 
         return {
           prismaOptions: {
