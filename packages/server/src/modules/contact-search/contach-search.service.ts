@@ -68,12 +68,10 @@ export class ContactSearchService {
           ors.push(eb('hospital', 'like', `%${filter.hospital}%`));
         }
         if (filter.doctorDivisions) {
-          ors.push(eb('doctorDivision', 'in', `%${filter.doctorDivisions}%`));
+          ors.push(eb('doctorDivision', 'in', filter.doctorDivisions));
         }
         if (filter.doctorSpecialties) {
-          ors.push(
-            eb('doctorSpecialty', 'in', `%${filter.doctorSpecialties}%`),
-          );
+          ors.push(eb('doctorSpecialty', 'in', filter.doctorSpecialties));
         }
         if (filter.doctorAlternativeEmail) {
           ors.push(
@@ -88,9 +86,7 @@ export class ContactSearchService {
           ors.push(eb('doctorCountry', 'like', `%${filter.doctorCountry}%`));
         }
         if (filter.topicsOfInterests) {
-          ors.push(
-            eb('topicsOfInterest', 'in', `%${filter.topicsOfInterests}%`),
-          );
+          ors.push(eb('topicsOfInterest', 'in', filter.topicsOfInterests));
         }
         return eb.or(ors);
       });
@@ -105,10 +101,20 @@ export class ContactSearchService {
   ): Promise<string[]> {
     let query = this.database
       .selectFrom('marks.ContactSearch')
-      .select(['hospital'])
+      .select([
+        'hospital',
+        'doctorDivision',
+        'doctorSpecialty',
+        'topicsOfInterest',
+      ])
       .where('salesRepEmail', '=', salesRepEmail)
       .orderBy('hospital', 'asc')
-      .groupBy(['hospital']);
+      .groupBy([
+        'hospital',
+        'doctorDivision',
+        'doctorSpecialty',
+        'topicsOfInterest',
+      ]);
 
     if (
       filter.doctorDivisions ||
@@ -118,24 +124,27 @@ export class ContactSearchService {
       query = query.where((eb) => {
         const ors: Expression<SqlBool>[] = [];
         if (filter.doctorDivisions) {
-          ors.push(eb('doctorDivision', 'in', `%${filter.doctorDivisions}%`));
+          ors.push(eb('doctorDivision', 'in', filter.doctorDivisions));
         }
         if (filter.doctorSpecialties) {
-          ors.push(
-            eb('doctorSpecialty', 'in', `%${filter.doctorSpecialties}%`),
-          );
+          ors.push(eb('doctorSpecialty', 'in', filter.doctorSpecialties));
         }
         if (filter.topicsOfInterests) {
-          ors.push(
-            eb('topicsOfInterest', 'in', `%${filter.topicsOfInterests}%`),
-          );
+          ors.push(eb('topicsOfInterest', 'in', filter.topicsOfInterests));
         }
         return eb.or(ors);
       });
     }
     const dbResponse = await query.execute();
 
-    return dbResponse.map((row) => row.hospital);
+    // filter out duplicate hospital
+    const hospitalSet = new Set<string>();
+    dbResponse.forEach((row) => {
+      if (!hospitalSet.has(row.hospital)) {
+        hospitalSet.add(row.hospital);
+      }
+    });
+    return Array.from(hospitalSet);
   }
 
   async getFilterSpecialtyList(salesRepEmail: string): Promise<string[]> {
