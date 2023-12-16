@@ -50,6 +50,8 @@ spec:
               value: ${POSTGRES_USER}
             - name: POSTGRES_PASSWORD
               value: '${POSTGRES_PASSWORD}'
+            - name: SECRETS_FILE_PATH
+              value: ${SECRETS_FILE_PATH}
           ports:
             - containerPort: 3000
           volumeMounts:
