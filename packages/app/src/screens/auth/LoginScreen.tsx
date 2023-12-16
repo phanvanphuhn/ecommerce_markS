@@ -51,6 +51,7 @@ const LoginScreen = (props: LoginScreenProps) => {
         });
         dispatch(onLogin(info, auth.rawIdToken));
         let data = await getData();
+        hideLoading();
         if (
           data?.data?.data?.groups.includes(
             'a6f11bfc-e68e-4033-bce9-922e14d8a4a8',
@@ -64,15 +65,14 @@ const LoginScreen = (props: LoginScreenProps) => {
             [{text: 'OK', onPress: () => {}}],
           );
         }
-        hideLoading();
       } else {
+        hideLoading();
         Alert.alert(
           'System Alert',
           'Mark S is not applicable for your profile, contact JARVIS team for more info',
           [{text: 'OK', onPress: () => {}}],
         );
       }
-      hideLoading();
     } catch (error) {
       hideLoading();
 

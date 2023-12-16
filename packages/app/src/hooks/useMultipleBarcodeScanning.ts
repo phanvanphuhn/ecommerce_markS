@@ -23,6 +23,8 @@ export function useMultipleBarcodeScanning() {
             textContainerColor: colors.primary,
           },
           gs1DecodingEnabled: true,
+          acceptedDocumentFormats: ['GS1'],
+          barcodeFilter: 'WithExtension',
         });
 
         console.log(
