@@ -52,7 +52,7 @@ function readDatabaseSecrets(secretsFilePath: string): DatabaseCreds {
       useFactory: (configService: ConfigService) => {
         // read DatabaseCreds from mounted secret file
         const databaseCreds = readDatabaseSecrets(
-          configService.get('secretsFilePath'),
+          configService.get('SECRETS_FILE_PATH'),
         );
 
         if (databaseCreds) {
@@ -81,7 +81,7 @@ function readDatabaseSecrets(secretsFilePath: string): DatabaseCreds {
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
         const databaseCreds = readDatabaseSecrets(
-          configService.get('secretsFilePath'),
+          configService.get('SECRETS_FILE_PATH'),
         );
         // if there's databaseCreds, use them to connect to the database
         // else use env
