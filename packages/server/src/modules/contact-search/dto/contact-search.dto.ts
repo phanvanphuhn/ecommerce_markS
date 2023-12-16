@@ -12,10 +12,10 @@ export class ContactSearchArgs {
   hospital?: string;
 
   @Field(() => [String], { nullable: true })
-  doctorDivision?: [string];
+  doctorDivisions?: [string];
 
   @Field(() => [String], { nullable: true })
-  doctorSpecialty?: [string];
+  doctorSpecialties?: [string];
 
   @Field(() => String, { nullable: true })
   doctorAlternativeEmail?: string;
@@ -24,7 +24,7 @@ export class ContactSearchArgs {
   doctorCountry?: string;
 
   @Field(() => [String], { nullable: true })
-  topicsOfInterest?: [string];
+  topicsOfInterests?: [string];
 }
 
 @ObjectType()
@@ -62,11 +62,11 @@ export class ContactSearchOutput {
 export class HospitalFilterArgs {
   // specialtiy and division and topics of interetst
   @Field(() => [String], { nullable: true })
-  doctorSpecialty?: [string];
-
-  @Field(() => String, { nullable: true })
-  doctorDivision?: string;
+  doctorSpecialties?: [string];
 
   @Field(() => [String], { nullable: true })
-  topicsOfInterest?: [string];
+  doctorDivisions?: [string];
+
+  @Field(() => [String], { nullable: true })
+  topicsOfInterests?: [string];
 }

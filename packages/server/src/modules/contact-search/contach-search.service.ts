@@ -50,11 +50,11 @@ export class ContactSearchService {
       filter.doctorName ||
       filter.doctorTitle ||
       filter.hospital ||
-      filter.doctorDivision ||
-      filter.doctorSpecialty ||
+      filter.doctorDivisions ||
+      filter.doctorSpecialties ||
       filter.doctorAlternativeEmail ||
       filter.doctorCountry ||
-      filter.topicsOfInterest
+      filter.topicsOfInterests
     ) {
       query = query.where((eb) => {
         const ors: Expression<SqlBool>[] = [];
@@ -67,11 +67,13 @@ export class ContactSearchService {
         if (filter.hospital) {
           ors.push(eb('hospital', 'like', `%${filter.hospital}%`));
         }
-        if (filter.doctorDivision) {
-          ors.push(eb('doctorDivision', 'in', `%${filter.doctorDivision}%`));
+        if (filter.doctorDivisions) {
+          ors.push(eb('doctorDivision', 'in', `%${filter.doctorDivisions}%`));
         }
-        if (filter.doctorSpecialty) {
-          ors.push(eb('doctorSpecialty', 'in', `%${filter.doctorSpecialty}%`));
+        if (filter.doctorSpecialties) {
+          ors.push(
+            eb('doctorSpecialty', 'in', `%${filter.doctorSpecialties}%`),
+          );
         }
         if (filter.doctorAlternativeEmail) {
           ors.push(
@@ -85,9 +87,9 @@ export class ContactSearchService {
         if (filter.doctorCountry) {
           ors.push(eb('doctorCountry', 'like', `%${filter.doctorCountry}%`));
         }
-        if (filter.topicsOfInterest) {
+        if (filter.topicsOfInterests) {
           ors.push(
-            eb('topicsOfInterest', 'in', `%${filter.topicsOfInterest}%`),
+            eb('topicsOfInterest', 'in', `%${filter.topicsOfInterests}%`),
           );
         }
         return eb.or(ors);
@@ -109,21 +111,23 @@ export class ContactSearchService {
       .groupBy(['hospital']);
 
     if (
-      filter.doctorDivision ||
-      filter.doctorSpecialty ||
-      filter.topicsOfInterest
+      filter.doctorDivisions ||
+      filter.doctorSpecialties ||
+      filter.topicsOfInterests
     ) {
       query = query.where((eb) => {
         const ors: Expression<SqlBool>[] = [];
-        if (filter.doctorDivision) {
-          ors.push(eb('doctorDivision', 'in', `%${filter.doctorDivision}%`));
+        if (filter.doctorDivisions) {
+          ors.push(eb('doctorDivision', 'in', `%${filter.doctorDivisions}%`));
         }
-        if (filter.doctorSpecialty) {
-          ors.push(eb('doctorSpecialty', 'in', `%${filter.doctorSpecialty}%`));
-        }
-        if (filter.topicsOfInterest) {
+        if (filter.doctorSpecialties) {
           ors.push(
-            eb('topicsOfInterest', 'in', `%${filter.topicsOfInterest}%`),
+            eb('doctorSpecialty', 'in', `%${filter.doctorSpecialties}%`),
+          );
+        }
+        if (filter.topicsOfInterests) {
+          ors.push(
+            eb('topicsOfInterest', 'in', `%${filter.topicsOfInterests}%`),
           );
         }
         return eb.or(ors);
