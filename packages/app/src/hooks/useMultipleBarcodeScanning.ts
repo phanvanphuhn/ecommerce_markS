@@ -14,7 +14,6 @@ export function useMultipleBarcodeScanning() {
           codeDensity: 'HIGH',
           gs1DecodingEnabled: true,
           acceptedDocumentFormats: ['GS1'],
-          barcodeFilter: 'WithExtension',
         });
         console.log(
           '=>(useMultipleBarcodeScanning.ts:16) scanResult',
