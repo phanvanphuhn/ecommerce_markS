@@ -22,7 +22,7 @@ const CustomTab = memo(
   ({state, descriptors, navigation}: BottomTabBarProps) => {
     const focusedOptions = descriptors[state.routes[state.index].key].options;
 
-    const onScan = useMultipleBarcodeScanning();
+    const onScan = useSingleBarcodeScanning();
 
     if (focusedOptions?.tabBarVisible === false) {
       return null;

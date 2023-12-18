@@ -7,7 +7,10 @@ export function useSingleBarcodeScanning() {
       const licenseResult = await ScanbotBarcodeSDK.getLicenseInfo();
 
       if (licenseResult.isLicenseValid) {
-        const scanResult = await ScanbotBarcodeSDK.startBarcodeScanner({});
+        const scanResult = await ScanbotBarcodeSDK.startBarcodeScanner({
+          gs1DecodingEnabled: false,
+          codeDensity: 'HIGH',
+        });
         console.log(
           '=>(useSingleBarcodeScanning.ts:13) scanResult',
           scanResult,

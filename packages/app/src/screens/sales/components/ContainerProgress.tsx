@@ -87,7 +87,7 @@ const ContainerProgress = (props: ContainerProgressProps) => {
     percentage.current = state.percentage;
   }, [state.percentage]);
 
-  const targetAvchieve = useMemo(() => {
+  const targetTotal = useMemo(() => {
     switch (state.type) {
       case 'Month':
         return state.data?.targetByMonth || 0;
@@ -99,11 +99,15 @@ const ContainerProgress = (props: ContainerProgressProps) => {
         return state.data?.targetByYear || 0;
     }
   }, [state.data, state.type]);
-  console.log(
-    '=>(ContainerProgress.tsx:252) state?.data?.[`salesAchievementPercentageBy${state.type}`]',
-    state,
-  );
-  console.log('=>(ContainerProgress.tsx:105) state.type', state.type);
+  const targetAvchieve = useMemo(() => {
+    let target = state.data?.[`targetBy${state.type}`];
+    return Math.round(target);
+  }, [state.data, state.type]);
+  const targetPercent = useMemo(() => {
+    let target = state.data?.[`targetBy${state.type}`];
+    let sale = state.data?.[`salesBy${state.type}`];
+    return Math.round(((sale || 0) / (target || 0)) * 100);
+  }, [state.data, state.type]);
   return (
     <>
       <Animated.View style={styles.container}>
@@ -148,9 +152,7 @@ const ContainerProgress = (props: ContainerProgressProps) => {
               disabledMax={120}
               maxTop={100}
               disabled={state.type != 'Quarter'}
-              valueTop={
-                state?.data?.[`salesAchievementPercentageBy${state.type}`] || 0
-              }
+              valueTop={targetPercent || 0}
               width={width - 100}
               thumbRadius={22}
               onUpdate={value => {
@@ -173,8 +175,8 @@ const ContainerProgress = (props: ContainerProgressProps) => {
                 ) : (
                   <Text>YTD Total:</Text>
                 )}
-                <Text center={true} marginTop={5} size={38} fontWeight={'600'}>
-                  ${targetAvchieve}
+                <Text center={true} marginTop={5} size={35} fontWeight={'600'}>
+                  ${targetTotal}
                 </Text>
                 <View
                   style={{
@@ -185,7 +187,8 @@ const ContainerProgress = (props: ContainerProgressProps) => {
                     marginTop: 5,
                   }}>
                   <Text color={colors.pink3} fontWeight={'600'}>
-                    $3000 <Text fontWeight={'400'}>to 100%</Text>
+                    ${targetAvchieve || 0}{' '}
+                    <Text fontWeight={'400'}>to {state.percentage}%</Text>
                   </Text>
                 </View>
               </View>

@@ -77,6 +77,7 @@ const DoctorSearchScreen = (props: DoctorSearchScreenProps) => {
             division.map(item => item.name).includes(e.doctorDivision) ||
             topics.map(item => item.name).includes(e.topic),
         );
+        console.log('=>(DoctorSearchScreen.tsx:80) list', list);
         if (
           !hospital.length &&
           !special?.length &&

@@ -83,7 +83,7 @@ const TimelineCalendarScreen = (props: TimelineCalendarScreenProps) => {
     {
       currentDate: getDate(),
       events: [],
-      eventsByDate: undefined,
+      eventsByDate: {},
       markedDates: {},
     },
     (preState: IState) => ({
