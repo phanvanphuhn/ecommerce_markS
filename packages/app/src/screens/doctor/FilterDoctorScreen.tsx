@@ -69,7 +69,6 @@ const FilterDoctorScreen = (
     getDivision({
       variables: {},
       onCompleted: data => {
-        console.log('=>(FilterDoctorScreen.tsx:54) data', data);
         setState({division: convertData(data.data)});
       },
     });

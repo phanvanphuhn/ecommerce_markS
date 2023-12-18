@@ -133,8 +133,12 @@ const CircleMultipleSlider: React.FC<CircleMultipleSliderProps> = ({
       }
 
       const percent = 1 - newTheta / Math.PI;
-      percentCompleteBottom.value = percent;
-
+      let percentBottom = Math.round(100 - percent * 100 + 100);
+      if (disabledMax && disabledMax < percentBottom) {
+        newTheta = Math.PI * (1 - (100 - disabledMax + 100) / 100);
+      } else {
+        percentCompleteBottom.value = percent;
+      }
       const newCoords = polar2Canvas(
         {
           theta: -newTheta,
@@ -159,9 +163,6 @@ const CircleMultipleSlider: React.FC<CircleMultipleSliderProps> = ({
       let percentBottom = parseInt(
         (100 - percentCompleteBottom.value * 100 + 100).toFixed(),
       );
-      if (disabledMax && disabledMax < percentBottom) {
-        return;
-      }
       skiaCx.current = movableCx.value;
       skiaCy.current = movableCy.value;
       skiaFontCx.current = movableCx.value - thumbRadius / 2 - 5;
