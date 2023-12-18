@@ -10,18 +10,11 @@ export function useMultipleBarcodeScanning() {
 
       if (licenseResult.isLicenseValid) {
         const scanResult = await ScanbotBarcodeSDK.startBatchBarcodeScanner({
-          codeDensity: 'HIGH',
           viewFinderEnabled: false,
           finderTextHint: '',
+          codeDensity: 'HIGH',
+          gs1DecodingEnabled: true,
           acceptedDocumentFormats: ['GS1'],
-          barcodeFormats: ['QR_CODE'],
-          overlayConfiguration: {
-            overlayEnabled: true,
-            automaticSelectionEnabled: true,
-            polygonColor: colors.primary,
-            textColor: colors.text,
-            textContainerColor: colors.primary,
-          },
         });
 
         console.log(
