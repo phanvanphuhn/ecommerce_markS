@@ -24,7 +24,6 @@ export function useMultipleBarcodeScanning() {
           },
           gs1DecodingEnabled: true,
           acceptedDocumentFormats: ['GS1'],
-          barcodeFilter: 'WithExtension',
         });
 
         console.log(
