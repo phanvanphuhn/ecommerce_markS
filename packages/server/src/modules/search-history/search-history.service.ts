@@ -1,5 +1,11 @@
 import { Injectable } from '@nestjs/common';
 
+
+import {
+  formatArrayForPostgres,
+  parsePostgresArray,
+} from '@/common/utils/kysely-cast';
+
 import { Database } from '../_database/database';
 import { OrderDirection } from '../../common/pagination/order-direction';
 
@@ -8,6 +14,8 @@ import {
   MobileSearchHistoryInput,
   MobileSearchHistoryOutput,
 } from './dto/mobile-search-history.dto';
+
+import { SearchType } from '@generated/kysely/types';
 
 @Injectable()
 export class SearchHistoryService {
@@ -23,7 +31,11 @@ export class SearchHistoryService {
       .selectAll();
 
     if (filter.searchType) {
-      query = query.where('searchType', '=', filter.searchType);
+      query = query.where(
+        'searchType',
+        '=',
+        formatArrayForPostgres(filter.searchType) as any,
+      );
     }
 
     if (filter.sort) {
@@ -47,7 +59,13 @@ export class SearchHistoryService {
 
     const result = await query.execute();
 
-    return result.map((item) => new MobileSearchHistoryOutput(item));
+    return result.map(
+      (item) =>
+        new MobileSearchHistoryOutput({
+          ...item,
+          searchType: parsePostgresArray(item.searchType),
+        }),
+    );
   }
 
   async upsertSearchHistory(
@@ -58,12 +76,18 @@ export class SearchHistoryService {
       .insertInto('marks.SearchHistory')
       .values({
         ...data,
+        searchType: formatArrayForPostgres(
+          data.searchType,
+        ) as unknown as SearchType[],
         searchResults: data.searchResults as unknown[],
         salesRepEmail,
       })
       .onConflict((oc) =>
         oc.column('id').doUpdateSet({
           ...data,
+          searchType: formatArrayForPostgres(
+            data.searchType,
+          ) as unknown as SearchType[],
           searchResults: data.searchResults as unknown[],
           updatedAt: new Date(),
         }),
@@ -71,6 +95,11 @@ export class SearchHistoryService {
       .returningAll()
       .executeTakeFirst();
 
-    return result;
+    const parsedResult = {
+      ...result,
+      searchType: parsePostgresArray(result.searchType),
+    };
+
+    return parsedResult;
   }
 }

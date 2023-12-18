@@ -149,7 +149,7 @@ type MobileSalesOutput {
 
 input MobileSearchHistoryInput {
   searchQuery: String!
-  searchType: SearchType!
+  searchType: [SearchType!]
 }
 
 type MobileSearchHistoryOutput {
@@ -157,7 +157,7 @@ type MobileSearchHistoryOutput {
   id: String
   searchQuery: String
   searchResults: JSONObject
-  searchType: SearchType
+  searchType: [String!]
   updatedAt: DateTimeISO
 }
 
@@ -278,7 +278,7 @@ type Query {
   getProducts: ProductOutput!
   getProductsByUserCountry: ProductOutput!
   getSales(month: String, quarter: String, year: String): [SalesOutput!]!
-  getSearchHistory(searchType: SearchType, skip: Int, sort: OrderDirection, take: Int): [MobileSearchHistoryOutput!]!
+  getSearchHistory(searchType: [SearchType!], skip: Int, sort: OrderDirection, take: Int): [MobileSearchHistoryOutput!]!
   getSelfCalendars: JSON!
   getSliderAndCommisions: [SliderAndCommissionOutput!]!
   getTerritoryCategorization: [TerritoryCategorizationOutput!]!

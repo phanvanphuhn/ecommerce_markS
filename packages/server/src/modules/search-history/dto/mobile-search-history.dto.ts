@@ -20,14 +20,6 @@ registerEnumType(SearchType, {
   name: 'SearchType',
 });
 
-// id            String      @id @default(uuid())
-// searchQuery   String?
-// searchType    SearchType?
-// searchResults Json[]
-
-// createdAt DateTime? @default(now())
-// updatedAt DateTime? @updatedAt
-
 @ArgsType()
 @InputType('MobileSearchInput')
 @ObjectType()
@@ -38,8 +30,8 @@ export class MobileSearchHistory {
   @Field(() => String, { nullable: true })
   searchQuery?: string;
 
-  @Field(() => SearchType, { nullable: true })
-  searchType?: SearchType;
+  @Field(() => [SearchType], { nullable: true })
+  searchType?: string[];
 
   @Field(() => GraphQLJSONObject, { nullable: true })
   searchResults?: Record<string, any>;
@@ -60,8 +52,8 @@ export class MobileSearchHistoryInput extends OmitType(MobileSearchHistory, [
   @Field(() => String)
   searchQuery: string;
 
-  @Field(() => SearchType)
-  searchType: SearchType;
+  @Field(() => [SearchType], { nullable: true })
+  searchType?: string[];
 }
 
 @ObjectType()
@@ -71,12 +63,14 @@ export class MobileSearchHistoryOutput extends MobileSearchHistory {
 
     Object.assign(this, data);
   }
+  @Field(() => [String], { nullable: true })
+  searchType?: string[];
 }
 
 @ArgsType()
 export class MobileSearchHistoryFilterArgs {
-  @Field(() => SearchType, { nullable: true })
-  searchType?: SearchType;
+  @Field(() => [SearchType], { nullable: true })
+  searchType?: string[];
 
   @Field(() => OrderDirection, { nullable: true })
   sort?: OrderDirection;
