@@ -14,6 +14,7 @@ import colors from 'res/colors';
 import {useLazyQuery} from '@apollo/client';
 import {getSearchHistory} from 'apollo/query/getSearchHistory';
 import {SearchType} from 'apollo/query/upsertSearchHistory';
+import {MenuOption} from 'react-native-popup-menu';
 
 interface ListRecentsProps {
   onSearch: (keyword: string) => void;
@@ -30,8 +31,8 @@ const ListRecents = (props: ListRecentsProps) => {
   }, []);
   const renderItem = ({item}) => {
     return (
-      <TouchableOpacity
-        onPress={() => props?.onSearch && props?.onSearch(item.name)}
+      <MenuOption
+        onSelect={() => props?.onSearch && props?.onSearch(item.name)}
         style={[Theme.flexRow, styles.containerItem]}>
         <Image
           source={images.ic_recent2}
@@ -40,7 +41,7 @@ const ListRecents = (props: ListRecentsProps) => {
           }}
         />
         <Text marginLeft={10}>{item.name}</Text>
-      </TouchableOpacity>
+      </MenuOption>
     );
   };
   return (
@@ -49,6 +50,7 @@ const ListRecents = (props: ListRecentsProps) => {
         data={data?.data}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
+        keyboardShouldPersistTaps={'handled'}
         showsVerticalScrollIndicator={false}
       />
     </View>
@@ -61,7 +63,6 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 10,
     flex: 1,
-    paddingBottom: 20,
   },
   containerItem: {
     marginBottom: 7,

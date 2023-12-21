@@ -33,7 +33,7 @@ interface IState {
   special?: ItemOptionResponse[];
   division?: ItemOptionResponse[];
   topics?: ItemOptionResponse[];
-  listHospitalSelected?: ItemOptionResponse[];
+  listHospitalSelected?: string;
 }
 const FilterDoctorScreen = (
   props: BaseNavigationProps<MainParamList, Routes.FilterDoctorScreen>,
@@ -45,7 +45,7 @@ const FilterDoctorScreen = (
     special: [],
     division: [],
     topics: [],
-    listHospitalSelected: route.params.hospital || [],
+    listHospitalSelected: route.params.hospital || '',
   });
   const [getDivision] = useLazyQuery(GET_DIVISION_LIST_QUERY, {
     variables: {
@@ -69,17 +69,31 @@ const FilterDoctorScreen = (
     getDivision({
       variables: {},
       onCompleted: data => {
-        setState({division: convertData(data.data)});
+        let division = convertData(data.data).map(item => ({
+          ...item,
+          isSelected: route.params.division
+            .map(e => e.name)
+            .includes(item.name),
+        }));
+        setState({division: division});
       },
     });
     getSpecialty({
       onCompleted: data => {
-        setState({special: convertData(data.data)});
+        let special = convertData(data.data).map(item => ({
+          ...item,
+          isSelected: route.params.special.map(e => e.name).includes(item.name),
+        }));
+        setState({special: special});
       },
     });
     getTopics({
       onCompleted: data => {
-        setState({topics: convertData(data.data)});
+        let topics = convertData(data.data).map(item => ({
+          ...item,
+          isSelected: route.params.topics.map(e => e.name).includes(item.name),
+        }));
+        setState({topics: topics});
       },
     });
   }, []);
@@ -95,7 +109,7 @@ const FilterDoctorScreen = (
       let division = state.division?.filter(e => e.isSelected) || [];
       let topics = state.topics?.filter(e => e.isSelected) || [];
       route.params.onSelected(
-        state.listHospitalSelected,
+        state.listHospitalSelected || '',
         special,
         division,
         topics,
@@ -123,8 +137,10 @@ const FilterDoctorScreen = (
               special: state.special,
               division: state.division,
               topics: state.topics,
-              listHospitalSelected: [],
+              listHospitalSelected: '',
             });
+            route.params.onSelected && route.params.onSelected('', [], [], []);
+            navigation.goBack();
           }}>
           <Text size={16} lineHeight={21} color={colors.white}>
             Reset
@@ -146,10 +162,6 @@ const FilterDoctorScreen = (
                 props.navigation.navigate(Routes.FilterHospitalScreen, {
                   listSelected: state.listHospitalSelected,
                   onSelected: selected => {
-                    console.log(
-                      '=>(FilterDoctorScreen.tsx:241) selected',
-                      selected,
-                    );
                     setState({listHospitalSelected: selected});
                   },
                 })
@@ -171,8 +183,6 @@ const FilterDoctorScreen = (
                 }>
                 {state.listHospitalSelected?.length
                   ? state.listHospitalSelected
-                      ?.map(item => item.name)
-                      .join(', ')
                   : strings.select}
               </Text>
               <Image source={images.ic_dropdown} />

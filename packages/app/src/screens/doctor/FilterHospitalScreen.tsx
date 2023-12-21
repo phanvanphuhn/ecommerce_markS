@@ -61,28 +61,38 @@ const FilterHospitalScreen = (props: FilterHospitalScreenProps) => {
   useEffect(() => {
     getHospital({
       onCompleted: data => {
-        setState({data: convertData(data.data)});
+        let hospital = convertData(data.data).map(item => ({
+          ...item,
+          isSelected: route.params.listSelected.includes(item.name),
+        }));
+        setState({data: hospital});
       },
     });
   }, []);
   const onSelected = item => {
-    let list = [...state.listSelected];
-    let i = list.findIndex(e => e.name === item.name);
-    console.log('=>(FilterHospitalScreen.tsx:75) item', item);
-    if (i != -1) {
-      list.splice(i, 1);
-    } else {
-      list.push(item);
-    }
-    setState({listSelected: list});
+    let list = [...state.data];
+    list.forEach(e => {
+      if (item.id == e.id) {
+        e.isSelected = !item.isSelected;
+      } else {
+        e.isSelected = false;
+      }
+    });
+    setState({data: list});
   };
 
   const onReset = () => {
-    setState({listSelected: []});
+    let list = [...state.data];
+    list.forEach(e => {
+      e.isSelected = false;
+    });
+    setState({data: list});
+    onConfirm();
   };
   const onConfirm = () => {
     if (route.params?.onSelected) {
-      route.params.onSelected(state.listSelected);
+      let hospital = state.data.find(e => e.isSelected);
+      route.params.onSelected(hospital?.name || '');
     }
     navigation.goBack();
   };
@@ -97,7 +107,7 @@ const FilterHospitalScreen = (props: FilterHospitalScreenProps) => {
   //   setState({data: list});
   // }, [state.keyword]);
   const renderItem: ListRenderItem<ItemOptionResponse> = ({item, index}) => {
-    let isSelected = state.listSelected.some(e => e.name == item.name);
+    let isSelected = item.isSelected;
     if (!item.name) {
       return null;
     }

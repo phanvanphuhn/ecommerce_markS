@@ -17,7 +17,7 @@ interface Data {
 export type SearchType = 'CaseLog' | 'ContactSearch' | 'PlanCall';
 export interface MobileSearchHistoryInput {
   searchQuery: string;
-  searchType: SearchType;
+  searchType: SearchType[];
 }
 interface Variables {
   data: MobileSearchHistoryInput;

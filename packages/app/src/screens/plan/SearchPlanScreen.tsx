@@ -64,7 +64,7 @@ const SearchPlanScreen = (props: SearchPlanScreenProps) => {
           variables: {
             data: {
               searchQuery: state.keyword,
-              searchType: 'PlanCall',
+              searchType: ['PlanCall'],
             },
           },
         });

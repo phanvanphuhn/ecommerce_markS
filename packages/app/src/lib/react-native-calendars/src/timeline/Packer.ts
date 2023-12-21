@@ -23,7 +23,7 @@ interface UnavailableHoursOptions {
   dayEnd: number;
 }
 
-export const HOUR_BLOCK_HEIGHT = 100;
+export const HOUR_BLOCK_HEIGHT = 50;
 const OVERLAP_EVENTS_SPACINGS = 10;
 const RIGHT_EDGE_SPACING = 10;
 
@@ -31,10 +31,12 @@ function buildEvent(
   event: Event & {index: number},
   left: number,
   width: number,
-  {dayStart = 0, hourBlockHeight = HOUR_BLOCK_HEIGHT}: PopulateOptions
+  {dayStart = 0, hourBlockHeight = HOUR_BLOCK_HEIGHT}: PopulateOptions,
 ): PackedEvent {
   const startTime = new XDate(event.start);
-  const endTime = event.end ? new XDate(event.end) : new XDate(startTime).addHours(1);
+  const endTime = event.end
+    ? new XDate(event.end)
+    : new XDate(startTime).addHours(1);
 
   const dayStartTime = new XDate(startTime).clearTime();
 
@@ -43,7 +45,7 @@ function buildEvent(
     top: (dayStartTime.diffHours(startTime) - dayStart) * hourBlockHeight,
     height: startTime.diffHours(endTime) * hourBlockHeight,
     width,
-    left
+    left,
   };
 }
 
@@ -71,12 +73,12 @@ function calcColumnSpan(event: Event, columnIndex: number, columns: Event[][]) {
 function packOverlappingEventGroup(
   columns: PartialPackedEvent[][],
   calculatedEvents: PackedEvent[],
-  populateOptions: PopulateOptions
+  populateOptions: PopulateOptions,
 ) {
   const {
     screenWidth = constants.screenWidth,
     rightEdgeSpacing = RIGHT_EDGE_SPACING,
-    overlapEventsSpacing = OVERLAP_EVENTS_SPACINGS
+    overlapEventsSpacing = OVERLAP_EVENTS_SPACINGS,
   } = populateOptions;
   columns.forEach((column, columnIndex) => {
     column.forEach(event => {
@@ -89,12 +91,17 @@ function packOverlappingEventGroup(
         eventWidth -= overlapEventsSpacing;
       }
 
-      calculatedEvents.push(buildEvent(event, eventLeft, eventWidth, populateOptions));
+      calculatedEvents.push(
+        buildEvent(event, eventLeft, eventWidth, populateOptions),
+      );
     });
   });
 }
 
-export function populateEvents(_events: Event[], populateOptions: PopulateOptions) {
+export function populateEvents(
+  _events: Event[],
+  populateOptions: PopulateOptions,
+) {
   let lastEnd: string | null = null;
   let columns: PartialPackedEvent[][] = [];
   const calculatedEvents: PackedEvent[] = [];
@@ -102,10 +109,18 @@ export function populateEvents(_events: Event[], populateOptions: PopulateOption
   const events: PartialPackedEvent[] = _events
     .map((ev: Event, index: number) => ({...ev, index: index}))
     .sort(function (a: Event, b: Event) {
-      if (a.start < b.start) return -1;
-      if (a.start > b.start) return 1;
-      if (a.end < b.end) return -1;
-      if (a.end > b.end) return 1;
+      if (a.start < b.start) {
+        return -1;
+      }
+      if (a.start > b.start) {
+        return 1;
+      }
+      if (a.end < b.end) {
+        return -1;
+      }
+      if (a.end > b.end) {
+        return 1;
+      }
       return 0;
     });
 
@@ -147,21 +162,29 @@ export function populateEvents(_events: Event[], populateOptions: PopulateOption
 
 export function buildUnavailableHoursBlocks(
   unavailableHours: UnavailableHours[] = [],
-  options: UnavailableHoursOptions
+  options: UnavailableHoursOptions,
 ) {
-  const {hourBlockHeight = HOUR_BLOCK_HEIGHT, dayStart = 0, dayEnd = 24} = options || {};
+  const {
+    hourBlockHeight = HOUR_BLOCK_HEIGHT,
+    dayStart = 0,
+    dayEnd = 24,
+  } = options || {};
   const totalDayHours = dayEnd - dayStart;
   const totalDayHeight = (dayEnd - dayStart) * hourBlockHeight;
   return (
     unavailableHours
       .map(hours => {
         if (!inRange(hours.start, 0, 25) || !inRange(hours.end, 0, 25)) {
-          console.error('Calendar Timeline unavailableHours is invalid. Hours should be between 0 and 24');
+          console.error(
+            'Calendar Timeline unavailableHours is invalid. Hours should be between 0 and 24',
+          );
           return undefined;
         }
 
         if (hours.start >= hours.end) {
-          console.error('Calendar Timeline availableHours is invalid. start hour should be earlier than end hour');
+          console.error(
+            'Calendar Timeline availableHours is invalid. start hour should be earlier than end hour',
+          );
           return undefined;
         }
 
@@ -170,7 +193,7 @@ export function buildUnavailableHoursBlocks(
 
         return {
           top: ((startFixed - dayStart) / totalDayHours) * totalDayHeight,
-          height: (endFixed - startFixed) * hourBlockHeight
+          height: (endFixed - startFixed) * hourBlockHeight,
         };
       })
       // Note: this filter falsy values (undefined blocks)
