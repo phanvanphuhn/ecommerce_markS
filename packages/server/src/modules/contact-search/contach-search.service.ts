@@ -32,7 +32,7 @@ export class ContactSearchService {
         'doctorAlternativeEmail',
         'topicsOfInterest',
       ])
-      .where('salesRepEmail', '=', salesRepEmail)
+      .where('salesRepEmail', 'ilike', salesRepEmail)
       .orderBy('doctorName', 'asc')
       .groupBy([
         'id',
@@ -107,7 +107,7 @@ export class ContactSearchService {
         'doctorSpecialty',
         'topicsOfInterest',
       ])
-      .where('salesRepEmail', '=', salesRepEmail)
+      .where('salesRepEmail', 'ilike', salesRepEmail)
       .orderBy('hospital', 'asc')
       .groupBy([
         'hospital',
@@ -151,7 +151,7 @@ export class ContactSearchService {
     const dbResponse = await this.database
       .selectFrom('marks.ContactSearch')
       .select(['doctorSpecialty'])
-      .where('salesRepEmail', '=', salesRepEmail)
+      .where('salesRepEmail', 'ilike', salesRepEmail)
       .orderBy('doctorSpecialty', 'asc')
       .groupBy(['doctorSpecialty'])
       .execute();
@@ -163,7 +163,7 @@ export class ContactSearchService {
     const dbResponse = await this.database
       .selectFrom('marks.ContactSearch')
       .select(['doctorDivision'])
-      .where('salesRepEmail', '=', salesRepEmail)
+      .where('salesRepEmail', 'ilike', salesRepEmail)
       .orderBy('doctorDivision', 'asc')
       .groupBy(['doctorDivision'])
       .execute();
@@ -177,7 +177,7 @@ export class ContactSearchService {
     const dbResponse = await this.database
       .selectFrom('marks.ContactSearch')
       .select(['topicsOfInterest'])
-      .where('salesRepEmail', '=', salesRepEmail)
+      .where('salesRepEmail', 'ilike', salesRepEmail)
       .orderBy('topicsOfInterest', 'asc')
       .groupBy(['topicsOfInterest'])
       .execute();

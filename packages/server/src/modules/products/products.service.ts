@@ -15,7 +15,7 @@ export class ProductsService {
     const profile = await this.database
       .selectFrom('marks.UserProfile')
       .select(['country'])
-      .where('salesRepEmail', '=', salesRepEmail)
+      .where('salesRepEmail', 'ilike', salesRepEmail)
       .executeTakeFirst();
 
     const query = this.database

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-
+import { SearchType } from '@generated/kysely/types';
 
 import {
   formatArrayForPostgres,
@@ -15,8 +15,6 @@ import {
   MobileSearchHistoryOutput,
 } from './dto/mobile-search-history.dto';
 
-import { SearchType } from '@generated/kysely/types';
-
 @Injectable()
 export class SearchHistoryService {
   constructor(private readonly database: Database) {}
@@ -27,7 +25,7 @@ export class SearchHistoryService {
   ) {
     let query = this.database
       .selectFrom('marks.SearchHistory')
-      .where('salesRepEmail', '=', salesRepEmail)
+      .where('salesRepEmail', 'ilike', salesRepEmail)
       .selectAll();
 
     if (filter.searchType) {
