@@ -6,31 +6,39 @@ interface Data {
 }
 
 interface Variables {
-  doctorDivision?: string;
+  doctorAlternativeEmail?: string;
+  doctorCountry?: string;
+  doctorDivisions?: string[];
   doctorName?: string;
-  doctorSpecialty?: string;
+  doctorSpecialties?: string[];
   doctorTitle?: string;
   hospital?: string;
-  salesRepEmail: string;
+  topicsOfInterests?: string[];
 }
 
 export let GET_DOCTOR_QUERY: TypedDocumentNode<Data, Variables> = gql`
   query getDoctorSearchList(
-    $doctorDivision: String
+    $doctorAlternativeEmail: String
+    $doctorCountry: String
+    $doctorDivisions: [String!]
     $doctorName: String
-    $doctorSpecialty: String
+    $doctorSpecialties: [String!]
     $doctorTitle: String
     $hospital: String
-    $salesRepEmail: String!
+    $topicsOfInterests: [String!]
   ) {
     data: getDoctorSearchList(
-      doctorDivision: $doctorDivision
+      doctorDivisions: $doctorDivisions
       doctorName: $doctorName
-      doctorSpecialty: $doctorSpecialty
+      doctorSpecialties: $doctorSpecialties
       doctorTitle: $doctorTitle
       hospital: $hospital
-      salesRepEmail: $salesRepEmail
+      topicsOfInterests: $topicsOfInterests
+      doctorAlternativeEmail: $doctorAlternativeEmail
+      doctorCountry: $doctorCountry
     ) {
+      doctorAlternativeEmail
+      doctorCountry
       doctorDivision
       doctorEmail
       doctorName
@@ -39,6 +47,7 @@ export let GET_DOCTOR_QUERY: TypedDocumentNode<Data, Variables> = gql`
       doctorTitle
       hospital
       id
+      topicsOfInterest
     }
   }
 `;

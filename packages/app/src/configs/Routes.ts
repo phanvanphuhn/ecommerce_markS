@@ -1,5 +1,6 @@
 import DoctorSearchScreen from 'screens/doctor/DoctorSearchScreen';
 import ScanBarCodeScreen from 'screens/scanBarCode/ScanBarCodeScreen';
+import SearchDoctorScreen from 'screens/doctor/SearchDoctorScreen';
 
 enum Routes {
   MainTab = 'MainTab',

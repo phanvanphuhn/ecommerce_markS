@@ -17,7 +17,7 @@ interface Data {
 }
 type OrderDirection = 'asc' | 'desc';
 interface Variables {
-  searchType?: SearchType;
+  searchType?: SearchType[];
   skip?: number;
   sort?: OrderDirection;
   take?: number;
@@ -25,7 +25,7 @@ interface Variables {
 
 export let getSearchHistory: TypedDocumentNode<Data, Variables> = gql`
   query getSearchHistory(
-    $searchType: SearchType
+    $searchType: [SearchType!]
     $skip: Int
     $sort: OrderDirection
     $take: Int

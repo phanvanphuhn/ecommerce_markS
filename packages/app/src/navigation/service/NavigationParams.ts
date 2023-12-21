@@ -42,17 +42,17 @@ type MainTabParams = {
 };
 
 interface FilterHospitalParam {
-  onSelected: (item: ItemOptionResponse[]) => void;
-  listSelected: ItemOptionResponse[];
+  onSelected: (item: string) => void;
+  listSelected: string;
 }
 interface FilterDoctorParam {
   onSelected: (
-    hospital: ItemOptionResponse[],
+    hospital: '',
     special: ItemOptionResponse[],
     division: ItemOptionResponse[],
     topics: ItemOptionResponse[],
   ) => void;
-  hospital: ItemOptionResponse[];
+  hospital: string;
   special: ItemOptionResponse[];
   division: ItemOptionResponse[];
   topics: ItemOptionResponse[];

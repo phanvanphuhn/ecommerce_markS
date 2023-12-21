@@ -5,6 +5,9 @@ import {
   FlatList,
   TouchableOpacity,
   ListRenderItem,
+  TouchableWithoutFeedback,
+  Keyboard,
+  KeyboardAvoidingView,
 } from 'react-native';
 import Container from 'elements/Layout/Container';
 import strings from 'res/strings';
@@ -32,7 +35,8 @@ interface DoctorSearchScreenProps {}
 interface IState {
   data?: IDoctorSearchList[];
   keyword?: string;
-  hospitalSelected?: ItemOptionResponse[];
+  hospitalSelected?: string;
+  isFocus?: boolean;
   specialSelected?: ItemOptionResponse[];
   divisionSelected?: ItemOptionResponse[];
   topicsSelected?: ItemOptionResponse[];
@@ -42,24 +46,35 @@ import useDebounce from 'hooks/useDebounce';
 import useGetDoctorSearchList from 'apollo/logic/doctor/useGetDoctorSearchList';
 import useQueryLazyBase from 'apollo/useQueryLazyBase';
 import {GET_DOCTOR_QUERY} from 'apollo/query/getDoctorSearchList';
-import {useLazyQuery} from '@apollo/client';
+import {useLazyQuery, useMutation} from '@apollo/client';
 import {useSelector} from 'hooks/useSelector';
+import SearchDoctorScreen from 'screens/doctor/SearchDoctorScreen';
+import {upsertSearchHistory} from 'apollo/query/upsertSearchHistory';
+import SearchDoctor from 'screens/doctor/SearchDoctor';
+import CustomMenu from 'components/Menu/CustomMenu';
+import ListRecents from 'screens/doctor/ListRecents';
 const DoctorSearchScreen = (props: DoctorSearchScreenProps) => {
   const [state, setState] = useStateCustom<IState>({
     keyword: '',
     data: [],
-    hospitalSelected: [],
+    hospitalSelected: '',
     specialSelected: [],
     divisionSelected: [],
     topicsSelected: [],
+    isFocus: false,
   });
+  const [updateSearch] = useMutation(upsertSearchHistory);
 
   const userProfile = useSelector(state => state.userProfile);
   const [getData, {data, loading}] = useLazyQuery(GET_DOCTOR_QUERY);
   const _getData = async (salesRepEmail?: string) => {
     await getData({
       variables: {
-        salesRepEmail: userProfile.user?.mail,
+        hospital: salesRepEmail || '',
+        doctorName: salesRepEmail || '',
+        doctorTitle: salesRepEmail || '',
+        doctorCountry: salesRepEmail || '',
+        doctorAlternativeEmail: salesRepEmail || '',
       },
     });
   };
@@ -69,15 +84,30 @@ const DoctorSearchScreen = (props: DoctorSearchScreenProps) => {
   const navigation = useNavigation<BaseUseNavigationProps<MainParamList>>();
   const onFilter = () => {
     navigation.navigate(Routes.FilterDoctorScreen, {
-      onSelected: (hospital, special, division, topics) => {
+      onSelected: async (hospital, special, division, topics) => {
         let list = data?.data?.filter(
           e =>
-            hospital.map(item => item.name).includes(e.hospital) ||
+            hospital.includes(e.hospital) ||
             special.map(item => item.name).includes(e.doctorSpecialty) ||
             division.map(item => item.name).includes(e.doctorDivision) ||
             topics.map(item => item.name).includes(e.topic),
         );
-        console.log('=>(DoctorSearchScreen.tsx:80) list', list);
+        console.log('=>(DoctorSearchScreen.tsx:126) hospital', hospital);
+
+        await getData({
+          variables: {
+            doctorDivisions: topics?.length
+              ? division.map(e => e.name)
+              : undefined,
+            doctorSpecialties: topics?.length
+              ? special.map(e => e.name)
+              : undefined,
+            topicsOfInterests: topics?.length
+              ? topics.map(e => e.name)
+              : undefined,
+            hospital: hospital || '',
+          },
+        });
         if (
           !hospital.length &&
           !special?.length &&
@@ -91,11 +121,6 @@ const DoctorSearchScreen = (props: DoctorSearchScreenProps) => {
             topicsSelected: topics,
           });
         } else {
-          console.log('=>(DoctorSearchScreen.tsx:65) topics', topics);
-          console.log('=>(DoctorSearchScreen.tsx:65) division', division);
-          console.log('=>(DoctorSearchScreen.tsx:65) special', special);
-
-          console.log('=>(DoctorSearchScreen.tsx:79) hospital', hospital);
           setState({
             data: list,
             hospitalSelected: hospital,
@@ -105,7 +130,7 @@ const DoctorSearchScreen = (props: DoctorSearchScreenProps) => {
           });
         }
       },
-      hospital: state.hospitalSelected || [],
+      hospital: state.hospitalSelected || '',
       special: state.specialSelected || [],
       division: state.divisionSelected || [],
       topics: state.topicsSelected || [],
@@ -113,6 +138,16 @@ const DoctorSearchScreen = (props: DoctorSearchScreenProps) => {
   };
   useDebounce(() => {
     _getData(state.keyword);
+    if (state.keyword) {
+      updateSearch({
+        variables: {
+          data: {
+            searchQuery: state.keyword,
+            searchType: ['ContactSearch'],
+          },
+        },
+      });
+    }
   }, [state.keyword]);
   const renderItem: ListRenderItem<IDoctorSearchList> = ({item, index}) => {
     return (
@@ -196,11 +231,41 @@ const DoctorSearchScreen = (props: DoctorSearchScreenProps) => {
             icon={<Image source={images.ic_close} />}
             isShowIcon={true}
             value={state.keyword || ''}
+            onFocus={() => setState({isFocus: true})}
+            onBlur={() => setState({isFocus: false})}
             onChangeText={(keyword: string) => setState({keyword})}
             isShowIconLeft={true}
             iconPress={() => setState({keyword: ''})}
             editable={true}
             placeholder={strings.search}
+          />
+          <CustomMenu
+            onBackdropPress={() => {
+              setState({isFocus: false});
+              Keyboard.dismiss();
+            }}
+            optionsContainerStyle={{
+              backgroundColor: colors.white,
+              height: 300,
+              width: 300,
+            }}
+            opened={state.isFocus}
+            customOption={
+              <View
+                style={{
+                  height: 300,
+                  width: 300,
+                  paddingHorizontal: 10,
+                }}>
+                <ListRecents
+                  types={['ContactSearch']}
+                  onSearch={keyword => {
+                    setState({keyword});
+                    Keyboard.dismiss();
+                  }}
+                />
+              </View>
+            }
           />
         </View>
         <View>
@@ -235,12 +300,12 @@ const DoctorSearchScreen = (props: DoctorSearchScreenProps) => {
             {strings.recents}:
           </Text>
         </View>
-
         <View style={[Theme.flex1, Theme.mt20]}>
           <FlatList
             data={data?.data || []}
             renderItem={renderItem}
             keyExtractor={keyExtractor}
+            keyboardShouldPersistTaps={'handled'}
             contentContainerStyle={{paddingBottom: inset.bottom + 10}}
             ItemSeparatorComponent={() => <View style={{height: 20}} />}
             showsVerticalScrollIndicator={false}
