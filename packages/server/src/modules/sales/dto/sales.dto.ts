@@ -20,6 +20,12 @@ export class SliderAndCommissionOutput {
 
   @Field(() => String, { nullable: true })
   commissionPercentage: string;
+
+  @Field(() => String, { nullable: true })
+  startYear: string;
+
+  @Field(() => String, { nullable: true })
+  endYear: string
 }
 
 @ObjectType()
@@ -29,7 +35,10 @@ export class TerritoryCategorizationOutput {
   }
 
   @Field(() => String, { nullable: true })
-  year: string;
+  startYear: string;
+
+  @Field(() => String, { nullable: true })
+  endYear: string
 
   @Field(() => String, { nullable: true })
   lowerBound: string;
