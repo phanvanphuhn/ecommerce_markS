@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Sales, mobileSalesTargetType } from '@generated/kysely/types';
+
 
 import { Database } from '../_database/database';
 
@@ -15,6 +15,8 @@ import {
   UpserMobileSalestQuarterArgs,
   UpserMobileSalestYearArgs,
 } from './dto/mobile.sales.dto';
+
+import { Sales, mobileSalesTargetType } from '@generated/kysely/types';
 
 @Injectable()
 export class SalesService {

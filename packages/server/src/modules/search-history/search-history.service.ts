@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { SearchType } from '@generated/kysely/types';
+
 
 import {
   formatArrayForPostgres,
@@ -14,6 +14,8 @@ import {
   MobileSearchHistoryInput,
   MobileSearchHistoryOutput,
 } from './dto/mobile-search-history.dto';
+
+import { SearchType } from '@generated/kysely/types';
 
 @Injectable()
 export class SearchHistoryService {

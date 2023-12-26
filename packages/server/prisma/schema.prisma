@@ -89,15 +89,20 @@ model SliderAndCommission {
   variablePayoutPercentage String?
   territoryCategory        String?
   commissionPercentage     String?
+
+  startYear String?
+  endYear   String?
 }
 
 model TerritoryCategorization {
   id Int @id @default(autoincrement())
 
-  year              String?
   lowerBound        String?
   upperBound        String?
   territoryCategory String?
+
+  startYear String?
+  endYear   String?
 }
 
 model Leaderboard {
