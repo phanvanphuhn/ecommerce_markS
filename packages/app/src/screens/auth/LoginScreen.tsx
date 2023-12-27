@@ -49,6 +49,7 @@ const LoginScreen = (props: LoginScreenProps) => {
           token: auth.accessToken,
           path: '/me',
         });
+        console.log('auth.rawIdToken: ', auth);
         dispatch(onLogin(info, auth.rawIdToken));
         let data = await getData();
         hideLoading();
