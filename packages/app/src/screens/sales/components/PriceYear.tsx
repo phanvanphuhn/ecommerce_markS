@@ -1,5 +1,5 @@
 import React, {memo, useCallback, useEffect, useMemo, useState} from 'react';
-import {View, StyleSheet, ScrollView} from 'react-native';
+import {View, StyleSheet, ScrollView, Image} from 'react-native';
 import Theme from 'res/style/Theme';
 import colors from 'res/colors';
 import ItemCollapsible from 'screens/sales/components/ItemCollapsible';

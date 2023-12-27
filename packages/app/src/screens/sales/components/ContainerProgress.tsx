@@ -175,8 +175,8 @@ const ContainerProgress = (props: ContainerProgressProps) => {
                 ) : (
                   <Text>YTD Total:</Text>
                 )}
-                <Text center={true} marginTop={5} size={35} fontWeight={'600'}>
-                  ${targetTotal}
+                <Text center={true} marginTop={5} size={28} fontWeight={'600'}>
+                  ${String(targetTotal)?.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                 </Text>
                 <View
                   style={{
@@ -187,7 +187,11 @@ const ContainerProgress = (props: ContainerProgressProps) => {
                     marginTop: 5,
                   }}>
                   <Text color={colors.pink3} fontWeight={'600'}>
-                    ${targetAvchieve || 0}{' '}
+                    $
+                    {String(targetAvchieve)?.replace(
+                      /\B(?=(\d{3})+(?!\d))/g,
+                      ',',
+                    ) || 0}{' '}
                     <Text fontWeight={'400'}>to {state.percentage}%</Text>
                   </Text>
                 </View>

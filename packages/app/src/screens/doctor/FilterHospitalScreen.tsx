@@ -5,6 +5,8 @@ import {
   FlatList,
   TouchableOpacity,
   ListRenderItem,
+  Platform,
+  StatusBar,
 } from 'react-native';
 import Container from 'elements/Layout/Container';
 import ButtonIcon from 'elements/Buttons/ButtonIcon';
@@ -210,5 +212,8 @@ const FilterHospitalScreen = (props: FilterHospitalScreenProps) => {
 export default FilterHospitalScreen;
 
 const styles = StyleSheet.create({
-  container: {flex: 1},
+  container: {
+    flex: 1,
+    paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight,
+  },
 });

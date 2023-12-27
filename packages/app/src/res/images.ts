@@ -82,5 +82,6 @@ const images = {
   img_background: require('../assets/images/img_background.png'),
   img_logo: require('../assets/images/img_logo.png'),
   ic_book: require('../assets/images/ic_book.png'),
+  ic_touchId: require('../assets/images/ic_touchId.png'),
 };
 export default images;

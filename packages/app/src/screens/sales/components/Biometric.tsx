@@ -145,9 +145,11 @@ const Biometric = (props: BiometricProps) => {
           elevation: 6,
           ...Theme.center,
         }}>
-        <Image source={images.ic_face} />
+        <Image
+          source={Platform.OS == 'ios' ? images.ic_face : images.ic_touchId}
+        />
         <Text color={colors.dotActive} fontWeight={'700'}>
-          Face ID
+          {Platform.OS == 'ios' ? 'Face ID' : 'Touch ID'}
         </Text>
       </TouchableOpacity>
     </View>
