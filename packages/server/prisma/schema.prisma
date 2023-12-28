@@ -90,8 +90,7 @@ model SliderAndCommission {
   territoryCategory        String?
   commissionPercentage     String?
 
-  startYear String?
-  endYear   String?
+  year String?
 }
 
 model TerritoryCategorization {
@@ -101,8 +100,7 @@ model TerritoryCategorization {
   upperBound        String?
   territoryCategory String?
 
-  startYear String?
-  endYear   String?
+  year String?
 }
 
 model Leaderboard {

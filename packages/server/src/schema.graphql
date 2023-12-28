@@ -346,6 +346,7 @@ type SliderAndCommissionOutput {
   territoryCategory: String
   upperBound: String
   variablePayoutPercentage: String
+  year: String
 }
 
 type TerritoryCategorizationOutput {
