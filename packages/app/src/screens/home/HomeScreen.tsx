@@ -29,6 +29,7 @@ import ItemPlan from 'screens/home/components/ItemPlan';
 import ItemLeaderBoard from 'screens/home/components/ItemLeaderBoard';
 import ItemUser from 'screens/home/components/ItemUser';
 import Routes from 'configs/Routes';
+import {parseGS1Barcode} from 'hooks/useParsedBarcode';
 
 interface HomeScreenProps {
   data: UserProfile[];
@@ -40,6 +41,100 @@ interface IMenuProps {
   isPriority?: boolean;
 }
 const HomeScreen = (props: BaseNavigationProps<MainParamList>) => {
+  // Example usage
+  const gs1Barcode = '0108714729904571172506211031869477';
+  const parsedData = parseGS1Barcode(gs1Barcode);
+  const dataBarCode = {
+    barcodes: [
+      {
+        rawBytes: [Array],
+        text: '0108714729904571172506211031869477',
+        textWithExtension: '0108714729904571172506211031869477',
+        type: 'DATAMATRIX',
+      },
+      {
+        rawBytes: [Array],
+        text: '0108714729965404172509131032424809',
+        textWithExtension: '0108714729965404172509131032424809',
+        type: 'DATAMATRIX',
+      },
+      {
+        rawBytes: [Array],
+        text: ']C10108714729965404172509131032424809',
+        textWithExtension: ']C10108714729965404172509131032424809',
+        type: 'CODE_128',
+      },
+      {
+        rawBytes: [Array],
+        text: '0108714729789796172505281031710414',
+        textWithExtension: '0108714729789796172505281031710414',
+        type: 'DATAMATRIX',
+      },
+      {
+        rawBytes: [Array],
+        text: '0108714729965404172508081032178015',
+        textWithExtension: '0108714729965404172508081032178015',
+        type: 'DATAMATRIX',
+      },
+      {
+        rawBytes: [Array],
+        text: ']C10108714729904571172506211031869477',
+        textWithExtension: ']C10108714729904571172506211031869477',
+        type: 'CODE_128',
+      },
+      {
+        rawBytes: [Array],
+        text: ']C10108714729965404172508081032178015',
+        textWithExtension: ']C10108714729965404172508081032178015',
+        type: 'CODE_128',
+      },
+      {
+        rawBytes: [Array],
+        text: ']C10108714729996699172608171032246323',
+        textWithExtension: ']C10108714729996699172608171032246323',
+        type: 'CODE_128',
+      },
+      {
+        rawBytes: [Array],
+        text: '0108714729996699172608171032246323',
+        textWithExtension: '0108714729996699172608171032246323',
+        type: 'DATAMATRIX',
+      },
+      {
+        rawBytes: [Array],
+        text: '0108714729902591172411211030585388',
+        textWithExtension: '0108714729902591172411211030585388',
+        type: 'DATAMATRIX',
+      },
+    ],
+    status: 'OK',
+  };
+
+  const rawDataGS1 = dataBarCode.barcodes.filter(
+    item => item.type == 'DATAMATRIX',
+  );
+
+  const parsedBarcodeData = rawDataGS1.map(barcode => {
+    if (barcode && barcode.text) {
+      return parseGS1Barcode(barcode.text);
+    } else {
+      return undefined;
+    }
+  });
+
+  const validParsedBarcodeData = parsedBarcodeData.filter(
+    data => data !== undefined,
+  );
+
+  const replacedBarcodeData = validParsedBarcodeData.map(barcode => {
+    return {
+      GTIN: barcode['01'],
+      'Expiration date': barcode['17'],
+    };
+  });
+
+  console.log('replacedBarcodeData: ', replacedBarcodeData);
+
   const [data, setData] = useState<IMenuProps[]>([
     {
       type: 'sales',

@@ -28,7 +28,7 @@ export const azureAuth = new AzureAuth({
 
   redirectUri:
     Platform.OS === 'ios'
-      ? 'msauth.com.bostonscientific.marks://auth'
+      ? 'msauth.com.bostonscientific.marks://auth/'
       : undefined,
 });
 const LoginScreen = (props: LoginScreenProps) => {
