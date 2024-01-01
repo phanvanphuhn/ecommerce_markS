@@ -175,7 +175,7 @@ const ContainerProgress = (props: ContainerProgressProps) => {
                 ) : (
                   <Text>YTD Total:</Text>
                 )}
-                <Text center={true} marginTop={5} size={28} fontWeight={'600'}>
+                <Text center={true} marginTop={5} size={24} fontWeight={'600'}>
                   ${String(targetTotal)?.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                 </Text>
                 <View
