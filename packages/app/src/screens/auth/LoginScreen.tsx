@@ -49,7 +49,13 @@ const LoginScreen = (props: LoginScreenProps) => {
           token: auth.accessToken,
           path: '/me',
         });
-        console.log('auth.rawIdToken: ', auth);
+        if (!info) {
+          Alert.alert(
+            'System Alert',
+            'Cannot get your information, contact JARVIS team for more info',
+            [{text: 'OK', onPress: () => {}}],
+          );
+        }
         dispatch(onLogin(info, auth.rawIdToken));
         let data = await getData();
         hideLoading();
@@ -70,7 +76,7 @@ const LoginScreen = (props: LoginScreenProps) => {
         hideLoading();
         Alert.alert(
           'System Alert',
-          'Mark S is not applicable for your profile, contact JARVIS team for more info',
+          'Cannot authorize your account, contact JARVIS team for more info',
           [{text: 'OK', onPress: () => {}}],
         );
       }
