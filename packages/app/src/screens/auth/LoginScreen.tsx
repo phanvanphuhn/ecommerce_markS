@@ -65,6 +65,10 @@ const LoginScreen = (props: LoginScreenProps) => {
           )
         ) {
           reset(Routes.DrawerStack);
+        } else if (data?.error?.message) {
+          Alert.alert('System Alert', data?.error?.message, [
+            {text: 'OK', onPress: () => {}},
+          ]);
         } else {
           Alert.alert(
             'System Alert',
