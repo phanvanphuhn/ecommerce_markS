@@ -78,12 +78,12 @@ export class EventsService {
       query = query.where('location', 'ilike', `%${filter.location}%`);
     }
 
-    if (filter.createdAt) {
-      query = query.where('createdAt', '>=', filter.createdAt);
+    if (filter.createdInApp) {
+      query = query.where('createdInApp', '>=', filter.createdInApp);
     }
 
-    if (filter.updatedAt) {
-      query = query.where('updatedAt', '>=', filter.updatedAt);
+    if (filter.lastModifiedInApp) {
+      query = query.where('lastModifiedInApp', '>=', filter.lastModifiedInApp);
     }
 
     query = query.where('activityOwnerEmail', '=', salesRepEmail);
@@ -97,7 +97,7 @@ export class EventsService {
     const planCall = await this.database
       .selectFrom('marks.PlanCall')
       .selectAll()
-      .where('id', '=', id)
+      .where('uniqueIdInApp', '=', id)
       .where('activityOwnerEmail', '=', salesRepEmail)
       .executeTakeFirst();
 
@@ -114,9 +114,9 @@ export class EventsService {
         status: PlanCallStatus[input.status],
       })
       .onConflict((oc) =>
-        oc.column('id').doUpdateSet({
+        oc.column('uniqueIdInApp').doUpdateSet({
           ...input,
-          updatedAt: new Date(),
+          lastModifiedInApp: new Date(),
           activityOwnerEmail: salesRepEmail,
           activityType: PlanCallActivityType.EVENT,
           status: PlanCallStatus[input.status],

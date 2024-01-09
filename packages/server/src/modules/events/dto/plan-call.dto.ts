@@ -33,7 +33,7 @@ registerEnumType(PlanCallActivitySubtype, {
 @ObjectType()
 export class PlanCall {
   @Field(() => String, { nullable: true })
-  id?: string;
+  uniqueIdInApp?: string;
 
   @Field(() => String, { nullable: true })
   salesForceId?: string;
@@ -81,10 +81,10 @@ export class PlanCall {
   ownerCountry?: string;
 
   @Field(() => GraphQLDateTimeISO, { nullable: true })
-  createdAt?: Date;
+  createdInApp?: Date;
 
   @Field(() => GraphQLDateTimeISO, { nullable: true })
-  updatedAt?: Date;
+  lastModifiedInApp?: Date;
 }
 
 @InputType()
