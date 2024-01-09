@@ -27,8 +27,14 @@ export class AuthResolver {
 
   @Query(() => GraphQLJSON, { name: 'me' })
   @UseGuards(AzureAuthGuard)
-  async login(@UserEntity() user: any) {
+  async getInfoIdToken(@UserEntity() user: any) {
     return user;
+  }
+
+  @Query(() => GraphQLJSON, { name: 'meAD' })
+  @UseGuards(AzureAuthGuard)
+  async getInfoAccessToken(@UserEntity() user: any) {
+    return await this.graphService.getUser(user.oid);
   }
 
   @Query(() => GraphQLJSON, { name: 'getSelfCalendars' })

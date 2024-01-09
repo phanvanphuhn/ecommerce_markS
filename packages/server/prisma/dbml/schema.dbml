@@ -146,7 +146,7 @@ Table Mobile_Sales {
 }
 
 Table PlanCall {
-  id String [pk]
+  uniqueIdInApp String [pk]
   salesForceId String
   subject String
   startDate DateTime
@@ -162,8 +162,8 @@ Table PlanCall {
   activityOwnerEmail String
   ownerCountry String
   status String
-  createdAt DateTime [default: `now()`]
-  updatedAt DateTime
+  createdInApp DateTime [default: `now()`]
+  lastModifiedInApp DateTime
 }
 
 Table CaseLog {

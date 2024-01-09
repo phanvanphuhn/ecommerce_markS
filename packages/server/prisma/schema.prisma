@@ -204,7 +204,7 @@ model Mobile_Sales {
 }
 
 model PlanCall {
-  id                 String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  uniqueIdInApp      String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   salesForceId       String?
   subject            String?
   startDate          DateTime?
@@ -221,8 +221,8 @@ model PlanCall {
   ownerCountry       String?
   status             String?
 
-  createdAt DateTime? @default(now())
-  updatedAt DateTime? @updatedAt
+  createdInApp      DateTime? @default(now())
+  lastModifiedInApp DateTime? @updatedAt
 }
 
 enum CaseLogStatus {
