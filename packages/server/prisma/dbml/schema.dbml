@@ -49,6 +49,8 @@ Table UserProfile {
   country String
   division String
   reportingTo String
+  networkId String
+  personId String
 }
 
 Table SliderAndCommission {
@@ -197,6 +199,7 @@ Table SearchHistory {
 Table Products {
   id String [pk]
   upn String
+  gtin String
   upnDescription String
   country String
   createdAt DateTime [default: `now()`]

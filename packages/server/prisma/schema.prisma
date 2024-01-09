@@ -79,6 +79,8 @@ model UserProfile {
   country       String?
   division      String?
   reportingTo   String?
+  networkId     String?
+  personId      String?
 }
 
 model SliderAndCommission {
@@ -271,6 +273,7 @@ model SearchHistory {
 model Products {
   id             String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   upn            String?
+  gtin           String?
   upnDescription String?
   country        String?
 
