@@ -55,12 +55,6 @@ function readDatabaseSecrets(secretsFilePath: string): DatabaseCreds {
           configService.get('SECRETS_FILE_PATH'),
         );
 
-        console.log(
-          'configService.get("SECRETS_FILE_PATH")',
-          configService.get('SECRETS_FILE_PATH'),
-        );
-        console.log('databaseCreds', databaseCreds);
-
         if (databaseCreds) {
           return {
             host: databaseCreds.host,
@@ -91,12 +85,7 @@ function readDatabaseSecrets(secretsFilePath: string): DatabaseCreds {
         );
         // if there's databaseCreds, use them to connect to the database
         // else use env
-
-        console.log(
-          'PRISMA: configService.get("SECRETS_FILE_PATH")',
-          configService.get('SECRETS_FILE_PATH'),
-        );
-        console.log('PRISMA: databaseCreds', databaseCreds);
+        // NOTE: For prisma to work, password must be set in pipeline env in encoded format
 
         const user =
           databaseCreds?.username || configService.get('POSTGRES_USER');

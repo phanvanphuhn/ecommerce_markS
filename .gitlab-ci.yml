@@ -13,6 +13,11 @@ stages:
   - build_container
   - deploy
 
+cache:
+  paths:
+    - node_modules/
+    - packages/server/node_modules/
+
 build_container:
   stage: build_container
   environment:
