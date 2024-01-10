@@ -92,6 +92,12 @@ function readDatabaseSecrets(secretsFilePath: string): DatabaseCreds {
         // if there's databaseCreds, use them to connect to the database
         // else use env
 
+        console.log(
+          'PRISMA: configService.get("SECRETS_FILE_PATH")',
+          configService.get('SECRETS_FILE_PATH'),
+        );
+        console.log('PRISMA: databaseCreds', databaseCreds);
+
         const user =
           databaseCreds?.username || configService.get('POSTGRES_USER');
         const password =
