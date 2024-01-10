@@ -37,7 +37,7 @@ deploy:
     - export KUBE_CONTEXT="bostonscientific.com/jarvis/jarvis-mark-s/mark-s:backend"
     - kubectl config use-context ${KUBE_CONTEXT}
     - kubectl kustomize k8s/backend/base | envsubst | kubectl apply -n ${KUBE_NAMESPACE} -f -
-    - kubectl apply -n ${KUBE_NAMESPACE} -f k8s/backend/rds_forwarder.yaml -
+    - kubectl apply -n ${KUBE_NAMESPACE} -f k8s/backend/rds_forwarder.yaml
   rules:
     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH' # Only trigger when changes occur in default branch
     - changes:
