@@ -12,6 +12,8 @@ spec:
       labels:
         app: rds-forwarder
     spec:
+      imagePullSecrets:
+        - name: dockerhub-image-pull-secret
       containers:
         - name: rds-forwarder
           image: alpine/socat
