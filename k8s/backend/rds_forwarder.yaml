@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rds-forwarder
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rds-forwarder
+  template:
+    metadata:
+      labels:
+        app: rds-forwarder
+    spec:
+      containers:
+        - name: rds-forwarder
+          image: alpine/socat
+          command: ['sh', '-c']
+          args:
+            - socat tcp-listen:5432,fork,reuseaddr tcp-connect:jarvis-mark.cqm2o1je3mup.us-east-1.rds.amazonaws.com:5432
+          ports:
+            - containerPort: 5432
