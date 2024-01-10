@@ -55,6 +55,12 @@ function readDatabaseSecrets(secretsFilePath: string): DatabaseCreds {
           configService.get('SECRETS_FILE_PATH'),
         );
 
+        console.log(
+          'configService.get("SECRETS_FILE_PATH")',
+          configService.get('SECRETS_FILE_PATH'),
+        );
+        console.log('databaseCreds', databaseCreds);
+
         if (databaseCreds) {
           return {
             host: databaseCreds.host,
