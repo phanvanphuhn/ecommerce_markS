@@ -1,19 +1,19 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable } from '@nestjs/common';
 
-import { Database } from "../_database/database";
+import { Database } from '../_database/database';
 
-import { UserProfileOutput } from "./dto/user-profile.dto";
+import { UserProfileOutput } from './dto/user-profile.dto';
 
 @Injectable()
 export class UserProfilesService {
   constructor(private readonly database: Database) {}
 
   async getUserProfileBySalesRepEmail(
-    salesRepEmail: string
+    salesRepEmail: string,
   ): Promise<UserProfileOutput[]> {
     const result = await this.database
-      .selectFrom("marks.UserProfile")
-      .where("salesRepEmail", "=", salesRepEmail)
+      .selectFrom('marks.UserProfile')
+      .where('salesRepEmail', '=', salesRepEmail)
       .selectAll()
       .execute();
     return result.map((item) => new UserProfileOutput(item));

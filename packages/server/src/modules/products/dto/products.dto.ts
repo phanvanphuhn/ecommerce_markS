@@ -18,6 +18,9 @@ export class Product {
   upn?: string;
 
   @Field(() => String, { nullable: true })
+  gtin?: string;
+
+  @Field(() => String, { nullable: true })
   upnDescription?: string;
 
   @Field(() => String, { nullable: true })
@@ -42,4 +45,10 @@ export class ProductOutput extends Product {
 }
 
 @ArgsType()
-export class ProductFilterArgs extends OmitType(Product, ['id']) {}
+export class ProductFilterArgs extends OmitType(Product, ['id', 'country']) {
+  @Field(() => Number, { nullable: true })
+  take?: number;
+
+  @Field(() => Number, { nullable: true })
+  skip?: number;
+}

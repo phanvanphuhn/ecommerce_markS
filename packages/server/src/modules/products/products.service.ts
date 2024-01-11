@@ -2,13 +2,53 @@ import { Injectable } from '@nestjs/common';
 
 import { Database } from '../_database/database';
 
+import { ProductFilterArgs, ProductOutput } from './dto/products.dto';
+
 @Injectable()
 export class ProductsService {
   constructor(private database: Database) {}
 
-  async getProducts() {
-    const query = this.database.selectFrom('marks.Products').selectAll();
-    return await query.execute();
+  async getProducts(country: string, filter: ProductFilterArgs) {
+    let query = this.database
+      .selectFrom('marks.Products')
+      .where('country', 'like', country)
+      .selectAll();
+
+    if (filter.take) {
+      query = query.limit(filter.take);
+    }
+
+    if (filter.skip) {
+      query = query.offset(filter.skip);
+    }
+
+    if (filter.gtin) {
+      query = query.where('gtin', 'ilike', `%${filter.gtin}%`);
+    }
+
+    if (filter.upn) {
+      query = query.where('upn', 'ilike', `%${filter.upn}%`);
+    }
+
+    if (filter.createdAt) {
+      query = query.where('createdAt', '>=', filter.createdAt);
+    }
+
+    if (filter.updatedAt) {
+      query = query.where('updatedAt', '<=', filter.updatedAt);
+    }
+
+    if (filter.upnDescription) {
+      query = query.where(
+        'upnDescription',
+        'ilike',
+        `%${filter.upnDescription}%`,
+      );
+    }
+
+    const products = await query.execute();
+
+    return products.map((product) => new ProductOutput(product));
   }
 
   async getProductsByUserCountry(salesRepEmail: string) {
