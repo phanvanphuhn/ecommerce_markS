@@ -13,7 +13,7 @@ export class UserProfilesService {
   ): Promise<UserProfileOutput[]> {
     const result = await this.database
       .selectFrom('marks.UserProfile')
-      .where('salesRepEmail', '=', salesRepEmail)
+      .where('salesRepEmail', 'ilike', salesRepEmail)
       .selectAll()
       .execute();
     return result.map((item) => new UserProfileOutput(item));
