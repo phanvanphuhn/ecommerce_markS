@@ -177,14 +177,25 @@ model Sales {
   commissionPercentageQ5 String?
   commissionPayoutQ5     String?
 
-  salesAchievementPercentageByYear_forNewHire String?
-  variablePayoutPercentageQ5_forNewHire       String?
-  commissionPercentageQ5_forNewHire           String?
-  variablePayoutQ5_forNewHire                 String?
-  commissionPayoutQ5_forNewHire               String?
+  salesByMonth_forNewHire                       String?
+  salesByYear_forNewHire                        String?
+  salesByQuarter_forNewHire                     String?
+  salesAchivementPercentageByQuarter_forNewHire String?
+  salesAchievementPercentageByYear_forNewHire   String?
+  variablePayoutPercentageByQuarter_forNewHire  String?
+  variablePayoutPercentageQ5_forNewHire         String?
+  commissionPercentageByQuarter_forNewHire      String?
+  commissionPercentageQ5_forNewHire             String?
+  variablePayoutByQuarter_forNewHire            String?
+  variablePayoutQ5_forNewHire                   String?
+  commissionPayoutByQuarter_forNewHire          String?
+  commissionPayoutQ5_forNewHire                 String?
 
   capitalEquipment String?
   serviceContract  String?
+
+  additionalPayoutCE String?
+  additionalPayoutSC String?
 }
 
 enum mobileSalesTargetType {
