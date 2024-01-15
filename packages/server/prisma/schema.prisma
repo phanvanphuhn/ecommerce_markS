@@ -191,11 +191,11 @@ model Sales {
   commissionPayoutByQuarter_forNewHire          String?
   commissionPayoutQ5_forNewHire                 String?
 
-  capitalEquipment String?
-  serviceContract  String?
-
   additionalPayoutCE String?
   additionalPayoutSC String?
+
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
 }
 
 enum mobileSalesTargetType {
