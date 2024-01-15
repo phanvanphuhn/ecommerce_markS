@@ -51,6 +51,7 @@ Table UserProfile {
   reportingTo String
   networkId String
   personId String
+  title String
 }
 
 Table SliderAndCommission {

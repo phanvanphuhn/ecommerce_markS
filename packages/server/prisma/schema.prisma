@@ -81,6 +81,8 @@ model UserProfile {
   reportingTo   String?
   networkId     String?
   personId      String?
+
+  title String?
 }
 
 model SliderAndCommission {
