@@ -1,8 +1,9 @@
 import React from 'react';
-import {StyleSheet, Text, TextInput, View} from 'react-native';
+import {StyleSheet, TextInput, View} from 'react-native';
 import colors from 'res/colors';
-import {useFormikContext} from 'formik';
+import {getIn, useFormikContext} from 'formik';
 import {PlanCallInput} from 'apollo/query/upsertPlanCall';
+import Text from 'elements/Text';
 interface InputFormProps {
   name: keyof PlanCallInput;
   placeholder?: string;
@@ -11,13 +12,19 @@ interface InputFormProps {
   rightIcon?: React.ReactNode;
 }
 const InputForm = (props: InputFormProps) => {
-  const {handleChange, values} = useFormikContext<PlanCallInput>();
-
+  const {handleChange, values, touched, errors} =
+    useFormikContext<PlanCallInput>();
+  const error = getIn(errors, props.name);
+  const isTouched = getIn(touched, props.name);
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{props?.title}</Text>
 
-      <View style={styles.textInputContainer}>
+      <View
+        style={[
+          styles.textInputContainer,
+          isTouched && !!error && {borderColor: colors.red},
+        ]}>
         <TextInput
           value={values?.[props.name]}
           onChangeText={handleChange(props.name)}
@@ -35,6 +42,11 @@ const InputForm = (props: InputFormProps) => {
         />
         {props?.rightIcon && <View>{props?.rightIcon}</View>}
       </View>
+      {isTouched && !!error && (
+        <Text color={colors.red} marginTop={3} size={12}>
+          {error}
+        </Text>
+      )}
     </View>
   );
 };

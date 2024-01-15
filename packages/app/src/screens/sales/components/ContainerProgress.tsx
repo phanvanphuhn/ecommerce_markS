@@ -187,10 +187,12 @@ const ContainerProgress = (props: ContainerProgressProps) => {
                   }}>
                   <Text color={colors.pink3} fontWeight={'600'}>
                     $
-                    {String(targetAvchieve)?.replace(
-                      /\B(?=(\d{3})+(?!\d))/g,
-                      ',',
-                    ) || 0}{' '}
+                    {(targetAvchieve &&
+                      String(targetAvchieve)?.replace(
+                        /\B(?=(\d{3})+(?!\d))/g,
+                        ',',
+                      )) ||
+                      0}{' '}
                     <Text fontWeight={'400'}>to {state.percentage}%</Text>
                   </Text>
                 </View>

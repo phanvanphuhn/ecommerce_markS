@@ -1,4 +1,4 @@
-package com.bsc.marks;
+package com.bostonscientific.marks;
 
 import android.app.Application;
 import com.facebook.react.PackageList;

@@ -6,7 +6,6 @@ import {
   Image,
   ScrollView,
   StyleSheet,
-  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -16,13 +15,48 @@ import images from 'res/images';
 import CalendarForm from './components/CalendarForm';
 import InputForm from './components/InputForm';
 import {goBack, navigate} from 'navigation/service/RootNavigation';
+import {FormikProvider, useFormik} from 'formik';
+import {
+  MUTATION_DATA_CALL_QUERY,
+  PlanCallActivitySubtype,
+  PlanCallActivityType,
+  PlanCallInput,
+  PlanCallStatus,
+} from 'apollo/query/upsertPlanCall';
+import uuid from 'react-native-uuid';
+import Theme from 'res/style/Theme';
+import colors from 'res/colors';
+import Text from 'elements/Text';
+import {useMutation} from '@apollo/client';
+import {useNavigation} from '@react-navigation/core';
+import {BaseUseNavigationProps} from 'navigation/BaseNavigationProps';
+import {MainParamList} from 'navigation/service/NavigationParams';
+import {CaseLogOutput, upsertCaseLog} from 'apollo/query/upsertCaseLog';
 
 const CaseLogScreen2 = (props: any) => {
   const {route} = props;
   const onCancel = () => {};
 
-  const onSave = () => {};
+  const onSave = () => {
+    formik.handleSubmit();
+  };
+  const [onSubmitData] = useMutation(upsertCaseLog);
+  const navigation = useNavigation<BaseUseNavigationProps<MainParamList>>();
 
+  const formik = useFormik<CaseLogOutput>({
+    initialValues: {
+      endDate: new Date(),
+      startDate: new Date(),
+      id: uuid.v4(),
+      location: '',
+      status: 'IN_PROGRESS',
+    },
+    onSubmit: async values => {
+      console.log('=>(CallLogScreen.tsx:49) values', values);
+      await onSubmitData({variables: {data: values}});
+      navigation.goBack();
+    },
+  });
   return (
     <>
       <Container
@@ -37,62 +71,98 @@ const CaseLogScreen2 = (props: any) => {
             </TouchableOpacity>
           )
         }>
-        <ScrollView
-          style={{flex: 1, marginBottom: 100}}
-          showsVerticalScrollIndicator={false}>
-          {/*{route?.params && <StatusPlanForm data={route?.params} />}*/}
+        <FormikProvider value={formik}>
+          <ScrollView
+            style={{flex: 1, marginBottom: 100}}
+            showsVerticalScrollIndicator={false}>
+            {/*{route?.params && <StatusPlanForm data={route?.params} />}*/}
 
-          <View style={{padding: 16}}>
-            <InputForm title={'Subject'} placeholder={'Procedure'} />
+            <View style={{padding: 16}}>
+              <InputForm
+                name={'subject'}
+                title={'Subject'}
+                placeholder={'Procedure'}
+              />
 
-            <CalendarForm title={'Starts'} />
+              <View
+                style={[
+                  Theme.flexRow,
+                  {justifyContent: 'space-between', marginBottom: 16},
+                ]}>
+                <Text fontWeight={'300'} color={colors.black} size={15}>
+                  Starts
+                </Text>
+                <CalendarForm name={'startDate'} typeDate={'date'} />
+                <CalendarForm name={'startDate'} typeDate={'time'} />
+              </View>
+              <View
+                style={[
+                  Theme.flexRow,
+                  {justifyContent: 'space-between', marginBottom: 16},
+                ]}>
+                <Text fontWeight={'300'} color={colors.black} size={15}>
+                  Ends
+                </Text>
+                <CalendarForm name={'endDate'} typeDate={'date'} />
+                <CalendarForm name={'endDate'} typeDate={'time'} />
+              </View>
+              <InputForm
+                name={'account'}
+                title={'Account'}
+                placeholder={'Account Name'}
+              />
 
-            <CalendarForm title={'Ends'} />
+              <InputForm
+                name={'location'}
+                title={'Location'}
+                placeholder={'Location'}
+              />
 
-            <InputForm title={'Account'} placeholder={'Account Name'} />
+              <InputForm
+                name={'division'}
+                title={'Doctor'}
+                placeholder={'Doctor Name'}
+              />
 
-            <InputForm title={'Location'} placeholder={'Location'} />
-
-            <InputForm title={'Doctor'} placeholder={'Doctor Name'} />
-
-            {!route?.params?.isCreateNew && (
-              <>
-                <View style={styles.wrapItem}>
-                  <Image
-                    source={images.ic_scanBarcode}
-                    style={{height: 24, width: 24, marginRight: 8}}
-                  />
-
-                  <Text>Scan Barcode</Text>
-                </View>
-
-                <View style={styles.wrapItem}>
-                  <TouchableOpacity style={styles.wrapButton}>
-                    <IconMaterialCommunityIcons
-                      name="line-scan"
-                      size={15}
-                      color={'#8D8D8D'}
+              {!route?.params?.isCreateNew && (
+                <>
+                  <View style={styles.wrapItem}>
+                    <Image
+                      source={images.ic_scanBarcode}
+                      style={{height: 24, width: 24, marginRight: 8}}
                     />
-                    <Text style={styles.buttonTitle}>Scan Barcode</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.wrapButton}>
-                    <IconAntDesign name="plus" size={15} color={'#8D8D8D'} />
-                    <Text style={styles.buttonTitle}>Add Product</Text>
-                  </TouchableOpacity>
-                </View>
 
-                <View style={styles.wrapItem}>
-                  <Image
-                    source={images.ic_scanBarcode}
-                    style={{height: 24, width: 24, marginRight: 8}}
-                  />
+                    <Text>Scan Barcode</Text>
+                  </View>
 
-                  <Text>Upload Photos</Text>
-                </View>
-              </>
-            )}
-          </View>
-        </ScrollView>
+                  <View style={styles.wrapItem}>
+                    <TouchableOpacity style={styles.wrapButton}>
+                      <IconMaterialCommunityIcons
+                        name="line-scan"
+                        size={15}
+                        color={'#8D8D8D'}
+                      />
+                      <Text style={styles.buttonTitle}>Scan Barcode</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.wrapButton}>
+                      <IconAntDesign name="plus" size={15} color={'#8D8D8D'} />
+                      <Text style={styles.buttonTitle}>Add Product</Text>
+                    </TouchableOpacity>
+                  </View>
+
+                  <View style={styles.wrapItem}>
+                    <Image
+                      source={images.ic_scanBarcode}
+                      style={{height: 24, width: 24, marginRight: 8}}
+                    />
+
+                    <Text>Upload Photos</Text>
+                  </View>
+                </>
+              )}
+            </View>
+          </ScrollView>
+        </FormikProvider>
       </Container>
 
       {!route?.params?.isCreateNew ? (

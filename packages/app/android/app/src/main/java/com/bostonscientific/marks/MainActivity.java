@@ -1,4 +1,4 @@
-package com.bsc.marks;
+package com.bostonscientific.marks;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
