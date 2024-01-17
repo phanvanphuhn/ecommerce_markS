@@ -80,7 +80,7 @@ export class LeaderboardService {
             .where((eb) => {
               const filters: Expression<any>[] = [];
 
-              filters.push(eb('salesRepEmail', '=', salesRepEmail));
+              filters.push(eb('salesRepEmail', 'ilike', salesRepEmail));
 
               if (filter.country) {
                 filters.push(eb('country', '=', filter.country));
