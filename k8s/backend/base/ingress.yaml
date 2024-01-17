@@ -10,7 +10,7 @@ spec:
   rules:
     # env = dev, staging or prod
     # set with gitlab environment
-    - host: ${APP_NAME}.${CI_ENVIRONMENT_NAME}.dev.apps.bsci.com
+    - host: ${APP_NAME}.${CI_ENVIRONMENT_NAME}.apps.bsci.com
       http:
         paths:
           - path: /
