@@ -8,6 +8,7 @@ variables:
   KUBE_VERSION: v1.18.6
   KUBECTL_URL: https://storage.googleapis.com/kubernetes-release/release/${KUBE_VERSION}/bin/linux/amd64/kubectl
   KUBE_NAMESPACE: jarvis-mark
+  DEPLOY_ENV: dev
 
 stages:
   - build_container
