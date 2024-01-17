@@ -281,7 +281,7 @@ type Query {
   getSelfCalendars: JSON!
   getSliderAndCommisions: [SliderAndCommissionOutput!]!
   getTerritoryCategorization: [TerritoryCategorizationOutput!]!
-  getUserProfileBySalesRepEmail: [UserProfileOutput!]!
+  getUserProfile: [UserProfileOutput!]!
   leaderboard(country: String, month: String, period: LeaderboardPeriod = Month, type: LeaderboardType = TopThree, year: String!): [LeaderboardOuput!]!
   me: JSON!
   meAD: JSON!
@@ -378,6 +378,7 @@ type UserProfileOutput {
   id: Int
   reportingTo: String
   salesRepEmail: String
+  title: String
 }
 
 enum mobileSalesTargetType {

@@ -34,7 +34,6 @@ build_container:
 
 deploy:
   stage: deploy
-  when: manual
   environment:
     name: $DEPLOY_ENV
   before_script:
