@@ -4,6 +4,7 @@ import { UseGuards } from '@nestjs/common';
 import { UserEntity } from '@/common/decorators/user.decorator';
 
 import { AzureAuthGuard } from '../auth/guards/azure-ad.guard';
+import { UserProfilesService } from '../user-profiles/user-profiles.service';
 
 import { ContactSearchService } from './contach-search.service';
 import {
@@ -15,7 +16,10 @@ import { DoctorDetail } from './dto/doctor-profile.dto';
 
 @Resolver()
 export class ContactSearchResolver {
-  constructor(private contactSearchService: ContactSearchService) {}
+  constructor(
+    private contactSearchService: ContactSearchService,
+    private readonly userProfilesService: UserProfilesService,
+  ) {}
 
   @Query(() => [ContactSearchOutput])
   @UseGuards(AzureAuthGuard)
@@ -23,8 +27,13 @@ export class ContactSearchResolver {
     @UserEntity() userInfo,
     @Args() filter: ContactSearchArgs,
   ) {
+    const user =
+      await this.userProfilesService.getUserProfileByNetworkIdWithTitleCheck(
+        userInfo.samAccountName,
+      );
+
     return this.contactSearchService.getDoctorSearchList(
-      userInfo.email,
+      user[0].salesRepEmail,
       filter,
     );
   }
@@ -62,20 +71,39 @@ export class ContactSearchResolver {
   @Query(() => [String])
   @UseGuards(AzureAuthGuard)
   async getFilterSpecialtyList(@UserEntity() userInfo) {
-    return this.contactSearchService.getFilterSpecialtyList(userInfo.email);
+    const user =
+      await this.userProfilesService.getUserProfileByNetworkIdWithTitleCheck(
+        userInfo.samAccountName,
+      );
+
+    return this.contactSearchService.getFilterSpecialtyList(
+      user[0].salesRepEmail,
+    );
   }
 
   @Query(() => [String])
   @UseGuards(AzureAuthGuard)
   async getFilterTopicsOfInterestList(@UserEntity() userInfo) {
+    const user =
+      await this.userProfilesService.getUserProfileByNetworkIdWithTitleCheck(
+        userInfo.samAccountName,
+      );
+
     return this.contactSearchService.getFilterTopicsOfInterestList(
-      userInfo.email,
+      user[0].salesRepEmail,
     );
   }
 
   @Query(() => [String])
   @UseGuards(AzureAuthGuard)
   async getFilterDivisionList(@UserEntity() userInfo) {
-    return this.contactSearchService.getFilterDivisionList(userInfo.email);
+    const user =
+      await this.userProfilesService.getUserProfileByNetworkIdWithTitleCheck(
+        userInfo.samAccountName,
+      );
+
+    return this.contactSearchService.getFilterDivisionList(
+      user[0].salesRepEmail,
+    );
   }
 }

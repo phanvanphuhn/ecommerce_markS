@@ -5,6 +5,7 @@ import { UseGuards } from '@nestjs/common';
 import { UserEntity } from '@/common/decorators/user.decorator';
 
 import { AzureAuthGuard } from '../auth/guards/azure-ad.guard';
+import { UserProfilesService } from '../user-profiles/user-profiles.service';
 
 import { SalesService } from './sales.service';
 import {
@@ -22,9 +23,13 @@ import {
 
 import { SliderAndCommission } from '@generated/kysely/types';
 
+
 @Resolver()
 export class SalesResolver {
-  constructor(private readonly salesService: SalesService) {}
+  constructor(
+    private readonly salesService: SalesService,
+    private readonly userProfilesService: UserProfilesService,
+  ) {}
 
   @Query(() => [SliderAndCommissionOutput])
   @UseGuards(AzureAuthGuard)
@@ -41,7 +46,15 @@ export class SalesResolver {
   @Query(() => [SalesOutput])
   @UseGuards(AzureAuthGuard)
   async getSales(@UserEntity() userInfo, @Args() filter: SalesFilterArgs) {
-    return await this.salesService.getSalesByEmail(userInfo.email, filter);
+    const user =
+      await this.userProfilesService.getUserProfileByNetworkIdWithTitleCheck(
+        userInfo.samAccountName,
+      );
+
+    return await this.salesService.getSalesByEmail(
+      user[0].salesRepEmail,
+      filter,
+    );
   }
 
   @Query(() => [MobileSalesOutput])
@@ -50,7 +63,15 @@ export class SalesResolver {
     @UserEntity() userInfo,
     @Args() filter: MobileSalesFilterArgs,
   ) {
-    return await this.salesService.getMobileSales(userInfo.email, filter);
+    const user =
+      await this.userProfilesService.getUserProfileByNetworkIdWithTitleCheck(
+        userInfo.samAccountName,
+      );
+
+    return await this.salesService.getMobileSales(
+      user[0].salesRepEmail,
+      filter,
+    );
   }
 
   @Mutation(() => Boolean)
@@ -59,8 +80,13 @@ export class SalesResolver {
     @Args() data: UpserMobileSalestQuarterArgs,
     @UserEntity() userInfo,
   ) {
+    const user =
+      await this.userProfilesService.getUserProfileByNetworkIdWithTitleCheck(
+        userInfo.samAccountName,
+      );
+
     return await this.salesService.upsertMobileSalesQuarter(
-      userInfo.email,
+      user[0].salesRepEmail,
       data,
     );
   }
@@ -71,6 +97,14 @@ export class SalesResolver {
     @Args() data: UpserMobileSalestYearArgs,
     @UserEntity() userInfo,
   ) {
-    return await this.salesService.upsertMobileSalesYear(userInfo.email, data);
+    const user =
+      await this.userProfilesService.getUserProfileByNetworkIdWithTitleCheck(
+        userInfo.samAccountName,
+      );
+
+    return await this.salesService.upsertMobileSalesYear(
+      user[0].salesRepEmail,
+      data,
+    );
   }
 }

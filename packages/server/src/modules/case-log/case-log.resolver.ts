@@ -6,6 +6,7 @@ import { UseGuards } from '@nestjs/common';
 
 import { AzureAuthGuard } from '../auth/guards/azure-ad.guard';
 import { UserEntity } from '../../common/decorators/user.decorator';
+import { UserProfilesService } from '../user-profiles/user-profiles.service';
 
 import { CaseLogService } from './case-log.service';
 import {
@@ -16,18 +17,31 @@ import {
 
 @Resolver()
 export class CaseLogResolver {
-  constructor(private caseLogService: CaseLogService) {}
+  constructor(
+    private caseLogService: CaseLogService,
+    private userProfilesService: UserProfilesService,
+  ) {}
 
   @Query(() => [CaseLogOutput])
   @UseGuards(AzureAuthGuard)
   async getCaseLogs(@UserEntity() userInfo, @Args() filter: CaseLogFilterArgs) {
-    return this.caseLogService.getCaseLogs(userInfo.email, filter);
+    const user =
+      await this.userProfilesService.getUserProfileByNetworkIdWithTitleCheck(
+        userInfo.samAccountName,
+      );
+
+    return this.caseLogService.getCaseLogs(user[0].salesRepEmail, filter);
   }
 
   @Query(() => CaseLogOutput)
   @UseGuards(AzureAuthGuard)
   async getCaseLog(@UserEntity() userInfo, @Args('id') id: string) {
-    return this.caseLogService.getCaseLog(userInfo.email, id);
+    const user =
+      await this.userProfilesService.getUserProfileByNetworkIdWithTitleCheck(
+        userInfo.samAccountName,
+      );
+
+    return this.caseLogService.getCaseLog(user[0].salesRepEmail, id);
   }
 
   @Mutation(() => CaseLogOutput)
@@ -36,12 +50,23 @@ export class CaseLogResolver {
     @UserEntity() userInfo,
     @Args('data') data: CaseLogInput,
   ) {
-    return this.caseLogService.upsertCaseLog(userInfo.email, data);
+    const user =
+      await this.userProfilesService.getUserProfileByNetworkIdWithTitleCheck(
+        userInfo.samAccountName,
+      );
+
+    return this.caseLogService.upsertCaseLog(user[0].salesRepEmail, data);
   }
 
   @Query(() => GraphQLJSON)
   @UseGuards(AzureAuthGuard)
   async getFile(@UserEntity() userInfo, @Args('filePath') filePath: string) {
-    return await this.caseLogService.getFile(`${userInfo.email}/${filePath}`);
+    const user = await this.userProfilesService.getUserProfileByNetworkId(
+      userInfo.samAccountName,
+    );
+
+    return await this.caseLogService.getFile(
+      `${user[0].salesRepEmail}/${filePath}`,
+    );
   }
 }

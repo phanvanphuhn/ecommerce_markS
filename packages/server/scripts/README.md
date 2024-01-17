@@ -15,3 +15,5 @@ The pipeline is defined in `.gitlab-ci.yml`. It will run on every push to the `m
 https://dhp-docs.prod.apps.bsci.com/#/how-to/application-deployment
 
 ## Deploying
+
+set DEPLOY_ENV = dev | staging | production before running pipeline

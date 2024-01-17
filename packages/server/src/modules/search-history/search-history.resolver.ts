@@ -3,6 +3,7 @@ import { UseGuards } from '@nestjs/common';
 
 import { UserEntity } from '../../common/decorators/user.decorator';
 import { AzureAuthGuard } from '../auth/guards/azure-ad.guard';
+import { UserProfilesService } from '../user-profiles/user-profiles.service';
 
 import { SearchHistoryService } from './search-history.service';
 import {
@@ -13,7 +14,10 @@ import {
 
 @Resolver()
 export class SearchHistoryResolver {
-  constructor(private searchHistoryService: SearchHistoryService) {}
+  constructor(
+    private searchHistoryService: SearchHistoryService,
+    private readonly userProfilesService: UserProfilesService,
+  ) {}
 
   @Query(() => [MobileSearchHistoryOutput])
   @UseGuards(AzureAuthGuard)
@@ -21,7 +25,15 @@ export class SearchHistoryResolver {
     @UserEntity() userInfo,
     @Args() filter: MobileSearchHistoryFilterArgs,
   ) {
-    return this.searchHistoryService.getSearchHistory(userInfo.email, filter);
+    const user =
+      await this.userProfilesService.getUserProfileByNetworkIdWithTitleCheck(
+        userInfo.samAccountName,
+      );
+
+    return this.searchHistoryService.getSearchHistory(
+      user[0].salesRepEmail,
+      filter,
+    );
   }
 
   @Mutation(() => MobileSearchHistoryOutput)
@@ -30,6 +42,14 @@ export class SearchHistoryResolver {
     @UserEntity() userInfo,
     @Args('data') input: MobileSearchHistoryInput,
   ) {
-    return this.searchHistoryService.upsertSearchHistory(userInfo.email, input);
+    const user =
+      await this.userProfilesService.getUserProfileByNetworkIdWithTitleCheck(
+        userInfo.samAccountName,
+      );
+
+    return this.searchHistoryService.upsertSearchHistory(
+      user[0].salesRepEmail,
+      input,
+    );
   }
 }

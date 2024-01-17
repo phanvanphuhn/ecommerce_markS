@@ -14,9 +14,15 @@ export class UserProfilesResolver {
 
   @Query(() => [UserProfileOutput])
   @UseGuards(AzureAuthGuard)
-  async getUserProfileBySalesRepEmail(@UserEntity() userInfo) {
-    return this.userProfilesService.getUserProfileBySalesRepEmail(
-      userInfo.email,
+  async getUserProfile(@UserEntity() userInfo) {
+    const { email, samAccountName: networkId } = userInfo;
+
+    if (!networkId) {
+      throw new Error('Network ID not found');
+    }
+
+    return await this.userProfilesService.getUserProfileByNetworkIdWithTitleCheck(
+      networkId,
     );
   }
 }

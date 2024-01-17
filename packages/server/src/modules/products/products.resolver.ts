@@ -18,9 +18,10 @@ export class ProductsResolver {
   @Query(() => ProductOutput)
   @UseGuards(AzureAuthGuard)
   async getProducts(@UserEntity() userInfo, @Args() args: ProductFilterArgs) {
-    const user = await this.userProfilesService.getUserProfileBySalesRepEmail(
-      userInfo.email,
-    );
+    const user =
+      await this.userProfilesService.getUserProfileByNetworkIdWithTitleCheck(
+        userInfo.samAccountName,
+      );
 
     if (!user) {
       throw new Error('User not found');
