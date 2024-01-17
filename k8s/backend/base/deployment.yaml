@@ -27,7 +27,7 @@ spec:
           imagePullPolicy: Always
           env:
             - name: CI_COMMIT_SHORT_SHA
-              value: ${CI_COMMIT_SHORT_SHA}
+              value: '${CI_COMMIT_SHORT_SHA}'
             - name: AZURE_CLIENT_ID
               value: ${AZURE_CLIENT_ID}
             - name: AZURE_CLIENT_SECRET
