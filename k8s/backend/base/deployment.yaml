@@ -56,7 +56,7 @@ spec:
             - containerPort: 3000
           volumeMounts:
             - name: jarvis-mark-credentials
-              mountPath: /usr/src/app/rds/rds-creds # this path can be customized for your application
+              mountPath: /usr/src/app/rds/rds-creds # can be whatever, just need to tie it with secretProviderClass
               readOnly: true
           resources:
             requests:

@@ -208,18 +208,18 @@ input PlanCallInput {
   activitySubtype: PlanCallActivitySubtype
   activityType: PlanCallActivityType
   contactName: String
-  createdAt: DateTimeISO
+  createdInApp: DateTimeISO
   description: String
   division: String
   endDate: String
-  id: String
+  lastModifiedInApp: DateTimeISO
   location: String
   ownerCountry: String
   salesForceId: String
   startDate: String
   status: PlanCallStatus
   subject: String
-  updatedAt: DateTimeISO
+  uniqueIdInApp: String
 }
 
 type PlanCallOutput {
@@ -229,18 +229,18 @@ type PlanCallOutput {
   activitySubtype: PlanCallActivitySubtype
   activityType: PlanCallActivityType
   contactName: String
-  createdAt: DateTimeISO
+  createdInApp: DateTimeISO
   description: String
   division: String
   endDate: String
-  id: String
+  lastModifiedInApp: DateTimeISO
   location: String
   ownerCountry: String
   salesForceId: String
   startDate: String
   status: PlanCallStatus
   subject: String
-  updatedAt: DateTimeISO
+  uniqueIdInApp: String
 }
 
 enum PlanCallStatus {
@@ -252,6 +252,7 @@ enum PlanCallStatus {
 type ProductOutput {
   country: String
   createdAt: DateTimeISO
+  gtin: String
   id: String
   updatedAt: DateTimeISO
   upn: String
@@ -273,10 +274,8 @@ type Query {
   getMobileSales(quarter: String, type: mobileSalesTargetType!, year: String): [MobileSalesOutput!]!
   getPlanCall(id: String!): PlanCallOutput!
   getPlanCallTypes: [String!]!
-  getPlanCalls(account: String, activityOwnerEmail: String, activityOwnerName: String, activitySubtype: PlanCallActivitySubtype, activityType: PlanCallActivityType, contactName: String, createdAt: DateTimeISO, description: String, division: String, endDate: String, id: String, location: String, ownerCountry: String, startDate: String, status: PlanCallStatus, subject: String, updatedAt: DateTimeISO): [PlanCallOutput!]!
-  getProductByUpn(upn: String!): ProductOutput!
-  getProducts: ProductOutput!
-  getProductsByUserCountry: ProductOutput!
+  getPlanCalls(account: String, activityOwnerEmail: String, activityOwnerName: String, activitySubtype: PlanCallActivitySubtype, activityType: PlanCallActivityType, contactName: String, createdInApp: DateTimeISO, description: String, division: String, endDate: String, lastModifiedInApp: DateTimeISO, location: String, ownerCountry: String, startDate: String, status: PlanCallStatus, subject: String, uniqueIdInApp: String): [PlanCallOutput!]!
+  getProducts(createdAt: DateTimeISO, gtin: String, skip: Int, take: Int, updatedAt: DateTimeISO, upn: String, upnDescription: String): ProductOutput!
   getSales(month: String, quarter: String, year: String): [SalesOutput!]!
   getSearchHistory(searchType: [SearchType!], skip: Int, sort: OrderDirection, take: Int): [MobileSearchHistoryOutput!]!
   getSelfCalendars: JSON!
@@ -285,18 +284,24 @@ type Query {
   getUserProfileBySalesRepEmail: [UserProfileOutput!]!
   leaderboard(country: String, month: String, period: LeaderboardPeriod = Month, type: LeaderboardType = TopThree, year: String!): [LeaderboardOuput!]!
   me: JSON!
+  meAD: JSON!
   testGetFilterHospitalList(doctorDivisions: [String!], doctorSpecialties: [String!], topicsOfInterests: [String!]): [String!]!
 }
 
 type SalesOutput {
   additionalPayout: String
+  additionalPayoutCE: String
+  additionalPayoutSC: String
   capitalEquipment: String
   commissionPayoutByQuarter: String
+  commissionPayoutByQuarter_forNewHire: String
   commissionPayoutQ5: String
   commissionPayoutQ5_forNewHire: String
   commissionPercentageByQuarter: String
+  commissionPercentageByQuarter_forNewHire: String
   commissionPercentageQ5: String
   commissionPercentageQ5_forNewHire: String
+  currency: String
   earlyBird: String
   earlyBirdEligibility: String
   guaranttedPayout: String
@@ -310,11 +315,16 @@ type SalesOutput {
   salesAchievementPercentageByQuarter: String
   salesAchievementPercentageByYear: String
   salesAchievementPercentageByYear_forNewHire: String
+  salesAchivementPercentageByQuarter_forNewHire: String
   salesByMonth: String
+  salesByMonth_forNewHire: String
   salesByQuarter: String
+  salesByQuarter_forNewHire: String
   salesByYear: String
+  salesByYear_forNewHire: String
   salesRepEmail: String
   serviceContract: String
+  sipEligibility: String
   targetByMonth: String
   targetByQuarter: String
   targetByYear: String
@@ -325,7 +335,9 @@ type SalesOutput {
   variablePayByYear: String
   variablePayQ5: String
   variablePayoutByQuarter: String
+  variablePayoutByQuarter_forNewHire: String
   variablePayoutPercentageByQuarter: String
+  variablePayoutPercentageByQuarter_forNewHire: String
   variablePayoutPercentageByYear: String
   variablePayoutPercentageQ5: String
   variablePayoutPercentageQ5_forNewHire: String

@@ -8,7 +8,9 @@ metadata:
     nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
 spec:
   rules:
-    - host: ${APP_NAME}.dev.apps.bsci.com
+    # env = dev, staging or prod
+    # set with gitlab environment
+    - host: ${APP_NAME}.${CI_ENVIRONMENT_NAME}.apps.bsci.com
       http:
         paths:
           - path: /
