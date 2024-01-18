@@ -47,6 +47,7 @@
     "react-fast-compare": "^3.2.2",
     "react-native": "0.71.8",
     "react-native-azure-auth": "^1.8.9",
+    "react-native-biometrics": "^3.0.1",
     "react-native-calendars": "^1.1301.0",
     "react-native-code-push": "^8.1.0",
     "react-native-config": "^1.5.1",

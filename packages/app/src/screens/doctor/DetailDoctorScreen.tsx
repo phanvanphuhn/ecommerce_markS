@@ -98,14 +98,14 @@ const DetailDoctorScreen = (
   return (
     <Container
       title={strings.doctor.titleDetail}
-      buttonRight={
-        <ButtonText
-          titleColor={colors.white}
-          title={strings.edit}
-          onPress={() => setState({isEdit: true})}
-          textProps={{fontWeight: '700', size: 18, lineHeight: 24}}
-        />
-      }
+      // buttonRight={
+      //   <ButtonText
+      //     titleColor={colors.white}
+      //     title={strings.edit}
+      //     onPress={() => setState({isEdit: true})}
+      //     textProps={{fontWeight: '700', size: 18, lineHeight: 24}}
+      //   />
+      // }
       style={styles.container}>
       <View
         style={{

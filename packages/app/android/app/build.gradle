@@ -101,13 +101,13 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.bostonscientific.marks"
+    namespace "com.bsc.marks"
     defaultConfig {
-        applicationId "com.bostonscientific.marks"
+        applicationId "com.bsc.marks"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 2
-        versionName "1.0.4"
+        versionCode 3
+        versionName "1.0.5"
         resValue 'string', "CODE_PUSH_APK_BUILD_TIME", String.format("\"%d\"", System.currentTimeMillis())
         resValue "string", "build_config_package", "com.bsc.marks"
     }
