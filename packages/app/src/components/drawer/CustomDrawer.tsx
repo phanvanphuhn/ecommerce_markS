@@ -20,6 +20,7 @@ import {onLogout} from 'middlewares/actions/auth/actionLogin';
 import {navigate} from 'navigation/service/RootNavigation';
 import {Routes} from 'configs';
 import {useNavigation} from '@react-navigation/native';
+import {azureAuth} from 'screens/auth/LoginScreen';
 // import DrawerItemList from './DrawerItemList';
 
 const CustomDrawer = ({progress, ...props}: DrawerContentComponentProps) => {
@@ -45,10 +46,11 @@ const CustomDrawer = ({progress, ...props}: DrawerContentComponentProps) => {
     getUpdateMetadata();
   }, []);
 
-  const logout = () => {
+  const logout = async () => {
     dispatch(onLogout());
     props.navigation.closeDrawer();
     navigation.navigate(Routes.LoginScreen, {});
+    await azureAuth.webAuth.clearSession({closeOnLoad: true});
   };
 
   const onLogin = () => {
