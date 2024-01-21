@@ -380,8 +380,8 @@ const PriceYear = (props: PriceYearProps) => {
           currentValue={2000}
           potentialValue={state?.data?.totalSales}
         />
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </>
   );
 };
 

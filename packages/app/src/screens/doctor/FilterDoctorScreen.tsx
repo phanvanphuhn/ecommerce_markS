@@ -251,7 +251,7 @@ const FilterDoctorScreen = (
               Topics Of Interest
             </Text>
             <View style={[Theme.flexRow, {flexWrap: 'wrap'}]}>
-              {state.topics.map((item, index) => {
+              {state?.topics.map((item, index) => {
                 if (!item?.name) {
                   return null;
                 }
@@ -259,7 +259,7 @@ const FilterDoctorScreen = (
                   <TouchableOpacity
                     key={index.toString()}
                     onPress={() => {
-                      let data = [...state.topics];
+                      let data = [...state?.topics];
                       data[index].isSelected = !item.isSelected;
                       setState({topics: data});
                     }}
@@ -274,7 +274,7 @@ const FilterDoctorScreen = (
                 );
               })}
             </View>
-          )}
+          </View>
         </View>
       </ScrollView>
       <View
