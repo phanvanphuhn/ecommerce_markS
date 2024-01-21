@@ -50,7 +50,6 @@ const CustomDrawer = ({progress, ...props}: DrawerContentComponentProps) => {
     dispatch(onLogout());
     props.navigation.closeDrawer();
     navigation.navigate(Routes.LoginScreen, {});
-    await azureAuth.webAuth.clearSession({closeOnLoad: true});
   };
 
   const onLogin = () => {
