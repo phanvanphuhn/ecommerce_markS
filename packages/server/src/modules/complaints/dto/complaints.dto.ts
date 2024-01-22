@@ -3,7 +3,7 @@ import { Field, ObjectType } from '@nestjs/graphql';
 @ObjectType()
 export class ComplaintsOutput {
   @Field({ nullable: true })
-  id: number;
+  id: string;
 
   @Field({ nullable: true })
   complaintId?: string;
