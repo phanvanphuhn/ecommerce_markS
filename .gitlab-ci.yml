@@ -40,7 +40,7 @@ deploy:
   before_script:
     # set AGENT_NAME according to gitlab env
     - if [ "$CI_ENVIRONMENT_NAME" == "dev" ]; then export AGENT_NAME="backend"; fi
-    - if [ "$CI_ENVIRONMENT_NAME" == "stage" ]; then export AGENT_NAME="backend-staging"; fi
+    - if [ "$CI_ENVIRONMENT_NAME" == "stage-ap" ]; then export AGENT_NAME="backend-staging"; fi
     - if [ "$CI_ENVIRONMENT_NAME" == "prod" ]; then export AGENT_NAME="backend-production"; fi
     # install kubectl
     - apk add --no-cache curl libintl gettext
