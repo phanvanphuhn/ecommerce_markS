@@ -14,7 +14,7 @@ export class ComplaintsService {
       .execute();
   }
 
-  getComplaint(id: number) {
+  getComplaint(id: string) {
     return this.database
       .selectFrom('marks.Complaint')
       .where('id', '=', id)
