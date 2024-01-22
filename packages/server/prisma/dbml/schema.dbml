@@ -21,7 +21,7 @@ Table ContactSearch {
 }
 
 Table Complaint {
-  id Int [pk, increment]
+  id String [pk]
   complaintId String
   salesRepEmail String
   complaintName String
