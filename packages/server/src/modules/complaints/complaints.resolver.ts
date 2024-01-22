@@ -28,7 +28,7 @@ export class ComplaintsResolver {
 
   @Query(() => ComplaintsOutput)
   @UseGuards(AzureAuthGuard)
-  complaint(@Args('id') id: number) {
+  complaint(@Args('id') id: string) {
     return this.complaintsService.getComplaint(id);
   }
 }
