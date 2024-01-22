@@ -86,7 +86,7 @@ const PlanScreen = (props: PlanScreenProps) => {
     },
   });
   useEffect(() => {
-    getData();
+    getData({});
   }, []);
   const onCancel = () => {};
 
@@ -117,10 +117,6 @@ const PlanScreen = (props: PlanScreenProps) => {
         : new XDate();
       date.addMonths(isNext ? 1 : -1);
       setState({currentDate: toMarkingFormat(date)});
-      console.log(
-        '=>(PlanScreen.tsx:83) CalendarRef.current',
-        CalendarRef.current,
-      );
       CalendarRef.current?.onScrollItem &&
         CalendarRef.current?.onScrollItem(toMarkingFormat(date));
     },

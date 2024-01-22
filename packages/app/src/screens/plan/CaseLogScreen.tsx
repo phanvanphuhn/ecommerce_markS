@@ -79,7 +79,7 @@ const CaseLogScreen2 = (props: any) => {
 
             <View style={{padding: 16}}>
               <InputForm
-                name={'subject'}
+                name={'caseName'}
                 title={'Subject'}
                 placeholder={'Procedure'}
               />
@@ -119,7 +119,7 @@ const CaseLogScreen2 = (props: any) => {
               />
 
               <InputForm
-                name={'division'}
+                name={'contact'}
                 title={'Doctor'}
                 placeholder={'Doctor Name'}
               />

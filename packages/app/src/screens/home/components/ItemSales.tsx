@@ -26,6 +26,7 @@ const ItemSales = (props: ItemSalesProps) => {
   };
   return (
     <TouchableOpacity
+      disabled={true}
       onPress={onDetail}
       style={[Theme.shadow, styles.container]}>
       <View style={[Theme.flexRow, Theme.pt05, Theme.pl10, Theme.pr10]}>
@@ -67,7 +68,7 @@ const ItemSales = (props: ItemSalesProps) => {
       <SemiCircleSlider
         max={200}
         isHideCircle={true}
-        disabled={true}
+        disabled={false}
         linearGradientColor={[
           '#f7ebd4',
           '#EFE2AE',

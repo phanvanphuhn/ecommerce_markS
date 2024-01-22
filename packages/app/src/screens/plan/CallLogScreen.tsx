@@ -24,6 +24,8 @@ import uuid from 'react-native-uuid';
 import {useNavigation} from '@react-navigation/core';
 import {BaseUseNavigationProps} from 'navigation/BaseNavigationProps';
 import {MainParamList} from 'navigation/service/NavigationParams';
+import {Dropdown} from 'react-native-element-dropdown';
+import Routes from 'configs/Routes';
 const CallLogScreen = (props: any) => {
   const {route} = props;
   const navigation = useNavigation<BaseUseNavigationProps<MainParamList>>();
@@ -37,7 +39,6 @@ const CallLogScreen = (props: any) => {
       division: '',
       endDate: new Date(),
       startDate: new Date(),
-      id: uuid.v4(),
       location: '',
       ownerCountry: '',
       salesForceId: '',
@@ -47,7 +48,12 @@ const CallLogScreen = (props: any) => {
     onSubmit: async values => {
       console.log('=>(CallLogScreen.tsx:49) values', values);
       await onSubmitData({variables: {data: values}});
-      navigation.goBack();
+      navigation.replace(Routes.DrawerStack, {
+        screen: Routes.MainTab,
+        params: {
+          screen: Routes.PlanScreen,
+        },
+      });
     },
   });
   const onCancel = () => {};
@@ -111,6 +117,28 @@ const CallLogScreen = (props: any) => {
                 title={'Type'}
                 name={'activitySubtype'}
                 placeholder={'Select Type'}
+                type={'dropdown'}
+                arrDropdown={[
+                  {label: 'CALL', value: 'CALL'},
+                  {label: 'CASE SUPPORT', value: 'CASE_SUPPORT'},
+                  {label: 'EDETAILING', value: 'EDETAILING'},
+                  {label: 'EDETAILING VIRTUAL', value: 'EDETAILING_VIRTUAL'},
+                  {label: 'EMAIL', value: 'EMAIL'},
+                  {label: 'FOLLOW UP', value: 'FOLLOW_UP'},
+                  {
+                    label: 'MARKETING MATERIAL PREPARATION',
+                    value: 'MARKETING MATERIAL PREPARATION',
+                  },
+                  {label: 'MEETING', value: 'MEETING'},
+                  {label: 'OTHER', value: 'OTHER'},
+                  {label: 'PRECEPTORSHIP', value: 'PRECEPTORSHIP'},
+                  {label: 'PROCTORSHIP', value: 'PROCTORSHIP'},
+                  {label: 'PRODUCT DEMO', value: 'PRODUCT_DEMO'},
+                  {label: 'REMOTE CASE SUPPORT', value: 'REMOTE_CASE_SUPPORT'},
+                  {label: 'SEND LETTER', value: 'SEND_LETTER'},
+                  {label: 'SEND QUOTE', value: 'SEND_QUOTE'},
+                  {label: 'WEBINARS', value: 'WEBINARS'},
+                ]}
                 rightIcon={
                   <IconAntDesign name="downcircle" size={15} color={'black'} />
                 }

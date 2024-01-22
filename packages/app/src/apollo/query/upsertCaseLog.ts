@@ -48,7 +48,7 @@ interface Variables {
 }
 
 export let upsertCaseLog: TypedDocumentNode<Data, Variables> = gql`
-  mutation upsertCaseLog($data: PlanCallInput!) {
+  mutation upsertCaseLog($data: CaseLogInput!) {
     data: upsertCaseLog(data: $data) {
       account
       activityOwnerEmail
@@ -57,7 +57,6 @@ export let upsertCaseLog: TypedDocumentNode<Data, Variables> = gql`
       contact
       createdAt
       endDate
-      files
       id
       location
       photoPaths

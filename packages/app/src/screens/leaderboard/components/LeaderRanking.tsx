@@ -7,7 +7,7 @@ import scale from 'utils/scale';
 import images from 'res/images';
 import {ItemLeaderBoardResponse} from 'apollo/query/leaderboard';
 import {TabDateType} from 'screens/leaderboard/LeaderboardScreen';
-import {getRank} from 'utils/other-utils';
+import {getRank, getTargetAchieved} from 'utils/other-utils';
 
 type TData = {
   data?: ItemLeaderBoardResponse[];
@@ -79,7 +79,7 @@ const LeaderRanking = (props: TData) => {
                     ? {fontSize: 14, fontWeight: '700', color: '#F2F2F2'}
                     : {fontSize: 14, fontWeight: '700', color: '#CE7C49'}
                 }>
-                {item.targetAchievedMtd}%
+                {getTargetAchieved(item, props.type)}%
               </Text>
             </View>
           );

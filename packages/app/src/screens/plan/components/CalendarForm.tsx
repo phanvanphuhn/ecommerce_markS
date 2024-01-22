@@ -43,7 +43,11 @@ const CalendarForm = (props: CalendarFormProps) => {
         type={props?.typeDate || 'date'}
         onCloseModal={close}
         onPressClose={(date, dateString) => {
-          setFieldValue(props.name, moment(date).utc(true).toISOString());
+          console.log(
+            '=>(CalendarForm.tsx:48) moment(date).utc(true).toISOString()',
+            moment(date).toISOString(),
+          );
+          setFieldValue(props.name, moment(date).toISOString());
         }}
       />
     </>

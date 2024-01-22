@@ -29,6 +29,7 @@ const ItemBoost = (props: ItemBoostProps) => {
   };
   return (
     <TouchableOpacity
+      disabled={true}
       onPress={onDetail}
       style={[Theme.shadow, styles.container]}>
       <View
@@ -49,7 +50,7 @@ const ItemBoost = (props: ItemBoostProps) => {
       <CircleSlider
         max={state.max}
         isHideCircle={true}
-        // disabled={true}
+        disabled={false}
         linearGradientColor={[
           '#0152CB',
           '#0152CB',
@@ -66,7 +67,6 @@ const ItemBoost = (props: ItemBoostProps) => {
         value={state.value}
         width={width / 2 - 50}
         thumbRadius={22}
-        disabled={true}
         onUpdate={value => {
           console.log('=>(SalesScreen.tsx:157) value', value);
         }}

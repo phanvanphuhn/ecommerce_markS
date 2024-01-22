@@ -54,18 +54,15 @@ export interface PlanCallInput {
   activitySubtype: PlanCallActivitySubtype;
   activityType: PlanCallActivityType;
   contactName: string;
-  createdAt?: string;
   description: string;
   division: string;
   endDate: Date;
-  id: string | number[];
   location: string;
   ownerCountry: string;
   salesForceId: string;
   startDate: Date;
   status: PlanCallStatus;
   subject: string;
-  updatedAt?: string;
 }
 interface Variables {
   data: PlanCallInput;
@@ -80,18 +77,15 @@ export let MUTATION_DATA_CALL_QUERY: TypedDocumentNode<Data, Variables> = gql`
       activitySubtype
       activityType
       contactName
-      createdAt
       description
       division
       endDate
-      id
       location
       ownerCountry
       salesForceId
       startDate
       status
       subject
-      updatedAt
     }
   }
 `;

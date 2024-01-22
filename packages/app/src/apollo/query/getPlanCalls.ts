@@ -40,17 +40,14 @@ export let GET_PLAN_CALLS: TypedDocumentNode<Data, Variables> = gql`
     $activitySubtype: PlanCallActivitySubtype
     $activityType: PlanCallActivityType
     $contactName: String
-    $createdAt: DateTimeISO
     $description: String
     $division: String
     $endDate: String
-    $id: String
     $location: String
     $ownerCountry: String
     $startDate: String
     $status: PlanCallStatus
     $subject: String
-    $updatedAt: DateTimeISO
   ) {
     data: getPlanCalls(
       account: $account
@@ -59,17 +56,14 @@ export let GET_PLAN_CALLS: TypedDocumentNode<Data, Variables> = gql`
       activitySubtype: $activitySubtype
       activityType: $activityType
       contactName: $contactName
-      createdAt: $createdAt
       description: $description
       division: $division
       endDate: $endDate
-      id: $id
       location: $location
       ownerCountry: $ownerCountry
       startDate: $startDate
       status: $status
       subject: $subject
-      updatedAt: $updatedAt
     ) {
       account
       activityOwnerEmail
@@ -77,18 +71,15 @@ export let GET_PLAN_CALLS: TypedDocumentNode<Data, Variables> = gql`
       activitySubtype
       activityType
       contactName
-      createdAt
       description
       division
       endDate
-      id
       location
       ownerCountry
       salesForceId
       startDate
       status
       subject
-      updatedAt
     }
   }
 `;

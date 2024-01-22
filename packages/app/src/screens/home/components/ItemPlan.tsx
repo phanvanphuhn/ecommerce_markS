@@ -29,6 +29,7 @@ const ItemPlan = (props: ItemPlanProps) => {
   };
   return (
     <TouchableOpacity
+      disabled={true}
       onPress={onDetail}
       style={[Theme.shadow, styles.container]}>
       <View
@@ -48,7 +49,7 @@ const ItemPlan = (props: ItemPlanProps) => {
       <CircleSlider
         max={200}
         isHideCircle={true}
-        disabled={true}
+        disabled={false}
         linearGradientColor={[
           '#0152CB',
           '#0152CB',

@@ -67,7 +67,7 @@ const LeaderboardScreen = (props: LeaderboardScreenProps) => {
             style={[Theme.flex1]}
             isFocused={state.type == 'Month'}
             onPress={() => {
-              setState({type: 'Month'});
+              setState({type: 'Month', dataTop: []});
             }}
           />
           <ItemTab
@@ -75,7 +75,7 @@ const LeaderboardScreen = (props: LeaderboardScreenProps) => {
             style={[Theme.flex1]}
             isFocused={state.type == 'Quarter'}
             onPress={() => {
-              setState({type: 'Quarter'});
+              setState({type: 'Quarter', dataTop: []});
             }}
           />
           <ItemTab
@@ -83,11 +83,19 @@ const LeaderboardScreen = (props: LeaderboardScreenProps) => {
             style={[Theme.flex1]}
             isFocused={state.type == 'Year'}
             onPress={() => {
-              setState({type: 'Year'});
+              setState({type: 'Year', dataTop: []});
             }}
           />
         </View>
-        <LeaderRanking data={state.dataTop} type={state.type} />
+        {state.dataTop?.length ? (
+          <LeaderRanking
+            key={state.type}
+            data={state.dataTop}
+            type={state.type}
+          />
+        ) : (
+          <View style={{height: 260}} />
+        )}
       </View>
 
       <View style={[Theme.mb10]}>
