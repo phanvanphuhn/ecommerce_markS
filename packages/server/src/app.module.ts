@@ -15,27 +15,6 @@ import { ContactSearchModule } from './modules/contact-search/contact-search.mod
 import { UserProfilesModule } from './modules/user-profiles/user-profiles.module';
 import { ComplaintsModule } from './modules/complaints/complaints.module';
 import { LeaderboardModule } from './modules/leaderboard/leaderboard.module';
-import { SalesModule } from './modules/sales/sales.module';
-import { EventsModule } from './modules/events/events.module';
-import { SearchHistoryModule } from './modules/search-history/search-history.module';
-
-interface DatabaseCreds {
-  host: string;
-  username: string;
-  password: string;
-  port: number;
-}
-
-function readDatabaseSecrets(): DatabaseCreds {
-  try {
-    const secretFilePath = '/usr/src/app/rds/rds-creds/jarvis-mark-credentials'; // Path to the mounted secret file
-    const secretData = readFileSync(secretFilePath, 'utf8');
-    return JSON.parse(secretData);
-  } catch (error) {
-    console.error('Error reading database secrets:', error);
-    return null;
-  }
-}
 
 @Module({
   imports: [
@@ -132,9 +111,6 @@ function readDatabaseSecrets(): DatabaseCreds {
     UserProfilesModule,
     ComplaintsModule,
     LeaderboardModule,
-    SalesModule,
-    EventsModule,
-    SearchHistoryModule,
   ],
   controllers: [],
   providers: [],

@@ -24,7 +24,6 @@ import uuid from 'react-native-uuid';
 import {useNavigation} from '@react-navigation/core';
 import {BaseUseNavigationProps} from 'navigation/BaseNavigationProps';
 import {MainParamList} from 'navigation/service/NavigationParams';
-import {validateCallLog} from 'screens/plan/validate';
 const CallLogScreen = (props: any) => {
   const {route} = props;
   const navigation = useNavigation<BaseUseNavigationProps<MainParamList>>();
@@ -35,24 +34,22 @@ const CallLogScreen = (props: any) => {
       activityType: 'EVENT',
       contactName: '',
       description: '',
-      account: '',
       division: '',
       endDate: new Date(),
       startDate: new Date(),
+      id: uuid.v4(),
       location: '',
       ownerCountry: '',
       salesForceId: '',
       status: 'IN_PROGRESS',
       subject: '',
     },
-    validationSchema: validateCallLog,
     onSubmit: async values => {
       console.log('=>(CallLogScreen.tsx:49) values', values);
       await onSubmitData({variables: {data: values}});
       navigation.goBack();
     },
   });
-  console.log('=>(CallLogScreen.tsx:56) formik', formik);
   const onCancel = () => {};
 
   const onSave = () => {

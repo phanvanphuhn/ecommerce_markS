@@ -318,56 +318,71 @@ const PriceYear = (props: PriceYearProps) => {
             potentialValue={state?.data?.totalSales}
           />
         </View>
-      </ScrollView>
-      <ModalBase
-        animationIn={'slideInLeft'}
-        animationOut={'slideOutLeft'}
-        isVisibleModal={isOpen}>
-        <View style={styles.containerModal}>
-          <Text size={18} fontWeight={'700'}>
-            Disclaimer
-          </Text>
-          <View style={{height: height / 2}}>
-            <ScrollView
-              showsVerticalScrollIndicator={false}
-              horizontal={false}
-              showsHorizontalScrollIndicator={false}>
-              <View style={{flex: 1}}>
-                {dataGuidelines?.map((e, i) => {
-                  return (
-                    <View
-                      key={i}
-                      style={[
-                        Theme.flexRow,
-                        {
-                          alignItems: 'flex-start',
-                          marginTop: 15,
-                          flex: 1,
-                          paddingRight: 13,
-                        },
-                      ]}>
-                      <Text fontWeight={'300'} size={18}>
-                        {i + 1}.
-                      </Text>
-                      <Text fontWeight={'300'} size={18}>
-                        {e}
-                      </Text>
-                    </View>
-                  );
-                })}
-              </View>
-            </ScrollView>
+        <ItemCollapsible
+          icon={images.ic_dolar}
+          title={'Rewards'}
+          potentialValue={Number(getVariable) + Number(getCommission)}
+          currentValue={
+            state?.data?.[`variablePayoutBy${state.type}`] +
+            state?.data?.[`commissionPayoutBy${state.type}`]
+          }>
+          <View style={{}}>
+            <ItemPrice
+              title={'Variable'}
+              currentValue={state?.data?.[`variablePayoutBy${state.type}`]}
+              potentialValue={Number(getVariable)}
+            />
+            <ItemPrice
+              title={'Commission'}
+              currentValue={state?.data?.[`commissionPayoutBy${state.type}`]}
+              potentialValue={Number(getCommission)}
+            />
           </View>
-          <ButtonBorder
-            borderColor={colors.blue3}
-            height={42}
-            color={colors.blue3}
-            style={[{paddingHorizontal: '30%', marginTop: 10}]}
-            title={'Close'}
-            onPress={close}
-          />
-        </View>
-      </ModalBase>
+        </ItemCollapsible>
+        <ItemCollapsible
+          icon={images.ic_booster}
+          title={'Sales Booster'}
+          currentValue={state?.data?.kicker + state?.data?.earlyBird}
+          potentialValue={getKicker + getEarlyBird}>
+          <View style={{}}>
+            <ItemPrice
+              title={'Kicker'}
+              currentValue={state?.data?.kicker}
+              potentialValue={getKicker}
+            />
+            <ItemPrice
+              title={'Early Bird'}
+              currentValue={state?.data?.earlyBird}
+              potentialValue={getEarlyBird}
+            />
+          </View>
+        </ItemCollapsible>
+        <ItemCollapsible
+          icon={images.ic_dolar}
+          title={'Additional Payout'}
+          currentValue={
+            state?.data?.capitalEquipment + state?.data?.serviceContract
+          }>
+          <View style={{}}>
+            <ItemPrice
+              title={'Capital Equipment'}
+              currentValue={state?.data?.capitalEquipment}
+              potentialValue={0}
+            />
+            <ItemPrice
+              title={'Service Contract'}
+              currentValue={state?.data?.serviceContract}
+              potentialValue={0}
+            />
+          </View>
+        </ItemCollapsible>
+        <ItemCollapsible
+          icon={images.ic_total}
+          title={'Total'}
+          currentValue={2000}
+          potentialValue={state?.data?.totalSales}
+        />
+      </ScrollView>
     </>
   );
 };

@@ -91,6 +91,7 @@ const LoginScreen = (props: LoginScreenProps) => {
     }
   };
   const _onLogin = () => {
+    // reset(Routes.DrawerStack);
     getAzureToken();
   };
   return (

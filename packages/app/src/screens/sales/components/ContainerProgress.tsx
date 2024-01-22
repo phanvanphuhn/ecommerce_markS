@@ -49,6 +49,7 @@ const ContainerProgress = (props: ContainerProgressProps) => {
   });
   const [isOpen, open, close] = useModal();
   const {state, setState} = useContainerContext<IStateSales>();
+  console.log('=>(ContainerProgress.tsx:52) state', state);
   const renderDate = useCallback(() => {
     let date = state.currentDate ? moment(state.currentDate) : moment();
     switch (state.type) {
@@ -187,12 +188,10 @@ const ContainerProgress = (props: ContainerProgressProps) => {
                   }}>
                   <Text color={colors.pink3} fontWeight={'600'}>
                     $
-                    {(targetAvchieve &&
-                      String(targetAvchieve)?.replace(
-                        /\B(?=(\d{3})+(?!\d))/g,
-                        ',',
-                      )) ||
-                      0}{' '}
+                    {String(targetAvchieve)?.replace(
+                      /\B(?=(\d{3})+(?!\d))/g,
+                      ',',
+                    ) || 0}{' '}
                     <Text fontWeight={'400'}>to {state.percentage}%</Text>
                   </Text>
                 </View>
