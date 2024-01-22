@@ -6868,10 +6868,10 @@ react-native-calendars@^1.1301.0:
   optionalDependencies:
     moment "^2.29.4"
 
-react-native-code-push@^8.1.0:
-  version "8.2.0"
-  resolved "https://registry.yarnpkg.com/react-native-code-push/-/react-native-code-push-8.2.0.tgz#1bfc5c31f69bf0f9c93f8ecb1a25fb349c12e184"
-  integrity sha512-YjEpfQx8XuXhkZfRvhCglXxBYV9Z180BuIYvCl7BhxzsFq8DurBm+bPGlYgSuxlu2aqCqQ4WRSQGODuhEqgRsg==
+react-native-code-push@8.1.0:
+  version "8.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-code-push/-/react-native-code-push-8.1.0.tgz#5bf42d749447705ca2d2e6df371b4353ea7afd78"
+  integrity sha512-EJsLeOnRGXTOAQxbL8B7l5XIQqIC++dYYiZneoFYtCiv1t71vrAokniNdk2mL0tKKii8qoIhev0NzRnQAw+FrQ==
   dependencies:
     code-push "^4.2.0"
     glob "^7.1.7"
