@@ -37,7 +37,9 @@ export class GraphService {
     });
   }
 
-  async getMeUser(accessToken: string): Promise<AzureDirectoryUser> {
+  async getMeUserCreateNewCLient(
+    accessToken: string,
+  ): Promise<AzureDirectoryUser> {
     try {
       const newClient = Client.initWithMiddleware({
         debugLogging: true,
@@ -56,6 +58,21 @@ export class GraphService {
       });
 
       const user = await newClient.api('/me').get();
+      return user;
+    } catch (error) {
+      console.error('Error fetching user:', error);
+
+      throw error;
+    }
+  }
+
+  async getMeUser(accessToken: string): Promise<AzureDirectoryUser> {
+    try {
+      const user = await this.client
+        .api('/me')
+        .header('Authorization', `Bearer ${accessToken}`)
+        .get();
+
       return user;
     } catch (error) {
       console.error('Error fetching user:', error);
