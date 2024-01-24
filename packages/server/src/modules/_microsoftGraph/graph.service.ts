@@ -1,5 +1,5 @@
 import 'isomorphic-fetch';
-import { ClientSecretCredential } from '@azure/identity';
+import { AccessToken, ClientSecretCredential } from '@azure/identity';
 import { Client } from '@microsoft/microsoft-graph-client';
 import {
   TokenCredentialAuthenticationProvider,
@@ -35,6 +35,33 @@ export class GraphService {
       debugLogging: true,
       authProvider: authProvider,
     });
+  }
+
+  async getMeUser(accessToken: string): Promise<AzureDirectoryUser> {
+    try {
+      const newClient = Client.initWithMiddleware({
+        debugLogging: true,
+        authProvider: new TokenCredentialAuthenticationProvider(
+          {
+            getToken: async () => {
+              return {
+                token: accessToken,
+              } as AccessToken;
+            },
+          },
+          {
+            scopes: azureConfig.exposedScopes,
+          },
+        ),
+      });
+
+      const user = await newClient.api('/me').get();
+      return user;
+    } catch (error) {
+      console.error('Error fetching user:', error);
+
+      throw error;
+    }
   }
 
   async getUser(userId: string): Promise<AzureDirectoryUser> {

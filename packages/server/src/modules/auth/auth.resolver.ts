@@ -1,4 +1,4 @@
-import { Resolver, Query } from '@nestjs/graphql';
+import { Resolver, Query, Args } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { GraphQLJSON } from 'graphql-scalars';
 
@@ -20,9 +20,11 @@ export class AuthResolver {
   }
 
   @Query(() => GraphQLJSON, { name: 'meAD' })
-  @UseGuards(AzureAuthGuard)
-  async getInfoAccessToken(@UserEntity() user: any) {
-    return await this.graphService.getUser(user.oid);
+  async getInfoAccessToken(
+    @Args('accessToken') accessToken,
+    @UserEntity() user: any,
+  ) {
+    return await this.graphService.getMeUser(accessToken);
   }
 
   @Query(() => GraphQLJSON, { name: 'getSelfCalendars' })
