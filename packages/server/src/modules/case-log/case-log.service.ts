@@ -120,9 +120,11 @@ export class CaseLogService {
     if (input.files) {
       for (const file of input.files) {
         const photo = await file;
-        await this.s3Service.putStream(salesRepEmail, photo);
+        console.log('uploaded file', photo, 'for sales rep', salesRepEmail);
 
-        input.photoPaths.push(photo.filename);
+        const uploaded = await this.s3Service.putStream(salesRepEmail, photo);
+
+        input.photoPaths.push(photo.filename || '');
       }
     }
 
