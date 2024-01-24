@@ -88,6 +88,10 @@ export class CaseLogService {
 
         await this.s3Service.putStream(salesRepEmail, photo);
 
+        if (!input.photoPaths) {
+          input.photoPaths = [];
+        }
+
         input.photoPaths.push(
           photo?.filename || (file as unknown as FileUpload)?.filename || '',
         );
