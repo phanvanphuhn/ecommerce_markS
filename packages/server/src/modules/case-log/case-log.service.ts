@@ -19,42 +19,6 @@ export class CaseLogService {
     return (await this.s3Service.getBlob(filePath)).Body;
   }
 
-  // @Field(() => String, { nullable: true })
-  // caseName: string;
-
-  // @Field(() => GraphQLISODateTime, { nullable: true })
-  // startDate?: string;
-
-  // @Field(() => GraphQLISODateTime, { nullable: true })
-  // endDate?: string;
-
-  // @Field(() => String, { nullable: true })
-  // account?: string;
-
-  // @Field(() => String, { nullable: true })
-  // location?: string;
-
-  // @Field(() => String, { nullable: true })
-  // contact?: string;
-
-  // @Field(() => String, { nullable: true })
-  // secondaryContact?: string;
-
-  // @Field(() => CaseLogStatus, { nullable: true })
-  // status?: string;
-
-  // @Field(() => [String], { nullable: true })
-  // productIds?: string[];
-
-  // @Field(() => [String], { nullable: true })
-  // photoPaths?: string[];
-
-  // @Field(() => GraphQLISODateTime, { nullable: true })
-  // createdAt?: string;
-
-  // @Field(() => GraphQLISODateTime, { nullable: true })
-  // updatedAt?: string;
-
   async getCaseLogs(salesRepEmail: string, filter: CaseLogFilterArgs) {
     let query = this.database.selectFrom('marks.CaseLog').selectAll();
 
@@ -124,7 +88,9 @@ export class CaseLogService {
 
         const uploaded = await this.s3Service.putStream(salesRepEmail, photo);
 
-        input.photoPaths.push(photo.filename || '');
+        input.photoPaths.push(
+          photo.filename || (file as unknown as FileUpload).filename || '',
+        );
       }
     }
 
