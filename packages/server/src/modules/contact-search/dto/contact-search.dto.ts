@@ -35,6 +35,8 @@ export class ContactSearchOutput {
 
   @Field(() => Number, { nullable: true })
   id: number;
+  @Field(() => String, { nullable: true })
+  contactId?: string;
 
   @Field(() => String, { nullable: true })
   doctorName!: string;

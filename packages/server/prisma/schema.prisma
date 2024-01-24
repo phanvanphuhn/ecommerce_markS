@@ -36,6 +36,7 @@ model ContactSearch {
   hospitalId             String?
   hospital               String?
   topicsOfInterest       String?
+  contactId              String?
   doctorName             String?
   doctorEmail            String?
   doctorAlternativeEmail String?
@@ -227,6 +228,7 @@ model PlanCall {
   description        String?
   location           String?
   account            String?
+  contactId          String?
   contactName        String?
   division           String?
   activityType       String?

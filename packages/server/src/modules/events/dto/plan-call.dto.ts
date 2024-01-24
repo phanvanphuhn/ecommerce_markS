@@ -57,6 +57,9 @@ export class PlanCall {
   account?: string;
 
   @Field(() => String, { nullable: true })
+  contactId?: string;
+
+  @Field(() => String, { nullable: true })
   contactName?: string;
 
   @Field(() => String, { nullable: true })
