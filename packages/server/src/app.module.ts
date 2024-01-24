@@ -133,7 +133,6 @@ function readDatabaseSecrets(secretsFilePath: string): DatabaseCreds {
           installSubscriptionHandlers: true,
           includeStacktraceInErrorResponses: graphqlConfig.debug,
           playground: false,
-          uploads: false,
           context: ({ req }) => ({ req }),
           plugins: [ApolloServerPluginLandingPageLocalDefault()],
         };
