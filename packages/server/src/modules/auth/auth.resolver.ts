@@ -21,7 +21,7 @@ export class AuthResolver {
 
   @Query(() => GraphQLJSON, { name: 'meAD' })
   async getInfoAccessToken(
-    @Args('accessToken') accessToken,
+    @Args('accessToken') accessToken: string,
     @UserEntity() user: any,
   ) {
     return await this.graphService.getMeUser(accessToken);
