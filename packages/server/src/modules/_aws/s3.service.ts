@@ -26,6 +26,7 @@ export class S3Service {
     const s3file = await new Promise<AWS.S3.PutObjectOutput>(
       (resolve, reject) => {
         const handleError = (error) => {
+          console.log('error with uploading s3:', error);
           reject(error);
         };
         const chunks: Buffer[] = [];
