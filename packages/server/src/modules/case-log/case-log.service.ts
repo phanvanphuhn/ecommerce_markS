@@ -103,6 +103,17 @@ export class CaseLogService {
       delete input.files;
     }
 
+    if (input.id) {
+      const existing = await this.database
+        .selectFrom('marks.CaseLog')
+        .selectAll()
+        .where('id', '=', input.id)
+        .executeTakeFirst();
+      if (input.photoPaths && existing.photoPaths) {
+        input.photoPaths = input.photoPaths.concat(existing.photoPaths);
+      }
+    }
+
     const result = await this.database
       .insertInto('marks.CaseLog')
       .values({
