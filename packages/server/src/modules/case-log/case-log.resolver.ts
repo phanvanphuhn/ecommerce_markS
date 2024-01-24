@@ -58,6 +58,14 @@ export class CaseLogResolver {
     return this.caseLogService.upsertCaseLog(user[0].salesRepEmail, data);
   }
 
+  @Mutation(() => CaseLogOutput)
+  async testUpsertCaseLog(
+    @UserEntity() userInfo,
+    @Args('data') data: CaseLogInput,
+  ) {
+    return this.caseLogService.upsertCaseLog('test@email.com', data);
+  }
+
   @Query(() => GraphQLJSON)
   @UseGuards(AzureAuthGuard)
   async getFile(@UserEntity() userInfo, @Args('filePath') filePath: string) {

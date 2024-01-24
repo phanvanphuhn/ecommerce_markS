@@ -6,6 +6,7 @@ import { Logger, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { PrismaModule, QueryInfo, loggingMiddleware } from 'nestjs-prisma';
+import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 
 import config from './common/configs/config';
 import { DatabaseModule } from './modules/_database/database.module';
@@ -131,8 +132,9 @@ function readDatabaseSecrets(secretsFilePath: string): DatabaseCreds {
           // subscription
           installSubscriptionHandlers: true,
           includeStacktraceInErrorResponses: graphqlConfig.debug,
-          playground: graphqlConfig.playgroundEnabled,
+          playground: false,
           context: ({ req }) => ({ req }),
+          plugins: [ApolloServerPluginLandingPageLocalDefault()],
         };
       },
     }),
