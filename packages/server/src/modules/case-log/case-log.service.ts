@@ -84,9 +84,13 @@ export class CaseLogService {
     if (input.files) {
       for (const file of input.files) {
         const photo = await file;
-        console.log('uploaded file', photo, 'for sales rep', salesRepEmail);
+        console.log('uploading file', photo, 'for sales rep', salesRepEmail);
 
-        await this.s3Service.putStream(salesRepEmail, photo);
+        try {
+          await this.s3Service.putStream(salesRepEmail, photo);
+        } catch (err) {
+          continue;
+        }
 
         if (!input.photoPaths) {
           input.photoPaths = [];
