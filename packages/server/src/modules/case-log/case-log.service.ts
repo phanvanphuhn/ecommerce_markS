@@ -96,6 +96,7 @@ export class CaseLogService {
           photo?.filename || (file as unknown as FileUpload)?.filename || '',
         );
       }
+      delete input.files;
     }
 
     const result = await this.database
