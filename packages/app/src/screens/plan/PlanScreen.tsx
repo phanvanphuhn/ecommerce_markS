@@ -86,7 +86,7 @@ const PlanScreen = (props: PlanScreenProps) => {
     },
   });
   useEffect(() => {
-    getData({});
+    getData({variables: {status: null}});
   }, []);
   const onCancel = () => {};
 

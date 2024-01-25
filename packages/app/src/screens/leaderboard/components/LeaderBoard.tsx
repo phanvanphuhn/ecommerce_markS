@@ -9,6 +9,7 @@ import {ItemLeaderBoardResponse} from 'apollo/query/leaderboard';
 import item from 'lib/react-native-calendars/src/calendar-list/item';
 import {TabDateType} from 'screens/leaderboard/LeaderboardScreen';
 import {getRank, getTargetAchieved} from 'utils/other-utils';
+import {useSelector} from 'hooks/useSelector';
 
 type TData = {
   data?: ItemLeaderBoardResponse[];
@@ -17,6 +18,7 @@ type TData = {
 
 const LeaderBoard = (props: TData) => {
   const {data} = props;
+  const userProfile = useSelector(state => state.userProfile.user);
 
   return (
     <View style={styles.container}>
@@ -37,7 +39,9 @@ const LeaderBoard = (props: TData) => {
                 </Text>
               </View>
               <Text size={15} fontWeight={'400'} style={styles.name}>
-                {item.fullName}
+                {item.salesRepEmail == userProfile?.mail
+                  ? `ME(${item.fullName})`
+                  : 'BSC Supersales'}
               </Text>
               <View
                 style={{

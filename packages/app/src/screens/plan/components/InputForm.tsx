@@ -18,6 +18,7 @@ interface InputFormProps {
   numberOfLines?: number;
   rightIcon?: React.ReactNode;
   type?: 'dropdown' | 'input';
+  dropdownPosition?: 'auto' | 'top' | 'bottom';
   arrDropdown?: DropdownProp[];
 }
 const InputForm = (props: InputFormProps) => {
@@ -43,8 +44,8 @@ const InputForm = (props: InputFormProps) => {
           maxHeight={300}
           labelField="label"
           valueField="value"
-          placeholder={'Select Type'}
-          searchPlaceholder="Select Type"
+          dropdownPosition={props.dropdownPosition}
+          placeholder={props.placeholder}
           value={values?.[props.name]}
           onChange={e => setFieldValue(props.name, e.value)}
         />

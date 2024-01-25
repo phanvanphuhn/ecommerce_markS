@@ -37,6 +37,7 @@ export let GET_DOCTOR_QUERY: TypedDocumentNode<Data, Variables> = gql`
       doctorAlternativeEmail: $doctorAlternativeEmail
       doctorCountry: $doctorCountry
     ) {
+      contactId
       doctorAlternativeEmail
       doctorCountry
       doctorDivision

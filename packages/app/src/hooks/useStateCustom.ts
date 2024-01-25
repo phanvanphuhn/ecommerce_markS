@@ -10,7 +10,7 @@ interface Props {
   state: any;
 }
 
-const useStateCustom = <T>(initialState: T): [T, Dispatch<T>] => {
+const useStateCustom = <T>(initialState: T): [T, Dispatch<Partial<T>>] => {
   const [state, setState] = useReducer(
     (preState: T, newState: T) => ({
       ...preState,

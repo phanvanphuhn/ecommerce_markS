@@ -25,16 +25,21 @@ import {doc} from 'prettier';
 import {BaseNavigationProps} from 'navigation/BaseNavigationProps';
 import {MainParamList} from 'navigation/service/NavigationParams';
 import {Routes} from 'configs';
+import {IDoctorSearchList} from 'network/apis/doctor/DoctorResponse';
 
-interface DetailDoctorScreenProps {}
+interface State {
+  listHospital: IDoctorSearchList[];
+  hospital?: IDoctorSearchList;
+  isEdit: boolean;
+}
 
 const DetailDoctorScreen = (
   props: BaseNavigationProps<MainParamList, Routes.DetailDoctorScreen>,
 ) => {
-  const [state, setState] = useStateCustom({
+  const [state, setState] = useStateCustom<State>({
     isEdit: false,
     listHospital: [],
-    hospital: {},
+    hospital: undefined,
   });
   const [getData, {data, loading}] = useLazyQuery(GET_DOCTOR_PROFILE_QUERY);
 
@@ -44,8 +49,10 @@ const DetailDoctorScreen = (
         doctorEmail: props.route.params.item.doctorEmail,
       },
       onCompleted: response => {
-        console.log('=>(DetailDoctorScreen.tsx:50) response', response);
-        setState({listHospital: response.data, hospital: response.data[0]});
+        let hospital = response.data.find(
+          e => e.hospital == props.route.params.item.hospital,
+        );
+        setState({listHospital: response.data, hospital: hospital});
       },
     });
   }, []);
@@ -149,10 +156,10 @@ const DetailDoctorScreen = (
                 justifyContent: 'center',
               }}>
               <Text size={21} lineHeight={26} marginBottom={5}>
-                {data?.data[0].doctorName}
+                {state?.hospital?.doctorName}
               </Text>
               <Text lineHeight={24} size={15}>
-                {data?.data[0].doctorTitle}
+                {state?.hospital?.doctorTitle}
               </Text>
               <View style={[Theme.flexRowSpace, Theme.mt20]}>
                 <TouchableOpacity
@@ -193,7 +200,7 @@ const DetailDoctorScreen = (
                 Email
               </Text>
               <TextInput
-                value={data?.data[0].doctorEmail}
+                value={state?.hospital?.doctorEmail || ''}
                 editable={state.isEdit}
                 style={styles.input}
               />
@@ -204,12 +211,16 @@ const DetailDoctorScreen = (
                 marginTop={10}>
                 Alternative Email
               </Text>
-              <TextInput value={''} editable={false} style={styles.input} />
+              <TextInput
+                value={state?.hospital?.doctorAlternativeEmail || ''}
+                editable={false}
+                style={styles.input}
+              />
               <Text size={13} color={colors.dotActive} marginTop={10}>
                 Mobile Number
               </Text>
               <TextInput
-                value={data?.data[0].doctorPhone}
+                value={state?.hospital?.doctorPhone || ''}
                 editable={state.isEdit}
                 style={styles.input}
               />
@@ -227,7 +238,6 @@ const DetailDoctorScreen = (
                   {flexWrap: 'wrap', height: undefined},
                 ]}>
                 {state.listHospital.map((e, i) => {
-                  console.log('=>(DetailDoctorScreen.tsx:297) e', e);
                   return (
                     <View
                       style={[
@@ -260,7 +270,7 @@ const DetailDoctorScreen = (
                 Country
               </Text>
               <TextInput
-                value={''}
+                value={state?.hospital?.doctorCountry || ''}
                 editable={state.isEdit}
                 style={styles.input}
               />
@@ -272,7 +282,7 @@ const DetailDoctorScreen = (
                 Specialty
               </Text>
               <TextInput
-                value={state.hospital.doctorSpecialty}
+                value={state.hospital?.doctorSpecialty || ''}
                 editable={state.isEdit}
                 style={styles.input}
               />
@@ -284,7 +294,7 @@ const DetailDoctorScreen = (
                 Division
               </Text>
               <TextInput
-                value={state.hospital.doctorDivision}
+                value={state.hospital?.doctorDivision || ''}
                 editable={state.isEdit}
                 style={styles.input}
               />
@@ -296,7 +306,7 @@ const DetailDoctorScreen = (
                 Topics Of Interest
               </Text>
               <TextInput
-                value={'Lorem Ipsum'}
+                value={state?.hospital?.topicsOfInterest || ''}
                 editable={state.isEdit}
                 style={[styles.input, {borderBottomWidth: 0}]}
               />

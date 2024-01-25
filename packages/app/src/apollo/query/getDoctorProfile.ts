@@ -12,14 +12,18 @@ interface Variables {
 export let GET_DOCTOR_PROFILE_QUERY: TypedDocumentNode<Data, Variables> = gql`
   query getDoctorProfile($doctorEmail: String!) {
     data: getDoctorProfile(doctorEmail: $doctorEmail) {
+      doctorAlternativeEmail
+      doctorCountry
       doctorDivision
       doctorEmail
       doctorName
       doctorPhone
+      doctorSalutation
       doctorSpecialty
       doctorTitle
       hospital
       id
+      topicsOfInterest
     }
   }
 `;

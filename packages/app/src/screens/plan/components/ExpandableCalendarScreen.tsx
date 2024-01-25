@@ -97,8 +97,27 @@ const TimelineCalendarScreen = (props: TimelineCalendarScreenProps) => {
       let events = groupBy(props.data, e =>
         CalendarUtils.getCalendarDateString(e.startDate),
       );
+      console.log('=>(ExpandableCalendarScreen.tsx:100) events', events);
+      let newEvents = {};
+      Object.keys(events).map(key => {
+        let array = events[key];
+        newEvents[key] = array.reduce((arr, curr) => {
+          let event = arr.some(e =>
+            moment(curr.startDate, 'YYYY-MM-DD HH:mm:ss').isBetween(
+              moment(e.startDate, 'YYYY-MM-DD HH:mm:ss'),
+              moment(e.endDate, 'YYYY-MM-DD HH:mm:ss'),
+              'seconds',
+              '[]',
+            ),
+          );
+          if (!event) {
+            arr.push(curr);
+          }
+          return arr;
+        }, []);
+      });
       setState({
-        eventsByDate: events,
+        eventsByDate: newEvents,
       });
     }
   };

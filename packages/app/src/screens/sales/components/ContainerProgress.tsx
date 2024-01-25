@@ -90,18 +90,23 @@ const ContainerProgress = (props: ContainerProgressProps) => {
   const targetTotal = useMemo(() => {
     switch (state.type) {
       case 'Month':
-        return state.data?.targetByMonth || 0;
+        return parseInt(state.data?.salesByMonth || '0');
       case 'Quarter':
-        return parseInt(
-          (state?.data?.targetByQuarter || 0) * (state.percentage / 100),
-        );
+        return parseInt(state?.data?.salesByQuarter || '0');
       case 'Year':
-        return state.data?.targetByYear || 0;
+        return parseInt(state.data?.salesByYear || '0');
     }
   }, [state.data, state.type]);
   const targetAvchieve = useMemo(() => {
-    let target = state.data?.[`targetBy${state.type}`];
-    return Math.round(target);
+    let salesBy = state.data?.[`salesBy${state.type}`];
+    let targetBy = state.data?.[`targetBy${state.type}`];
+    let target = 0;
+    if (salesBy > targetBy) {
+      target = targetBy - salesBy;
+    }
+    return isNaN(Math.abs(Math.round(target)))
+      ? 0
+      : Math.abs(Math.round(target));
   }, [state.data, state.type]);
   const targetPercent = useMemo(() => {
     let target = state.data?.[`targetBy${state.type}`];

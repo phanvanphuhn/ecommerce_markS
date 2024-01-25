@@ -18,7 +18,7 @@ import moment from 'moment';
 import Text from 'elements/Text';
 import colors from 'res/colors';
 import Theme from 'res/style/Theme';
-import {useLazyQuery, useMutation} from '@apollo/client';
+import {useLazyQuery, useMutation, useQuery} from '@apollo/client';
 import {GET_LEADERBOARD_QUERY} from 'apollo/query/leaderboard';
 import uuid from 'react-native-uuid';
 import {useNavigation} from '@react-navigation/core';
@@ -26,10 +26,19 @@ import {BaseUseNavigationProps} from 'navigation/BaseNavigationProps';
 import {MainParamList} from 'navigation/service/NavigationParams';
 import {Dropdown} from 'react-native-element-dropdown';
 import Routes from 'configs/Routes';
+import {GET_DIVISION_LIST_QUERY} from 'apollo/query/getFilterDivisionList';
+import {useSelector} from 'hooks/useSelector';
 const CallLogScreen = (props: any) => {
   const {route} = props;
+  console.log('=>(CallLogScreen.tsx:33) route', route);
   const navigation = useNavigation<BaseUseNavigationProps<MainParamList>>();
+  const userProfile = useSelector(state => state.userProfile);
   const [onSubmitData] = useMutation(MUTATION_DATA_CALL_QUERY);
+  const {data} = useQuery(GET_DIVISION_LIST_QUERY, {
+    variables: {
+      salesRepEmail: userProfile.user?.mail,
+    },
+  });
   const formik = useFormik<PlanCallInput>({
     initialValues: {
       activitySubtype: 'CALL',
@@ -56,7 +65,24 @@ const CallLogScreen = (props: any) => {
       });
     },
   });
-  const onCancel = () => {};
+  const onCancel = async () => {
+    await onSubmitData({
+      variables: {
+        data: {
+          activityOwnerEmail: route?.params?.item?.activityOwnerEmail,
+          startDate: route?.params?.item?.startDate,
+          endDate: route?.params?.item?.endDate,
+          status: 'CANCELLED',
+        },
+      },
+    });
+    navigation.replace(Routes.DrawerStack, {
+      screen: Routes.MainTab,
+      params: {
+        screen: Routes.PlanScreen,
+      },
+    });
+  };
 
   const onSave = () => {
     formik.handleSubmit();
@@ -173,7 +199,10 @@ const CallLogScreen = (props: any) => {
 
               <InputForm
                 title={'Division'}
+                dropdownPosition={'top'}
                 name={'division'}
+                arrDropdown={data?.data?.map(e => ({value: e, label: e})) || []}
+                type={'dropdown'}
                 placeholder={'Select Division'}
                 rightIcon={
                   <IconAntDesign name="downcircle" size={15} color={'black'} />
