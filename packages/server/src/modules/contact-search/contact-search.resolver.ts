@@ -32,16 +32,20 @@ export class ContactSearchResolver {
         userInfo.samAccountName,
       );
 
-    return this.contactSearchService.getDoctorSearchList(
-      user[0].salesRepEmail,
-      filter,
+    return (
+      this.contactSearchService.getDoctorSearchList(
+        user[0].salesRepEmail,
+        filter,
+      ) || []
     );
   }
 
   @Query(() => [DoctorDetail], { nullable: true })
   @UseGuards(AzureAuthGuard)
   async getDoctorProfile(@Args('doctorEmail') doctorEmail: string) {
-    return this.contactSearchService.getDoctorProfileByDoctorEmail(doctorEmail);
+    return (
+      this.contactSearchService.getDoctorProfileByDoctorEmail(doctorEmail) || []
+    );
   }
 
   @Query(() => [String], { nullable: true })
@@ -76,8 +80,9 @@ export class ContactSearchResolver {
         userInfo.samAccountName,
       );
 
-    return this.contactSearchService.getFilterSpecialtyList(
-      user[0].salesRepEmail,
+    return (
+      this.contactSearchService.getFilterSpecialtyList(user[0].salesRepEmail) ||
+      []
     );
   }
 
@@ -89,8 +94,10 @@ export class ContactSearchResolver {
         userInfo.samAccountName,
       );
 
-    return this.contactSearchService.getFilterTopicsOfInterestList(
-      user[0].salesRepEmail,
+    return (
+      this.contactSearchService.getFilterTopicsOfInterestList(
+        user[0].salesRepEmail,
+      ) || []
     );
   }
 
@@ -102,8 +109,9 @@ export class ContactSearchResolver {
         userInfo.samAccountName,
       );
 
-    return this.contactSearchService.getFilterDivisionList(
-      user[0].salesRepEmail,
+    return (
+      this.contactSearchService.getFilterDivisionList(user[0].salesRepEmail) ||
+      []
     );
   }
 }
