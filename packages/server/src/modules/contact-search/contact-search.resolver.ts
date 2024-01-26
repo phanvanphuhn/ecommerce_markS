@@ -21,7 +21,7 @@ export class ContactSearchResolver {
     private readonly userProfilesService: UserProfilesService,
   ) {}
 
-  @Query(() => [ContactSearchOutput])
+  @Query(() => [ContactSearchOutput], { nullable: true })
   @UseGuards(AzureAuthGuard)
   async getDoctorSearchList(
     @UserEntity() userInfo,
@@ -38,13 +38,13 @@ export class ContactSearchResolver {
     );
   }
 
-  @Query(() => [DoctorDetail])
+  @Query(() => [DoctorDetail], { nullable: true })
   @UseGuards(AzureAuthGuard)
   async getDoctorProfile(@Args('doctorEmail') doctorEmail: string) {
     return this.contactSearchService.getDoctorProfileByDoctorEmail(doctorEmail);
   }
 
-  @Query(() => [String])
+  @Query(() => [String], { nullable: true })
   @UseGuards(AzureAuthGuard)
   async getFilterHospitalList(
     @UserEntity() userInfo,
@@ -68,7 +68,7 @@ export class ContactSearchResolver {
     );
   }
 
-  @Query(() => [String])
+  @Query(() => [String], { nullable: true })
   @UseGuards(AzureAuthGuard)
   async getFilterSpecialtyList(@UserEntity() userInfo) {
     const user =
@@ -81,7 +81,7 @@ export class ContactSearchResolver {
     );
   }
 
-  @Query(() => [String])
+  @Query(() => [String], { nullable: true })
   @UseGuards(AzureAuthGuard)
   async getFilterTopicsOfInterestList(@UserEntity() userInfo) {
     const user =
@@ -94,7 +94,7 @@ export class ContactSearchResolver {
     );
   }
 
-  @Query(() => [String])
+  @Query(() => [String], { nullable: true })
   @UseGuards(AzureAuthGuard)
   async getFilterDivisionList(@UserEntity() userInfo) {
     const user =
