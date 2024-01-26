@@ -46,8 +46,9 @@ export class EventsService {
       query = query.where('ownerCountry', 'ilike', `%${filter.ownerCountry}%`);
     }
 
+    // status is an array
     if (filter.status) {
-      query = query.where('status', 'ilike', `%${filter.status}%`);
+      query = query.where('status', 'in', filter.status);
     }
 
     if (filter.startDate) {

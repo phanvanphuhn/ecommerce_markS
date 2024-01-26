@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Expression, SqlBool } from 'kysely';
+import { isEmpty } from 'class-validator';
 
 import { Database } from '../_database/database';
 
@@ -168,7 +169,9 @@ export class ContactSearchService {
       .groupBy(['doctorDivision'])
       .execute();
 
-    return dbResponse.map((row) => row.doctorDivision);
+    return dbResponse.map((row) => {
+      if (!isEmpty(row)) return row.doctorDivision;
+    });
   }
 
   async getFilterTopicsOfInterestList(
@@ -182,7 +185,9 @@ export class ContactSearchService {
       .groupBy(['topicsOfInterest'])
       .execute();
 
-    return dbResponse.map((row) => row.topicsOfInterest);
+    return dbResponse.map((row) => {
+      if (!isEmpty(row)) return row.topicsOfInterest;
+    });
   }
 
   async getDoctorProfileByDoctorEmail(

@@ -102,7 +102,13 @@ export class PlanCallOutput extends PlanCall {
 }
 
 @ArgsType()
-export class PlanCallFilterArgs extends OmitType(PlanCall, ['salesForceId']) {
+export class PlanCallFilterArgs extends OmitType(PlanCall, [
+  'salesForceId',
+  'status',
+]) {
   // @Field(() => FilterType, { nullable: true })
   // filterType?: FilterType;
+
+  @Field(() => [PlanCallStatus], { nullable: true })
+  status?: [string];
 }
