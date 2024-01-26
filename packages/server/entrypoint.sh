@@ -17,7 +17,9 @@ export DB_HOST=$host
 export POSTGRES_USER=$username
 export POSTGRES_PASSWORD=$(encodeReservedCharacters $password)
 export DB_PORT=$port
-export DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${DB_HOST}:${DB_PORT}/${POSTGRES_DB}?schema=${DB_SCHEMA}&sslmode=prefer
+export DATABASE_URL="postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${DB_HOST}:${DB_PORT}/${POSTGRES_DB}?schema=${DB_SCHEMA}&sslmode=prefer"
+
+echo "DATABASE_URL: $DATABASE_URL"
 
 echo "Starting migration..."
 npm run migrate:deploy
