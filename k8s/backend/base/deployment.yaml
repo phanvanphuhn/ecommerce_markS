@@ -34,22 +34,12 @@ spec:
               value: ${AZURE_CLIENT_SECRET}
             - name: AZURE_TENANT_ID
               value: ${AZURE_TENANT_ID}
-            - name: DATABASE_URL
-              value: ${DATABASE_URL}
-            - name: DB_HOST
-              value: ${DB_HOST}
-            - name: DB_PORT
-              value: '5432'
             - name: DB_SCHEMA
               value: marks
             - name: NEST_PORT
               value: '3000'
             - name: POSTGRES_DB
               value: ${POSTGRES_DB}
-            - name: POSTGRES_USER
-              value: ${POSTGRES_USER}
-            - name: POSTGRES_PASSWORD
-              value: '${POSTGRES_PASSWORD}'
             - name: SECRETS_FILE_PATH
               value: ${SECRETS_FILE_PATH}
           ports:

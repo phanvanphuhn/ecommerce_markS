@@ -18,6 +18,11 @@ FROM node:16
 
 WORKDIR /app
 
+# Install jq
+RUN apt-get update && \
+    apt-get install -y jq && \
+    rm -rf /var/lib/apt/lists/*
+
 COPY ./prisma/schema.prisma ./prisma/schema.prisma
 COPY --from=builder /app/prisma/migrations ./prisma/migrations
 

@@ -51,7 +51,6 @@ function readDatabaseSecrets(secretsFilePath: string): DatabaseCreds {
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
-        // read DatabaseCreds from mounted secret file
         const databaseCreds = readDatabaseSecrets(
           configService.get('SECRETS_FILE_PATH'),
         );
@@ -76,25 +75,16 @@ function readDatabaseSecrets(secretsFilePath: string): DatabaseCreds {
       },
     }),
 
+    // NOTE: For Prisma to work, password must be an base64 env
     PrismaModule.forRootAsync({
       isGlobal: true,
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
-        const databaseCreds = readDatabaseSecrets(
-          configService.get('SECRETS_FILE_PATH'),
-        );
-        // if there's databaseCreds, use them to connect to the database
-        // else use env
-        // NOTE: For prisma to work, password must be set in pipeline env in encoded format
-
-        const user =
-          databaseCreds?.username || configService.get('POSTGRES_USER');
-        const password =
-          databaseCreds?.password || configService.get('POSTGRES_PASSWORD');
-        const host = databaseCreds?.host || configService.get('DB_HOST');
-        const port =
-          databaseCreds?.port || configService.get('DB_PORT') || 5432;
+        const user = configService.get('POSTGRES_USER');
+        const password = configService.get('POSTGRES_PASSWORD');
+        const host = configService.get('DB_HOST');
+        const port = configService.get('DB_PORT') || 5432;
         const database = configService.get('POSTGRES_DB');
         const schema = configService.get('DB_SCHEMA');
 

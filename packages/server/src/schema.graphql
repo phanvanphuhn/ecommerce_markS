@@ -56,13 +56,14 @@ type ComplaintsOutput {
   createdDate: String
   division: String
   eventDate: String
-  id: Int
+  id: String
   salesRepEmail: String
   timeOfEvent: String
   typeOfSituationReporting: String
 }
 
 type ContactSearchOutput {
+  contactId: String
   doctorAlternativeEmail: String
   doctorCountry: String
   doctorDivision: String
@@ -162,6 +163,7 @@ type MobileSearchHistoryOutput {
 }
 
 type Mutation {
+  testUpsertCaseLog(data: CaseLogInput!): CaseLogOutput!
   upsertCaseLog(data: CaseLogInput!): CaseLogOutput!
   upsertMobileSalesQuarter(quarter: String!, targetByQuarter: String!, year: String!): Boolean!
   upsertMobileSalesYear(targetByYear: String!, year: String!): Boolean!
@@ -207,6 +209,7 @@ input PlanCallInput {
   activityOwnerName: String
   activitySubtype: PlanCallActivitySubtype
   activityType: PlanCallActivityType
+  contactId: String
   contactName: String
   createdInApp: DateTimeISO
   description: String
@@ -228,6 +231,7 @@ type PlanCallOutput {
   activityOwnerName: String
   activitySubtype: PlanCallActivitySubtype
   activityType: PlanCallActivityType
+  contactId: String
   contactName: String
   createdInApp: DateTimeISO
   description: String
@@ -260,7 +264,7 @@ type ProductOutput {
 }
 
 type Query {
-  complaint(id: Int!): ComplaintsOutput!
+  complaint(id: String!): ComplaintsOutput!
   complaints: [ComplaintsOutput!]!
   getCaseLog(id: String!): CaseLogOutput!
   getCaseLogs(account: String, caseName: String, contact: String, createdAt: DateTime, endDate: DateTime, id: String, location: String, photoPaths: [String!], productIds: [String!], secondaryContact: String, startDate: DateTime, status: CaseLogStatus, updatedAt: DateTime): [CaseLogOutput!]!
@@ -274,7 +278,7 @@ type Query {
   getMobileSales(quarter: String, type: mobileSalesTargetType!, year: String): [MobileSalesOutput!]!
   getPlanCall(id: String!): PlanCallOutput!
   getPlanCallTypes: [String!]!
-  getPlanCalls(account: String, activityOwnerEmail: String, activityOwnerName: String, activitySubtype: PlanCallActivitySubtype, activityType: PlanCallActivityType, contactName: String, createdInApp: DateTimeISO, description: String, division: String, endDate: String, lastModifiedInApp: DateTimeISO, location: String, ownerCountry: String, startDate: String, status: PlanCallStatus, subject: String, uniqueIdInApp: String): [PlanCallOutput!]!
+  getPlanCalls(account: String, activityOwnerEmail: String, activityOwnerName: String, activitySubtype: PlanCallActivitySubtype, activityType: PlanCallActivityType, contactId: String, contactName: String, createdInApp: DateTimeISO, description: String, division: String, endDate: String, lastModifiedInApp: DateTimeISO, location: String, ownerCountry: String, startDate: String, status: PlanCallStatus, subject: String, uniqueIdInApp: String): [PlanCallOutput!]!
   getProducts(createdAt: DateTimeISO, gtin: String, skip: Int, take: Int, updatedAt: DateTimeISO, upn: String, upnDescription: String): ProductOutput!
   getSales(month: String, quarter: String, year: String): [SalesOutput!]!
   getSearchHistory(searchType: [SearchType!], skip: Int, sort: OrderDirection, take: Int): [MobileSearchHistoryOutput!]!
@@ -284,7 +288,8 @@ type Query {
   getUserProfile: [UserProfileOutput!]!
   leaderboard(country: String, month: String, period: LeaderboardPeriod = Month, type: LeaderboardType = TopThree, year: String!): [LeaderboardOuput!]!
   me: JSON!
-  meAD: JSON!
+  meAD(accessToken: String!): JSON!
+  meADNewClient(accessToken: String!): JSON!
   testGetFilterHospitalList(doctorDivisions: [String!], doctorSpecialties: [String!], topicsOfInterests: [String!]): [String!]!
 }
 
