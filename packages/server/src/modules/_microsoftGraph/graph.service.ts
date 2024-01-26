@@ -37,25 +37,27 @@ export class GraphService {
     });
   }
 
-  async getMeUserCreateNewCLient(
-    accessToken: string,
-  ): Promise<AzureDirectoryUser> {
+  getClientWithAccessToken = (accessToken: string) => {
+    return Client.initWithMiddleware({
+      debugLogging: true,
+      authProvider: new TokenCredentialAuthenticationProvider(
+        {
+          getToken: async () => {
+            return {
+              token: accessToken,
+            } as AccessToken;
+          },
+        },
+        {
+          scopes: azureConfig.exposedScopes,
+        },
+      ),
+    });
+  };
+
+  async getMeUser(accessToken: string): Promise<AzureDirectoryUser> {
     try {
-      const newClient = Client.initWithMiddleware({
-        debugLogging: true,
-        authProvider: new TokenCredentialAuthenticationProvider(
-          {
-            getToken: async () => {
-              return {
-                token: accessToken,
-              } as AccessToken;
-            },
-          },
-          {
-            scopes: azureConfig.exposedScopes,
-          },
-        ),
-      });
+      const newClient = this.getClientWithAccessToken(accessToken);
 
       const user = await newClient.api('/me').get();
       return user;
@@ -66,11 +68,13 @@ export class GraphService {
     }
   }
 
-  async getMeUser(accessToken: string): Promise<AzureDirectoryUser> {
+  async getMeGroups(accessToken: string): Promise<AzureDirectoryUser> {
     try {
-      const user = await this.client
-        .api('/me')
-        .header('Authorization', `Bearer ${accessToken}`)
+      const newClient = this.getClientWithAccessToken(accessToken);
+
+      const user = await newClient
+        .api('/me/transitiveMemberOf/microsoft.graph.group?')
+        .select('id,displayName')
         .get();
 
       return user;

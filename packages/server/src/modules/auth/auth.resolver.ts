@@ -20,19 +20,19 @@ export class AuthResolver {
   }
 
   @Query(() => GraphQLJSON, { name: 'meAD' })
-  async getMeGraph(
+  async getMeAD(
     @Args('accessToken') accessToken: string,
     @UserEntity() user: any,
   ) {
     return await this.graphService.getMeUser(accessToken);
   }
 
-  @Query(() => GraphQLJSON, { name: 'meADNewClient' })
-  async getMeGraphWithClient(
+  @Query(() => GraphQLJSON, { name: 'meGroup' })
+  async getMeGroups(
     @Args('accessToken') accessToken: string,
     @UserEntity() user: any,
   ) {
-    return await this.graphService.getMeUserCreateNewCLient(accessToken);
+    return await this.graphService.getMeGroups(accessToken);
   }
 
   @Query(() => GraphQLJSON, { name: 'getSelfCalendars' })
