@@ -198,6 +198,44 @@ export class ContactSearchService {
     return result;
   }
 
+  async getDoctorProfileByContactId(
+    contactId: string,
+  ): Promise<DoctorDetail[]> {
+    const dbResponse = await this.database
+      .selectFrom('marks.ContactSearch')
+      .select((eb) => [
+        'doctorName',
+        'doctorTitle',
+        'hospital',
+        'doctorDivision',
+        'doctorSpecialty',
+        'doctorEmail',
+        'doctorPhone',
+        'doctorSalutation',
+        'doctorAlternativeEmail',
+        'topicsOfInterest',
+        'doctorCountry',
+      ])
+      .where('contactId', '=', contactId)
+      .groupBy([
+        'doctorEmail',
+        'doctorName',
+        'doctorTitle',
+        'doctorEmail',
+        'doctorPhone',
+        'doctorSalutation',
+        'hospital',
+        'doctorDivision',
+        'doctorSpecialty',
+        'doctorAlternativeEmail',
+        'topicsOfInterest',
+        'doctorCountry',
+      ])
+      .execute();
+
+    return dbResponse as DoctorDetail[];
+  }
+
   async getDoctorProfileByDoctorEmail(
     doctorEmail: string,
   ): Promise<DoctorDetail[]> {

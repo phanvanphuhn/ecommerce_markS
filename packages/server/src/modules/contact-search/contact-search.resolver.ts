@@ -46,6 +46,14 @@ export class ContactSearchResolver {
     );
   }
 
+  @Query(() => [DoctorDetail], { nullable: true })
+  @UseGuards(AzureAuthGuard)
+  async getDoctorProfileByContactId(@Args('contactId') contactId: string) {
+    return (
+      this.contactSearchService.getDoctorProfileByContactId(contactId) || []
+    );
+  }
+
   @Query(() => [String], { nullable: true })
   @UseGuards(AzureAuthGuard)
   async getFilterHospitalList(
