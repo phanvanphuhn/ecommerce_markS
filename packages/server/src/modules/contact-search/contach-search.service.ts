@@ -157,7 +157,10 @@ export class ContactSearchService {
       .groupBy(['doctorSpecialty'])
       .execute();
 
-    return dbResponse.map((row) => row.doctorSpecialty);
+    return dbResponse.map((row) => {
+      if (!isEmpty(row.doctorSpecialty)) return row.doctorSpecialty;
+      return '';
+    });
   }
 
   async getFilterDivisionList(salesRepEmail: string): Promise<string[]> {
@@ -171,6 +174,7 @@ export class ContactSearchService {
 
     return dbResponse.map((row) => {
       if (!isEmpty(row.doctorDivision)) return row.doctorDivision;
+      return '';
     });
   }
 
@@ -185,9 +189,13 @@ export class ContactSearchService {
       .groupBy(['topicsOfInterest'])
       .execute();
 
-    return dbResponse.map((row) => {
-      if (!isEmpty(row.topicsOfInterest)) return row.topicsOfInterest;
-    });
+    const result =
+      dbResponse.map((row) => {
+        if (!isEmpty(row.topicsOfInterest)) return row.topicsOfInterest;
+        return '';
+      }) || [];
+
+    return result;
   }
 
   async getDoctorProfileByDoctorEmail(

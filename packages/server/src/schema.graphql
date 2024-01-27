@@ -268,17 +268,17 @@ type Query {
   complaints: [ComplaintsOutput!]!
   getCaseLog(id: String!): CaseLogOutput!
   getCaseLogs(account: String, caseName: String, contact: String, createdAt: DateTime, endDate: DateTime, id: String, location: String, photoPaths: [String!], productIds: [String!], secondaryContact: String, startDate: DateTime, status: CaseLogStatus, updatedAt: DateTime): [CaseLogOutput!]!
-  getDoctorProfile(doctorEmail: String!): [DoctorDetail!]!
-  getDoctorSearchList(doctorAlternativeEmail: String, doctorCountry: String, doctorDivisions: [String!], doctorName: String, doctorSpecialties: [String!], doctorTitle: String, hospital: String, topicsOfInterests: [String!]): [ContactSearchOutput!]!
+  getDoctorProfile(doctorEmail: String!): [DoctorDetail!]
+  getDoctorSearchList(doctorAlternativeEmail: String, doctorCountry: String, doctorDivisions: [String!], doctorName: String, doctorSpecialties: [String!], doctorTitle: String, hospital: String, topicsOfInterests: [String!]): [ContactSearchOutput!]
   getFile(filePath: String!): JSON!
-  getFilterDivisionList: [String!]!
-  getFilterHospitalList(doctorDivisions: [String!], doctorSpecialties: [String!], topicsOfInterests: [String!]): [String!]!
-  getFilterSpecialtyList: [String!]!
-  getFilterTopicsOfInterestList: [String!]!
+  getFilterDivisionList: [String!]
+  getFilterHospitalList(doctorDivisions: [String!], doctorSpecialties: [String!], topicsOfInterests: [String!]): [String!]
+  getFilterSpecialtyList: [String!]
+  getFilterTopicsOfInterestList: [String!]
   getMobileSales(quarter: String, type: mobileSalesTargetType!, year: String): [MobileSalesOutput!]!
   getPlanCall(id: String!): PlanCallOutput!
   getPlanCallTypes: [String!]!
-  getPlanCalls(account: String, activityOwnerEmail: String, activityOwnerName: String, activitySubtype: PlanCallActivitySubtype, activityType: PlanCallActivityType, contactId: String, contactName: String, createdInApp: DateTimeISO, description: String, division: String, endDate: String, lastModifiedInApp: DateTimeISO, location: String, ownerCountry: String, startDate: String, status: PlanCallStatus, subject: String, uniqueIdInApp: String): [PlanCallOutput!]!
+  getPlanCalls(account: String, activityOwnerEmail: String, activityOwnerName: String, activitySubtype: PlanCallActivitySubtype, activityType: PlanCallActivityType, contactId: String, contactName: String, createdInApp: DateTimeISO, description: String, division: String, endDate: String, lastModifiedInApp: DateTimeISO, location: String, ownerCountry: String, startDate: String, status: [PlanCallStatus!], subject: String, uniqueIdInApp: String): [PlanCallOutput!]!
   getProducts(createdAt: DateTimeISO, gtin: String, skip: Int, take: Int, updatedAt: DateTimeISO, upn: String, upnDescription: String): ProductOutput!
   getSales(month: String, quarter: String, year: String): [SalesOutput!]!
   getSearchHistory(searchType: [SearchType!], skip: Int, sort: OrderDirection, take: Int): [MobileSearchHistoryOutput!]!
@@ -289,7 +289,7 @@ type Query {
   leaderboard(country: String, month: String, period: LeaderboardPeriod = Month, type: LeaderboardType = TopThree, year: String!): [LeaderboardOuput!]!
   me: JSON!
   meAD(accessToken: String!): JSON!
-  meADNewClient(accessToken: String!): JSON!
+  meGroup(accessToken: String!): JSON!
   testGetFilterHospitalList(doctorDivisions: [String!], doctorSpecialties: [String!], topicsOfInterests: [String!]): [String!]!
 }
 

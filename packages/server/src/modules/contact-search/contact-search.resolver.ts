@@ -32,11 +32,9 @@ export class ContactSearchResolver {
         userInfo.samAccountName,
       );
 
-    return (
-      this.contactSearchService.getDoctorSearchList(
-        user[0].salesRepEmail,
-        filter,
-      ) || []
+    return this.contactSearchService.getDoctorSearchList(
+      user[0].salesRepEmail,
+      filter,
     );
   }
 
@@ -54,7 +52,7 @@ export class ContactSearchResolver {
     @UserEntity() userInfo,
     @Args() filter: HospitalFilterArgs,
   ) {
-    return this.contactSearchService.getFilterHospitalList(
+    return await this.contactSearchService.getFilterHospitalList(
       userInfo.email,
       filter,
     );
@@ -80,10 +78,11 @@ export class ContactSearchResolver {
         userInfo.samAccountName,
       );
 
-    return (
-      this.contactSearchService.getFilterSpecialtyList(user[0].salesRepEmail) ||
-      []
+    const result = await this.contactSearchService.getFilterSpecialtyList(
+      user[0].salesRepEmail,
     );
+
+    return result;
   }
 
   @Query(() => [String], { nullable: true })
@@ -94,11 +93,12 @@ export class ContactSearchResolver {
         userInfo.samAccountName,
       );
 
-    return (
-      this.contactSearchService.getFilterTopicsOfInterestList(
+    const result =
+      await this.contactSearchService.getFilterTopicsOfInterestList(
         user[0].salesRepEmail,
-      ) || []
-    );
+      );
+
+    return result;
   }
 
   @Query(() => [String], { nullable: true })
@@ -109,9 +109,10 @@ export class ContactSearchResolver {
         userInfo.samAccountName,
       );
 
-    return (
-      this.contactSearchService.getFilterDivisionList(user[0].salesRepEmail) ||
-      []
+    const result = await this.contactSearchService.getFilterDivisionList(
+      user[0].salesRepEmail,
     );
+
+    return result;
   }
 }
