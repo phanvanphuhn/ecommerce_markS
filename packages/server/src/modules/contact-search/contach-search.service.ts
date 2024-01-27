@@ -32,6 +32,7 @@ export class ContactSearchService {
         'doctorPhone',
         'doctorAlternativeEmail',
         'topicsOfInterest',
+        'contactId',
       ])
       .where('salesRepEmail', 'ilike', salesRepEmail)
       .orderBy('doctorName', 'asc')
@@ -46,6 +47,7 @@ export class ContactSearchService {
         'doctorPhone',
         'doctorAlternativeEmail',
         'topicsOfInterest',
+        'contactId',
       ]);
     if (
       filter.doctorName ||
@@ -215,6 +217,7 @@ export class ContactSearchService {
         'doctorAlternativeEmail',
         'topicsOfInterest',
         'doctorCountry',
+        'contactId',
       ])
       .where('contactId', '=', contactId)
       .groupBy([
@@ -230,6 +233,7 @@ export class ContactSearchService {
         'doctorAlternativeEmail',
         'topicsOfInterest',
         'doctorCountry',
+        'contactId',
       ])
       .execute();
 
