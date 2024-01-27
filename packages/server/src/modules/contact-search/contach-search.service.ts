@@ -170,7 +170,7 @@ export class ContactSearchService {
       .execute();
 
     return dbResponse.map((row) => {
-      if (!isEmpty(row)) return row.doctorDivision;
+      if (!isEmpty(row.doctorDivision)) return row.doctorDivision;
     });
   }
 
@@ -186,7 +186,7 @@ export class ContactSearchService {
       .execute();
 
     return dbResponse.map((row) => {
-      if (!isEmpty(row)) return row.topicsOfInterest;
+      if (!isEmpty(row.topicsOfInterest)) return row.topicsOfInterest;
     });
   }
 
