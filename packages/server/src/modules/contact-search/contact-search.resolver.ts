@@ -41,17 +41,13 @@ export class ContactSearchResolver {
   @Query(() => [DoctorDetail], { nullable: true })
   @UseGuards(AzureAuthGuard)
   async getDoctorProfile(@Args('doctorEmail') doctorEmail: string) {
-    return (
-      this.contactSearchService.getDoctorProfileByDoctorEmail(doctorEmail) || []
-    );
+    return this.contactSearchService.getDoctorProfileByDoctorEmail(doctorEmail);
   }
 
   @Query(() => [DoctorDetail], { nullable: true })
   @UseGuards(AzureAuthGuard)
   async getDoctorProfileByContactId(@Args('contactId') contactId: string) {
-    return (
-      this.contactSearchService.getDoctorProfileByContactId(contactId) || []
-    );
+    return this.contactSearchService.getDoctorProfileByContactId(contactId);
   }
 
   @Query(() => [String], { nullable: true })
