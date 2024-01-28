@@ -42,8 +42,9 @@ const LoginScreen = (props: LoginScreenProps) => {
       showLoading();
       // await azureAuth.webAuth.clearSession({closeOnLoad: true});
       let auth = await azureAuth.webAuth.authorize({
-        scope: 'openid',
+        scope: 'openid, User.Read',
       });
+      console.log('accessToken: ', auth.accessToken);
       if (auth?.accessToken) {
         let info: UserProfile = await azureAuth.auth.msGraphRequest({
           token: auth.accessToken,
