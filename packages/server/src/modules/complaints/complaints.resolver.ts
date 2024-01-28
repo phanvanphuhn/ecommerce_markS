@@ -18,11 +18,12 @@ export class ComplaintsResolver {
 
   @Query(() => [ComplaintsOutput])
   @UseGuards(AzureAuthGuard)
-  complaints(@UserEntity() userInfo) {
+  async complaints(@UserEntity() userInfo) {
     const user =
-      this.userProfilesService.getUserProfileByNetworkIdWithTitleCheck(
+      await this.userProfilesService.getUserProfileByNetworkIdWithTitleCheck(
         userInfo.samAccountName,
       );
+
     return this.complaintsService.getComplaints(user[0].salesRepEmail);
   }
 
