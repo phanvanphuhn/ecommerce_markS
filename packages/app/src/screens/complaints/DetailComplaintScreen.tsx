@@ -168,7 +168,7 @@ const DetailComplaintScreen = (
           </Text>
           <View style={styles.containerText}>
             <Text size={15} fontWeight={'700'} lineHeight={23}>
-              {moment.unix(data?.data?.awareDate).format('DD/MM/YYYY')}
+              {moment.unix(data?.data?.awareDate / 1000).format('DD/MM/YYYY')}
             </Text>
           </View>
 
@@ -181,7 +181,7 @@ const DetailComplaintScreen = (
           </Text>
           <View style={styles.containerText}>
             <Text size={15} fontWeight={'700'} lineHeight={23}>
-              {moment.unix(data?.data?.eventDate).format('DD/MM/YYYY')}
+              {moment.unix(data?.data?.eventDate / 1000).format('DD/MM/YYYY')}
             </Text>
           </View>
           <Text

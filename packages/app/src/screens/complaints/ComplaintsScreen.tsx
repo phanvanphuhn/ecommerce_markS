@@ -32,58 +32,7 @@ import {GET_DOCTOR_QUERY} from 'apollo/query/getDoctorSearchList';
 import {GET_COMPLAINTS_QUERY} from 'apollo/query/complaints';
 
 interface ComplaintsScreenProps {}
-const data = [
-  {
-    id: '1',
-    name: '172764',
-    status: 'submitted',
-    accName: 'John Smith',
-    patientId: 'Lorem Ipsum',
-    eventDate: '20/02/2022',
-    createdDate: '20/01/2023',
-    complaintName: 'CP-0000059567',
-  },
-  {
-    id: '2',
-    name: '172321',
-    status: 'not_submitted',
-    accName: 'Maria Garcia',
-    patientId: 'Lorem Ipsum',
-    eventDate: '24/02/2022',
-    createdDate: '20/04/2023',
-    complaintName: 'CP-0000059567',
-  },
-  {
-    id: '2',
-    name: '172332',
-    status: 'not_submitted',
-    accName: 'Pierre Dupont ',
-    patientId: 'Lorem Ipsum',
-    eventDate: '20/06/2022',
-    createdDate: '22/02/2023',
-    complaintName: 'CP-0000059567',
-  },
-  {
-    id: '2',
-    name: '172322',
-    status: 'submitted',
-    accName: 'Pierre Dupont ',
-    patientId: 'Lorem Ipsum',
-    eventDate: '17/01/2022',
-    createdDate: '15/01/2023',
-    complaintName: 'CP-0000059567',
-  },
-  {
-    id: '2',
-    name: '172323',
-    status: 'not_submitted',
-    accName: 'Li Wei',
-    patientId: 'Lorem Ipsum',
-    eventDate: '21/02/2022',
-    createdDate: '20/01/2022',
-    complaintName: 'CP-0000059567',
-  },
-];
+
 const ComplaintsScreen = (props: ComplaintsScreenProps) => {
   const [state, setState] = useStateCustom({
     data: [],

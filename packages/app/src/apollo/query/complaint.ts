@@ -24,7 +24,7 @@ interface Variables {
 }
 
 export let GET_COMPLAINT_QUERY: TypedDocumentNode<Data, Variables> = gql`
-  query complaint($id: Int!) {
+  query complaint($id: String!) {
     data: complaint(id: $id) {
       typeOfSituationReporting
       awareDate
