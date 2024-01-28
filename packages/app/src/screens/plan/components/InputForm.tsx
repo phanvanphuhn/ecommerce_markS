@@ -27,6 +27,7 @@ const InputForm = (props: InputFormProps) => {
   const error = getIn(errors, props.name);
   const isTouched = getIn(touched, props.name);
   const isError = !!isTouched && !!error;
+  console.log('props.arrDropdown: ', props.arrDropdown, values?.[props.name]);
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{props?.title}</Text>
@@ -46,7 +47,11 @@ const InputForm = (props: InputFormProps) => {
           valueField="value"
           dropdownPosition={props.dropdownPosition}
           placeholder={props.placeholder}
-          value={values?.[props.name]}
+          value={
+            values?.[props.name]
+              ? values?.[props.name]
+              : props.arrDropdown[0].value
+          }
           onChange={e => setFieldValue(props.name, e.value)}
         />
       ) : (
