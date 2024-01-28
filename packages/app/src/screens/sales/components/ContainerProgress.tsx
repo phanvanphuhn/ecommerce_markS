@@ -101,7 +101,7 @@ const ContainerProgress = (props: ContainerProgressProps) => {
     let salesBy = state.data?.[`salesBy${state.type}`];
     let targetBy = state.data?.[`targetBy${state.type}`];
     let target = 0;
-    if (salesBy > targetBy) {
+    if (salesBy < targetBy) {
       target = targetBy - salesBy;
     }
     return isNaN(Math.abs(Math.round(target)))
