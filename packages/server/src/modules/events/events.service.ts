@@ -112,7 +112,6 @@ export class EventsService {
         ...input,
         activityOwnerEmail: salesRepEmail,
         activityType: PlanCallActivityType.EVENT,
-        status: PlanCallStatus[input.status],
       })
       .onConflict((oc) =>
         oc.column('uniqueIdInApp').doUpdateSet({
@@ -120,7 +119,6 @@ export class EventsService {
           lastModifiedInApp: new Date(),
           activityOwnerEmail: salesRepEmail,
           activityType: PlanCallActivityType.EVENT,
-          status: PlanCallStatus[input.status],
         }),
       )
       .returningAll()

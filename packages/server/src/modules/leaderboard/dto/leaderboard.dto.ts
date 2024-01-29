@@ -33,8 +33,8 @@ export class LeaderboardOuput {
     Object.assign(this, data);
   }
 
-  @Field(() => Number, { nullable: true })
-  id: number;
+  @Field(() => String, { nullable: true })
+  id?: string;
 
   @Field(() => String, { nullable: true })
   fullName: string;

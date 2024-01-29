@@ -58,10 +58,6 @@ export class CaseLogService {
       query = query.where('endDate', '<=', filter.endDate);
     }
 
-    if (filter.productIds) {
-      query = query.where('productIds', 'in', filter.productIds);
-    }
-
     query = query.where('activityOwnerEmail', '=', salesRepEmail);
 
     const result = await query.execute();

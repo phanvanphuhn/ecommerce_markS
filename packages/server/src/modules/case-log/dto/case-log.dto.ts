@@ -54,9 +54,6 @@ export class CaseLog {
   status?: string;
 
   @Field(() => [String], { nullable: true })
-  productIds?: string[];
-
-  @Field(() => [String], { nullable: true })
   photoPaths?: string[];
 
   @Field(() => GraphQLISODateTime, { nullable: true })

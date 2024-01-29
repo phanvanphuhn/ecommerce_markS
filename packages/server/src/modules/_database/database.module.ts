@@ -27,9 +27,9 @@ import { DatabaseOptions } from './databaseOptions';
             user: databaseOptions.user,
             password: databaseOptions.password,
             database: databaseOptions.database,
-            ssl: {
-              rejectUnauthorized: false,
-            },
+            // ssl: {
+            //   rejectUnauthorized: false,
+            // },
           }),
         });
 

@@ -74,7 +74,7 @@ Table TerritoryCategorization {
 }
 
 Table Leaderboard {
-  id Int [pk, increment]
+  id String [pk]
   salesRepEmail String
   fullName String
   country String
@@ -193,8 +193,20 @@ Table CaseLog {
   activityOwnerName String
   activityOwnerEmail String
   status String
-  productIds String[] [not null]
   photoPaths String[] [not null]
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime
+  caseLogSubmission CaseLogSubmission [not null]
+}
+
+Table CaseLogSubmission {
+  id String [pk]
+  quantity String
+  salesRepEmail String
+  caseLogId String
+  caseLog CaseLog
+  productId String
+  product Products
   createdAt DateTime [default: `now()`]
   updatedAt DateTime
 }
@@ -217,6 +229,7 @@ Table Products {
   country String
   createdAt DateTime [default: `now()`]
   updatedAt DateTime
+  caseLogSubmission CaseLogSubmission [not null]
 }
 
 Enum mobileSalesTargetType {
@@ -235,3 +248,7 @@ Enum SearchType {
   PlanCall
   ContactSearch
 }
+
+Ref: CaseLogSubmission.caseLogId > CaseLog.id
+
+Ref: CaseLogSubmission.productId > Products.id

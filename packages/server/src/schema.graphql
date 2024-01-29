@@ -14,7 +14,6 @@ input CaseLogInput {
   id: String
   location: String
   photoPaths: [String!]
-  productIds: [String!]
   secondaryContact: String
   startDate: DateTime
   status: CaseLogStatus
@@ -32,7 +31,6 @@ type CaseLogOutput {
   id: String
   location: String
   photoPaths: [String!]
-  productIds: [String!]
   secondaryContact: String
   startDate: DateTime
   status: CaseLogStatus
@@ -88,6 +86,7 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 scalar DateTimeISO
 
 type DoctorDetail {
+  contactId: String
   doctorAlternativeEmail: String
   doctorCountry: String
   doctorDivision: String
@@ -115,7 +114,7 @@ scalar JSONObject @specifiedBy(url: "http://www.ecma-international.org/publicati
 type LeaderboardOuput {
   country: String
   fullName: String
-  id: Int
+  id: String
   lastRefreshedTimestamp: DateTime
   month: String
   rankMtd: String
@@ -267,8 +266,9 @@ type Query {
   complaint(id: String!): ComplaintsOutput!
   complaints: [ComplaintsOutput!]!
   getCaseLog(id: String!): CaseLogOutput!
-  getCaseLogs(account: String, caseName: String, contact: String, createdAt: DateTime, endDate: DateTime, id: String, location: String, photoPaths: [String!], productIds: [String!], secondaryContact: String, startDate: DateTime, status: CaseLogStatus, updatedAt: DateTime): [CaseLogOutput!]!
+  getCaseLogs(account: String, caseName: String, contact: String, createdAt: DateTime, endDate: DateTime, id: String, location: String, photoPaths: [String!], secondaryContact: String, startDate: DateTime, status: CaseLogStatus, updatedAt: DateTime): [CaseLogOutput!]!
   getDoctorProfile(doctorEmail: String!): [DoctorDetail!]
+  getDoctorProfileByContactId(contactId: String!): [DoctorDetail!]
   getDoctorSearchList(doctorAlternativeEmail: String, doctorCountry: String, doctorDivisions: [String!], doctorName: String, doctorSpecialties: [String!], doctorTitle: String, hospital: String, topicsOfInterests: [String!]): [ContactSearchOutput!]
   getFile(filePath: String!): JSON!
   getFilterDivisionList: [String!]

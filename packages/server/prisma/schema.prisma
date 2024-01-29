@@ -109,7 +109,7 @@ model TerritoryCategorization {
 }
 
 model Leaderboard {
-  id Int @id @default(autoincrement())
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
 
   salesRepEmail          String?
   fullName               String?
@@ -261,8 +261,23 @@ model CaseLog {
   activityOwnerEmail String?
 
   status     String?
-  productIds String[]
   photoPaths String[]
+
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+
+  caseLogSubmission CaseLogSubmission[]
+}
+
+model CaseLogSubmission {
+  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  quantity      String?
+  salesRepEmail String?
+  caseLogId     String?  @db.Uuid
+  caseLog       CaseLog? @relation(fields: [caseLogId], references: [id])
+
+  productId String?   @db.Uuid
+  product   Products? @relation(fields: [productId], references: [id])
 
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
@@ -294,4 +309,6 @@ model Products {
 
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
+
+  caseLogSubmission CaseLogSubmission[]
 }
