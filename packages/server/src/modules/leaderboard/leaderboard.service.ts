@@ -106,9 +106,11 @@ export class LeaderboardService {
             .selectAll()
             .execute();
 
-          const startingIndex = all.findIndex(
+          const personalIndex = all.findIndex(
             (item) => item.salesRepEmail === personal.salesRepEmail,
           );
+
+          const startingIndex = personalIndex > 0 ? personalIndex - 1 : 0;
 
           const limit = 4;
 
