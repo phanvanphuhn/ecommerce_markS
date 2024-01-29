@@ -50,7 +50,7 @@ const InputForm = (props: InputFormProps) => {
           value={
             values?.[props.name]
               ? values?.[props.name]
-              : props.arrDropdown[0].value
+              : props?.arrDropdown[0]?.value
           }
           onChange={e => setFieldValue(props.name, e.value)}
         />
