@@ -42,11 +42,11 @@ const DetailDoctorScreen = (
     hospital: undefined,
   });
   const [getData, {data, loading}] = useLazyQuery(GET_DOCTOR_PROFILE_QUERY);
-
   useEffect(() => {
     getData({
       variables: {
-        doctorEmail: props.route.params.item.doctorEmail,
+        // doctorEmail: props.route.params.item.doctorEmail,
+        contactId: props.route.params.item.contactId,
       },
       onCompleted: response => {
         let hospital = response.data.find(

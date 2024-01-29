@@ -17,7 +17,6 @@ interface ItemComplaintProps {
 
 const ItemComplaint = (props: ItemComplaintProps) => {
   const navigation = useNavigation<BaseUseNavigationProps<MainParamList>>();
-
   return (
     <TouchableOpacity
       onPress={() =>
@@ -47,7 +46,7 @@ const ItemComplaint = (props: ItemComplaintProps) => {
         Event Date:{' '}
         {!!props.item.eventDate && (
           <Text color={colors.borderColor}>
-            {moment.unix(props.item.eventDate).format('DD/MM/YYYY')}
+            {moment.unix(props.item.eventDate / 1000).format('DD/MM/YYYY')}
           </Text>
         )}
       </Text>
@@ -55,7 +54,7 @@ const ItemComplaint = (props: ItemComplaintProps) => {
         Created Date:{' '}
         {!!props.item.createdDate && (
           <Text color={colors.borderColor}>
-            {moment.unix(props.item.createdDate).format('DD/MM/YYYY')}
+            {moment.unix(props.item.createdDate / 1000).format('DD/MM/YYYY')}
           </Text>
         )}
       </Text>

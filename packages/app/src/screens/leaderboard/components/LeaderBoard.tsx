@@ -26,8 +26,8 @@ const LeaderBoard = (props: TData) => {
         return (
           <LinearGradient
             colors={
-              item.salesRepEmail == userProfile?.salesRepEmail
-                ? ['#48006C', '#660099', '#48006C']
+              item.salesRepEmail == userProfile?.mail
+                ? ['#001c45', '#8a2be2', '#001c45']
                 : ['#001c45', colors.primary, '#001c45']
             }
             style={styles.wrapContainer}>

@@ -16,4 +16,5 @@ export interface IDoctorSearchList {
   hospital: string;
   id: number;
   topicsOfInterest: string;
+  contactId: string;
 }
