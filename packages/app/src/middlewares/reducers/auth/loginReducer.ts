@@ -24,8 +24,11 @@ const loginReducer = (
       return {
         ...state,
         user: {...state.user, ...action.payload},
+      };
+    case actionTypes.SAVE_TOKEN:
+      return {
+        ...state,
         loginToken: action.token,
-        role: action.role,
         isLogin: true,
       };
     case actionTypes.LOGOUT:

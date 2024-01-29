@@ -1,11 +1,7 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import colors from 'res/colors';
-import SemiCircleProgress from 'screens/home/components/SemiCircleProgress';
 import Text from 'elements/Text';
-import ColorPickerSlider from 'screens/home/components/SemiCiclePicker';
-import {RadialSlider} from 'lib/react-native-radial-slider';
 import {width} from 'res/sizes';
 import Theme from 'res/style/Theme';
 import Image from 'elements/Image';
@@ -16,6 +12,9 @@ import {useNavigation} from '@react-navigation/core';
 import {BaseUseNavigationProps} from 'navigation/BaseNavigationProps';
 import {MainParamList} from 'navigation/service/NavigationParams';
 import {Routes} from 'configs';
+import {useLazyQuery} from '@apollo/client';
+import {GET_PLAN_CALLS} from 'apollo/query/getPlanCalls';
+import moment from 'moment';
 
 interface ItemPlanProps {
   isPriority?: boolean;
@@ -24,6 +23,13 @@ interface ItemPlanProps {
 const ItemPlan = (props: ItemPlanProps) => {
   const [speed, setSpeed] = useState(200);
   const navigation = useNavigation<BaseUseNavigationProps<MainParamList>>();
+
+  const [getData, {loading, data}] = useLazyQuery(GET_PLAN_CALLS, {});
+  console.log('=>(ItemPlan.tsx:28) data', data);
+  useEffect(() => {
+    getData({variables: {status: ['IN_PROGRESS', 'COMPLETED']}});
+  }, []);
+
   const onDetail = () => {
     navigation.navigate(Routes.PlanScreen);
   };
@@ -47,7 +53,7 @@ const ItemPlan = (props: ItemPlanProps) => {
         <Image source={images.ic_boost_with_bg} style={{opacity: 0}} />
       </View>
       <CircleSlider
-        max={200}
+        max={data?.data?.length}
         isHideCircle={true}
         disabled={false}
         linearGradientColor={[
@@ -63,7 +69,9 @@ const ItemPlan = (props: ItemPlanProps) => {
           '#f2f2f2',
           '#fff',
         ]}
-        value={200}
+        value={
+          data?.data.filter(e => e.status == 'IN_PROGRESS' || !e.status)?.length
+        }
         width={width / 2 - 50}
         thumbRadius={22}
         onUpdate={value => {
@@ -71,9 +79,12 @@ const ItemPlan = (props: ItemPlanProps) => {
         }}
         strokeWidth={20}>
         <Text size={17} fontWeight={'700'}>
-          2
+          {
+            data?.data.filter(e => e.status == 'IN_PROGRESS' || !e.status)
+              ?.length
+          }
           <Text size={11} color={colors.borderColor}>
-            /2
+            /{data?.data?.length}
           </Text>
         </Text>
       </CircleSlider>

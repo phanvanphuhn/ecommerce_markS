@@ -25,7 +25,11 @@ const LeaderBoard = (props: TData) => {
       {data?.map(item => {
         return (
           <LinearGradient
-            colors={['#001c45', colors.primary, '#001c45']}
+            colors={
+              item.salesRepEmail == userProfile?.salesRepEmail
+                ? ['#48006C', '#660099', '#48006C']
+                : ['#001c45', colors.primary, '#001c45']
+            }
             style={styles.wrapContainer}>
             <View style={styles.wrapItemContainer}>
               <View
@@ -39,8 +43,8 @@ const LeaderBoard = (props: TData) => {
                 </Text>
               </View>
               <Text size={15} fontWeight={'400'} style={styles.name}>
-                {item.salesRepEmail == userProfile?.mail
-                  ? `ME(${item.fullName})`
+                {item.salesRepEmail == userProfile?.salesRepEmail
+                  ? `ME (${userProfile.fullName})`
                   : 'BSC Supersales'}
               </Text>
               <View

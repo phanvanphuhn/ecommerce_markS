@@ -1,5 +1,6 @@
 export default {
   LOGIN: 'LOGIN',
+  SAVE_TOKEN: 'SAVE_TOKEN',
   SAVE_LOGIN: 'SAVE_LOGIN',
   LOGOUT: 'LOGOUT',
 };

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import colors from 'res/colors';
 import Text from 'elements/Text';
@@ -12,6 +12,11 @@ import {useNavigation} from '@react-navigation/core';
 import {BaseUseNavigationProps} from 'navigation/BaseNavigationProps';
 import {MainParamList} from 'navigation/service/NavigationParams';
 import {Routes} from 'configs';
+import {useLazyQuery} from '@apollo/client';
+import {getSales} from 'apollo/query/getSales';
+import useStateCustom from 'hooks/useStateCustom';
+import moment from 'moment/moment';
+import {IStateSales} from 'screens/sales/SalesScreen';
 
 interface ItemSalesProps {
   isPriority?: boolean;
@@ -19,8 +24,46 @@ interface ItemSalesProps {
 
 const ItemSales = (props: ItemSalesProps) => {
   const [speed, setSpeed] = useState(100);
+  const [state, setState] = useStateCustom<IStateSales>({
+    percentage: 0,
+    total: 0,
+    type: 'Month',
+    currentDate: moment().format('YYYY-MM-DD'),
+    listCommission: [],
+    data: {},
+  });
+  console.log('=>(ItemSales.tsx:34) state', state);
   const [size, setSize] = useState(0);
+  const [getSalesData, {loading}] = useLazyQuery(getSales);
   const navigation = useNavigation<BaseUseNavigationProps<MainParamList>>();
+  useEffect(() => {
+    getSalesData({
+      variables: {
+        month: (moment('2023-06-01', 'YYYY-MM-DD').month() + 1).toString(),
+        year: moment('2023-06-01', 'YYYY-MM-DD').year().toString(),
+      },
+      onCompleted: data => {
+        let obj = data?.data
+          ?.map((item: any) => {
+            Object.keys(item).forEach(function (key) {
+              item[key] =
+                /[0-9]+/.test(item[key]) && typeof item[key] === 'string'
+                  ? parseFloat(item[key].replaceAll(',', '').replace('%', ''))
+                  : item[key];
+            });
+            return item;
+          })
+          .find(e => !!e);
+        setState({
+          data: obj,
+          total: obj.salesByMonth,
+          percentage: Math.abs(
+            Math.round((obj?.salesByMonth / obj?.targetByMonth) * 100),
+          ),
+        });
+      },
+    });
+  }, []);
   const onDetail = () => {
     navigation.navigate(Routes.SalesScreen);
   };
@@ -66,7 +109,7 @@ const ItemSales = (props: ItemSalesProps) => {
         )}
       </View>
       <SemiCircleSlider
-        max={200}
+        max={state.data?.targetByMonth}
         isHideCircle={true}
         disabled={false}
         linearGradientColor={[
@@ -84,21 +127,22 @@ const ItemSales = (props: ItemSalesProps) => {
           '#609',
           '440066',
         ]}
-        value={100}
+        value={state.data?.salesByMonth}
         width={width - 100}
         thumbRadius={22}
         onUpdate={value => {
+          setState({percentage: value});
           console.log('=>(SalesScreen.tsx:157) value', value);
         }}
         strokeWidth={45}>
         <Text size={props.isPriority ? 24 : 18} fontWeight={'700'}>
-          ${'26000'.formatPrice()}
+          ${state?.data?.salesByMonth?.formatPrice() || 0}
         </Text>
         <Text
           fontWeight={'400'}
           size={props.isPriority ? 13 : 10}
           color={colors.dotActive}>
-          118% over Target
+          {state.percentage}% over Target
         </Text>
       </SemiCircleSlider>
     </TouchableOpacity>

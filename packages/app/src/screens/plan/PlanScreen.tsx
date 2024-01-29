@@ -86,7 +86,7 @@ const PlanScreen = (props: PlanScreenProps) => {
     },
   });
   useEffect(() => {
-    getData({variables: {status: null}});
+    getData({variables: {status: ['IN_PROGRESS', 'COMPLETED']}});
   }, []);
   const onCancel = () => {};
 

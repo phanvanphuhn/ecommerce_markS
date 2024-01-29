@@ -11,7 +11,7 @@ import {
   useValue,
   vec,
 } from '@shopify/react-native-skia';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Dimensions, StyleSheet, View} from 'react-native';
 import {
   Gesture,
@@ -26,6 +26,7 @@ import {polar2Canvas} from 'react-native-redash';
 import images from 'res/images';
 import {number} from 'yup';
 import colors from 'res/colors';
+import useStateCustom from 'hooks/useStateCustom';
 interface CircleSliderProps {
   width: number;
   thumbRadius: number;
@@ -40,8 +41,7 @@ interface CircleSliderProps {
   linearGradientColor?: string[];
 }
 interface IState {
-  percentTop?: number;
-  percentBottom?: number;
+  percent?: number;
 }
 const CircleSlider: React.FC<CircleSliderProps> = ({
   width,
@@ -68,12 +68,22 @@ const CircleSlider: React.FC<CircleSliderProps> = ({
   skiaBackgroundPath.addCircle(r + 20, r + 20, r);
   const skiaForegroundPath = Skia.Path.Make();
   skiaForegroundPath.addCircle(r + 20, r + 20, r);
-
+  const [state, setState] = useStateCustom<IState>({
+    percent: value / (max || 1) || 0,
+  });
+  useEffect(() => {
+    setState({percent: value / (max || 1) || 0});
+    percentComplete.value = value / (max || 1) || 0;
+    console.log(
+      '=>(SemiCircleSlider.tsx:76) value / (max || 1) || 0',
+      value / (max || 1) || 0,
+    );
+  }, [value]);
   const movableCx = useSharedValue(x2);
   const movableCy = useSharedValue(y2);
   const previousPositionX = useSharedValue(x2);
   const previousPositionY = useSharedValue(y2);
-  const percentComplete = useSharedValue(value / (max || 1) || 0);
+  const percentComplete = useSharedValue(state.percent);
 
   const skiaCx = useValue(x2);
   const skiaCy = useValue(y2);

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Alert, ImageBackground, Platform, StyleSheet} from 'react-native';
 import images from 'res/images';
 import Image from 'elements/Image';
@@ -10,12 +10,12 @@ import Routes from 'configs/Routes';
 import Container from 'elements/Layout/Container';
 import AzureAuth from 'react-native-azure-auth';
 import {useAppDispatch} from 'middlewares/stores';
-import {onLogin} from 'middlewares/actions/auth/actionLogin';
+import {onLogin, onSaveToken} from 'middlewares/actions/auth/actionLogin';
 import {UserProfile} from 'res/type/Auth';
 import {hideLoading, showLoading} from 'components/Loading/LoadingComponent';
 import {useLazyQuery} from '@apollo/client';
-import {GET_ME} from 'apollo/query/me';
-import Config from 'react-native-config';
+import {meGroup} from 'apollo/query/meGroup';
+import {getUserProfile} from 'apollo/query/getUserProfile';
 
 interface LoginScreenProps {}
 export const azureAuth = new AzureAuth({
@@ -32,17 +32,16 @@ export const azureAuth = new AzureAuth({
       : undefined,
 });
 const LoginScreen = (props: LoginScreenProps) => {
-  const [azureToken, setAzureToken] = React.useState();
-  const [azureUserInfo, setAzureUserInfo] = React.useState();
   const dispatch = useAppDispatch();
-  const [getData, {data}] = useLazyQuery(GET_ME);
+  const [getDataGroup, {}] = useLazyQuery(meGroup);
+  const [getDataUserProfile, {}] = useLazyQuery(getUserProfile);
 
   const getAzureToken = async () => {
     try {
       showLoading();
       // await azureAuth.webAuth.clearSession({closeOnLoad: true});
       let auth = await azureAuth.webAuth.authorize({
-        scope: 'openid',
+        scope: 'openid,User.read',
       });
       if (auth?.accessToken) {
         let info: UserProfile = await azureAuth.auth.msGraphRequest({
@@ -56,17 +55,21 @@ const LoginScreen = (props: LoginScreenProps) => {
             [{text: 'OK', onPress: () => {}}],
           );
         }
-        dispatch(onLogin(info, auth.rawIdToken));
-        let data = await getData();
+        dispatch(onSaveToken(auth.rawIdToken));
+        let resultUserProfile = await getDataUserProfile();
+        dispatch(onLogin(resultUserProfile.data?.data?.[0]));
+        let result = await getDataGroup({
+          variables: {accessToken: auth.accessToken},
+        });
         hideLoading();
         if (
-          data?.data?.data?.groups.includes(
-            'a6f11bfc-e68e-4033-bce9-922e14d8a4a8',
-          )
+          result.data?.data?.value
+            .map(e => e.id)
+            .includes('a6f11bfc-e68e-4033-bce9-922e14d8a4a8')
         ) {
           reset(Routes.DrawerStack);
-        } else if (data?.error?.message) {
-          Alert.alert('System Alert', data?.error?.message, [
+        } else if (result?.error?.message) {
+          Alert.alert('System Alert', result?.error?.message, [
             {text: 'OK', onPress: () => {}},
           ]);
         } else {

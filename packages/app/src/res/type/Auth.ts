@@ -38,15 +38,11 @@ export interface Bank {
   bankName: string;
 }
 export interface UserProfile {
-  businessPhones: number[];
-  displayName: string;
-  givenName: string;
-  id: string;
-  jobTitle: string;
-  mail: string;
-  mobilePhone?: string;
-  officeLocation?: string;
-  preferredLanguage?: string;
-  surname?: string;
-  userPrincipalName?: string;
+  country: string;
+  division: string;
+  fullName: string;
+  id: number;
+  reportingTo: string;
+  salesRepEmail: string;
+  title: string;
 }

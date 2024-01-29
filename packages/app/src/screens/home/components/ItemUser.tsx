@@ -27,7 +27,7 @@ const ItemUser = (props: ItemUserProps) => {
       </View>
       <View style={[Theme.pt15, Theme.pl15]}>
         <Text size={25} fontWeight={'700'} color={colors.white}>
-          Hi, {userProfile?.givenName + ' ' + userProfile?.surname}
+          Hi, {userProfile?.fullName}
         </Text>
         {/*<Text size={15} fontWeight={'400'} color={colors.white}>*/}
         {/*  Rank 5, 3000pts*/}

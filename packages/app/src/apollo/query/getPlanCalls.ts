@@ -27,7 +27,7 @@ interface Variables {
   location: string;
   ownerCountry: string;
   startDate: string;
-  status: PlanCallStatus;
+  status: PlanCallStatus[];
   subject: string;
   updatedAt: string;
 }
@@ -46,7 +46,7 @@ export let GET_PLAN_CALLS: TypedDocumentNode<Data, Variables> = gql`
     $location: String
     $ownerCountry: String
     $startDate: String
-    $status: PlanCallStatus
+    $status: [PlanCallStatus!]
     $subject: String
   ) {
     data: getPlanCalls(

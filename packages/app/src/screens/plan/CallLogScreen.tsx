@@ -201,7 +201,11 @@ const CallLogScreen = (props: any) => {
                 title={'Division'}
                 dropdownPosition={'top'}
                 name={'division'}
-                arrDropdown={data?.data?.map(e => ({value: e, label: e})) || []}
+                arrDropdown={
+                  data?.data
+                    ?.filter(e => !!e)
+                    ?.map(e => ({value: e, label: e})) || []
+                }
                 type={'dropdown'}
                 placeholder={'Select Division'}
                 rightIcon={

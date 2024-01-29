@@ -1,20 +1,17 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useMemo} from 'react';
 import {
-  View,
-  StyleSheet,
   FlatList,
-  TouchableOpacity,
-  ListRenderItem,
-  TouchableWithoutFeedback,
   Keyboard,
-  KeyboardAvoidingView,
+  ListRenderItem,
+  StyleSheet,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import Container from 'elements/Layout/Container';
 import strings from 'res/strings';
 import Theme from 'res/style/Theme';
 import colors from 'res/colors';
 import TextInput from 'elements/TextInput';
-import {height} from 'res/sizes';
 import images from 'res/images';
 import Image from 'elements/Image';
 import Text from 'elements/Text';
@@ -29,6 +26,13 @@ import {
   IDoctorSearchList,
   ItemOptionResponse,
 } from 'network/apis/doctor/DoctorResponse';
+import useDebounce from 'hooks/useDebounce';
+import {GET_DOCTOR_QUERY} from 'apollo/query/getDoctorSearchList';
+import {useLazyQuery, useMutation} from '@apollo/client';
+import {useSelector} from 'hooks/useSelector';
+import {upsertSearchHistory} from 'apollo/query/upsertSearchHistory';
+import CustomMenu from 'components/Menu/CustomMenu';
+import ListRecents from 'screens/doctor/ListRecents';
 
 interface DoctorSearchScreenProps {}
 
@@ -41,18 +45,7 @@ interface IState {
   divisionSelected?: ItemOptionResponse[];
   topicsSelected?: ItemOptionResponse[];
 }
-import data from './data';
-import useDebounce from 'hooks/useDebounce';
-import useGetDoctorSearchList from 'apollo/logic/doctor/useGetDoctorSearchList';
-import useQueryLazyBase from 'apollo/useQueryLazyBase';
-import {GET_DOCTOR_QUERY} from 'apollo/query/getDoctorSearchList';
-import {useLazyQuery, useMutation} from '@apollo/client';
-import {useSelector} from 'hooks/useSelector';
-import SearchDoctorScreen from 'screens/doctor/SearchDoctorScreen';
-import {upsertSearchHistory} from 'apollo/query/upsertSearchHistory';
-import SearchDoctor from 'screens/doctor/SearchDoctor';
-import CustomMenu from 'components/Menu/CustomMenu';
-import ListRecents from 'screens/doctor/ListRecents';
+
 const DoctorSearchScreen = (props: DoctorSearchScreenProps) => {
   const [state, setState] = useStateCustom<IState>({
     keyword: '',
@@ -66,7 +59,7 @@ const DoctorSearchScreen = (props: DoctorSearchScreenProps) => {
   const [updateSearch] = useMutation(upsertSearchHistory);
 
   const userProfile = useSelector(state => state.userProfile);
-  const [getData, {data, loading}] = useLazyQuery(GET_DOCTOR_QUERY);
+  const [getData, {loading}] = useLazyQuery(GET_DOCTOR_QUERY);
   const _getData = async (salesRepEmail?: string) => {
     await getData({
       variables: {
@@ -75,6 +68,14 @@ const DoctorSearchScreen = (props: DoctorSearchScreenProps) => {
         doctorTitle: salesRepEmail || '',
         doctorCountry: salesRepEmail || '',
         doctorAlternativeEmail: salesRepEmail || '',
+      },
+      onCompleted: data => {
+        let list = data.data.filter(e => !!e.doctorEmail);
+        console.log('=>(DoctorSearchScreen.tsx:74) data.data', data.data);
+        console.log('=>(DoctorSearchScreen.tsx:74) list', list);
+        let array = Array.from(new Set(list));
+        console.log('=>(DoctorSearchScreen.tsx:75) array', array);
+        setState({data: data.data});
       },
     });
   };
@@ -302,7 +303,7 @@ const DoctorSearchScreen = (props: DoctorSearchScreenProps) => {
         </View>
         <View style={[Theme.flex1, Theme.mt20]}>
           <FlatList
-            data={data?.data || []}
+            data={state?.data || []}
             renderItem={renderItem}
             keyExtractor={keyExtractor}
             keyboardShouldPersistTaps={'handled'}
