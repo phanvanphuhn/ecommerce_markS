@@ -43,22 +43,39 @@ const CallLogScreen = (props: any) => {
   });
 
   const formik = useFormik<PlanCallInput>({
-    initialValues: {
-      subject: '',
-      startDate: new Date(),
-      endDate: new Date(),
-      activitySubtype: 'CALL',
-      description: '',
-      location: '',
-      account: '',
-      contactName: '',
-      division: '',
+    initialValues: route?.params?.isCreateNew
+      ? {
+          subject: '',
+          startDate: new Date(),
+          endDate: new Date(),
+          activitySubtype: 'CALL',
+          description: '',
+          location: '',
+          account: '',
+          contactName: '',
+          division: '',
 
-      activityType: 'EVENT',
-      ownerCountry: '',
-      salesForceId: '',
-      status: 'IN_PROGRESS',
-    },
+          activityType: 'EVENT',
+          ownerCountry: '',
+          salesForceId: '',
+          status: 'IN_PROGRESS',
+        }
+      : {
+          subject: route?.params?.item?.subject,
+          startDate: new Date(route?.params?.item?.startDate),
+          endDate: new Date(route?.params?.item?.endDate),
+          activitySubtype: route?.params?.item?.activitySubtype,
+          description: route?.params?.item?.description,
+          location: route?.params?.item?.location,
+          account: route?.params?.item?.account,
+          contactName: route?.params?.item?.contactName,
+          division: route?.params?.item?.division,
+
+          activityType: route?.params?.item?.activityType,
+          ownerCountry: route?.params?.item?.ownerCountry,
+          salesForceId: route?.params?.item?.salesForceId,
+          status: route?.params?.item?.status,
+        },
     validationSchema: Yup.object({
       subject: Yup.string().required('Required!'),
       startDate: Yup.date().min(new Date(), 'Please choose future date!'),
