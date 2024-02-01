@@ -10,6 +10,7 @@ import useModal from 'hooks/useModal';
 interface CalendarFormProps {
   name: keyof PlanCallInput;
   typeDate: 'date' | 'time';
+  title?: string;
 }
 const CalendarForm = (props: CalendarFormProps) => {
   const {handleChange, values, setFieldValue} =
@@ -38,6 +39,7 @@ const CalendarForm = (props: CalendarFormProps) => {
         </TouchableOpacity>
       </View>
       <DateTimePicker
+        title={props?.title}
         visible={visible}
         value={values[props.name]}
         type={props?.typeDate || 'date'}
