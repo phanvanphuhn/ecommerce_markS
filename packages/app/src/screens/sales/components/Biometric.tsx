@@ -52,9 +52,9 @@ const Biometric = (props: BiometricProps) => {
     } catch (e) {}
   };
 
-  useEffect(() => {
-    handleLoginBySecurityDevice();
-  }, []);
+  // useEffect(() => {
+  //   handleLoginBySecurityDevice();
+  // }, []);
   const [state, setState] = useState();
   return (
     <View style={styles.container}>
