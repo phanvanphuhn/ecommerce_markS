@@ -27,7 +27,6 @@ export interface RefDatePickerProps {
 const DateTimePicker = React.memo(
   forwardRef((props: Props, ref: Ref<RefDatePickerProps>) => {
     const [date, setDate] = useState<Date>(new Date());
-
     useEffect(() => {
       console.log('=>(DateTimePicker.tsx:32) props.value', props.value);
       if (props.value) {

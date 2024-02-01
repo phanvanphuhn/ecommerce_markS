@@ -125,7 +125,11 @@ const CallLogScreen = (props: any) => {
                   Starts
                 </Text>
                 <CalendarForm name={'startDate'} typeDate={'date'} />
-                <CalendarForm name={'startDate'} typeDate={'time'} />
+                <CalendarForm
+                  name={'startDate'}
+                  typeDate={'time'}
+                  title={'Choose Time'}
+                />
               </View>
               <View
                 style={[
@@ -136,7 +140,11 @@ const CallLogScreen = (props: any) => {
                   Ends
                 </Text>
                 <CalendarForm name={'endDate'} typeDate={'date'} />
-                <CalendarForm name={'endDate'} typeDate={'time'} />
+                <CalendarForm
+                  name={'endDate'}
+                  typeDate={'time'}
+                  title={'Choose Time'}
+                />
               </View>
 
               <InputForm
