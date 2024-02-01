@@ -32,6 +32,7 @@ import {useNavigation} from '@react-navigation/core';
 import {BaseUseNavigationProps} from 'navigation/BaseNavigationProps';
 import {MainParamList} from 'navigation/service/NavigationParams';
 import {CaseLogOutput, upsertCaseLog} from 'apollo/query/upsertCaseLog';
+import * as Yup from 'yup';
 
 const CaseLogScreen2 = (props: any) => {
   const {route} = props;
@@ -45,12 +46,30 @@ const CaseLogScreen2 = (props: any) => {
 
   const formik = useFormik<CaseLogOutput>({
     initialValues: {
+      caseName: '',
       endDate: new Date(),
       startDate: new Date(),
-      id: uuid.v4(),
+      account: '',
       location: '',
+      contact: '',
+      secondContact: '',
+
+      id: uuid.v4(),
       status: 'IN_PROGRESS',
     },
+    validationSchema: Yup.object({
+      caseName: Yup.string().required('Required!'),
+      startDate: Yup.date().min(new Date(), 'Please choose future date!'),
+      endDate: Yup.date().when('startDate', (startDate, schema) => {
+        if (startDate) {
+          const dayAfter = new Date(startDate[0]?.getTime() + 3600000);
+          return schema.min(dayAfter, 'End date must after start date!');
+        }
+        return schema;
+      }),
+      account: Yup.string().required('Required!'),
+      contact: Yup.string().required('Required!'),
+    }),
     onSubmit: async values => {
       console.log('=>(CallLogScreen.tsx:49) values', values);
       await onSubmitData({variables: {data: values}});
@@ -83,7 +102,13 @@ const CaseLogScreen2 = (props: any) => {
                 title={'Subject'}
                 placeholder={'Procedure'}
               />
-
+              {formik.errors.caseName && formik.touched.caseName && (
+                <View style={{marginTop: -8}}>
+                  <Text style={styles.errorTitle}>
+                    {formik.errors.caseName}
+                  </Text>
+                </View>
+              )}
               <View
                 style={[
                   Theme.flexRow,
@@ -93,8 +118,19 @@ const CaseLogScreen2 = (props: any) => {
                   Starts
                 </Text>
                 <CalendarForm name={'startDate'} typeDate={'date'} />
-                <CalendarForm name={'startDate'} typeDate={'time'} />
+                <CalendarForm
+                  name={'startDate'}
+                  typeDate={'time'}
+                  title={'Choose Time'}
+                />
               </View>
+              {formik.errors.startDate && formik.touched.startDate && (
+                <View style={{marginTop: -8, marginBottom: 8}}>
+                  <Text style={styles.errorTitle}>
+                    {formik.errors.startDate}
+                  </Text>
+                </View>
+              )}
               <View
                 style={[
                   Theme.flexRow,
@@ -104,14 +140,27 @@ const CaseLogScreen2 = (props: any) => {
                   Ends
                 </Text>
                 <CalendarForm name={'endDate'} typeDate={'date'} />
-                <CalendarForm name={'endDate'} typeDate={'time'} />
+                <CalendarForm
+                  name={'endDate'}
+                  typeDate={'time'}
+                  title={'Choose Time'}
+                />
               </View>
+              {formik.errors.endDate && formik.touched.endDate && (
+                <View style={{marginTop: -8, marginBottom: 8}}>
+                  <Text style={styles.errorTitle}>{formik.errors.endDate}</Text>
+                </View>
+              )}
               <InputForm
                 name={'account'}
                 title={'Account'}
                 placeholder={'Account Name'}
               />
-
+              {formik.errors.account && formik.touched.account && (
+                <View style={{marginTop: -8, marginBottom: 8}}>
+                  <Text style={styles.errorTitle}>{formik.errors.account}</Text>
+                </View>
+              )}
               <InputForm
                 name={'location'}
                 title={'Location'}
@@ -120,8 +169,18 @@ const CaseLogScreen2 = (props: any) => {
 
               <InputForm
                 name={'contact'}
-                title={'Doctor'}
-                placeholder={'Doctor Name'}
+                title={'Contact'}
+                placeholder={'Contact'}
+              />
+              {formik.errors.contact && formik.touched.contact && (
+                <View style={{marginTop: -8, marginBottom: 8}}>
+                  <Text style={styles.errorTitle}>{formik.errors.contact}</Text>
+                </View>
+              )}
+              <InputForm
+                name={'secondContact'}
+                title={'Second Contact'}
+                placeholder={'Second Contact'}
               />
 
               {!route?.params?.isCreateNew && (
@@ -202,6 +261,10 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#8D8D8D',
     marginLeft: 4,
+  },
+  errorTitle: {
+    color: colors.red,
+    fontWeight: '500',
   },
 });
 

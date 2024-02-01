@@ -28,6 +28,8 @@ import {Dropdown} from 'react-native-element-dropdown';
 import Routes from 'configs/Routes';
 import {GET_DIVISION_LIST_QUERY} from 'apollo/query/getFilterDivisionList';
 import {useSelector} from 'hooks/useSelector';
+import * as Yup from 'yup';
+
 const CallLogScreen = (props: any) => {
   const {route} = props;
   console.log('=>(CallLogScreen.tsx:33) route', route);
@@ -39,21 +41,37 @@ const CallLogScreen = (props: any) => {
       salesRepEmail: userProfile.user?.mail,
     },
   });
+
   const formik = useFormik<PlanCallInput>({
     initialValues: {
-      activitySubtype: 'CALL',
-      activityType: 'EVENT',
-      contactName: '',
-      description: '',
-      division: '',
-      endDate: new Date(),
+      subject: '',
       startDate: new Date(),
+      endDate: new Date(),
+      activitySubtype: 'CALL',
+      description: '',
       location: '',
+      account: '',
+      contactName: '',
+      division: '',
+
+      activityType: 'EVENT',
       ownerCountry: '',
       salesForceId: '',
       status: 'IN_PROGRESS',
-      subject: '',
     },
+    validationSchema: Yup.object({
+      subject: Yup.string().required('Required!'),
+      startDate: Yup.date().min(new Date(), 'Please choose future date!'),
+      endDate: Yup.date().when('startDate', (startDate, schema) => {
+        if (startDate) {
+          const dayAfter = new Date(startDate[0]?.getTime() + 3600000);
+          return schema.min(dayAfter, 'End date must after start date!');
+        }
+        return schema;
+      }),
+      account: Yup.string().required('Required!'),
+      contactName: Yup.string().required('Required!'),
+    }),
     onSubmit: async values => {
       console.log('=>(CallLogScreen.tsx:49) values', values);
       await onSubmitData({variables: {data: values}});
@@ -65,6 +83,7 @@ const CallLogScreen = (props: any) => {
       });
     },
   });
+
   const onCancel = async () => {
     await onSubmitData({
       variables: {
@@ -115,7 +134,11 @@ const CallLogScreen = (props: any) => {
                 placeholder={'Call Name'}
                 name={'subject'}
               />
-
+              {formik.errors.subject && formik.touched.subject && (
+                <View style={{marginTop: -8}}>
+                  <Text style={styles.errorTitle}>{formik.errors.subject}</Text>
+                </View>
+              )}
               <View
                 style={[
                   Theme.flexRow,
@@ -131,6 +154,13 @@ const CallLogScreen = (props: any) => {
                   title={'Choose Time'}
                 />
               </View>
+              {formik.errors.startDate && formik.touched.startDate && (
+                <View style={{marginTop: -8, marginBottom: 8}}>
+                  <Text style={styles.errorTitle}>
+                    {formik.errors.startDate}
+                  </Text>
+                </View>
+              )}
               <View
                 style={[
                   Theme.flexRow,
@@ -146,7 +176,11 @@ const CallLogScreen = (props: any) => {
                   title={'Choose Time'}
                 />
               </View>
-
+              {formik.errors.endDate && formik.touched.endDate && (
+                <View style={{marginTop: -8, marginBottom: 8}}>
+                  <Text style={styles.errorTitle}>{formik.errors.endDate}</Text>
+                </View>
+              )}
               <InputForm
                 title={'Type'}
                 name={'activitySubtype'}
@@ -195,7 +229,11 @@ const CallLogScreen = (props: any) => {
                 name={'account'}
                 placeholder={'Account Name'}
               />
-
+              {formik.errors.account && formik.touched.account && (
+                <View style={{marginTop: -8, marginBottom: 8}}>
+                  <Text style={styles.errorTitle}>{formik.errors.account}</Text>
+                </View>
+              )}
               <InputForm
                 title={'Name'}
                 name={'contactName'}
@@ -204,7 +242,13 @@ const CallLogScreen = (props: any) => {
                   <IconAntDesign name="search1" size={15} color={'grey'} />
                 }
               />
-
+              {formik.errors.contactName && formik.touched.contactName && (
+                <View style={{marginTop: -8, marginBottom: 8}}>
+                  <Text style={styles.errorTitle}>
+                    {formik.errors.contactName}
+                  </Text>
+                </View>
+              )}
               <InputForm
                 title={'Division'}
                 dropdownPosition={'top'}
@@ -241,6 +285,10 @@ const CallLogScreen = (props: any) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  errorTitle: {
+    color: colors.red,
+    fontWeight: '500',
   },
 });
 
