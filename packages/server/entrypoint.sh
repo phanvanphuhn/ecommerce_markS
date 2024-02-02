@@ -22,7 +22,7 @@ export DATABASE_URL="postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${DB_HOS
 echo "DATABASE_URL: $DATABASE_URL"
 
 echo "Starting migration..."
-npm run migrate:deploy
+yarn migrate:deploy
 
 echo "Starting server..."
-npm run start:prod
+yarn start:prod

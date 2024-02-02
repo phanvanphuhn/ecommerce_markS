@@ -3,16 +3,19 @@ FROM node:16 AS builder
 # Create app directory
 WORKDIR /app
 
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-COPY package*.json ./
+# A wildcard is used to ensure both package.json AND yarn.lock are copied
+COPY package.json yarn.lock ./
 COPY prisma ./prisma/
 
-# Install app dependencies
-RUN npm install
+# Install Yarn
+RUN npm install -g yarn
+
+# Install app dependencies using Yarn
+RUN yarn install --frozen-lockfile
 
 COPY . .
 
-RUN NODE_OPTIONS=--max_old_space_size=4096 npm run build
+RUN NODE_OPTIONS=--max_old_space_size=4096 yarn build
 
 FROM node:16
 
