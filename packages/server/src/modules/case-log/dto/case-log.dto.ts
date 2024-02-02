@@ -9,12 +9,14 @@ import {
   registerEnumType,
 } from '@nestjs/graphql';
 import { FileUpload, GraphQLUpload } from 'graphql-upload';
+
+import { CaseLogStatus } from '../types/case-log.types';
+
 import { CaseLogSubmission } from '@generated/nestgraphql/case-log-submission/case-log-submission.model';
 import { CaseLog } from '@generated/nestgraphql/case-log/case-log.model';
 import { CaseLogCreateInput } from '@generated/nestgraphql/case-log/case-log-create.input';
 import { CaseLogCreateWithoutCaseLogSubmissionInput } from '@generated/nestgraphql/case-log/case-log-create-without-case-log-submission.input';
 
-import { CaseLogStatus } from '../types/case-log.types';
 
 registerEnumType(CaseLogStatus, {
   name: 'CaseLogStatus',

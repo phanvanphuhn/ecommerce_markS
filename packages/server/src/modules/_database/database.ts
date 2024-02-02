@@ -1,4 +1,5 @@
 import { Kysely } from 'kysely';
+
 import {
   CaseLog,
   CaseLogSubmission,

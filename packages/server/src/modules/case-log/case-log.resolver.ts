@@ -8,8 +8,7 @@ import {
 } from '@nestjs/graphql';
 import { GraphQLJSON } from 'graphql-scalars';
 import { UseGuards } from '@nestjs/common';
-import { CaseLog } from '@generated/nestgraphql/case-log/case-log.model';
-import { CaseLogSubmission } from '@generated/nestgraphql/case-log-submission/case-log-submission.model';
+
 
 import { AzureAuthGuard } from '../auth/guards/azure-ad.guard';
 import { UserEntity } from '../../common/decorators/user.decorator';
@@ -21,6 +20,9 @@ import {
   CaseLogInput,
   CaseLogOutput,
 } from './dto/case-log.dto';
+
+import { CaseLogSubmission } from '@generated/nestgraphql/case-log-submission/case-log-submission.model';
+import { CaseLog } from '@generated/nestgraphql/case-log/case-log.model';
 
 @Resolver(() => CaseLog)
 export class CaseLogResolver {
