@@ -35,7 +35,7 @@ COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/src/@generated ./dist/@generated
 COPY --from=builder /app/entrypoint.sh ./entrypoint.sh
 
-RUN npm run prisma:generate
+RUN yarn prisma:generate
 RUN ["chmod", "+x", "./entrypoint.sh"]
 EXPOSE 3000
 CMD ["sh", "-c", "./entrypoint.sh" ]
