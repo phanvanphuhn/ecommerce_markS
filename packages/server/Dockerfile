@@ -26,6 +26,8 @@ RUN apt-get update && \
     apt-get install -y jq && \
     rm -rf /var/lib/apt/lists/*
 
+RUN npm install -g yarn
+
 COPY ./prisma/schema.prisma ./prisma/schema.prisma
 COPY --from=builder /app/prisma/migrations ./prisma/migrations
 
