@@ -56,8 +56,13 @@ export class ContactSearchResolver {
     @UserEntity() userInfo,
     @Args() filter: HospitalFilterArgs,
   ) {
+    const user =
+      await this.userProfilesService.getUserProfileByNetworkIdWithTitleCheck(
+        userInfo.samAccountName,
+      );
+
     return await this.contactSearchService.getFilterHospitalList(
-      userInfo.email,
+      user[0].salesRepEmail,
       filter,
     );
   }
