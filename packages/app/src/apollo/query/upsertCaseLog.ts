@@ -25,23 +25,44 @@ interface Data {
 
 export type CaseLogStatus = 'CANCELLED' | 'COMPLETED' | 'IN_PROGRESS';
 
+export interface CaseLogSubmissionInputCreate {
+  productId: string;
+
+  quantity: string;
+}
+
 export interface CaseLogInput {
-  account?: string;
-  activityOwnerEmail?: string;
-  activityOwnerName?: string;
-  caseName?: string;
-  contact?: string;
-  createdAt?: Date;
-  endDate?: Date;
-  files: string[];
-  id?: string;
-  location?: string;
+  account: string;
+
+  activityOwnerEmail: string;
+
+  activityOwnerName: string;
+
+  caseLogSubmissions: CaseLogSubmissionInputCreate[];
+
+  caseName: string;
+
+  contact: string;
+
+  createdAt: Date;
+
+  endDate: Date;
+
+  files: any[];
+
+  id: string;
+
+  location: string;
+
   photoPaths: string[];
-  productIds: string[];
-  secondaryContact?: string;
-  startDate?: Date;
-  status?: CaseLogStatus;
-  updatedAt?: Date;
+
+  secondaryContact: string;
+
+  startDate: Date;
+
+  status: string;
+
+  updatedAt: Date;
 }
 interface Variables {
   data: CaseLogInput;
@@ -60,7 +81,6 @@ export let upsertCaseLog: TypedDocumentNode<Data, Variables> = gql`
       id
       location
       photoPaths
-      productIds
       secondaryContact
       startDate
       status

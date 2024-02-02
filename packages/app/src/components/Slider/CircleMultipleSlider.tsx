@@ -44,6 +44,8 @@ interface CircleMultipleSliderProps {
   onUpdate: (value: number) => void;
   disabled?: boolean;
   disabledMax?: number;
+  colorTop?: string[];
+  colorTopCicle?: string;
 }
 interface IState {
   percentTop?: number;
@@ -61,6 +63,8 @@ const CircleMultipleSlider: React.FC<CircleMultipleSliderProps> = ({
   onUpdate,
   disabled,
   disabledMax,
+  colorTop,
+  colorTopCicle,
 }) => {
   const [state, setState] = useStateCustom<IState>({
     percentTop: valueTop / (maxTop || 1) || 0,
@@ -171,7 +175,12 @@ const CircleMultipleSlider: React.FC<CircleMultipleSliderProps> = ({
       skiaPercentComplete1.current = percentCompleteTop.value;
       const newCoords = polar2Canvas(
         {
-          theta: (1 - percentCompleteTop.value) * Math.PI,
+          theta:
+            (1 -
+              (percentCompleteTop.value >= 1
+                ? 0.9
+                : percentCompleteTop.value)) *
+            Math.PI,
           radius: r,
         },
         {
@@ -245,14 +254,16 @@ const CircleMultipleSlider: React.FC<CircleMultipleSliderProps> = ({
               <LinearGradient
                 start={vec(0, 0)}
                 end={vec(256, 256)}
-                colors={[
-                  '#e6b3ff',
-                  '#c44dff',
-                  '#9900e6',
-                  '#7700b3',
-                  '#609',
-                  '440066',
-                ]}
+                colors={
+                  colorTop || [
+                    '#e6b3ff',
+                    '#c44dff',
+                    '#9900e6',
+                    '#7700b3',
+                    '#609',
+                    '440066',
+                  ]
+                }
               />
             </Path>
 
@@ -260,7 +271,7 @@ const CircleMultipleSlider: React.FC<CircleMultipleSliderProps> = ({
               cx={skiaCx}
               cy={skiaCy}
               r={thumbRadius}
-              color={colors.pink3}
+              color={colorTopCicle || colors.pink3}
               style="fill"
             />
             <Circle

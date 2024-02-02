@@ -257,56 +257,62 @@ const PriceYear = (props: PriceYearProps) => {
             icon={images.ic_dolar}
             title={'Rewards'}
             potentialValue={Number(getVariable) + Number(getCommission)}
-            currentValue={
+            currentValue={Math.round(
               state?.data?.[`variablePayoutBy${state.type}`] +
-              state?.data?.[`commissionPayoutBy${state.type}`]
-            }>
+                state?.data?.[`commissionPayoutBy${state.type}`],
+            )}>
             <View style={{}}>
               <ItemPrice
                 title={'Variable'}
-                currentValue={state?.data?.[`variablePayoutBy${state.type}`]}
-                potentialValue={Number(getVariable)}
+                currentValue={Math.round(
+                  state?.data?.[`variablePayoutBy${state.type}`],
+                )}
+                potentialValue={Math.round(Number(getVariable))}
               />
               <ItemPrice
                 title={'Commission'}
-                currentValue={state?.data?.[`commissionPayoutBy${state.type}`]}
-                potentialValue={Number(getCommission)}
+                currentValue={Math.round(
+                  state?.data?.[`commissionPayoutBy${state.type}`],
+                )}
+                potentialValue={Math.round(Number(getCommission))}
               />
             </View>
           </ItemCollapsible>
           <ItemCollapsible
             icon={images.ic_booster}
             title={'Sales Booster'}
-            currentValue={state?.data?.kicker + state?.data?.earlyBird}
-            potentialValue={getKicker + getEarlyBird}>
+            currentValue={Math.round(
+              state?.data?.kicker + state?.data?.earlyBird,
+            )}
+            potentialValue={Math.round(getKicker + getEarlyBird)}>
             <View style={{}}>
               <ItemPrice
                 title={'Kicker'}
-                currentValue={state?.data?.kicker}
-                potentialValue={getKicker}
+                currentValue={Math.round(state?.data?.kicker)}
+                potentialValue={Math.round(getKicker)}
               />
               <ItemPrice
                 title={'Early Bird'}
-                currentValue={state?.data?.earlyBird}
-                potentialValue={getEarlyBird}
+                currentValue={Math.round(state?.data?.earlyBird)}
+                potentialValue={Math.round(getEarlyBird)}
               />
             </View>
           </ItemCollapsible>
           <ItemCollapsible
             icon={images.ic_dolar}
             title={'Additional Payout'}
-            currentValue={
-              state?.data?.capitalEquipment + state?.data?.serviceContract
-            }>
+            currentValue={Math.round(
+              state?.data?.capitalEquipment + state?.data?.serviceContract,
+            )}>
             <View style={{}}>
               <ItemPrice
                 title={'Capital Equipment'}
-                currentValue={state?.data?.capitalEquipment}
+                currentValue={Math.round(state?.data?.capitalEquipment)}
                 potentialValue={0}
               />
               <ItemPrice
                 title={'Service Contract'}
-                currentValue={state?.data?.serviceContract}
+                currentValue={Math.round(state?.data?.serviceContract)}
                 potentialValue={0}
               />
             </View>
@@ -315,7 +321,7 @@ const PriceYear = (props: PriceYearProps) => {
             icon={images.ic_total}
             title={'Total'}
             currentValue={2000}
-            potentialValue={state?.data?.totalSales}
+            potentialValue={Math.round(state?.data?.totalSales)}
           />
         </View>
       </ScrollView>

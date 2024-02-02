@@ -52,17 +52,18 @@ export interface PlanCallInput {
   activityOwnerEmail?: string;
   activityOwnerName?: string;
   activitySubtype: PlanCallActivitySubtype;
-  activityType: PlanCallActivityType;
-  contactName: string;
-  description: string;
-  division: string;
-  endDate: Date;
-  location: string;
-  ownerCountry: string;
-  salesForceId: string;
-  startDate: Date;
-  status: PlanCallStatus;
-  subject: string;
+  activityType?: PlanCallActivityType;
+  contactName?: string;
+  description?: string;
+  division?: string;
+  endDate?: Date;
+  location?: string;
+  ownerCountry?: string;
+  salesForceId?: string;
+  startDate?: Date;
+  status?: PlanCallStatus;
+  subject?: string;
+  uniqueIdInApp?: string;
 }
 interface Variables {
   data: PlanCallInput;
@@ -86,6 +87,7 @@ export let MUTATION_DATA_CALL_QUERY: TypedDocumentNode<Data, Variables> = gql`
       startDate
       status
       subject
+      contactId
     }
   }
 `;

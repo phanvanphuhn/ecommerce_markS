@@ -69,9 +69,7 @@ const ItemPlan = (props: ItemPlanProps) => {
           '#f2f2f2',
           '#fff',
         ]}
-        value={
-          data?.data.filter(e => e.status == 'IN_PROGRESS' || !e.status)?.length
-        }
+        value={data?.data.filter(e => e.status == 'COMPLETED')?.length}
         width={width / 2 - 50}
         thumbRadius={22}
         onUpdate={value => {
@@ -79,10 +77,7 @@ const ItemPlan = (props: ItemPlanProps) => {
         }}
         strokeWidth={20}>
         <Text size={17} fontWeight={'700'}>
-          {
-            data?.data.filter(e => e.status == 'IN_PROGRESS' || !e.status)
-              ?.length
-          }
+          {data?.data.filter(e => e.status == 'COMPLETED' || !e.status)?.length}
           <Text size={11} color={colors.borderColor}>
             /{data?.data?.length}
           </Text>

@@ -50,7 +50,7 @@ const DetailDoctorScreen = (
       },
       onCompleted: response => {
         let hospital = response.data.find(
-          e => e.hospital == props.route.params.item.hospital,
+          e => e.contactId == props.route.params.item.contactId,
         );
         setState({listHospital: response.data, hospital: hospital});
       },

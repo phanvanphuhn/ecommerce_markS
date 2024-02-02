@@ -56,6 +56,7 @@ const DateTimePicker = React.memo(
             mode={props.type || 'date'}
             style={modalDatePicker.datePicker}
             locale="en"
+            minuteInterval={15}
             textColor={colors.text}
             minimumDate={props.minimumDate}
             maximumDate={props.maximumDate}

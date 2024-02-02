@@ -56,16 +56,14 @@ const FilterHospitalScreen = (props: FilterHospitalScreenProps) => {
     });
   };
   const [getHospital] = useLazyQuery(GET_HOSPITAL_LIST_QUERY, {
-    variables: {
-      salesRepEmail: userProfile?.mail || '',
-    },
+    variables: {},
   });
   useEffect(() => {
     getHospital({
       onCompleted: data => {
         let hospital = convertData(data.data).map(item => ({
           ...item,
-          isSelected: route.params.listSelected.includes(item.name),
+          isSelected: route.params.listSelected == item.name,
         }));
         setState({data: hospital});
       },

@@ -7,6 +7,7 @@ import colors from 'res/colors';
 import {ItemLeaderBoardResponse} from 'apollo/query/leaderboard';
 import {TabDateType} from 'screens/leaderboard/LeaderboardScreen';
 import {PlanCallOutput} from 'apollo/query/upsertPlanCall';
+import moment from 'moment/moment';
 
 export const checkPhoneNumberVietnamese = /^(\+?84|0|\(\+?84\))[1-9]\d{8,9}$/g;
 const addDate = (endDate: string, endTime: string) => {
@@ -146,4 +147,11 @@ export const getTargetAchieved = (
     default:
       return '';
   }
+};
+
+export const roundDate = () => {
+  const start = moment();
+  const remainder = 15 - (start.minute() % 15);
+  const dateTime = moment(start).add(remainder, 'minutes').toDate();
+  return dateTime;
 };

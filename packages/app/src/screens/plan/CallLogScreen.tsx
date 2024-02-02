@@ -8,7 +8,7 @@ import InputForm from './components/InputForm';
 import images from 'res/images';
 import Button2Click from 'components/Button/Button2Click';
 import {goBack, navigate} from 'navigation/service/RootNavigation';
-import {FormikProvider, useFormik} from 'formik';
+import {FormikProvider, getIn, useFormik} from 'formik';
 import {
   MUTATION_DATA_CALL_QUERY,
   PlanCallInput,
@@ -29,6 +29,7 @@ import Routes from 'configs/Routes';
 import {GET_DIVISION_LIST_QUERY} from 'apollo/query/getFilterDivisionList';
 import {useSelector} from 'hooks/useSelector';
 import * as Yup from 'yup';
+import {roundDate} from 'utils/other-utils';
 
 const CallLogScreen = (props: any) => {
   const {route} = props;
@@ -37,51 +38,36 @@ const CallLogScreen = (props: any) => {
   const userProfile = useSelector(state => state.userProfile);
   const [onSubmitData] = useMutation(MUTATION_DATA_CALL_QUERY);
   const {data} = useQuery(GET_DIVISION_LIST_QUERY, {
-    variables: {
-      salesRepEmail: userProfile.user?.mail,
-    },
+    variables: {},
   });
 
   const formik = useFormik<PlanCallInput>({
-    initialValues: route?.params?.isCreateNew
-      ? {
-          subject: '',
-          startDate: new Date(),
-          endDate: new Date(),
-          activitySubtype: 'CALL',
-          description: '',
-          location: '',
-          account: '',
-          contactName: '',
-          division: '',
-
-          activityType: 'EVENT',
-          ownerCountry: '',
-          salesForceId: '',
-          status: 'IN_PROGRESS',
-        }
-      : {
-          subject: route?.params?.item?.subject,
-          startDate: new Date(route?.params?.item?.startDate),
-          endDate: new Date(route?.params?.item?.endDate),
-          activitySubtype: route?.params?.item?.activitySubtype,
-          description: route?.params?.item?.description,
-          location: route?.params?.item?.location,
-          account: route?.params?.item?.account,
-          contactName: route?.params?.item?.contactName,
-          division: route?.params?.item?.division,
-
-          activityType: route?.params?.item?.activityType,
-          ownerCountry: route?.params?.item?.ownerCountry,
-          salesForceId: route?.params?.item?.salesForceId,
-          status: route?.params?.item?.status,
-        },
+    initialValues: {
+      activitySubtype: route.params?.item?.activitySubtype || 'CALL',
+      activityType: route.params?.item?.activityType || 'EVENT',
+      contactName: route.params?.item?.contactName || '',
+      account: route.params?.item?.account || '',
+      description: route.params?.item?.description || '',
+      division: route.params?.item?.division || '',
+      endDate: route.params?.item?.endDate
+        ? moment(route.params?.item?.endDate, 'YYYY-MM-DD HH:mm:ss').toDate()
+        : roundDate(),
+      startDate: route.params?.item?.startDate
+        ? moment(route.params?.item?.startDate, 'YYYY-MM-DD HH:mm:ss').toDate()
+        : roundDate(),
+      location: route.params?.item?.location || '',
+      ownerCountry: route.params?.item?.ownerCountry || '',
+      salesForceId: route.params?.item?.salesForceId || '',
+      status: route.params?.item?.status || 'IN_PROGRESS',
+      subject: route.params?.item?.subject || '',
+      uniqueIdInApp: route.params?.item?.uniqueIdInApp || '',
+    },
     validationSchema: Yup.object({
       subject: Yup.string().required('Required!'),
       startDate: Yup.date().min(new Date(), 'Please choose future date!'),
       endDate: Yup.date().when('startDate', (startDate, schema) => {
         if (startDate) {
-          const dayAfter = new Date(startDate[0]?.getTime() + 3600000);
+          const dayAfter = moment(startDate[0]).toDate();
           return schema.min(dayAfter, 'End date must after start date!');
         }
         return schema;
@@ -105,10 +91,8 @@ const CallLogScreen = (props: any) => {
     await onSubmitData({
       variables: {
         data: {
-          activityOwnerEmail: route?.params?.item?.activityOwnerEmail,
-          startDate: route?.params?.item?.startDate,
-          endDate: route?.params?.item?.endDate,
           status: 'CANCELLED',
+          uniqueIdInApp: route.params?.item?.uniqueIdInApp,
         },
       },
     });
@@ -151,11 +135,6 @@ const CallLogScreen = (props: any) => {
                 placeholder={'Call Name'}
                 name={'subject'}
               />
-              {formik.errors.subject && formik.touched.subject && (
-                <View style={{marginTop: -8}}>
-                  <Text style={styles.errorTitle}>{formik.errors.subject}</Text>
-                </View>
-              )}
               <View
                 style={[
                   Theme.flexRow,
@@ -171,13 +150,7 @@ const CallLogScreen = (props: any) => {
                   title={'Choose Time'}
                 />
               </View>
-              {formik.errors.startDate && formik.touched.startDate && (
-                <View style={{marginTop: -8, marginBottom: 8}}>
-                  <Text style={styles.errorTitle}>
-                    {formik.errors.startDate}
-                  </Text>
-                </View>
-              )}
+
               <View
                 style={[
                   Theme.flexRow,
@@ -193,11 +166,14 @@ const CallLogScreen = (props: any) => {
                   title={'Choose Time'}
                 />
               </View>
-              {formik.errors.endDate && formik.touched.endDate && (
-                <View style={{marginTop: -8, marginBottom: 8}}>
-                  <Text style={styles.errorTitle}>{formik.errors.endDate}</Text>
-                </View>
-              )}
+              {!!getIn(formik.errors, 'endDate') &&
+                getIn(formik.touched, 'endDate') && (
+                  <View style={{marginTop: -8, marginBottom: 8}}>
+                    <Text style={styles.errorTitle}>
+                      {getIn(formik.errors, 'endDate')}
+                    </Text>
+                  </View>
+                )}
               <InputForm
                 title={'Type'}
                 name={'activitySubtype'}
@@ -246,26 +222,20 @@ const CallLogScreen = (props: any) => {
                 name={'account'}
                 placeholder={'Account Name'}
               />
-              {formik.errors.account && formik.touched.account && (
-                <View style={{marginTop: -8, marginBottom: 8}}>
-                  <Text style={styles.errorTitle}>{formik.errors.account}</Text>
-                </View>
-              )}
               <InputForm
                 title={'Name'}
                 name={'contactName'}
                 placeholder={'Contact Name'}
                 rightIcon={
-                  <IconAntDesign name="search1" size={15} color={'grey'} />
+                  <TouchableOpacity
+                    hitSlop={{top: 10, left: 10, right: 10, bottom: 10}}
+                    onPress={() =>
+                      navigation.navigate(Routes.DoctorSearchScreen)
+                    }>
+                    <IconAntDesign name="search1" size={15} color={'grey'} />
+                  </TouchableOpacity>
                 }
               />
-              {formik.errors.contactName && formik.touched.contactName && (
-                <View style={{marginTop: -8, marginBottom: 8}}>
-                  <Text style={styles.errorTitle}>
-                    {formik.errors.contactName}
-                  </Text>
-                </View>
-              )}
               <InputForm
                 title={'Division'}
                 dropdownPosition={'top'}

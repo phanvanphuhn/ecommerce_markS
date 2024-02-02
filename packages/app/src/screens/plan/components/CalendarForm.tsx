@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 import colors from 'res/colors';
-import {useFormikContext} from 'formik';
+import {getIn, useFormikContext} from 'formik';
 import {PlanCallInput} from 'apollo/query/upsertPlanCall';
 import moment from 'moment';
 import DateTimePicker from 'components/DateTimePicker/DateTimePicker';
@@ -13,7 +13,7 @@ interface CalendarFormProps {
   title?: string;
 }
 const CalendarForm = (props: CalendarFormProps) => {
-  const {handleChange, values, setFieldValue} =
+  const {handleChange, values, touched, errors, setFieldValue} =
     useFormikContext<PlanCallInput>();
   const [visible, open, close] = useModal();
   return (
@@ -38,6 +38,7 @@ const CalendarForm = (props: CalendarFormProps) => {
           </Text>
         </TouchableOpacity>
       </View>
+
       <DateTimePicker
         title={props?.title}
         visible={visible}
@@ -57,6 +58,11 @@ const CalendarForm = (props: CalendarFormProps) => {
 };
 
 const styles = StyleSheet.create({
+  error: {borderColor: colors.red, borderWidth: 2},
+  errorTitle: {
+    color: colors.red,
+    fontWeight: '500',
+  },
   container: {
     flexDirection: 'row',
     justifyContent: 'space-between',

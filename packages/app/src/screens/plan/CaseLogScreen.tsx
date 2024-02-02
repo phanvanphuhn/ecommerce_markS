@@ -33,6 +33,8 @@ import {BaseUseNavigationProps} from 'navigation/BaseNavigationProps';
 import {MainParamList} from 'navigation/service/NavigationParams';
 import {CaseLogOutput, upsertCaseLog} from 'apollo/query/upsertCaseLog';
 import * as Yup from 'yup';
+import moment from 'moment/moment';
+import {roundDate} from 'utils/other-utils';
 
 const CaseLogScreen2 = (props: any) => {
   const {route} = props;
@@ -47,12 +49,16 @@ const CaseLogScreen2 = (props: any) => {
   const formik = useFormik<CaseLogOutput>({
     initialValues: {
       caseName: '',
-      endDate: new Date(),
-      startDate: new Date(),
+      endDate: route.params?.item?.endDate
+        ? moment(route.params?.item?.endDate, 'YYYY-MM-DD HH:mm:ss').toDate()
+        : roundDate(),
+      startDate: route.params?.item?.startDate
+        ? moment(route.params?.item?.startDate, 'YYYY-MM-DD HH:mm:ss').toDate()
+        : roundDate(),
       account: '',
       location: '',
       contact: '',
-      secondContact: '',
+      secondaryContact: '',
 
       id: uuid.v4(),
       status: 'IN_PROGRESS',
@@ -102,13 +108,6 @@ const CaseLogScreen2 = (props: any) => {
                 title={'Subject'}
                 placeholder={'Procedure'}
               />
-              {formik.errors.caseName && formik.touched.caseName && (
-                <View style={{marginTop: -8}}>
-                  <Text style={styles.errorTitle}>
-                    {formik.errors.caseName}
-                  </Text>
-                </View>
-              )}
               <View
                 style={[
                   Theme.flexRow,
@@ -156,11 +155,6 @@ const CaseLogScreen2 = (props: any) => {
                 title={'Account'}
                 placeholder={'Account Name'}
               />
-              {formik.errors.account && formik.touched.account && (
-                <View style={{marginTop: -8, marginBottom: 8}}>
-                  <Text style={styles.errorTitle}>{formik.errors.account}</Text>
-                </View>
-              )}
               <InputForm
                 name={'location'}
                 title={'Location'}
@@ -172,13 +166,8 @@ const CaseLogScreen2 = (props: any) => {
                 title={'Contact'}
                 placeholder={'Contact'}
               />
-              {formik.errors.contact && formik.touched.contact && (
-                <View style={{marginTop: -8, marginBottom: 8}}>
-                  <Text style={styles.errorTitle}>{formik.errors.contact}</Text>
-                </View>
-              )}
               <InputForm
-                name={'secondContact'}
+                name={'secondaryContact'}
                 title={'Second Contact'}
                 placeholder={'Second Contact'}
               />

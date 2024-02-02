@@ -101,18 +101,19 @@ const ContainerProgress = (props: ContainerProgressProps) => {
     let salesBy = state.data?.[`salesBy${state.type}`];
     let targetBy = state.data?.[`targetBy${state.type}`];
     let target = 0;
-    if (salesBy < targetBy) {
-      target = targetBy - salesBy;
+    if (salesBy > targetBy) {
+      target = salesBy - targetBy;
     }
     return isNaN(Math.abs(Math.round(target)))
       ? 0
       : Math.abs(Math.round(target));
   }, [state.data, state.type]);
   const targetPercent = useMemo(() => {
-    let target = state.data?.[`targetBy${state.type}`];
-    let sale = state.data?.[`salesBy${state.type}`];
-    return Math.round(((sale || 0) / (target || 0)) * 100);
-  }, [state.data, state.type]);
+    let target = (targetTotal * 100) / targetAvchieve;
+    console.log('=>(ContainerProgress.tsx:113) targetTotal', targetTotal);
+    console.log('=>(ContainerProgress.tsx:113) targetAvchieve', targetAvchieve);
+    return Math.round(target);
+  }, [targetAvchieve, targetTotal]);
   return (
     <>
       <Animated.View style={styles.container}>
@@ -156,6 +157,8 @@ const ContainerProgress = (props: ContainerProgressProps) => {
               valueBottom={100}
               disabledMax={120}
               maxTop={100}
+              colorTop={['#EDE0AC', '#E2C261', '#D8A042']}
+              colorTopCicle={'#D8A042'}
               disabled={state.type != 'Quarter'}
               valueTop={targetPercent || 0}
               width={width - 100}

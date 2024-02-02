@@ -55,7 +55,13 @@ const InputForm = (props: InputFormProps) => {
           onChange={e => setFieldValue(props.name, e.value)}
         />
       ) : (
-        <View style={styles.textInputContainer}>
+        <View
+          style={[
+            styles.textInputContainer,
+            !!getIn(errors, props.name) &&
+              getIn(touched, props.name) &&
+              styles.error,
+          ]}>
           <TextInput
             value={values?.[props.name]}
             onChangeText={handleChange(props.name)}
@@ -74,12 +80,21 @@ const InputForm = (props: InputFormProps) => {
           {props?.rightIcon && <View>{props?.rightIcon}</View>}
         </View>
       )}
+      {!!getIn(errors, props.name) && getIn(touched, props.name) && (
+        <View style={{}}>
+          <Text style={styles.errorTitle}>{getIn(errors, props.name)}</Text>
+        </View>
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   error: {borderColor: colors.red, borderWidth: 2},
+  errorTitle: {
+    color: colors.red,
+    fontWeight: '500',
+  },
   container: {
     marginBottom: 16,
   },

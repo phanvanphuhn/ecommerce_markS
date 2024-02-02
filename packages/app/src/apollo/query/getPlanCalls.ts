@@ -80,6 +80,8 @@ export let GET_PLAN_CALLS: TypedDocumentNode<Data, Variables> = gql`
       startDate
       status
       subject
+      contactId
+      uniqueIdInApp
     }
   }
 `;

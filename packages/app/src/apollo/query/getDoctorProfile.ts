@@ -13,6 +13,7 @@ interface Variables {
 export let GET_DOCTOR_PROFILE_QUERY: TypedDocumentNode<Data, Variables> = gql`
   query getDoctorProfileByContactId($contactId: String!) {
     data: getDoctorProfileByContactId(contactId: $contactId) {
+      contactId
       doctorAlternativeEmail
       doctorCountry
       doctorDivision
