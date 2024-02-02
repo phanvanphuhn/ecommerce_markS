@@ -1,4 +1,4 @@
-FROM node:18
+FROM node:16 AS builder
 
 # Install Yarn
 RUN command -v yarn >/dev/null 2>&1 || { npm install -g yarn; }
@@ -18,7 +18,7 @@ COPY . .
 
 RUN NODE_OPTIONS=--max_old_space_size=4096 yarn build
 
-FROM node:18
+FROM node:16
 
 WORKDIR /app
 
