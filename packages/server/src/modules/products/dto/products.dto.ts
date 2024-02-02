@@ -45,7 +45,7 @@ export class ProductOutput extends Product {
 }
 
 @ArgsType()
-export class ProductFilterArgs extends OmitType(Product, ['id', 'country']) {
+export class ProductFilterArgs extends OmitType(Product, ['country']) {
   @Field(() => Number, { nullable: true })
   take?: number;
 

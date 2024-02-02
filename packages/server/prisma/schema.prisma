@@ -12,6 +12,11 @@ generator kysely {
   // enumFileName = "enums.ts"
 }
 
+generator nestgraphql {
+  provider = "prisma-nestjs-graphql"
+  output   = "../src/@generated/nestgraphql"
+}
+
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["postgresqlExtensions"]

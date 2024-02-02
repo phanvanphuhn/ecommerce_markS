@@ -1,6 +1,15 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import {
+  Args,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql';
 import { GraphQLJSON } from 'graphql-scalars';
 import { UseGuards } from '@nestjs/common';
+import { CaseLog } from '@generated/nestgraphql/case-log/case-log.model';
+import { CaseLogSubmission } from '@generated/nestgraphql/case-log-submission/case-log-submission.model';
 
 import { AzureAuthGuard } from '../auth/guards/azure-ad.guard';
 import { UserEntity } from '../../common/decorators/user.decorator';
@@ -13,14 +22,14 @@ import {
   CaseLogOutput,
 } from './dto/case-log.dto';
 
-@Resolver()
+@Resolver(() => CaseLog)
 export class CaseLogResolver {
   constructor(
     private caseLogService: CaseLogService,
     private userProfilesService: UserProfilesService,
   ) {}
 
-  @Query(() => [CaseLogOutput])
+  @Query(() => [CaseLog])
   @UseGuards(AzureAuthGuard)
   async getCaseLogs(@UserEntity() userInfo, @Args() filter: CaseLogFilterArgs) {
     const user =
@@ -31,7 +40,7 @@ export class CaseLogResolver {
     return this.caseLogService.getCaseLogs(user[0].salesRepEmail, filter);
   }
 
-  @Query(() => CaseLogOutput)
+  @Query(() => CaseLog)
   @UseGuards(AzureAuthGuard)
   async getCaseLog(@UserEntity() userInfo, @Args('id') id: string) {
     const user =
@@ -42,7 +51,7 @@ export class CaseLogResolver {
     return this.caseLogService.getCaseLog(user[0].salesRepEmail, id);
   }
 
-  @Mutation(() => CaseLogOutput)
+  @Mutation(() => CaseLog)
   @UseGuards(AzureAuthGuard)
   async upsertCaseLog(
     @UserEntity() userInfo,
@@ -56,7 +65,7 @@ export class CaseLogResolver {
     return this.caseLogService.upsertCaseLog(user[0].salesRepEmail, data);
   }
 
-  @Mutation(() => CaseLogOutput)
+  @Mutation(() => CaseLog)
   async testUpsertCaseLog(
     @UserEntity() userInfo,
     @Args('data') data: CaseLogInput,
@@ -74,5 +83,10 @@ export class CaseLogResolver {
     return await this.caseLogService.getFile(
       `${user[0].salesRepEmail}/${filePath}`,
     );
+  }
+
+  @ResolveField('caseLogSubmissions', () => [CaseLogSubmission])
+  async getCaseLogSubmissions(@Parent() parent: CaseLog) {
+    return this.caseLogService.getCaseLogSubmissionsByCaselogId(parent.id);
   }
 }

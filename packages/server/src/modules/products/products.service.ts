@@ -51,6 +51,15 @@ export class ProductsService {
     return products.map((product) => new ProductOutput(product));
   }
 
+  async getProductById(id: string) {
+    const query = this.database
+      .selectFrom('marks.Products')
+      .selectAll()
+      .where('id', '=', id);
+
+    return await query.executeTakeFirst();
+  }
+
   async getProductsByUserCountry(salesRepEmail: string) {
     const profile = await this.database
       .selectFrom('marks.UserProfile')

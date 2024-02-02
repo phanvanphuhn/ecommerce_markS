@@ -1,7 +1,7 @@
 import { Kysely } from 'kysely';
-
 import {
   CaseLog,
+  CaseLogSubmission,
   Complaint,
   ContactSearch,
   Leaderboard,
@@ -26,6 +26,7 @@ interface DB {
   'marks.Mobile_Sales': Mobile_Sales;
   'marks.PlanCall': PlanCall;
   'marks.CaseLog': CaseLog;
+  'marks.CaseLogSubmission': CaseLogSubmission;
   'marks.SearchHistory': SearchHistory;
   'marks.Products': Products;
 }

@@ -2,10 +2,35 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type CaseLog {
+  _count: CaseLogCount!
+  account: String
+  activityOwnerEmail: String
+  activityOwnerName: String
+  caseLogSubmission: [CaseLogSubmission!]
+  caseLogSubmissions: [CaseLogSubmission!]!
+  caseName: String
+  contact: String
+  createdAt: DateTime
+  endDate: DateTime
+  id: ID!
+  location: String
+  photoPaths: [String!]
+  secondaryContact: String
+  startDate: DateTime
+  status: String
+  updatedAt: DateTime
+}
+
+type CaseLogCount {
+  caseLogSubmission: Int!
+}
+
 input CaseLogInput {
   account: String
   activityOwnerEmail: String
   activityOwnerName: String
+  caseLogSubmissions: [CaseLogSubmissionInputCreate!]
   caseName: String
   contact: String
   createdAt: DateTime
@@ -16,32 +41,45 @@ input CaseLogInput {
   photoPaths: [String!]
   secondaryContact: String
   startDate: DateTime
-  status: CaseLogStatus
+  status: String
   updatedAt: DateTime
 }
 
 type CaseLogOutput {
+  _count: CaseLogCount!
   account: String
   activityOwnerEmail: String
   activityOwnerName: String
+  caseLogSubmission: [CaseLogSubmission!]
+  caseLogSubmissions: [CaseLogSubmission!]
   caseName: String
   contact: String
   createdAt: DateTime
   endDate: DateTime
-  id: String
+  id: ID!
   location: String
   photoPaths: [String!]
   secondaryContact: String
   startDate: DateTime
-  status: CaseLogStatus
+  status: String
   updatedAt: DateTime
 }
 
-"""The status of the case log"""
-enum CaseLogStatus {
-  CANCELLED
-  COMPLETED
-  IN_PROGRESS
+type CaseLogSubmission {
+  caseLog: CaseLogOutput!
+  caseLogId: String
+  createdAt: DateTime
+  id: ID!
+  product: Products!
+  productId: String
+  quantity: String
+  salesRepEmail: String
+  updatedAt: DateTime
+}
+
+input CaseLogSubmissionInputCreate {
+  productId: String
+  quantity: String
 }
 
 type ComplaintsOutput {
@@ -162,8 +200,8 @@ type MobileSearchHistoryOutput {
 }
 
 type Mutation {
-  testUpsertCaseLog(data: CaseLogInput!): CaseLogOutput!
-  upsertCaseLog(data: CaseLogInput!): CaseLogOutput!
+  testUpsertCaseLog(data: CaseLogInput!): CaseLog!
+  upsertCaseLog(data: CaseLogInput!): CaseLog!
   upsertMobileSalesQuarter(quarter: String!, targetByQuarter: String!, year: String!): Boolean!
   upsertMobileSalesYear(targetByYear: String!, year: String!): Boolean!
   upsertPlanCall(data: PlanCallInput!): PlanCallOutput!
@@ -252,21 +290,27 @@ enum PlanCallStatus {
   IN_PROGRESS
 }
 
-type ProductOutput {
+type Products {
+  _count: ProductsCount!
+  caseLogSubmission: [CaseLogSubmission!]!
   country: String
-  createdAt: DateTimeISO
+  createdAt: DateTime
   gtin: String
-  id: String
-  updatedAt: DateTimeISO
+  id: ID!
+  updatedAt: DateTime
   upn: String
   upnDescription: String
+}
+
+type ProductsCount {
+  caseLogSubmission: Int!
 }
 
 type Query {
   complaint(id: String!): ComplaintsOutput!
   complaints: [ComplaintsOutput!]!
-  getCaseLog(id: String!): CaseLogOutput!
-  getCaseLogs(account: String, caseName: String, contact: String, createdAt: DateTime, endDate: DateTime, id: String, location: String, photoPaths: [String!], secondaryContact: String, startDate: DateTime, status: CaseLogStatus, updatedAt: DateTime): [CaseLogOutput!]!
+  getCaseLog(id: String!): CaseLog!
+  getCaseLogs: [CaseLog!]!
   getDoctorProfile(doctorEmail: String!): [DoctorDetail!]
   getDoctorProfileByContactId(contactId: String!): [DoctorDetail!]
   getDoctorSearchList(doctorAlternativeEmail: String, doctorCountry: String, doctorDivisions: [String!], doctorName: String, doctorSpecialties: [String!], doctorTitle: String, hospital: String, topicsOfInterests: [String!]): [ContactSearchOutput!]
@@ -279,7 +323,7 @@ type Query {
   getPlanCall(id: String!): PlanCallOutput!
   getPlanCallTypes: [String!]!
   getPlanCalls(account: String, activityOwnerEmail: String, activityOwnerName: String, activitySubtype: PlanCallActivitySubtype, activityType: PlanCallActivityType, contactId: String, contactName: String, createdInApp: DateTimeISO, description: String, division: String, endDate: String, lastModifiedInApp: DateTimeISO, location: String, ownerCountry: String, startDate: String, status: [PlanCallStatus!], subject: String, uniqueIdInApp: String): [PlanCallOutput!]!
-  getProducts(createdAt: DateTimeISO, gtin: String, skip: Int, take: Int, updatedAt: DateTimeISO, upn: String, upnDescription: String): ProductOutput!
+  getProducts(createdAt: DateTimeISO, gtin: String, id: String, skip: Int, take: Int, updatedAt: DateTimeISO, upn: String, upnDescription: String): [Products!]!
   getSales(month: String, quarter: String, year: String): [SalesOutput!]!
   getSearchHistory(searchType: [SearchType!], skip: Int, sort: OrderDirection, take: Int): [MobileSearchHistoryOutput!]!
   getSelfCalendars: JSON!

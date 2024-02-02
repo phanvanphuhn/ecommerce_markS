@@ -110,6 +110,10 @@ export class CaseLogService {
       }
     }
 
+    const caseLogSubmissions = input.caseLogSubmissions;
+    delete input.caseLogSubmissions;
+
+    // INSERT PARENT Caselog
     const result = await this.database
       .insertInto('marks.CaseLog')
       .values({
@@ -128,6 +132,36 @@ export class CaseLogService {
       .returningAll()
       .executeTakeFirst();
 
+    // THEN INSERT CHILDREN CaseLogSubmissions
+    if (caseLogSubmissions && caseLogSubmissions?.length > 0) {
+      for (const cls of caseLogSubmissions) {
+        await this.database
+          .insertInto('marks.CaseLogSubmission')
+          .values({
+            ...cls,
+            salesRepEmail,
+            caseLogId: result.id,
+          })
+          .onConflict((oc) =>
+            oc.column('id').doUpdateSet({
+              ...cls,
+              salesRepEmail,
+              updatedAt: new Date(),
+              caseLogId: result.id,
+            }),
+          )
+          .execute();
+      }
+    }
+
     return result;
+  }
+
+  async getCaseLogSubmissionsByCaselogId(caseLogId: string) {
+    return await this.database
+      .selectFrom('marks.CaseLogSubmission')
+      .selectAll()
+      .where('caseLogId', '=', caseLogId)
+      .execute();
   }
 }

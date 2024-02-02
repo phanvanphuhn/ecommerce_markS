@@ -2,12 +2,17 @@ import {
   ArgsType,
   Field,
   GraphQLISODateTime,
+  ID,
   InputType,
   ObjectType,
   OmitType,
   registerEnumType,
 } from '@nestjs/graphql';
 import { FileUpload, GraphQLUpload } from 'graphql-upload';
+import { CaseLogSubmission } from '@generated/nestgraphql/case-log-submission/case-log-submission.model';
+import { CaseLog } from '@generated/nestgraphql/case-log/case-log.model';
+import { CaseLogCreateInput } from '@generated/nestgraphql/case-log/case-log-create.input';
+import { CaseLogCreateWithoutCaseLogSubmissionInput } from '@generated/nestgraphql/case-log/case-log-create-without-case-log-submission.input';
 
 import { CaseLogStatus } from '../types/case-log.types';
 
@@ -16,65 +21,63 @@ registerEnumType(CaseLogStatus, {
   description: 'The status of the case log',
 });
 
-@ArgsType()
-@InputType('CaseLogInput')
-@ObjectType()
-export class CaseLog {
+@InputType()
+export class CaseLogSubmissionInputCreate extends OmitType(CaseLogSubmission, [
+  'caseLog',
+  'createdAt',
+  'updatedAt',
+  'product',
+  'salesRepEmail',
+  'id',
+]) {
   @Field(() => String, { nullable: true })
-  id?: string;
-
-  @Field(() => String, { nullable: true })
-  caseName: string;
-
-  @Field(() => GraphQLISODateTime, { nullable: true })
-  startDate?: Date;
-
-  @Field(() => GraphQLISODateTime, { nullable: true })
-  endDate?: Date;
+  productId!: string | null;
 
   @Field(() => String, { nullable: true })
-  account?: string;
+  quantity!: string | null;
+}
+
+@InputType()
+export class CaseLogSubmissionInputUpdate extends OmitType(CaseLogSubmission, [
+  'caseLog',
+  'createdAt',
+  'updatedAt',
+  'product',
+  'salesRepEmail',
+  'caseLogId',
+  'id',
+]) {
+  @Field(() => String, { nullable: true })
+  productId!: string | null;
 
   @Field(() => String, { nullable: true })
-  location?: string;
+  quantity!: string | null;
+}
 
-  @Field(() => String, { nullable: true })
-  contact?: string;
-
-  @Field(() => String, { nullable: true })
-  secondaryContact?: string;
-
-  @Field(() => String, { nullable: true })
-  activityOwnerName?: string;
-
-  @Field(() => String, { nullable: true })
-  activityOwnerEmail?: string;
-
-  @Field(() => CaseLogStatus, { nullable: true })
-  status?: string;
+@InputType()
+export class CaseLogInput extends OmitType(
+  CaseLogCreateWithoutCaseLogSubmissionInput,
+  ['photoPaths'],
+) {
+  @Field(() => [GraphQLUpload], { nullable: true })
+  files?: [Promise<FileUpload>];
 
   @Field(() => [String], { nullable: true })
   photoPaths?: string[];
 
-  @Field(() => GraphQLISODateTime, { nullable: true })
-  createdAt?: Date;
-
-  @Field(() => GraphQLISODateTime, { nullable: true })
-  updatedAt?: Date;
-}
-
-@InputType()
-export class CaseLogInput extends CaseLog {
-  @Field(() => [GraphQLUpload], { nullable: true })
-  files?: [Promise<FileUpload>];
+  @Field(() => [CaseLogSubmissionInputCreate], { nullable: true })
+  caseLogSubmissions?: [CaseLogSubmissionInputCreate];
 }
 
 @ObjectType()
 export class CaseLogOutput extends CaseLog {
-  constructor(caselog: Partial<CaseLog>) {
+  constructor(caseLog: CaseLog) {
     super();
-    Object.assign(this, caselog);
+    Object.assign(this, caseLog);
   }
+
+  @Field(() => [CaseLogSubmission], { nullable: true })
+  caseLogSubmissions?: CaseLogSubmission[];
 }
 
 @ArgsType()
