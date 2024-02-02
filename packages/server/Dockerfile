@@ -1,7 +1,7 @@
 FROM node:16 AS builder
 
 # Install Yarn
-RUN npm install -g yarn
+RUN command -v yarn >/dev/null 2>&1 || { npm install -g yarn; }
 
 # Create app directory
 WORKDIR /app
@@ -11,11 +11,11 @@ COPY package*.json ./
 COPY prisma ./prisma/
 
 # Install app dependencies using Yarn
-RUN yarn install
+RUN yarn install --frozen-lockfile
 
 COPY . .
 
-RUN NODE_OPTIONS=--max_old_space_size=4096 yarn run build
+RUN NODE_OPTIONS=--max_old_space_size=4096 yarn build
 
 FROM node:16
 
