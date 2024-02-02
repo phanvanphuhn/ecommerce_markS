@@ -31,6 +31,7 @@ COPY --from=builder /app/prisma/migrations ./prisma/migrations
 
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package*.json ./
+COPY --from=builder /app/*.lock ./
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/src/@generated ./dist/@generated
 COPY --from=builder /app/entrypoint.sh ./entrypoint.sh
