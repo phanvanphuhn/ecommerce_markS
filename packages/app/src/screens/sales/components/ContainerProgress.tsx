@@ -101,18 +101,19 @@ const ContainerProgress = (props: ContainerProgressProps) => {
     let salesBy = state.data?.[`salesBy${state.type}`];
     let targetBy = state.data?.[`targetBy${state.type}`];
     let target = 0;
-    if (salesBy > targetBy) {
-      target = salesBy - targetBy;
+    if (salesBy < targetBy) {
+      target = targetBy - salesBy;
     }
     return isNaN(Math.abs(Math.round(target)))
       ? 0
       : Math.abs(Math.round(target));
   }, [state.data, state.type]);
   const targetPercent = useMemo(() => {
-    let target = (targetTotal * 100) / targetAvchieve;
-    console.log('=>(ContainerProgress.tsx:113) targetTotal', targetTotal);
-    console.log('=>(ContainerProgress.tsx:113) targetAvchieve', targetAvchieve);
-    return Math.round(target);
+    let target = (targetTotal / state.data?.[`targetBy${state.type}`]) * 100;
+    if (state.data?.[`targetBy${state.type}`]) {
+      return Math.round(target);
+    }
+    return 0;
   }, [targetAvchieve, targetTotal]);
   return (
     <>
@@ -157,8 +158,21 @@ const ContainerProgress = (props: ContainerProgressProps) => {
               valueBottom={100}
               disabledMax={120}
               maxTop={100}
-              colorTop={['#EDE0AC', '#E2C261', '#D8A042']}
-              colorTopCicle={'#D8A042'}
+              colorTop={
+                Number(targetPercent) >= 100
+                  ? ['#EDE0AC', '#E2C261', '#D8A042']
+                  : [
+                      '#e6b3ff',
+                      '#c44dff',
+                      '#9900e6',
+                      '#7700b3',
+                      '#609',
+                      '440066',
+                    ]
+              }
+              colorTopCicle={
+                Number(targetPercent) >= 100 ? '#D8A042' : '#9900e6'
+              }
               disabled={state.type != 'Quarter'}
               valueTop={targetPercent || 0}
               width={width - 100}
