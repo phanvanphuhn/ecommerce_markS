@@ -86,6 +86,7 @@ const CallLogScreen = (props: any) => {
       });
     },
   });
+  console.log('=>(CallLogScreen.tsx:89) formik', formik);
 
   const onCancel = async () => {
     await onSubmitData({
@@ -150,7 +151,14 @@ const CallLogScreen = (props: any) => {
                   title={'Choose Time'}
                 />
               </View>
-
+              {!!getIn(formik.errors, 'startDate') &&
+                getIn(formik.touched, 'startDate') && (
+                  <View style={{marginTop: -8, marginBottom: 8}}>
+                    <Text style={styles.errorTitle}>
+                      {getIn(formik.errors, 'startDate')}
+                    </Text>
+                  </View>
+                )}
               <View
                 style={[
                   Theme.flexRow,

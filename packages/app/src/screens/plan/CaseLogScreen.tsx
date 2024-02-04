@@ -105,7 +105,7 @@ const CaseLogScreen2 = (props: any) => {
             <View style={{padding: 16}}>
               <InputForm
                 name={'caseName'}
-                title={'Subject'}
+                title={'Case'}
                 placeholder={'Procedure'}
               />
               <View
@@ -168,8 +168,8 @@ const CaseLogScreen2 = (props: any) => {
               />
               <InputForm
                 name={'secondaryContact'}
-                title={'Second Contact'}
-                placeholder={'Second Contact'}
+                title={'Secondary Contact'}
+                placeholder={'Secondary Contact'}
               />
 
               {!route?.params?.isCreateNew && (
