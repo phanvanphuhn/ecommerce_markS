@@ -13,7 +13,7 @@ generator kysely {
 }
 
 generator nestgraphql {
-  provider = "node node_modules/prisma-nestjs-graphql"
+  provider = "prisma-nestjs-graphql"
   output   = "../src/@generated/nestgraphql"
 }
 
@@ -22,15 +22,6 @@ generator client {
   previewFeatures = ["postgresqlExtensions"]
 }
 
-// generator nestgraphql {
-//   provider             = "prisma-nestjs-graphql"
-//   output               = "../src/@generated/nestgraphql"
-//   combineScalarFilters = true
-//   noAtomicOperations   = true
-//   emitCompiled         = true
-//   purgeOutput          = true
-// }
-
 generator dbml {
   provider = "prisma-dbml-generator"
 }
@@ -38,7 +29,6 @@ generator dbml {
 model ContactSearch {
   id                     Int     @id @default(autoincrement())
   salesRepEmail          String?
-  hospitalId             String?
   hospital               String?
   topicsOfInterest       String?
   contactId              String?

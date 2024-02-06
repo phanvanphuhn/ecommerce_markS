@@ -5,7 +5,6 @@
 Table ContactSearch {
   id Int [pk, increment]
   salesRepEmail String
-  hospitalId String
   hospital String
   topicsOfInterest String
   contactId String
