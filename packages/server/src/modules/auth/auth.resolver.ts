@@ -20,21 +20,16 @@ export class AuthResolver {
   }
 
   @Query(() => GraphQLJSON, { name: 'meAD' })
-  async getMeAD(
-    @Args('accessToken') accessToken: string,
-    @UserEntity() user: any,
-  ) {
+  async getMeAD(@Args('accessToken') accessToken: string) {
     const result = await this.graphService.getMeUser(accessToken);
     Logger.log(result);
     return result;
   }
 
   @Query(() => GraphQLJSON, { name: 'meGroup' })
-  async getMeGroups(
-    @Args('accessToken') accessToken: string,
-    @UserEntity() user: any,
-  ) {
+  async getMeGroups(@Args('accessToken') accessToken: string) {
     const result = await this.graphService.getMeGroups(accessToken);
+    Logger.log('accessToken', accessToken);
     Logger.log(result);
     return result;
   }
