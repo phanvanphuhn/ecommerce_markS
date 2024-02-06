@@ -30,7 +30,7 @@ export $(cat $SECRETS_FILE_PATH | jq -r 'to_entries | .[] | .key + "=" + (.value
 # rename host to DB_HOST, username to POSTGRES_USER, password to POSTGRES_PASSWORD, port to DB_PORT
 export DB_HOST=$host
 export POSTGRES_USER=$username
-export POSTGRES_PASSWORD=$password
+export POSTGRES_PASSWORD=$(encodeReservedCharacters "$password")
 export DB_PORT=$port
 export DATABASE_URL="postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${DB_HOST}:${DB_PORT}/${POSTGRES_DB}?schema=${DB_SCHEMA}&sslmode=prefer"
 
