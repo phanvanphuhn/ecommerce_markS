@@ -1,5 +1,5 @@
 import { Resolver, Query, Args } from '@nestjs/graphql';
-import { UseGuards } from '@nestjs/common';
+import { UseGuards, Logger } from '@nestjs/common';
 import { GraphQLJSON } from 'graphql-scalars';
 
 import { UserEntity } from '@/common/decorators/user.decorator';
@@ -24,7 +24,9 @@ export class AuthResolver {
     @Args('accessToken') accessToken: string,
     @UserEntity() user: any,
   ) {
-    return await this.graphService.getMeUser(accessToken);
+    const result = await this.graphService.getMeUser(accessToken);
+    Logger.log(result);
+    return result;
   }
 
   @Query(() => GraphQLJSON, { name: 'meGroup' })
@@ -32,7 +34,9 @@ export class AuthResolver {
     @Args('accessToken') accessToken: string,
     @UserEntity() user: any,
   ) {
-    return await this.graphService.getMeGroups(accessToken);
+    const result = await this.graphService.getMeGroups(accessToken);
+    Logger.log(result);
+    return result;
   }
 
   @Query(() => GraphQLJSON, { name: 'getSelfCalendars' })
