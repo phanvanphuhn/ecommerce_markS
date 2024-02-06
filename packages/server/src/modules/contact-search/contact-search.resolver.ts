@@ -12,7 +12,7 @@ import {
   ContactSearchOutput,
   HospitalFilterArgs,
 } from './dto/contact-search.dto';
-import { DoctorDetail } from './dto/doctor-profile.dto';
+import { DoctorDetail, DoctorFilterArgs } from './dto/doctor-profile.dto';
 
 @Resolver()
 export class ContactSearchResolver {
@@ -40,8 +40,8 @@ export class ContactSearchResolver {
 
   @Query(() => [DoctorDetail], { nullable: true })
   @UseGuards(AzureAuthGuard)
-  async getDoctorProfile(@Args('doctorEmail') doctorEmail: string) {
-    return this.contactSearchService.getDoctorProfileByDoctorEmail(doctorEmail);
+  async getDoctorProfile(@Args() filter: DoctorFilterArgs) {
+    return this.contactSearchService.getDoctorProfile(filter);
   }
 
   @Query(() => [DoctorDetail], { nullable: true })

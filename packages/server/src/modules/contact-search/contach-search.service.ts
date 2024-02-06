@@ -9,7 +9,7 @@ import {
   ContactSearchOutput,
   HospitalFilterArgs,
 } from './dto/contact-search.dto';
-import { DoctorDetail } from './dto/doctor-profile.dto';
+import { DoctorDetail, DoctorFilterArgs } from './dto/doctor-profile.dto';
 
 @Injectable()
 export class ContactSearchService {
@@ -240,10 +240,8 @@ export class ContactSearchService {
     return dbResponse as DoctorDetail[];
   }
 
-  async getDoctorProfileByDoctorEmail(
-    doctorEmail: string,
-  ): Promise<DoctorDetail[]> {
-    const dbResponse = await this.database
+  async getDoctorProfile(filter: DoctorFilterArgs): Promise<DoctorDetail[]> {
+    let query = this.database
       .selectFrom('marks.ContactSearch')
       .select((eb) => [
         'doctorName',
@@ -258,7 +256,6 @@ export class ContactSearchService {
         'topicsOfInterest',
         'doctorCountry',
       ])
-      .where('doctorEmail', '=', doctorEmail)
       .groupBy([
         'doctorEmail',
         'doctorName',
@@ -272,9 +269,22 @@ export class ContactSearchService {
         'doctorAlternativeEmail',
         'topicsOfInterest',
         'doctorCountry',
-      ])
-      .execute();
+      ]);
 
-    return dbResponse as DoctorDetail[];
+    if (filter.doctorName) {
+      query = query.where('doctorName', 'like', `%${filter.doctorName}%`);
+    }
+
+    if (filter.doctorPhone) {
+      query = query.where('doctorPhone', 'like', `%${filter.doctorPhone}%`);
+    }
+
+    if (filter.doctorEmail) {
+      query = query.where('doctorEmail', 'like', `%${filter.doctorEmail}%`);
+    }
+
+    const result = await query.execute();
+
+    return result as DoctorDetail[];
   }
 }
