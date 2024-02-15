@@ -44,7 +44,9 @@ const ItemCollapsible = (props: ItemCollapsibleProps) => {
             <View style={{width: '30%'}}>
               {props.currentValue ? (
                 <Text fontWeight={'700'} center={true}>
-                  {props.currentValue}
+                  {props.currentValue
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                 </Text>
               ) : (
                 <Text center={true} fontWeight={'700'} color={colors.orange}>
@@ -60,7 +62,9 @@ const ItemCollapsible = (props: ItemCollapsibleProps) => {
               <View style={[Theme.flex1]}>
                 {props.potentialValue ? (
                   <Text center={true} color={colors.orange}>
-                    {props.potentialValue}
+                    {props.potentialValue
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                   </Text>
                 ) : (
                   <Text center={true} fontWeight={'700'} color={colors.orange}>

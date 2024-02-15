@@ -20,7 +20,9 @@ const ItemPrice = (props: ItemPriceProps) => {
       <View style={{width: '30%'}}>
         {props.currentValue ? (
           <Text fontWeight={'300'} center={true}>
-            {props.currentValue}
+            {props.currentValue
+              .toString()
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
           </Text>
         ) : (
           <Text center={true} fontWeight={'300'}>
@@ -31,7 +33,9 @@ const ItemPrice = (props: ItemPriceProps) => {
       <View style={{width: '30%'}}>
         {props.potentialValue ? (
           <Text center={true} color={colors.orange} fontWeight={'300'}>
-            {props.potentialValue}
+            {props.potentialValue
+              .toString()
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
           </Text>
         ) : (
           <Text center={true} fontWeight={'300'} color={colors.orange}>

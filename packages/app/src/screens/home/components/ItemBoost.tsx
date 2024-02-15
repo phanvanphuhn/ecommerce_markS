@@ -29,7 +29,6 @@ const ItemBoost = (props: ItemBoostProps) => {
   };
   return (
     <TouchableOpacity
-      disabled={true}
       onPress={onDetail}
       style={[Theme.shadow, styles.container]}>
       <View
@@ -50,7 +49,7 @@ const ItemBoost = (props: ItemBoostProps) => {
       <CircleSlider
         max={state.max}
         isHideCircle={true}
-        disabled={false}
+        disabled={true}
         linearGradientColor={[
           '#0152CB',
           '#0152CB',
