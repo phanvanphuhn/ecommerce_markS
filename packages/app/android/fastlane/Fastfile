@@ -27,7 +27,7 @@ platform :android do
   lane :uploadToFirebase do
     firebase_app_distribution(
       app: "1:614963482879:android:9a6ca6db0a803eb3397cca",
-      groups: "MarkS tester",
+      groups: "marks-tester",
       release_notes: "#{ENV['ENV']}",
       apk_path: "./fastlane/apk/#{ENV['ENV']}/app-#{ENV['ENV']}.apk",
       firebase_cli_token: "1//0eC6rdrGBAMbgCgYIARAAGA4SNwF-L9IrYF3mIX9a9_FCyz7RJKJ6L5vlZnMNHHEU-yMElgQmOlbg5Os8YiuR6AL6SPo-TBZlS1A",
