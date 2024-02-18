@@ -196,6 +196,32 @@ const PriceYear = (props: PriceYearProps) => {
     }
   }, [state.type, state.data, getCommissionSale, getCommissionPercent]);
 
+  const variable = useMemo(() => {
+    if (state.data?.newHire == 0) {
+      return (
+        state?.data?.[`variablePayoutBy${state.type}`] +
+        state?.data?.variablePayoutQ5
+      );
+    } else {
+      return (
+        state?.data?.[`variablePayoutBy${state.type}`] +
+        state?.data?.variablePayoutQ5_forNewHire
+      );
+    }
+  }, [state?.data]);
+  const comission = useMemo(() => {
+    if (state.data?.newHire == 0) {
+      return (
+        state?.data?.[`commissionPayoutBy${state.type}`] +
+        state?.data?.commissionPayoutQ5
+      );
+    } else {
+      return (
+        state?.data?.[`commissionPayoutBy${state.type}`] +
+        state?.data?.commissionPayoutQ5_forNewHire
+      );
+    }
+  }, [state?.data]);
   useEffect(() => {
     setState({
       data: {
@@ -257,43 +283,34 @@ const PriceYear = (props: PriceYearProps) => {
             icon={images.ic_dolar}
             title={'Rewards'}
             potentialValue={Number(getVariable) + Number(getCommission)}
-            currentValue={Math.round(
-              state?.data?.[`variablePayoutBy${state.type}`] +
-                state?.data?.[`commissionPayoutBy${state.type}`],
-            )}>
+            currentValue={variable + comission}>
             <View style={{}}>
               <ItemPrice
                 title={'Variable'}
-                currentValue={Math.round(
-                  state?.data?.[`variablePayoutBy${state.type}`],
-                )}
-                potentialValue={Math.round(Number(getVariable))}
+                currentValue={variable}
+                potentialValue={Number(getVariable)}
               />
               <ItemPrice
                 title={'Commission'}
-                currentValue={Math.round(
-                  state?.data?.[`commissionPayoutBy${state.type}`],
-                )}
-                potentialValue={Math.round(Number(getCommission))}
+                currentValue={comission}
+                potentialValue={Number(getCommission)}
               />
             </View>
           </ItemCollapsible>
           <ItemCollapsible
             icon={images.ic_booster}
             title={'Sales Booster'}
-            currentValue={Math.round(
-              state?.data?.kicker + state?.data?.earlyBird,
-            )}
-            potentialValue={Math.round(getKicker + getEarlyBird)}>
+            currentValue={state?.data?.kicker + state?.data?.earlyBird}
+            potentialValue={getKicker + getEarlyBird}>
             <View style={{}}>
               <ItemPrice
                 title={'Kicker'}
-                currentValue={Math.round(state?.data?.kicker)}
+                currentValue={state?.data?.kicker}
                 potentialValue={Math.round(getKicker)}
               />
               <ItemPrice
                 title={'Early Bird'}
-                currentValue={Math.round(state?.data?.earlyBird)}
+                currentValue={state?.data?.earlyBird}
                 potentialValue={Math.round(getEarlyBird)}
               />
             </View>
@@ -301,18 +318,18 @@ const PriceYear = (props: PriceYearProps) => {
           <ItemCollapsible
             icon={images.ic_dolar}
             title={'Additional Payout'}
-            currentValue={Math.round(
-              state?.data?.capitalEquipment + state?.data?.serviceContract,
-            )}>
+            currentValue={
+              state?.data?.capitalEquipment + state?.data?.serviceContract
+            }>
             <View style={{}}>
               <ItemPrice
                 title={'Capital Equipment'}
-                currentValue={Math.round(state?.data?.capitalEquipment)}
+                currentValue={state?.data?.capitalEquipment}
                 potentialValue={0}
               />
               <ItemPrice
                 title={'Service Contract'}
-                currentValue={Math.round(state?.data?.serviceContract)}
+                currentValue={state?.data?.serviceContract}
                 potentialValue={0}
               />
             </View>

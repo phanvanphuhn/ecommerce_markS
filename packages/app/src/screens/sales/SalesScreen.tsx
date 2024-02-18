@@ -66,7 +66,13 @@ const SalesScreen = (props: SalesScreenProps) => {
               Object.keys(item).forEach(function (key) {
                 item[key] =
                   /[0-9]+/.test(item[key]) && typeof item[key] === 'string'
-                    ? parseFloat(item[key].replaceAll(',', '').replace('%', ''))
+                    ? Math.round(
+                        parseFloat(
+                          item[key].replaceAll(',', '').replace('%', ''),
+                        ),
+                      )
+                    : /[0-9]+/.test(item[key]) && typeof item[key] === 'number'
+                    ? Math.round(parseFloat(item[key]))
                     : item[key];
               });
               return item;

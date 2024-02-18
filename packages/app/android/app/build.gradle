@@ -4,9 +4,10 @@ apply plugin: 'com.google.gms.google-services'
 apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
 apply from: file("../../node_modules/react-native-vector-icons/fonts.gradle")
 project.ext.envConfigFiles = [
-        Production: ".env.production",
-        debug: ".env.development",
-        Staging: ".env.staging",
+        production: ".env.production",
+        debug: ".env.dev",
+        staging: ".env.staging",
+        dev: ".env.dev",
 ]
 apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 import com.android.build.OutputFile
@@ -106,8 +107,8 @@ android {
         applicationId "com.bsc.marks"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 9
-        versionName "1.0.5"
+        versionCode project.hasProperty('versionCode') ? Integer.parseInt(project.versionCode) : 1
+        versionName project.hasProperty('versionName') ? project.versionName : "1.0.6"
         resValue 'string', "CODE_PUSH_APK_BUILD_TIME", String.format("\"%d\"", System.currentTimeMillis())
         resValue "string", "build_config_package", "com.bsc.marks"
     }
@@ -140,9 +141,20 @@ android {
         debug {
             signingConfig signingConfigs.debug
             matchingFallbacks = ['debug', 'release'] // Addded this
-            resValue "string", "CodePushDeploymentKey", '"hDUZR-yMq9yUL2gls_p5GoydJfZwUBiKcMqvB"'
+            resValue "string", "CodePushDeploymentKey", '"7rxfgvE0WoIT2TFxuVon7_pRfLfuLfkvDnZor"'
+            resValue "string", "app_name", '"JARVIS DEV"'
         }
-        Staging {
+        dev {
+            // Caution! In production, you need to generate your own keystore file.
+            // see https://reactnative.dev/docs/signed-apk-android.
+            signingConfig signingConfigs.release
+            minifyEnabled enableProguardInReleaseBuilds
+            matchingFallbacks = ['release'] // Addded this
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            resValue "string", "CodePushDeploymentKey", '"7rxfgvE0WoIT2TFxuVon7_pRfLfuLfkvDnZor"'
+            resValue "string", "app_name", '"JARVIS DEV"'
+        }
+        staging {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
             signingConfig signingConfigs.release
@@ -150,8 +162,9 @@ android {
             matchingFallbacks = ['release'] // Addded this
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             resValue "string", "CodePushDeploymentKey", '"hDUZR-yMq9yUL2gls_p5GoydJfZwUBiKcMqvB"'
+            resValue "string", "app_name", '"JARVIS UAT"'
         }
-        Production {
+        production {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
             signingConfig signingConfigs.release
@@ -159,6 +172,7 @@ android {
             matchingFallbacks = ['release'] // Addded this
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             resValue "string", "CodePushDeploymentKey", '"UAvRAK0W2z61GmTsFWBEQAfnMO-ywKBQgfc5D"'
+            resValue "string", "app_name", '"JARVIS"'
         }
     }
 

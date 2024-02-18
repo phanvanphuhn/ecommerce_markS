@@ -45,13 +45,12 @@ const DetailDoctorScreen = (
   useEffect(() => {
     getData({
       variables: {
-        // doctorEmail: props.route.params.item.doctorEmail,
-        contactId: props.route.params.item.contactId,
+        doctorEmail: props.route.params.item.doctorEmail,
+        doctorName: props.route.params.item.doctorName,
+        doctorPhone: props.route.params.item.doctorPhone,
       },
       onCompleted: response => {
-        let hospital = response.data.find(
-          e => e.contactId == props.route.params.item.contactId,
-        );
+        let hospital = response.data.find(e => e);
         setState({listHospital: response.data, hospital: hospital});
       },
     });
@@ -282,7 +281,10 @@ const DetailDoctorScreen = (
                 Specialty
               </Text>
               <TextInput
-                value={state.hospital?.doctorSpecialty || ''}
+                value={
+                  state.listHospital?.map(e => e.doctorSpecialty).join(', ') ||
+                  ''
+                }
                 editable={state.isEdit}
                 style={styles.input}
               />
@@ -294,7 +296,10 @@ const DetailDoctorScreen = (
                 Division
               </Text>
               <TextInput
-                value={state.hospital?.doctorDivision || ''}
+                value={
+                  state.listHospital?.map(e => e.doctorDivision).join(', ') ||
+                  ''
+                }
                 editable={state.isEdit}
                 style={styles.input}
               />

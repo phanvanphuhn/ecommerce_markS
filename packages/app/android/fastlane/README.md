@@ -15,21 +15,13 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 ## Android
 
-### android uploadToDeploygate
-
-```sh
-[bundle exec] fastlane android uploadToDeploygate
-```
-
-Build and upload to Deploygate.
-
 ### android playstore
 
 ```sh
 [bundle exec] fastlane android playstore
 ```
 
-Build and upload to CHPlay.
+Upload App to CHPlay.
 
 ### android uploadToAppcenter
 
@@ -37,7 +29,7 @@ Build and upload to CHPlay.
 [bundle exec] fastlane android uploadToAppcenter
 ```
 
-Build and upload to App Center.
+Upload App to App Center.
 
 ### android uploadToFirebase
 
@@ -45,23 +37,15 @@ Build and upload to App Center.
 [bundle exec] fastlane android uploadToFirebase
 ```
 
-Build and upload to Firebase.
+Upload App to Firebase.
 
-### android increment_version
-
-```sh
-[bundle exec] fastlane android increment_version
-```
-
-Increase build version.
-
-### android uploadAPK
+### android build
 
 ```sh
-[bundle exec] fastlane android uploadAPK
+[bundle exec] fastlane android build
 ```
 
-Build and push a new build to FireBase App Distribution
+Build Application
 
 ----
 

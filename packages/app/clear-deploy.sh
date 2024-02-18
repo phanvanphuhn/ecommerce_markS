@@ -3,7 +3,7 @@ source ./install.sh
 echo "Vui lòng chọn môi trường:"
 echo
 
-options=("Testing" "Production")
+options=("dev" "staging","production")
 
 select_option "${options[@]}"
 choice=$?

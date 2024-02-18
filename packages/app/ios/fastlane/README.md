@@ -23,30 +23,6 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 Fetch certificates and provisioning profiles
 
-### ios register
-
-```sh
-[bundle exec] fastlane ios register
-```
-
-Register new devices
-
-### ios build
-
-```sh
-[bundle exec] fastlane ios build
-```
-
-Fetch certificates. Build the iOS application.
-
-### ios uploadToDeploygate
-
-```sh
-[bundle exec] fastlane ios uploadToDeploygate
-```
-
-Fetch certificates, build and upload to Deploygate.
-
 ### ios uploadToAppcenter
 
 ```sh
@@ -55,29 +31,21 @@ Fetch certificates, build and upload to Deploygate.
 
 Fetch certificates, build and upload to App Center.
 
-### ios uploadToFirebase
+### ios uploadToTestFlight
 
 ```sh
-[bundle exec] fastlane ios uploadToFirebase
+[bundle exec] fastlane ios uploadToTestFlight
 ```
 
-Build and upload to Firebase.
+Upload to TestFlight
 
-### ios increment_version
+### ios build
 
 ```sh
-[bundle exec] fastlane ios increment_version
+[bundle exec] fastlane ios build
 ```
 
-Increase build version.
-
-### ios uploadIPA
-
-```sh
-[bundle exec] fastlane ios uploadIPA
-```
-
-Push a new build to Fabric and FireBase App Distribution
+Build Application
 
 ----
 

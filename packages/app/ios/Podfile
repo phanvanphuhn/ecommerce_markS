@@ -74,8 +74,9 @@ target 'marks' do
   end
   ENVFILES = {
     'Debug' => '$(PODS_ROOT)/../../.env.development',
-    'Staging' => '$(PODS_ROOT)/../../.env.staging',
-    'Production' => '$(PODS_ROOT)/../../.env.production',
+    'staging' => '$(PODS_ROOT)/../../.env.staging',
+    'dev' => '$(PODS_ROOT)/../../.env.dev',
+    'production' => '$(PODS_ROOT)/../../.env.production',
   }
   post_install do |installer|
     react_native_post_install(

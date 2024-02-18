@@ -39,8 +39,8 @@ const ItemSales = (props: ItemSalesProps) => {
   useEffect(() => {
     getSalesData({
       variables: {
-        month: (moment('2023-06-01', 'YYYY-MM-DD').month() + 1).toString(),
-        year: moment('2023-06-01', 'YYYY-MM-DD').year().toString(),
+        month: (moment().month() + 1).toString(),
+        year: moment().year().toString(),
       },
       onCompleted: data => {
         let obj = data?.data
@@ -110,7 +110,7 @@ const ItemSales = (props: ItemSalesProps) => {
       <SemiCircleSlider
         max={state.data?.targetByMonth}
         isHideCircle={true}
-        disabled={false}
+        disabled={true}
         linearGradientColor={[
           '#f7ebd4',
           '#EFE2AE',

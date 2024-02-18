@@ -3,88 +3,108 @@
 default_platform(:ios)
 
 platform :ios do
+
   desc 'Fetch certificates and provisioning profiles'
   lane :certificates do
-    enable_automatic_code_signing
-  end
-
-  desc "Register new devices"
-  lane :register do
-    device_name = prompt(text: "Enter the device name: ")
-    device_udid = prompt(text: "Enter the device UDID: ")
-    device_hash = {}
-    device_hash[device_name] = device_udid
-    register_devices(devices: device_hash)
-    match(force: true)
-  end
-
-  desc 'Fetch certificates. Build the iOS application.'
-  lane :build do
-
-  end
-
-  desc 'Fetch certificates, build and upload to Deploygate.'
-  lane :uploadToDeploygate do |params|
-    deploygate(
-      api_token: "aff502f1-5d05-4ada-9736-6a0161a865ac",
-      user: "taikhoantest",
-      ipa: "./fastlane/ipa/#{params[:envi]}/#{params[:envi]}.ipa",
-      message: "Build #{lane_context[SharedValues::BUILD_NUMBER]}",
+    # import_certificate(
+    #   keychain_name: "login",
+    #   certificate_path: ENV["CERTIFICATE_PATH"],
+    #   certificate_password: ENV["P12_PASSWORD"],
+    # )
+    # install_provisioning_profile(path: ENV["PROVISION_PROFILE_PATH"])
+    #
+    # update_project_provisioning(
+    #   xcodeproj: "vbee.xcodeproj",
+    #   profile: ENV["PROVISION_PROFILE_PATH"],
+    #   build_configuration: ENV["ENV"]
+    # )
+    automatic_code_signing(
+      path: "marks.xcodeproj",
+      use_automatic_signing: true,
+      bundle_identifier: ENV["PACKAGE_NAME"]
     )
   end
 
   desc 'Fetch certificates, build and upload to App Center.'
-  lane :uploadToAppcenter do |params|
+  lane :uploadToAppcenter do
     appcenter_upload(
       api_token: ENV["APPCENTER_API_TOKEN"],
       owner_name: ENV["APPCENTER_OWNER_NAME"],
       app_name: ENV["APPCENTER_APP_NAME"],
-      ipa: "./fastlane/ipa/#{params[:envi]}/#{params[:envi]}.ipa",
-      destinations: ENV["APPCENTER_GROUP"],
-      destination_type: "group"
+      destinations: "#{ENV["ENV"]}",
+      file: "./fastlane/ipa/#{ENV['ENV']}/#{ENV['ENV']}.ipa"
     )
   end
 
-  desc 'Build and upload to Firebase.'
-  lane :uploadToFirebase do |params|
-    firebase_app_distribution(
-      app: "1:614963482879:android:9a6ca6db0a803eb3397cca",
-      ipa_path: "./fastlane/ipa/#{params[:envi]}/#{params[:envi]}.ipa",
-    # testers: "tester1@company.com, tester2@company.com",
-    # release_notes: "Lots of amazing new features to test out!"
+  desc "Upload to TestFlight"
+  lane :uploadToTestFlight do
+    upload_to_testflight(
+      app_identifier: ENV["PACKAGE_NAME"],
+      team_id: ENV["TEAM_ID"],
+      # api_key_path: ENV["API_KEY_PATH"],
+      ipa: "./fastlane/ipa/#{ENV['ENV']}/#{ENV['ENV']}.ipa"
     )
   end
 
-  desc 'Increase build version.'
-  lane :increment_version do
-    latest_release = firebase_app_distribution_get_latest_release(
-      app: "1:614963482879:android:9a6ca6db0a803eb3397cca"
-    )
-    increment_build_number({ build_number: latest_release[:buildVersion].to_i + 1 })
-  end
+  desc "Build Application"
+  lane :build do
+    environment = "#{ENV['ENV']}"
 
-  desc "Push a new build to Fabric and FireBase App Distribution"
-  lane :uploadIPA do |options|
-    environment = "#{
-      options[:envi] == "Production" ? 'Production' : 'Staging'
-    }"
-    enable_automatic_code_signing
+    # if environment == 'dev'
+    #   buildNumber = appcenter_fetch_version_number(
+    #     api_token: ENV["APPCENTER_API_TOKEN"],
+    #     owner_name: ENV["APPCENTER_OWNER_NAME"],
+    #     app_name: ENV["APPCENTER_APP_NAME"],
+    #     )
+    #   versionName = ENV['VERSION']
+    #   versionCode = buildNumber['build_number'].to_i + 1
+    # elsif environment == 'staging'
+    #   buildNumber = appcenter_fetch_version_number(
+    #     api_token: ENV["APPCENTER_API_TOKEN"],
+    #     owner_name: ENV["APPCENTER_OWNER_NAME"],
+    #     app_name: ENV["APPCENTER_APP_NAME"],
+    #     )
+    #   versionName = ENV['VERSION']
+    #   versionCode = buildNumber['build_number'].to_i + 1
+    # elsif environment == 'production'
+      buildNumber = latest_testflight_build_number(
+        app_identifier: ENV["PACKAGE_NAME"],
+        initial_build_number: 0,
+        team_id: ENV["TEAM_ID"],
+        api_key_path: ENV["API_KEY_PATH"],
+        version: ENV['VERSION']
+      )
+      puts "BuildNumber: =>>: #{buildNumber}"
+      versionName = ENV['VERSION']
+      versionCode = buildNumber + 1
+    # end
+    puts "Version code:#{versionCode}"
+    puts "Version name:#{versionName}"
+
+    increment_build_number(
+      build_number: versionCode
+    )
+    increment_version_number(
+      version_number: versionName
+    )
+
+    certificates
+
     gym(
       clean: true,
       scheme: "#{environment}",
-      workspace: "./marks.xcworkspace",
+      configuration: "#{environment}",
+      workspace: "marks.xcworkspace",
       output_directory: "./fastlane/ipa/#{environment}",
       output_name: "#{environment}.ipa",
-      export_options: { compileBitcode: false },
-      # project: './ios/YourAppName.xcodeproj', # Use this command if you don't have an iOS .xcworkspace file.
-      export_method: options[:envi] == "Production" ? 'app-store' : 'development'
+      export_method: 'app-store' ,
     )
+
     #     uploadToAppcenter
-    if options[:envi] == "Staging"
-      uploadToAppcenter(envi: environment)
-    end
-    # if options[:envi] == "Production"
-    #   uploadToStore()
+    # if environment == "dev" || environment == 'staging'
+    #   uploadToAppcenter
+    # elsif ENV["ENV"] == "production"
+      uploadToTestFlight
     # end
   end
 

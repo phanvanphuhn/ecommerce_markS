@@ -33,6 +33,8 @@ import {useSelector} from 'hooks/useSelector';
 import {upsertSearchHistory} from 'apollo/query/upsertSearchHistory';
 import CustomMenu from 'components/Menu/CustomMenu';
 import ListRecents from 'screens/doctor/ListRecents';
+import {hideLoading, showLoading} from 'components/Loading/LoadingComponent';
+import snackbarUtils from 'utils/snackbar-utils';
 
 interface DoctorSearchScreenProps {}
 
@@ -61,6 +63,7 @@ const DoctorSearchScreen = (props: DoctorSearchScreenProps) => {
   const userProfile = useSelector(state => state.userProfile);
   const [getData, {loading}] = useLazyQuery(GET_DOCTOR_QUERY);
   const _getData = async (salesRepEmail?: string) => {
+    showLoading();
     await getData({
       variables: {
         hospital: salesRepEmail || '',
@@ -76,6 +79,12 @@ const DoctorSearchScreen = (props: DoctorSearchScreenProps) => {
         let array = Array.from(new Set(list));
         console.log('=>(DoctorSearchScreen.tsx:75) array', array);
         setState({data: data.data});
+        hideLoading();
+      },
+      onError: error => {
+        console.log('=>(DoctorSearchScreen.tsx:87) error', error);
+        hideLoading();
+        snackbarUtils.show(error.message, 'danger');
       },
     });
   };
