@@ -54,7 +54,7 @@ yarn-error.log
 /android/fastlane/apk
 /android/fastlane/aab
 /ios/fastlane/ipa
-
+/ios/tmp.xcconfig
 # Bundle artifact
 *.jsbundle
 
