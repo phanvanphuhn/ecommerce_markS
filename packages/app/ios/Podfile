@@ -73,7 +73,7 @@ target 'marks' do
     # Pods for testing
   end
   ENVFILES = {
-    'Debug' => '$(PODS_ROOT)/../../.env.development',
+    'Debug' => '$(PODS_ROOT)/../../.env.dev',
     'staging' => '$(PODS_ROOT)/../../.env.staging',
     'dev' => '$(PODS_ROOT)/../../.env.dev',
     'production' => '$(PODS_ROOT)/../../.env.production',
