@@ -76,7 +76,7 @@ const Recommended = (props: RecoProps) => {
   return (
     <View style={styles.container}>
       <View style={[Theme.flexRow, {alignItems: 'flex-start'}]}>
-        <Image source={images.ic_time} />
+        {/*<Image source={images.ic_time} />*/}
         <View style={{flex: 1, paddingLeft: 8, paddingTop: 5}}>
           <Text size={22} fontWeight={'700'}>
             Recommended

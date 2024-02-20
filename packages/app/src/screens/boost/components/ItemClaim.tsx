@@ -48,59 +48,59 @@ const ItemClaim = (props: ItemClaimProps) => {
           {props?.item?.title}
         </Text>
       </View>
-      <View
-        style={[
-          Theme.flexRow,
-          Theme.flex1,
-          Theme.center,
-          {opacity: props.item.isVote || props.item.isClaim ? 0.2 : 1},
-        ]}>
-        <Image source={images.ic_coin} />
-        <Text size={15} fontWeight={'500'} marginLeft={5}>
-          {props?.item?.point}
-        </Text>
+      {/*<View*/}
+      {/*  style={[*/}
+      {/*    Theme.flexRow,*/}
+      {/*    Theme.flex1,*/}
+      {/*    Theme.center,*/}
+      {/*    {opacity: props.item.isVote || props.item.isClaim ? 0.2 : 1},*/}
+      {/*  ]}>*/}
+      {/*  <Image source={images.ic_coin} />*/}
+      {/*  <Text size={15} fontWeight={'500'} marginLeft={5}>*/}
+      {/*    {props?.item?.point}*/}
+      {/*  </Text>*/}
+      {/*</View>*/}
+      {/*{(!props.item.isVote || (props.item.isVote && props.item.isClaim)) && (*/}
+      {/*  <ButtonText*/}
+      {/*    title={*/}
+      {/*      props.item.value >= props.item.total && !props.item.isClaim*/}
+      {/*        ? 'Claim'*/}
+      {/*        : `${props.item.value}/${props.item.total}`*/}
+      {/*    }*/}
+      {/*    marginLeft={10}*/}
+      {/*    onPress={onPress}*/}
+      {/*    disabled={props.item.value < props.item.total}*/}
+      {/*    height={30}*/}
+      {/*    style={{*/}
+      {/*      borderRadius: 20,*/}
+      {/*      width: '25%',*/}
+      {/*      backgroundColor: props.item.isClaim*/}
+      {/*        ? colors.borderColor*/}
+      {/*        : props.item.value >= props.item.total*/}
+      {/*        ? '#660099'*/}
+      {/*        : colors.blue3,*/}
+      {/*    }}*/}
+      {/*    textProps={{*/}
+      {/*      fontWeight: '700',*/}
+      {/*      color: colors.white,*/}
+      {/*    }}*/}
+      {/*    titleColor={colors.white}*/}
+      {/*  />*/}
+      {/*)}*/}
+      {/*{!!props.item.isVote && !props.item.isClaim && (*/}
+      <View style={{width: '25%', flexDirection: 'row'}}>
+        <TouchableOpacity onPress={props.onLike} style={[Theme.flex1]}>
+          <View style={styles.containerIcon}>
+            <Image source={images.ic_like} />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={props.onDislike} style={[Theme.flex1]}>
+          <View style={styles.containerIcon}>
+            <Image source={images.ic_dislike} />
+          </View>
+        </TouchableOpacity>
       </View>
-      {(!props.item.isVote || (props.item.isVote && props.item.isClaim)) && (
-        <ButtonText
-          title={
-            props.item.value >= props.item.total && !props.item.isClaim
-              ? 'Claim'
-              : `${props.item.value}/${props.item.total}`
-          }
-          marginLeft={10}
-          onPress={onPress}
-          disabled={props.item.value < props.item.total}
-          height={30}
-          style={{
-            borderRadius: 20,
-            width: '25%',
-            backgroundColor: props.item.isClaim
-              ? colors.borderColor
-              : props.item.value >= props.item.total
-              ? '#660099'
-              : colors.blue3,
-          }}
-          textProps={{
-            fontWeight: '700',
-            color: colors.white,
-          }}
-          titleColor={colors.white}
-        />
-      )}
-      {!!props.item.isVote && !props.item.isClaim && (
-        <View style={{width: '25%', flexDirection: 'row'}}>
-          <TouchableOpacity onPress={props.onLike} style={[Theme.flex1]}>
-            <View style={styles.containerIcon}>
-              <Image source={images.ic_like} />
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={props.onDislike} style={[Theme.flex1]}>
-            <View style={styles.containerIcon}>
-              <Image source={images.ic_dislike} />
-            </View>
-          </TouchableOpacity>
-        </View>
-      )}
+      {/*)}*/}
     </Animated.View>
   );
 };

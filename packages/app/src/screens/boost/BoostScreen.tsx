@@ -33,62 +33,62 @@ const BoostScreen = (props: BoostScreenProps) => {
   return (
     <ContainerProvider state={state} setState={setState}>
       <Container title={'My Boost'} style={styles.container}>
-        <View
-          style={{
-            backgroundColor: '#F2F7FF',
-            marginBottom: 5,
-          }}>
-          <View style={styles.containerUnder} />
-          <View style={[Theme.shadow, styles.containerTab]}>
-            <ItemTab
-              title={'All'}
-              content={
-                (state?.daily || 0) +
-                (state.recommended || 0) +
-                '/' +
-                state.total
-              }
-              style={[Theme.flex1, {paddingVertical: 3}]}
-              isFocused={state.type == 'all'}
-              onPress={() => {
-                setState({type: 'all'});
-              }}
-            />
-            <ItemTab
-              title={'DAILY'}
-              style={[Theme.flex1, {paddingVertical: 3}]}
-              content={(state?.daily || 0) + '/' + state.total}
-              isFocused={state.type == 'daily'}
-              onPress={() => {
-                setState({type: 'daily'});
-              }}
-            />
-            <ItemTab
-              title={'RECO'}
-              style={[Theme.flex1, {paddingVertical: 3}]}
-              content={(state?.recommended || 0) + '/' + state.total}
-              isFocused={state.type == 'reco'}
-              onPress={() => {
-                setState({type: 'reco'});
-              }}
-            />
-          </View>
-        </View>
-        <View style={styles.containerDaily}>
-          <Text marginBottom={10} size={15} fontWeight={'700'}>
-            My Daily Progress:
-          </Text>
-          <DailyProgress
-            value={(state.daily || 0) + (state.recommended || 0)}
-            steps={[
-              {step: 4, value: 20},
-              {step: 7, value: 40},
-            ]}
-          />
-        </View>
+        {/*<View*/}
+        {/*  style={{*/}
+        {/*    backgroundColor: '#F2F7FF',*/}
+        {/*    marginBottom: 5,*/}
+        {/*  }}>*/}
+        {/*  <View style={styles.containerUnder} />*/}
+        {/*  <View style={[Theme.shadow, styles.containerTab]}>*/}
+        {/*    <ItemTab*/}
+        {/*      title={'All'}*/}
+        {/*      content={*/}
+        {/*        (state?.daily || 0) +*/}
+        {/*        (state.recommended || 0) +*/}
+        {/*        '/' +*/}
+        {/*        state.total*/}
+        {/*      }*/}
+        {/*      style={[Theme.flex1, {paddingVertical: 3}]}*/}
+        {/*      isFocused={state.type == 'all'}*/}
+        {/*      onPress={() => {*/}
+        {/*        setState({type: 'all'});*/}
+        {/*      }}*/}
+        {/*    />*/}
+        {/*    <ItemTab*/}
+        {/*      title={'DAILY'}*/}
+        {/*      style={[Theme.flex1, {paddingVertical: 3}]}*/}
+        {/*      content={(state?.daily || 0) + '/' + state.total}*/}
+        {/*      isFocused={state.type == 'daily'}*/}
+        {/*      onPress={() => {*/}
+        {/*        setState({type: 'daily'});*/}
+        {/*      }}*/}
+        {/*    />*/}
+        {/*    <ItemTab*/}
+        {/*      title={'RECO'}*/}
+        {/*      style={[Theme.flex1, {paddingVertical: 3}]}*/}
+        {/*      content={(state?.recommended || 0) + '/' + state.total}*/}
+        {/*      isFocused={state.type == 'reco'}*/}
+        {/*      onPress={() => {*/}
+        {/*        setState({type: 'reco'});*/}
+        {/*      }}*/}
+        {/*    />*/}
+        {/*  </View>*/}
+        {/*</View>*/}
+        {/*<View style={styles.containerDaily}>*/}
+        {/*  <Text marginBottom={10} size={15} fontWeight={'700'}>*/}
+        {/*    My Daily Progress:*/}
+        {/*  </Text>*/}
+        {/*  <DailyProgress*/}
+        {/*    value={(state.daily || 0) + (state.recommended || 0)}*/}
+        {/*    steps={[*/}
+        {/*      {step: 4, value: 20},*/}
+        {/*      {step: 7, value: 40},*/}
+        {/*    ]}*/}
+        {/*  />*/}
+        {/*</View>*/}
         <View style={{backgroundColor: colors.white, flex: 1}}>
           <ScrollView showsVerticalScrollIndicator={false}>
-            {(state.type == 'all' || state.type == 'daily') && <Daily />}
+            {/*{(state.type == 'all' || state.type == 'daily') && <Daily />}*/}
             {(state.type == 'all' || state.type == 'reco') && <Recommended />}
           </ScrollView>
         </View>
