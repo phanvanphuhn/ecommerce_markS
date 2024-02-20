@@ -1,4 +1,4 @@
-import { Field, ObjectType } from "@nestjs/graphql";
+import { Field, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
 export class UserProfileOutput {
@@ -17,4 +17,6 @@ export class UserProfileOutput {
   division: string;
   @Field(() => String, { nullable: true })
   reportingTo: string;
+  @Field(() => String, { nullable: true })
+  title: string;
 }

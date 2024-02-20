@@ -4,10 +4,10 @@ metadata:
   name: nodetest
   namespace: jarvis-mark
 spec:
-  serviceAccountName: jarvis-mark14041392661573222138
+  serviceAccountName: jarvis-mark14443800094905226503
   containers:
     - name: nodetest
-      image: node
+      image: public.ecr.aws/docker/library/node:latest
       command: ['sleep']
       args: ['10000']
       volumeMounts:

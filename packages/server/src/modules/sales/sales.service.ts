@@ -42,7 +42,7 @@ export class SalesService {
   ): Promise<SalesOutput[]> {
     let query = this.database
       .selectFrom('marks.Sales')
-      .where('salesRepEmail', '=', salesRepEmail);
+      .where('salesRepEmail', 'ilike', salesRepEmail);
 
     if (filter.year) {
       query = query.where('year', '=', filter.year);
@@ -64,7 +64,7 @@ export class SalesService {
   async getMobileSales(salesRepEmail: string, data: MobileSalesFilterArgs) {
     let query = this.database
       .selectFrom('marks.Mobile_Sales')
-      .where('salesRepEmail', '=', salesRepEmail);
+      .where('salesRepEmail', 'ilike', salesRepEmail);
 
     if (data.year) {
       query = query.where('year', '=', data.year);

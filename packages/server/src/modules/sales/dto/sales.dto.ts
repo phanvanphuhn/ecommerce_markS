@@ -20,6 +20,9 @@ export class SliderAndCommissionOutput {
 
   @Field(() => String, { nullable: true })
   commissionPercentage: string;
+
+  @Field(() => String, { nullable: true })
+  year: string;
 }
 
 @ObjectType()
@@ -49,6 +52,12 @@ export class SalesOutput {
 
   @Field(() => String, { nullable: true })
   salesRepEmail: string;
+
+  @Field(() => String, { nullable: true })
+  sipEligibility: string;
+
+  @Field(() => String, { nullable: true })
+  currency: string;
 
   @Field(() => String, { nullable: true })
   year: string;
@@ -156,16 +165,40 @@ export class SalesOutput {
   commissionPayoutQ5: string;
 
   @Field(() => String, { nullable: true })
+  salesByMonth_forNewHire: string;
+
+  @Field(() => String, { nullable: true })
+  salesByYear_forNewHire: string;
+
+  @Field(() => String, { nullable: true })
+  salesByQuarter_forNewHire: string;
+
+  @Field(() => String, { nullable: true })
+  salesAchivementPercentageByQuarter_forNewHire: string;
+
+  @Field(() => String, { nullable: true })
   salesAchievementPercentageByYear_forNewHire: string;
+
+  @Field(() => String, { nullable: true })
+  variablePayoutPercentageByQuarter_forNewHire: string;
 
   @Field(() => String, { nullable: true })
   variablePayoutPercentageQ5_forNewHire: string;
 
   @Field(() => String, { nullable: true })
+  commissionPercentageByQuarter_forNewHire: string;
+
+  @Field(() => String, { nullable: true })
   commissionPercentageQ5_forNewHire: string;
 
   @Field(() => String, { nullable: true })
+  variablePayoutByQuarter_forNewHire: string;
+
+  @Field(() => String, { nullable: true })
   variablePayoutQ5_forNewHire: string;
+
+  @Field(() => String, { nullable: true })
+  commissionPayoutByQuarter_forNewHire: string;
 
   @Field(() => String, { nullable: true })
   commissionPayoutQ5_forNewHire: string;
@@ -175,6 +208,12 @@ export class SalesOutput {
 
   @Field(() => String, { nullable: true })
   serviceContract: string;
+
+  @Field(() => String, { nullable: true })
+  additionalPayoutCE: string;
+
+  @Field(() => String, { nullable: true })
+  additionalPayoutSC: string;
 }
 
 @ArgsType()

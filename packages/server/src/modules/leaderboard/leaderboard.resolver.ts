@@ -4,13 +4,17 @@ import { UseGuards } from '@nestjs/common';
 import { UserEntity } from '@/common/decorators/user.decorator';
 
 import { AzureAuthGuard } from '../auth/guards/azure-ad.guard';
+import { UserProfilesService } from '../user-profiles/user-profiles.service';
 
 import { LeaderboardService } from './leaderboard.service';
 import { LeaderboardFilterArgs, LeaderboardOuput } from './dto/leaderboard.dto';
 
 @Resolver()
 export class LeaderboardResolver {
-  constructor(private readonly leaderboardService: LeaderboardService) {}
+  constructor(
+    private readonly leaderboardService: LeaderboardService,
+    private readonly userProfilesService: UserProfilesService,
+  ) {}
 
   @Query(() => [LeaderboardOuput])
   // @UseGuards(AzureAuthGuard)
@@ -18,6 +22,13 @@ export class LeaderboardResolver {
     @UserEntity() userInfo,
     @Args() filter: LeaderboardFilterArgs,
   ) {
-    return await this.leaderboardService.getLeaderboard(userInfo.email, filter);
+    const user =
+      await this.userProfilesService.getUserProfileByNetworkIdWithTitleCheck(
+        userInfo.samAccountName,
+      );
+    return await this.leaderboardService.getLeaderboard(
+      user[0].salesRepEmail,
+      filter,
+    );
   }
 }

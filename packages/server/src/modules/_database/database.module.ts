@@ -1,13 +1,13 @@
-import { Global, Module } from "@nestjs/common";
-import { PostgresDialect } from "kysely";
-import { Pool } from "pg";
+import { Global, Module } from '@nestjs/common';
+import { PostgresDialect } from 'kysely';
+import { Pool } from 'pg';
 
-import { Database } from "./database";
+import { Database } from './database';
 import {
   ConfigurableDatabaseModule,
   DATABASE_OPTIONS,
-} from "./database.module-definition";
-import { DatabaseOptions } from "./databaseOptions";
+} from './database.module-definition';
+import { DatabaseOptions } from './databaseOptions';
 
 // The point of Kysely being here is to make it possible to write SQL with type-safety.
 // Which would make the queries being a bit more performant than Prisma.
@@ -27,11 +27,14 @@ import { DatabaseOptions } from "./databaseOptions";
             user: databaseOptions.user,
             password: databaseOptions.password,
             database: databaseOptions.database,
+            ssl: {
+              rejectUnauthorized: false,
+            },
           }),
         });
 
         return new Database({
-          log: ["query"],
+          log: ['query'],
           dialect,
         });
       },

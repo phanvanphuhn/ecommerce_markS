@@ -8,10 +8,16 @@ variables:
   KUBE_VERSION: v1.18.6
   KUBECTL_URL: https://storage.googleapis.com/kubernetes-release/release/${KUBE_VERSION}/bin/linux/amd64/kubectl
   KUBE_NAMESPACE: jarvis-mark
+  DEPLOY_ENV: dev
 
 stages:
   - build_container
   - deploy
+
+cache:
+  paths:
+    - node_modules/
+    - packages/server/node_modules/
 
 build_container:
   stage: build_container
@@ -22,24 +28,28 @@ build_container:
     - cd packages/server/
     - docker build -t $IMAGE_TAG .
     - docker push $IMAGE_TAG
-  only:
-    changes:
-      - ./packages/server/** # Only trigger when changes occur in packages/server directory
-    refs:
-      - main # Only trigger on commits to the main branch
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH' # Only trigger when changes occur in default branch
+    - changes:
+        - ./packages/server/** # Only trigger when changes occur in packages/server directory
 
 deploy:
   stage: deploy
   environment:
-    name: dev
-  script:
+    name: $DEPLOY_ENV
+  before_script:
+    # set AGENT_NAME according to gitlab env
+    - if [ "$CI_ENVIRONMENT_NAME" == "dev" ]; then export AGENT_NAME="backend"; fi
+    - if [ "$CI_ENVIRONMENT_NAME" == "stage-ap" ]; then export AGENT_NAME="backend-staging"; fi
+    - if [ "$CI_ENVIRONMENT_NAME" == "prod" ]; then export AGENT_NAME="backend-production"; fi
+    # install kubectl
     - apk add --no-cache curl libintl gettext
     - curl ${KUBECTL_URL} -o /usr/local/bin/kubectl && chmod +x /usr/local/bin/kubectl
-    - export KUBE_CONTEXT="bostonscientific.com/jarvis/jarvis-mark-s/mark-s:backend"
+    - export KUBE_CONTEXT="bostonscientific.com/jarvis/jarvis-mark-s/mark-s:${AGENT_NAME}"
+  script:
     - kubectl config use-context ${KUBE_CONTEXT}
     - kubectl kustomize k8s/backend/base | envsubst | kubectl apply -n ${KUBE_NAMESPACE} -f -
-  only:
-    changes:
-      - ./packages/server/** # Only trigger when changes occur in packages/server directory
-    refs:
-      - main # Only trigger on commits to the main branch
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH' # Only trigger when changes occur in default branch
+    - changes:
+        - ./packages/server/** # Only trigger when changes occur in k8s/backend directory

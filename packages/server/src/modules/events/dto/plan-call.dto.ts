@@ -33,7 +33,7 @@ registerEnumType(PlanCallActivitySubtype, {
 @ObjectType()
 export class PlanCall {
   @Field(() => String, { nullable: true })
-  id?: string;
+  uniqueIdInApp?: string;
 
   @Field(() => String, { nullable: true })
   salesForceId?: string;
@@ -55,6 +55,9 @@ export class PlanCall {
 
   @Field(() => String, { nullable: true })
   account?: string;
+
+  @Field(() => String, { nullable: true })
+  contactId?: string;
 
   @Field(() => String, { nullable: true })
   contactName?: string;
@@ -81,10 +84,10 @@ export class PlanCall {
   ownerCountry?: string;
 
   @Field(() => GraphQLDateTimeISO, { nullable: true })
-  createdAt?: Date;
+  createdInApp?: Date;
 
   @Field(() => GraphQLDateTimeISO, { nullable: true })
-  updatedAt?: Date;
+  lastModifiedInApp?: Date;
 }
 
 @InputType()
@@ -99,7 +102,13 @@ export class PlanCallOutput extends PlanCall {
 }
 
 @ArgsType()
-export class PlanCallFilterArgs extends OmitType(PlanCall, ['salesForceId']) {
+export class PlanCallFilterArgs extends OmitType(PlanCall, [
+  'salesForceId',
+  'status',
+]) {
   // @Field(() => FilterType, { nullable: true })
   // filterType?: FilterType;
+
+  @Field(() => [PlanCallStatus], { nullable: true })
+  status?: [string];
 }

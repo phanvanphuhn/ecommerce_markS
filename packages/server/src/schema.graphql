@@ -2,6 +2,86 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type CaseLog {
+  _count: CaseLogCount!
+  account: String
+  activityOwnerEmail: String
+  activityOwnerName: String
+  caseLogSubmission: [CaseLogSubmission!]
+  caseLogSubmissions: [CaseLogSubmission!]!
+  caseName: String
+  contact: String
+  createdAt: DateTime
+  endDate: DateTime
+  id: ID!
+  location: String
+  photoPaths: [String!]
+  secondaryContact: String
+  startDate: DateTime
+  status: String
+  updatedAt: DateTime
+}
+
+type CaseLogCount {
+  caseLogSubmission: Int!
+}
+
+input CaseLogInput {
+  account: String
+  activityOwnerEmail: String
+  activityOwnerName: String
+  caseLogSubmissions: [CaseLogSubmissionInputCreate!]
+  caseName: String
+  contact: String
+  createdAt: DateTime
+  endDate: DateTime
+  files: [Upload!]
+  id: String
+  location: String
+  photoPaths: [String!]
+  secondaryContact: String
+  startDate: DateTime
+  status: String
+  updatedAt: DateTime
+}
+
+type CaseLogOutput {
+  _count: CaseLogCount!
+  account: String
+  activityOwnerEmail: String
+  activityOwnerName: String
+  caseLogSubmission: [CaseLogSubmission!]
+  caseLogSubmissions: [CaseLogSubmission!]
+  caseName: String
+  contact: String
+  createdAt: DateTime
+  endDate: DateTime
+  id: ID!
+  location: String
+  photoPaths: [String!]
+  secondaryContact: String
+  startDate: DateTime
+  status: String
+  updatedAt: DateTime
+}
+
+type CaseLogSubmission {
+  caseLog: CaseLogOutput!
+  caseLogId: String
+  createdAt: DateTime
+  id: ID!
+  product: Products!
+  productId: String
+  quantity: String
+  salesRepEmail: String
+  updatedAt: DateTime
+}
+
+input CaseLogSubmissionInputCreate {
+  productId: String
+  quantity: String
+}
+
 type ComplaintsOutput {
   awareDate: String
   complaintId: String
@@ -12,13 +92,14 @@ type ComplaintsOutput {
   createdDate: String
   division: String
   eventDate: String
-  id: Int
+  id: String
   salesRepEmail: String
   timeOfEvent: String
   typeOfSituationReporting: String
 }
 
 type ContactSearchOutput {
+  contactId: String
   doctorAlternativeEmail: String
   doctorCountry: String
   doctorDivision: String
@@ -43,6 +124,7 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 scalar DateTimeISO
 
 type DoctorDetail {
+  contactId: String
   doctorAlternativeEmail: String
   doctorCountry: String
   doctorDivision: String
@@ -55,11 +137,6 @@ type DoctorDetail {
   hospital: String
   id: Int
   topicsOfInterest: String
-}
-
-enum FilterType {
-  Absolute
-  Relative
 }
 
 """
@@ -75,7 +152,7 @@ scalar JSONObject @specifiedBy(url: "http://www.ecma-international.org/publicati
 type LeaderboardOuput {
   country: String
   fullName: String
-  id: Int
+  id: String
   lastRefreshedTimestamp: DateTime
   month: String
   rankMtd: String
@@ -110,7 +187,7 @@ type MobileSalesOutput {
 
 input MobileSearchHistoryInput {
   searchQuery: String!
-  searchType: SearchType!
+  searchType: [SearchType!]
 }
 
 type MobileSearchHistoryOutput {
@@ -118,11 +195,13 @@ type MobileSearchHistoryOutput {
   id: String
   searchQuery: String
   searchResults: JSONObject
-  searchType: SearchType
+  searchType: [String!]
   updatedAt: DateTimeISO
 }
 
 type Mutation {
+  testUpsertCaseLog(data: CaseLogInput!): CaseLog!
+  upsertCaseLog(data: CaseLogInput!): CaseLog!
   upsertMobileSalesQuarter(quarter: String!, targetByQuarter: String!, year: String!): Boolean!
   upsertMobileSalesYear(targetByYear: String!, year: String!): Boolean!
   upsertPlanCall(data: PlanCallInput!): PlanCallOutput!
@@ -167,19 +246,20 @@ input PlanCallInput {
   activityOwnerName: String
   activitySubtype: PlanCallActivitySubtype
   activityType: PlanCallActivityType
+  contactId: String
   contactName: String
-  createdAt: DateTimeISO
+  createdInApp: DateTimeISO
   description: String
   division: String
   endDate: String
-  id: String
+  lastModifiedInApp: DateTimeISO
   location: String
   ownerCountry: String
   salesForceId: String
   startDate: String
   status: PlanCallStatus
   subject: String
-  updatedAt: DateTimeISO
+  uniqueIdInApp: String
 }
 
 type PlanCallOutput {
@@ -188,19 +268,20 @@ type PlanCallOutput {
   activityOwnerName: String
   activitySubtype: PlanCallActivitySubtype
   activityType: PlanCallActivityType
+  contactId: String
   contactName: String
-  createdAt: DateTimeISO
+  createdInApp: DateTimeISO
   description: String
   division: String
   endDate: String
-  id: String
+  lastModifiedInApp: DateTimeISO
   location: String
   ownerCountry: String
   salesForceId: String
   startDate: String
   status: PlanCallStatus
   subject: String
-  updatedAt: DateTimeISO
+  uniqueIdInApp: String
 }
 
 enum PlanCallStatus {
@@ -209,37 +290,67 @@ enum PlanCallStatus {
   IN_PROGRESS
 }
 
+type Products {
+  _count: ProductsCount!
+  caseLogSubmission: [CaseLogSubmission!]!
+  country: String
+  createdAt: DateTime
+  gtin: String
+  id: ID!
+  updatedAt: DateTime
+  upn: String
+  upnDescription: String
+}
+
+type ProductsCount {
+  caseLogSubmission: Int!
+}
+
 type Query {
-  complaint(id: Int!): ComplaintsOutput!
+  complaint(id: String!): ComplaintsOutput!
   complaints: [ComplaintsOutput!]!
-  getDoctorProfile(doctorEmail: String!): [DoctorDetail!]!
-  getDoctorSearchList(doctorAlternativeEmail: String, doctorCountry: String, doctorDivision: String, doctorName: String, doctorSpecialty: String, doctorTitle: String, hospital: String, salesRepEmail: String!, topicsOfInterest: String): [ContactSearchOutput!]!
-  getFilterDivisionList: [String!]!
-  getFilterHospitalList: [String!]!
-  getFilterSpecialtyList: [String!]!
-  getFilterTopicsOfInterestList: [String!]!
+  getCaseLog(id: String!): CaseLog!
+  getCaseLogs: [CaseLog!]!
+  getDoctorProfile(doctorEmail: String!): [DoctorDetail!]
+  getDoctorProfileByContactId(contactId: String!): [DoctorDetail!]
+  getDoctorSearchList(doctorAlternativeEmail: String, doctorCountry: String, doctorDivisions: [String!], doctorName: String, doctorSpecialties: [String!], doctorTitle: String, hospital: String, topicsOfInterests: [String!]): [ContactSearchOutput!]
+  getFile(filePath: String!): JSON!
+  getFilterDivisionList: [String!]
+  getFilterHospitalList(doctorDivisions: [String!], doctorSpecialties: [String!], topicsOfInterests: [String!]): [String!]
+  getFilterSpecialtyList: [String!]
+  getFilterTopicsOfInterestList: [String!]
   getMobileSales(quarter: String, type: mobileSalesTargetType!, year: String): [MobileSalesOutput!]!
   getPlanCall(id: String!): PlanCallOutput!
   getPlanCallTypes: [String!]!
-  getPlanCalls(account: String, activityOwnerEmail: String, activityOwnerName: String, activitySubtype: PlanCallActivitySubtype, activityType: PlanCallActivityType, contactName: String, createdAt: DateTimeISO, description: String, division: String, endDate: String, filterType: FilterType, id: String, location: String, ownerCountry: String, startDate: String, status: PlanCallStatus, subject: String, updatedAt: DateTimeISO): [PlanCallOutput!]!
+  getPlanCalls(account: String, activityOwnerEmail: String, activityOwnerName: String, activitySubtype: PlanCallActivitySubtype, activityType: PlanCallActivityType, contactId: String, contactName: String, createdInApp: DateTimeISO, description: String, division: String, endDate: String, lastModifiedInApp: DateTimeISO, location: String, ownerCountry: String, startDate: String, status: [PlanCallStatus!], subject: String, uniqueIdInApp: String): [PlanCallOutput!]!
+  getProducts(createdAt: DateTimeISO, gtin: String, id: String, skip: Int, take: Int, updatedAt: DateTimeISO, upn: String, upnDescription: String): [Products!]!
   getSales(month: String, quarter: String, year: String): [SalesOutput!]!
-  getSearchHistory(searchType: SearchType, skip: Int, sort: OrderDirection, take: Int): [MobileSearchHistoryOutput!]!
+  getSearchHistory(searchType: [SearchType!], skip: Int, sort: OrderDirection, take: Int): [MobileSearchHistoryOutput!]!
   getSelfCalendars: JSON!
   getSliderAndCommisions: [SliderAndCommissionOutput!]!
   getTerritoryCategorization: [TerritoryCategorizationOutput!]!
-  getUserProfileBySalesRepEmail: [UserProfileOutput!]!
+  getUserProfile: [UserProfileOutput!]!
   leaderboard(country: String, month: String, period: LeaderboardPeriod = Month, type: LeaderboardType = TopThree, year: String!): [LeaderboardOuput!]!
   me: JSON!
+  meAD(accessToken: String!): JSON!
+  meGroup(accessToken: String!): JSON!
+  testGetFilterHospitalList(doctorDivisions: [String!], doctorSpecialties: [String!], topicsOfInterests: [String!]): [String!]!
 }
 
 type SalesOutput {
   additionalPayout: String
+  additionalPayoutCE: String
+  additionalPayoutSC: String
+  capitalEquipment: String
   commissionPayoutByQuarter: String
+  commissionPayoutByQuarter_forNewHire: String
   commissionPayoutQ5: String
   commissionPayoutQ5_forNewHire: String
   commissionPercentageByQuarter: String
+  commissionPercentageByQuarter_forNewHire: String
   commissionPercentageQ5: String
   commissionPercentageQ5_forNewHire: String
+  currency: String
   earlyBird: String
   earlyBirdEligibility: String
   guaranttedPayout: String
@@ -253,10 +364,16 @@ type SalesOutput {
   salesAchievementPercentageByQuarter: String
   salesAchievementPercentageByYear: String
   salesAchievementPercentageByYear_forNewHire: String
+  salesAchivementPercentageByQuarter_forNewHire: String
   salesByMonth: String
+  salesByMonth_forNewHire: String
   salesByQuarter: String
+  salesByQuarter_forNewHire: String
   salesByYear: String
+  salesByYear_forNewHire: String
   salesRepEmail: String
+  serviceContract: String
+  sipEligibility: String
   targetByMonth: String
   targetByQuarter: String
   targetByYear: String
@@ -267,7 +384,9 @@ type SalesOutput {
   variablePayByYear: String
   variablePayQ5: String
   variablePayoutByQuarter: String
+  variablePayoutByQuarter_forNewHire: String
   variablePayoutPercentageByQuarter: String
+  variablePayoutPercentageByQuarter_forNewHire: String
   variablePayoutPercentageByYear: String
   variablePayoutPercentageQ5: String
   variablePayoutPercentageQ5_forNewHire: String
@@ -288,6 +407,7 @@ type SliderAndCommissionOutput {
   territoryCategory: String
   upperBound: String
   variablePayoutPercentage: String
+  year: String
 }
 
 type TerritoryCategorizationOutput {
@@ -297,6 +417,9 @@ type TerritoryCategorizationOutput {
   year: String
 }
 
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
+
 type UserProfileOutput {
   country: String
   division: String
@@ -304,6 +427,7 @@ type UserProfileOutput {
   id: Int
   reportingTo: String
   salesRepEmail: String
+  title: String
 }
 
 enum mobileSalesTargetType {

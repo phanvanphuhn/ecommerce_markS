@@ -1,19 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { Expression, SqlBool } from 'kysely';
+import { isEmpty } from 'class-validator';
 
 import { Database } from '../_database/database';
 
 import {
   ContactSearchArgs,
   ContactSearchOutput,
+  HospitalFilterArgs,
 } from './dto/contact-search.dto';
-import { DoctorDetail } from './dto/doctor-profile.dto';
+import { DoctorDetail, DoctorFilterArgs } from './dto/doctor-profile.dto';
 
 @Injectable()
 export class ContactSearchService {
   constructor(private readonly database: Database) {}
 
   async getDoctorSearchList(
+    salesRepEmail: string,
     filter: ContactSearchArgs,
   ): Promise<ContactSearchOutput[]> {
     let query = this.database
@@ -29,8 +32,9 @@ export class ContactSearchService {
         'doctorPhone',
         'doctorAlternativeEmail',
         'topicsOfInterest',
+        'contactId',
       ])
-      .where('salesRepEmail', '=', filter.salesRepEmail)
+      .where('salesRepEmail', 'ilike', salesRepEmail)
       .orderBy('doctorName', 'asc')
       .groupBy([
         'id',
@@ -43,43 +47,35 @@ export class ContactSearchService {
         'doctorPhone',
         'doctorAlternativeEmail',
         'topicsOfInterest',
+        'contactId',
       ]);
-
     if (
       filter.doctorName ||
       filter.doctorTitle ||
       filter.hospital ||
-      filter.doctorDivision ||
-      filter.doctorSpecialty ||
+      filter.doctorDivisions ||
+      filter.doctorSpecialties ||
       filter.doctorAlternativeEmail ||
       filter.doctorCountry ||
-      filter.topicsOfInterest
+      filter.topicsOfInterests
     ) {
       query = query.where((eb) => {
         const ors: Expression<SqlBool>[] = [];
-
         if (filter.doctorName) {
           ors.push(eb('doctorName', 'like', `%${filter.doctorName}%`));
         }
-
         if (filter.doctorTitle) {
           ors.push(eb('doctorTitle', 'like', `%${filter.doctorTitle}%`));
         }
-
         if (filter.hospital) {
           ors.push(eb('hospital', 'like', `%${filter.hospital}%`));
         }
-
-        if (filter.doctorDivision) {
-          ors.push(eb('doctorDivision', 'like', `%${filter.doctorDivision}%`));
+        if (filter.doctorDivisions) {
+          ors.push(eb('doctorDivision', 'in', filter.doctorDivisions));
         }
-
-        if (filter.doctorSpecialty) {
-          ors.push(
-            eb('doctorSpecialty', 'like', `%${filter.doctorSpecialty}%`),
-          );
+        if (filter.doctorSpecialties) {
+          ors.push(eb('doctorSpecialty', 'in', filter.doctorSpecialties));
         }
-
         if (filter.doctorAlternativeEmail) {
           ors.push(
             eb(
@@ -89,60 +85,99 @@ export class ContactSearchService {
             ),
           );
         }
-
         if (filter.doctorCountry) {
           ors.push(eb('doctorCountry', 'like', `%${filter.doctorCountry}%`));
         }
-
-        if (filter.topicsOfInterest) {
-          ors.push(
-            eb('topicsOfInterest', 'like', `%${filter.topicsOfInterest}%`),
-          );
+        if (filter.topicsOfInterests) {
+          ors.push(eb('topicsOfInterest', 'in', filter.topicsOfInterests));
         }
-
         return eb.or(ors);
       });
     }
-
     const dbResponse = await query.execute();
-
     return dbResponse.map((row) => new ContactSearchOutput(row));
   }
 
-  async getFilterHospitalList(salesRepEmail: string): Promise<string[]> {
-    const dbResponse = await this.database
+  async getFilterHospitalList(
+    salesRepEmail: string,
+    filter: HospitalFilterArgs,
+  ): Promise<string[]> {
+    let query = this.database
       .selectFrom('marks.ContactSearch')
-      .select(['hospital'])
-      .where('salesRepEmail', '=', salesRepEmail)
+      .select([
+        'hospital',
+        'doctorDivision',
+        'doctorSpecialty',
+        'topicsOfInterest',
+      ])
+      .where('salesRepEmail', 'ilike', salesRepEmail)
       .orderBy('hospital', 'asc')
-      .groupBy(['hospital'])
-      .execute();
+      .groupBy([
+        'hospital',
+        'doctorDivision',
+        'doctorSpecialty',
+        'topicsOfInterest',
+      ]);
 
-    return dbResponse.map((row) => row.hospital);
+    if (
+      filter.doctorDivisions ||
+      filter.doctorSpecialties ||
+      filter.topicsOfInterests
+    ) {
+      query = query.where((eb) => {
+        const ors: Expression<SqlBool>[] = [];
+        if (filter.doctorDivisions) {
+          ors.push(eb('doctorDivision', 'in', filter.doctorDivisions));
+        }
+        if (filter.doctorSpecialties) {
+          ors.push(eb('doctorSpecialty', 'in', filter.doctorSpecialties));
+        }
+        if (filter.topicsOfInterests) {
+          ors.push(eb('topicsOfInterest', 'in', filter.topicsOfInterests));
+        }
+        return eb.or(ors);
+      });
+    }
+    const dbResponse = await query.execute();
+
+    // filter out duplicate hospital
+    const hospitalSet = new Set<string>();
+    dbResponse.forEach((row) => {
+      if (!hospitalSet.has(row.hospital)) {
+        hospitalSet.add(row.hospital);
+      }
+    });
+    return Array.from(hospitalSet);
   }
 
   async getFilterSpecialtyList(salesRepEmail: string): Promise<string[]> {
     const dbResponse = await this.database
       .selectFrom('marks.ContactSearch')
       .select(['doctorSpecialty'])
-      .where('salesRepEmail', '=', salesRepEmail)
+      .where('salesRepEmail', 'ilike', salesRepEmail)
       .orderBy('doctorSpecialty', 'asc')
       .groupBy(['doctorSpecialty'])
       .execute();
 
-    return dbResponse.map((row) => row.doctorSpecialty);
+    return dbResponse.map((row) => {
+      if (!isEmpty(row.doctorSpecialty)) return row.doctorSpecialty;
+      return '';
+    });
   }
 
   async getFilterDivisionList(salesRepEmail: string): Promise<string[]> {
     const dbResponse = await this.database
       .selectFrom('marks.ContactSearch')
       .select(['doctorDivision'])
-      .where('salesRepEmail', '=', salesRepEmail)
+      .where('salesRepEmail', 'ilike', salesRepEmail)
       .orderBy('doctorDivision', 'asc')
       .groupBy(['doctorDivision'])
       .execute();
 
-    return dbResponse.map((row) => row.doctorDivision);
+    return dbResponse.map((row) => {
+      if (!isEmpty(row.doctorDivision)) return row.doctorDivision;
+      return '';
+    });
   }
 
   async getFilterTopicsOfInterestList(
@@ -151,16 +186,22 @@ export class ContactSearchService {
     const dbResponse = await this.database
       .selectFrom('marks.ContactSearch')
       .select(['topicsOfInterest'])
-      .where('salesRepEmail', '=', salesRepEmail)
+      .where('salesRepEmail', 'ilike', salesRepEmail)
       .orderBy('topicsOfInterest', 'asc')
       .groupBy(['topicsOfInterest'])
       .execute();
 
-    return dbResponse.map((row) => row.topicsOfInterest);
+    const result =
+      dbResponse.map((row) => {
+        if (!isEmpty(row.topicsOfInterest)) return row.topicsOfInterest;
+        return '';
+      }) || [];
+
+    return result;
   }
 
-  async getDoctorProfileByDoctorEmail(
-    doctorEmail: string,
+  async getDoctorProfileByContactId(
+    contactId: string,
   ): Promise<DoctorDetail[]> {
     const dbResponse = await this.database
       .selectFrom('marks.ContactSearch')
@@ -176,8 +217,9 @@ export class ContactSearchService {
         'doctorAlternativeEmail',
         'topicsOfInterest',
         'doctorCountry',
+        'contactId',
       ])
-      .where('doctorEmail', '=', doctorEmail)
+      .where('contactId', '=', contactId)
       .groupBy([
         'doctorEmail',
         'doctorName',
@@ -191,9 +233,58 @@ export class ContactSearchService {
         'doctorAlternativeEmail',
         'topicsOfInterest',
         'doctorCountry',
+        'contactId',
       ])
       .execute();
 
     return dbResponse as DoctorDetail[];
+  }
+
+  async getDoctorProfile(filter: DoctorFilterArgs): Promise<DoctorDetail[]> {
+    let query = this.database
+      .selectFrom('marks.ContactSearch')
+      .select((eb) => [
+        'doctorName',
+        'doctorTitle',
+        'hospital',
+        'doctorDivision',
+        'doctorSpecialty',
+        'doctorEmail',
+        'doctorPhone',
+        'doctorSalutation',
+        'doctorAlternativeEmail',
+        'topicsOfInterest',
+        'doctorCountry',
+      ])
+      .groupBy([
+        'doctorEmail',
+        'doctorName',
+        'doctorTitle',
+        'doctorEmail',
+        'doctorPhone',
+        'doctorSalutation',
+        'hospital',
+        'doctorDivision',
+        'doctorSpecialty',
+        'doctorAlternativeEmail',
+        'topicsOfInterest',
+        'doctorCountry',
+      ]);
+
+    if (filter.doctorName) {
+      query = query.where('doctorName', 'like', `%${filter.doctorName}%`);
+    }
+
+    if (filter.doctorPhone) {
+      query = query.where('doctorPhone', 'like', `%${filter.doctorPhone}%`);
+    }
+
+    if (filter.doctorEmail) {
+      query = query.where('doctorEmail', 'like', `%${filter.doctorEmail}%`);
+    }
+
+    const result = await query.execute();
+
+    return result as DoctorDetail[];
   }
 }

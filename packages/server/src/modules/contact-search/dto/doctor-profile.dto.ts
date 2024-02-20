@@ -1,4 +1,4 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { ArgsType, Field, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
 export class DoctorDetail {
@@ -7,6 +7,8 @@ export class DoctorDetail {
   }
   @Field(() => Number, { nullable: true })
   id: number;
+  @Field(() => String, { nullable: true })
+  contactId?: string;
   @Field(() => String, { nullable: true })
   doctorName: string;
   @Field(() => String, { nullable: true })
@@ -30,4 +32,16 @@ export class DoctorDetail {
   topicsOfInterest: string;
   @Field(() => String, { nullable: true })
   doctorCountry: string;
+}
+
+@ArgsType()
+export class DoctorFilterArgs {
+  @Field(() => String, { nullable: true })
+  doctorName?: string;
+
+  @Field(() => String, { nullable: true })
+  doctorPhone?: string;
+
+  @Field(() => String, { nullable: true })
+  doctorEmail?: string;
 }

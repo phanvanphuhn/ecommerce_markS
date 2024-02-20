@@ -2,9 +2,6 @@ import { ArgsType, Field, ObjectType } from '@nestjs/graphql';
 
 @ArgsType()
 export class ContactSearchArgs {
-  @Field(() => String)
-  salesRepEmail!: string;
-
   @Field(() => String, { nullable: true })
   doctorName?: string;
 
@@ -14,11 +11,11 @@ export class ContactSearchArgs {
   @Field(() => String, { nullable: true })
   hospital?: string;
 
-  @Field(() => String, { nullable: true })
-  doctorDivision?: string;
+  @Field(() => [String], { nullable: true })
+  doctorDivisions?: [string];
 
-  @Field(() => String, { nullable: true })
-  doctorSpecialty?: string;
+  @Field(() => [String], { nullable: true })
+  doctorSpecialties?: [string];
 
   @Field(() => String, { nullable: true })
   doctorAlternativeEmail?: string;
@@ -26,8 +23,8 @@ export class ContactSearchArgs {
   @Field(() => String, { nullable: true })
   doctorCountry?: string;
 
-  @Field(() => String, { nullable: true })
-  topicsOfInterest?: string;
+  @Field(() => [String], { nullable: true })
+  topicsOfInterests?: [string];
 }
 
 @ObjectType()
@@ -38,6 +35,8 @@ export class ContactSearchOutput {
 
   @Field(() => Number, { nullable: true })
   id: number;
+  @Field(() => String, { nullable: true })
+  contactId?: string;
 
   @Field(() => String, { nullable: true })
   doctorName!: string;
@@ -59,4 +58,17 @@ export class ContactSearchOutput {
   topicsOfInterest!: string;
   @Field(() => String, { nullable: true })
   doctorCountry!: string;
+}
+
+@ArgsType()
+export class HospitalFilterArgs {
+  // specialtiy and division and topics of interetst
+  @Field(() => [String], { nullable: true })
+  doctorSpecialties?: [string];
+
+  @Field(() => [String], { nullable: true })
+  doctorDivisions?: [string];
+
+  @Field(() => [String], { nullable: true })
+  topicsOfInterests?: [string];
 }

@@ -4,6 +4,7 @@ import { UseGuards } from '@nestjs/common';
 import { UserEntity } from '@/common/decorators/user.decorator';
 
 import { AzureAuthGuard } from '../auth/guards/azure-ad.guard';
+import { UserProfilesService } from '../user-profiles/user-profiles.service';
 
 import { EventsService } from './events.service';
 import {
@@ -15,7 +16,10 @@ import { PlanCallActivitySubtype } from './types/plan-call.types';
 
 @Resolver()
 export class EventsResolver {
-  constructor(private eventsService: EventsService) {}
+  constructor(
+    private eventsService: EventsService,
+    private readonly userProfilesService: UserProfilesService,
+  ) {}
 
   @Query(() => [PlanCallOutput])
   @UseGuards(AzureAuthGuard)
@@ -23,7 +27,11 @@ export class EventsResolver {
     @UserEntity() userInfo,
     @Args() filter: PlanCallFilterArgs,
   ) {
-    return this.eventsService.getPlanCalls(userInfo.email, filter);
+    const user =
+      await this.userProfilesService.getUserProfileByNetworkIdWithTitleCheck(
+        userInfo.samAccountName,
+      );
+    return this.eventsService.getPlanCalls(user[0].salesRepEmail, filter);
   }
 
   @Query(() => [String])
@@ -34,7 +42,10 @@ export class EventsResolver {
   @Query(() => PlanCallOutput)
   @UseGuards(AzureAuthGuard)
   async getPlanCall(@UserEntity() userInfo, @Args('id') id: string) {
-    return this.eventsService.getPlanCall(userInfo.email, id);
+    const user = await this.userProfilesService.getUserProfileByNetworkId(
+      userInfo.samAccountName,
+    );
+    return this.eventsService.getPlanCall(user[0].salesRepEmail, id);
   }
 
   @Mutation(() => PlanCallOutput)
@@ -43,6 +54,10 @@ export class EventsResolver {
     @UserEntity() userInfo,
     @Args('data') input: PlanCallInput,
   ) {
-    return this.eventsService.upsertPlanCall(userInfo.email, input);
+    const user = await this.userProfilesService.getUserProfileByNetworkId(
+      userInfo.samAccountName,
+    );
+
+    return this.eventsService.upsertPlanCall(user[0].salesRepEmail, input);
   }
 }

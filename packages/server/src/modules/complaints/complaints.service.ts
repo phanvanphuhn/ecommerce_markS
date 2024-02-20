@@ -6,11 +6,15 @@ import { Database } from '../_database/database';
 export class ComplaintsService {
   constructor(private database: Database) {}
 
-  getComplaints() {
-    return this.database.selectFrom('marks.Complaint').selectAll().execute();
+  getComplaints(salesRepEmail: string) {
+    return this.database
+      .selectFrom('marks.Complaint')
+      .where('salesRepEmail', 'ilike', salesRepEmail)
+      .selectAll()
+      .execute();
   }
 
-  getComplaint(id: number) {
+  getComplaint(id: string) {
     return this.database
       .selectFrom('marks.Complaint')
       .where('id', '=', id)

@@ -1,5 +1,5 @@
 import 'isomorphic-fetch';
-import { ClientSecretCredential } from '@azure/identity';
+import { AccessToken, ClientSecretCredential } from '@azure/identity';
 import { Client } from '@microsoft/microsoft-graph-client';
 import {
   TokenCredentialAuthenticationProvider,
@@ -35,6 +35,54 @@ export class GraphService {
       debugLogging: true,
       authProvider: authProvider,
     });
+  }
+
+  getClientWithAccessToken = (accessToken: string) => {
+    return Client.initWithMiddleware({
+      debugLogging: true,
+      authProvider: new TokenCredentialAuthenticationProvider(
+        {
+          getToken: async () => {
+            return {
+              token: accessToken,
+            } as AccessToken;
+          },
+        },
+        {
+          scopes: azureConfig.exposedScopes,
+        },
+      ),
+    });
+  };
+
+  async getMeUser(accessToken: string): Promise<AzureDirectoryUser> {
+    try {
+      const newClient = this.getClientWithAccessToken(accessToken);
+
+      const user = await newClient.api('/me').get();
+      return user;
+    } catch (error) {
+      console.error('Error fetching user:', error);
+
+      throw error;
+    }
+  }
+
+  async getMeGroups(accessToken: string): Promise<AzureDirectoryUser> {
+    try {
+      const newClient = this.getClientWithAccessToken(accessToken);
+
+      const user = await newClient
+        .api('/me/transitiveMemberOf/microsoft.graph.group?')
+        .select('id,displayName')
+        .get();
+
+      return user;
+    } catch (error) {
+      console.error('Error fetching user:', error);
+
+      throw error;
+    }
   }
 
   async getUser(userId: string): Promise<AzureDirectoryUser> {
