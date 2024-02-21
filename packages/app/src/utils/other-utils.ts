@@ -149,9 +149,14 @@ export const getTargetAchieved = (
   }
 };
 
-export const roundDate = () => {
+export const roundDate = (props: any) => {
   const start = moment();
   const remainder = 15 - (start.minute() % 15);
-  const dateTime = moment(start).add(remainder, 'minutes').toDate();
-  return dateTime;
+  const dateTime = moment(start).add(remainder, 'minutes');
+  if (props?.isPlus1) {
+    const finalDateTime = dateTime.add(1, 'hours').toDate();
+    return finalDateTime;
+  } else {
+    return dateTime?.toDate();
+  }
 };
