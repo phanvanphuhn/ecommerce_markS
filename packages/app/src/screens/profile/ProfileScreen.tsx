@@ -14,10 +14,12 @@ import Text from 'elements/Text';
 import Theme from 'res/style/Theme';
 import {useLazyQuery} from '@apollo/client';
 import {GET_ME} from 'apollo/query/me';
+import {useSelector} from 'hooks/useSelector';
 
 interface ProfileScreenProps {}
 
 const ProfileScreen = (props: ProfileScreenProps) => {
+  const userProfile = useSelector(state => state.userProfile.user);
   const [getData, {data}] = useLazyQuery(GET_ME);
   useEffect(() => {
     getData();
@@ -49,7 +51,7 @@ const ProfileScreen = (props: ProfileScreenProps) => {
                   Rank
                 </Text>
                 <Text size={32} fontWeight={'700'} color={colors.black}>
-                  1
+                  {userProfile?.leaderboard?.rankMtd}
                 </Text>
               </View>
             </View>

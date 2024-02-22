@@ -113,7 +113,11 @@ const CaseLogScreen2 = (props: any) => {
                   Theme.flexRow,
                   {justifyContent: 'space-between', marginBottom: 16},
                 ]}>
-                <Text fontWeight={'300'} color={colors.black} size={15}>
+                <Text
+                  style={{width: '15%'}}
+                  fontWeight={'300'}
+                  color={colors.black}
+                  size={15}>
                   Starts
                 </Text>
                 <CalendarForm name={'startDate'} typeDate={'date'} />
@@ -135,7 +139,11 @@ const CaseLogScreen2 = (props: any) => {
                   Theme.flexRow,
                   {justifyContent: 'space-between', marginBottom: 16},
                 ]}>
-                <Text fontWeight={'300'} color={colors.black} size={15}>
+                <Text
+                  style={{width: '15%'}}
+                  fontWeight={'300'}
+                  color={colors.black}
+                  size={15}>
                   Ends
                 </Text>
                 <CalendarForm name={'endDate'} typeDate={'date'} />

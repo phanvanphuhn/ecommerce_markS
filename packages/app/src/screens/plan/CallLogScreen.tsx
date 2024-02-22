@@ -1,6 +1,6 @@
 import Button1Click from 'components/Button/Button1Click';
 import Container from 'elements/Layout/Container';
-import React, {useId} from 'react';
+import React, {useEffect, useId} from 'react';
 import {ScrollView, StyleSheet, View, TouchableOpacity} from 'react-native';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 import CalendarForm from './components/CalendarForm';
@@ -30,6 +30,8 @@ import {GET_DIVISION_LIST_QUERY} from 'apollo/query/getFilterDivisionList';
 import {useSelector} from 'hooks/useSelector';
 import * as Yup from 'yup';
 import {roundDate} from 'utils/other-utils';
+import {GET_HOSPITAL_LIST_QUERY} from 'apollo/query/getFilterHospitalList';
+import {GET_DOCTOR_QUERY} from 'apollo/query/getDoctorSearchList';
 
 const CallLogScreen = (props: any) => {
   const {route} = props;
@@ -40,6 +42,9 @@ const CallLogScreen = (props: any) => {
   const {data} = useQuery(GET_DIVISION_LIST_QUERY, {
     variables: {},
   });
+
+  const {data: dataHospital} = useQuery(GET_HOSPITAL_LIST_QUERY, {});
+  const {data: dataDoctor} = useQuery(GET_DOCTOR_QUERY);
 
   const formik = useFormik<PlanCallInput>({
     initialValues: {
@@ -139,9 +144,16 @@ const CallLogScreen = (props: any) => {
               <View
                 style={[
                   Theme.flexRow,
-                  {justifyContent: 'space-between', marginBottom: 16},
+                  {
+                    justifyContent: 'space-between',
+                    marginBottom: 16,
+                  },
                 ]}>
-                <Text fontWeight={'300'} color={colors.black} size={15}>
+                <Text
+                  style={{width: '15%'}}
+                  fontWeight={'300'}
+                  color={colors.black}
+                  size={15}>
                   Starts
                 </Text>
                 <CalendarForm name={'startDate'} typeDate={'date'} />
@@ -164,7 +176,11 @@ const CallLogScreen = (props: any) => {
                   Theme.flexRow,
                   {justifyContent: 'space-between', marginBottom: 16},
                 ]}>
-                <Text fontWeight={'300'} color={colors.black} size={15}>
+                <Text
+                  fontWeight={'300'}
+                  style={{width: '15%'}}
+                  color={colors.black}
+                  size={15}>
                   Ends
                 </Text>
                 <CalendarForm name={'endDate'} typeDate={'date'} />
@@ -228,20 +244,30 @@ const CallLogScreen = (props: any) => {
               <InputForm
                 title={'Account'}
                 name={'account'}
+                type={'dropdown'}
+                arrDropdown={
+                  dataHospital?.data
+                    ?.filter(e => !!e)
+                    ?.map(e => ({value: e, label: e})) || []
+                }
+                rightIcon={
+                  <IconAntDesign name="downcircle" size={15} color={'black'} />
+                }
                 placeholder={'Account Name'}
               />
               <InputForm
                 title={'Name'}
                 name={'contactName'}
                 placeholder={'Contact Name'}
+                type={'dropdown'}
+                arrDropdown={
+                  dataDoctor?.data
+                    ?.filter(e => !!e.doctorName)
+                    ?.map(e => ({value: e.doctorName, label: e.doctorName})) ||
+                  []
+                }
                 rightIcon={
-                  <TouchableOpacity
-                    hitSlop={{top: 10, left: 10, right: 10, bottom: 10}}
-                    onPress={() =>
-                      navigation.navigate(Routes.DoctorSearchScreen)
-                    }>
-                    <IconAntDesign name="search1" size={15} color={'grey'} />
-                  </TouchableOpacity>
+                  <IconAntDesign name="downcircle" size={15} color={'black'} />
                 }
               />
               <InputForm

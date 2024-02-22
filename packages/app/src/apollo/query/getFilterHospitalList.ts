@@ -2,7 +2,7 @@ import {gql, TypedDocumentNode} from '@apollo/client';
 import {IDoctorSearchList} from 'network/apis/doctor/DoctorResponse';
 
 interface Data {
-  data: IDoctorSearchList[];
+  data: string[];
 }
 
 interface Variables {

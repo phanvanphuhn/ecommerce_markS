@@ -17,6 +17,18 @@ export let getUserProfile: TypedDocumentNode<Data, Variables> = gql`
       reportingTo
       salesRepEmail
       title
+      leaderboard {
+        country
+        fullName
+        month
+        rankMtd
+        rankYtd
+        salesRepEmail
+        targetAchievedMtd
+        targetAchievedQtd
+        targetAchievedYtd
+        year
+      }
     }
   }
 `;

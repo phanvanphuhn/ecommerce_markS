@@ -37,6 +37,19 @@ export interface Bank {
   bankAccountName: string;
   bankName: string;
 }
+
+interface LeaderBoard {
+  country: string;
+  fullName: string;
+  month: string;
+  rankMtd: string;
+  rankYtd: string;
+  salesRepEmail: string;
+  targetAchievedMtd: string;
+  targetAchievedQtd: string;
+  targetAchievedYtd: string;
+  year: string;
+}
 export interface UserProfile {
   country: string;
   division: string;
@@ -45,4 +58,5 @@ export interface UserProfile {
   reportingTo: string;
   salesRepEmail: string;
   title: string;
+  leaderboard: LeaderBoard;
 }
