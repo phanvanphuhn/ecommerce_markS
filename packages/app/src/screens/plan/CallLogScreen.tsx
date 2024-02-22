@@ -56,10 +56,10 @@ const CallLogScreen = (props: any) => {
       division: route.params?.item?.division || '',
       endDate: route.params?.item?.endDate
         ? moment(route.params?.item?.endDate, 'YYYY-MM-DD HH:mm:ss').toDate()
-        : roundDate(),
+        : roundDate({isPlus1: true}),
       startDate: route.params?.item?.startDate
         ? moment(route.params?.item?.startDate, 'YYYY-MM-DD HH:mm:ss').toDate()
-        : roundDate(),
+        : roundDate({isPlus1: false}),
       location: route.params?.item?.location || '',
       ownerCountry: route.params?.item?.ownerCountry || '',
       salesForceId: route.params?.item?.salesForceId || '',
@@ -91,8 +91,6 @@ const CallLogScreen = (props: any) => {
       });
     },
   });
-  console.log('=>(CallLogScreen.tsx:89) formik', formik);
-
   const onCancel = async () => {
     await onSubmitData({
       variables: {

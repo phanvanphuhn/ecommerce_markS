@@ -95,7 +95,7 @@ const ItemSales = (props: ItemSalesProps) => {
               size={11}
               fontWeight={'700'}
               uppercase={true}>
-              {strings.daily}
+              {strings.monthly}
             </Text>
           </View>
         )}

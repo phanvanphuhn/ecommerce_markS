@@ -23,6 +23,7 @@ export default {
   cancel: 'Cancel',
   salesAchievement: 'Sales Achievement',
   daily: 'Daily',
+  monthly: 'Monthly',
   sale: {
     mySales: 'My Sales',
   },
