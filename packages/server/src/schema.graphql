@@ -149,14 +149,45 @@ The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](
 """
 scalar JSONObject @specifiedBy(url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf")
 
+type Leaderboard {
+  country: String
+  fullName: String
+  id: ID!
+  lastRefreshedTimestamp: DateTime
+  month: String
+  quarter: String
+  rankMtd: String
+  rankQtd: String
+  rankYtd: String
+  salesRepEmail: String
+  targetAchievedMtd: String
+  targetAchievedQtd: String
+  targetAchievedYtd: String
+  year: String
+}
+
 type LeaderboardOuput {
   country: String
   fullName: String
-  id: String
+  id: ID!
   lastRefreshedTimestamp: DateTime
   month: String
+  quarter: String
   rankMtd: String
   rankQtd: String
+  rankYtd: String
+  salesRepEmail: String
+  targetAchievedMtd: String
+  targetAchievedQtd: String
+  targetAchievedYtd: String
+  year: String
+}
+
+type LeaderboardOutputWithoutQuarter {
+  country: String
+  fullName: String
+  month: String
+  rankMtd: String
   rankYtd: String
   salesRepEmail: String
   targetAchievedMtd: String
@@ -311,7 +342,7 @@ type Query {
   complaints: [ComplaintsOutput!]!
   getCaseLog(id: String!): CaseLog!
   getCaseLogs: [CaseLog!]!
-  getDoctorProfile(doctorEmail: String!): [DoctorDetail!]
+  getDoctorProfile(doctorEmail: String, doctorName: String, doctorPhone: String): [DoctorDetail!]
   getDoctorProfileByContactId(contactId: String!): [DoctorDetail!]
   getDoctorSearchList(doctorAlternativeEmail: String, doctorCountry: String, doctorDivisions: [String!], doctorName: String, doctorSpecialties: [String!], doctorTitle: String, hospital: String, topicsOfInterests: [String!]): [ContactSearchOutput!]
   getFile(filePath: String!): JSON!
@@ -330,7 +361,7 @@ type Query {
   getSliderAndCommisions: [SliderAndCommissionOutput!]!
   getTerritoryCategorization: [TerritoryCategorizationOutput!]!
   getUserProfile: [UserProfileOutput!]!
-  leaderboard(country: String, month: String, period: LeaderboardPeriod = Month, type: LeaderboardType = TopThree, year: String!): [LeaderboardOuput!]!
+  leaderboard(country: String, month: String, period: LeaderboardPeriod = Month, type: LeaderboardType = TopThree, year: String): [LeaderboardOuput!]!
   me: JSON!
   meAD(accessToken: String!): JSON!
   meGroup(accessToken: String!): JSON!
@@ -425,6 +456,9 @@ type UserProfileOutput {
   division: String
   fullName: String
   id: Int
+  leaderboard: LeaderboardOutputWithoutQuarter!
+  networkId: String
+  personId: String
   reportingTo: String
   salesRepEmail: String
   title: String

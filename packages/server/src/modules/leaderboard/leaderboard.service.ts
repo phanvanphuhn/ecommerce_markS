@@ -25,7 +25,7 @@ const periodToRank = {
 export class LeaderboardService {
   constructor(private readonly database: Database) {}
 
-  async getLeaderboard(salesRepEmail: string, filter: LeaderboardFilterArgs) {
+  async getLeaderboard(salesRepEmail: string, filter: LeaderboardFilterArgs = { }) {
     let query = this.database.selectFrom('marks.Leaderboard');
     query = query.groupBy('id');
 

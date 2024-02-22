@@ -4,9 +4,12 @@ import {
   Field,
   InputType,
   ObjectType,
+  OmitType,
   registerEnumType,
 } from '@nestjs/graphql';
 import { Transform } from 'class-transformer';
+
+import { Leaderboard } from '@generated/nestgraphql/leaderboard/leaderboard.model';
 
 export enum LeaderboardType {
   TopThree = 'TopThree',
@@ -28,49 +31,16 @@ registerEnumType(LeaderboardPeriod, {
 });
 
 @ObjectType()
-export class LeaderboardOuput {
+export class LeaderboardOuput extends Leaderboard {
   constructor(data: Partial<LeaderboardOuput>) {
+    super();
     Object.assign(this, data);
   }
+}
 
-  @Field(() => String, { nullable: true })
-  id?: string;
+@ObjectType()
+export class LeaderboardOutputWithoutQuarter extends OmitType(Leaderboard, ['id', 'lastRefreshedTimestamp', 'quarter', 'rankQtd']) {
 
-  @Field(() => String, { nullable: true })
-  fullName: string;
-
-  @Field(() => String, { nullable: true })
-  salesRepEmail: string;
-
-  @Field(() => String, { nullable: true })
-  country: string;
-
-  @Field(() => String, { nullable: true })
-  year: string;
-
-  @Field(() => String, { nullable: true })
-  month: string;
-
-  @Field(() => String, { nullable: true })
-  targetAchievedYtd: string;
-
-  @Field(() => String, { nullable: true })
-  rankYtd: string;
-
-  @Field(() => String, { nullable: true })
-  targetAchievedQtd: string;
-
-  @Field(() => String, { nullable: true })
-  rankQtd: string;
-
-  @Field(() => String, { nullable: true })
-  targetAchievedMtd: string;
-
-  @Field(() => String, { nullable: true })
-  rankMtd: string;
-
-  @Field(() => Date, { nullable: true })
-  lastRefreshedTimestamp: Date;
 }
 
 @ArgsType()
@@ -78,8 +48,8 @@ export class LeaderboardFilterArgs {
   @Field(() => String, { nullable: true })
   country?: string;
 
-  @Field(() => String)
-  year: string;
+  @Field(() => String, { nullable: true })
+  year?: string;
 
   @Field(() => String, { nullable: true })
   month?: string;
