@@ -4,6 +4,7 @@ import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { PrismaClientExceptionFilter } from 'nestjs-prisma';
 import { graphqlUploadExpress } from 'graphql-upload';
+import { json } from 'body-parser';
 
 import { AppModule } from './app.module';
 import type {
@@ -31,6 +32,8 @@ async function bootstrap() {
   // Prisma Client Exception Filter for unhandled exceptions
   const { httpAdapter } = app.get(HttpAdapterHost);
   app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter));
+
+  app.use(json({ limit: '50mb' }));
 
   const configService = app.get(ConfigService);
   const nestConfig = configService.get<NestConfig>('nest');
