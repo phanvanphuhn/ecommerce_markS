@@ -1,4 +1,5 @@
 import 'isomorphic-fetch';
+
 import { AccessToken, ClientSecretCredential } from '@azure/identity';
 import { Client } from '@microsoft/microsoft-graph-client';
 import {
@@ -71,13 +72,28 @@ export class GraphService {
   async getMeGroups(accessToken: string): Promise<AzureDirectoryUser> {
     try {
       const newClient = this.getClientWithAccessToken(accessToken);
+      const url = '/me/transitiveMemberOf/microsoft.graph.group?';
 
-      const user = await newClient
-        .api('/me/transitiveMemberOf/microsoft.graph.group?')
+      const groupResult = await newClient
+        .api(url)
         .select('id,displayName')
         .get();
 
-      return user;
+      let nextUrlTempHolder = groupResult?.['@odata.nextLink'];
+
+      while (nextUrlTempHolder) {
+        const nextLink = groupResult?.['@odata.nextLink'];
+        const nextUser = await newClient.api(nextLink).get();
+        groupResult.value = [...groupResult.value, ...nextUser.value];
+        if (nextUser?.['@odata.nextLink']) {
+          nextUrlTempHolder = nextUser['@odata.nextLink'];
+        } else {
+          nextUrlTempHolder = null;
+        }
+        delete groupResult['@odata.nextLink'];
+      }
+
+      return groupResult;
     } catch (error) {
       console.error('Error fetching user:', error);
 
