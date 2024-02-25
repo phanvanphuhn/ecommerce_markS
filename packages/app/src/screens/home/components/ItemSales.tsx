@@ -108,15 +108,16 @@ const ItemSales = (props: ItemSalesProps) => {
         )}
       </View>
       <SemiCircleSlider
-        max={state.data?.targetByMonth}
+        max={Number(state.data?.targetByMonth)}
         isHideCircle={true}
         disabled={true}
         linearGradientColor={[
-          '#f7ebd4',
-          '#EFE2AE',
-          '#DBA747',
-          '#d5992a',
-          '#956b1d',
+          '#e6b3ff',
+          '#c44dff',
+          '#9900e6',
+          '#7700b3',
+          '#609',
+          '440066',
         ]}
         linearGradientBackgroundColor={[
           '#e6b3ff',
@@ -126,7 +127,7 @@ const ItemSales = (props: ItemSalesProps) => {
           '#609',
           '440066',
         ]}
-        value={state.data?.salesByMonth}
+        value={Number(state.data?.salesByMonth)}
         width={width - 100}
         thumbRadius={22}
         onUpdate={value => {
@@ -141,7 +142,9 @@ const ItemSales = (props: ItemSalesProps) => {
           fontWeight={'400'}
           size={props.isPriority ? 13 : 10}
           color={colors.dotActive}>
-          {state.percentage}% over Target
+          {Number(state.percentage) > 100
+            ? `${state.percentage}% over Target`
+            : `${state.percentage}%`}
         </Text>
       </SemiCircleSlider>
     </TouchableOpacity>
