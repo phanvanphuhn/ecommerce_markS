@@ -51,10 +51,10 @@ const CaseLogScreen2 = (props: any) => {
       caseName: '',
       endDate: route.params?.item?.endDate
         ? moment(route.params?.item?.endDate, 'YYYY-MM-DD HH:mm:ss').toDate()
-        : roundDate(),
+        : roundDate({isPlus1: true}),
       startDate: route.params?.item?.startDate
         ? moment(route.params?.item?.startDate, 'YYYY-MM-DD HH:mm:ss').toDate()
-        : roundDate(),
+        : roundDate({isPlus1: false}),
       account: '',
       location: '',
       contact: '',
@@ -106,7 +106,7 @@ const CaseLogScreen2 = (props: any) => {
               <InputForm
                 name={'caseName'}
                 title={'Case'}
-                placeholder={'Procedure'}
+                placeholder={'Case Name'}
               />
               <View
                 style={[
@@ -172,7 +172,7 @@ const CaseLogScreen2 = (props: any) => {
               <InputForm
                 name={'contact'}
                 title={'Contact'}
-                placeholder={'Contact'}
+                placeholder={'Contact Name'}
               />
               <InputForm
                 name={'secondaryContact'}
