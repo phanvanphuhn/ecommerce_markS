@@ -10,19 +10,6 @@
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
-	<key>CFBundleURLTypes</key>
-	<array>
-    <dict>
-        <key>CFBundleTypeRole</key>
-        <string>None</string>
-        <key>CFBundleURLName</key>
-        <string>AzureAuth</string>
-        <key>CFBundleURLSchemes</key>
-        <array>
-            <string>com.bostonscientific.marks</string>
-        </array>
-    </dict>
-	</array>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -33,10 +20,23 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>None</string>
+			<key>CFBundleURLName</key>
+			<string>AzureAuth</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.bostonscientific.marks</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>CodePushDeploymentKey</key>
-    <string>$(CODEPUSH_KEY)</string>
+	<string>$(CODEPUSH_KEY)</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
@@ -44,7 +44,7 @@
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
-    <true/>
+		<true/>
 		<key>NSExceptionDomains</key>
 		<dict>
 			<key>localhost</key>
@@ -54,8 +54,12 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>We need access to your Apple Music library to provide personalized music recommendations.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Allow $(APP_NAME) to access this device's photos to save or update photos for the app.</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Enabling Face ID allows you quick and secure access to your account.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Allow $(APP_NAME) to always access the user's location information.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
@@ -66,10 +70,6 @@
 	<string>Allow $(APP_NAME) to access this device's microphone for recording and making calls.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Allow $(APP_NAME) to access this device's photo library to save or update photos for the app.</string>
-	<key>NSFaceIDUsageDescription</key>
-	<string>Enabling Face ID allows you quick and secure access to your account.</string>
-	<key>NSAppleMusicUsageDescription</key>
-	<string>We need access to your Apple Music library to provide personalized music recommendations.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>

@@ -67,15 +67,19 @@ const SemiCircleSlider: React.FC<SemiCircleSliderProps> = ({
   const rawForegroundPath = `M ${x2} ${y2} A ${r} ${r} 1 0 1 ${x1} ${y1}`;
   const skiaBackgroundPath = Skia.Path.MakeFromSVGString(rawPath);
   const skiaForegroundPath = Skia.Path.MakeFromSVGString(rawForegroundPath);
+  const getValue = () => {
+    let val = value / (max || 1) || 0;
+    return val > 1 ? val - 1 : val;
+  };
   const [state, setState] = useStateCustom<IState>({
-    percent: value / (max || 1) || 0,
+    percent: getValue(),
   });
   useEffect(() => {
-    setState({percent: value / (max || 1) || 0});
-    percentComplete.value = value / (max || 1) || 0;
+    setState({percent: getValue()});
+    percentComplete.value = getValue();
     console.log(
       '=>(SemiCircleSlider.tsx:76) value / (max || 1) || 0',
-      value / (max || 1) || 0,
+      getValue(),
     );
   }, [value]);
   const movableCx = useSharedValue(x2);

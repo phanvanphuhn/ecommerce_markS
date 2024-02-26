@@ -163,6 +163,7 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             resValue "string", "CodePushDeploymentKey", '"hDUZR-yMq9yUL2gls_p5GoydJfZwUBiKcMqvB"'
             resValue "string", "app_name", '"JARVIS UAT"'
+            applicationIdSuffix ".staging"
         }
         production {
             // Caution! In production, you need to generate your own keystore file.

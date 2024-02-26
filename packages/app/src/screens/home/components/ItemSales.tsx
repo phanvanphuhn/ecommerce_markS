@@ -111,22 +111,16 @@ const ItemSales = (props: ItemSalesProps) => {
         max={Number(state.data?.targetByMonth)}
         isHideCircle={true}
         disabled={true}
-        linearGradientColor={[
-          '#e6b3ff',
-          '#c44dff',
-          '#9900e6',
-          '#7700b3',
-          '#609',
-          '440066',
-        ]}
-        linearGradientBackgroundColor={[
-          '#e6b3ff',
-          '#c44dff',
-          '#9900e6',
-          '#7700b3',
-          '#609',
-          '440066',
-        ]}
+        linearGradientColor={
+          Number(state.data?.salesByMonth) < Number(state.data?.targetByMonth)
+            ? ['#e6b3ff', '#c44dff', '#9900e6', '#7700b3', '#609', '440066']
+            : ['#f7ebd4', '#EFE2AE', '#DBA747', '#d5992a', '#956b1d']
+        }
+        linearGradientBackgroundColor={
+          Number(state.data?.salesByMonth) < Number(state.data?.targetByMonth)
+            ? ['#f2f2f2', '#e6e6e6', '#d9d9d9']
+            : ['#e6b3ff', '#c44dff', '#9900e6', '#7700b3', '#609', '440066']
+        }
         value={Number(state.data?.salesByMonth)}
         width={width - 100}
         thumbRadius={22}
