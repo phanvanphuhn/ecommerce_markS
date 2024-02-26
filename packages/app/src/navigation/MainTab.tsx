@@ -37,13 +37,13 @@ const MainTab = memo(() => {
             unmountOnBlur: true,
           }}
         />
-        <Tab.Screen
+        {/* <Tab.Screen
           name={Routes.CaseLogScreen}
           options={{
             headerShown: false,
           }}
           component={CaseLogScreen}
-        />
+        /> */}
       </Tab.Navigator>
     </View>
   );

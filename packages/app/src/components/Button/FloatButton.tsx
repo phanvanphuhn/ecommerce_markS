@@ -69,7 +69,8 @@ const FloatButton = (props: TProps) => {
           <Text style={styles.title}>New Case Log</Text>
           <TouchableOpacity
             style={styles.buttonContainerClose}
-            onPress={onCreateCaseLog}>
+            onPress={onCreateCaseLog}
+            disabled>
             <IconAntDesign name="addfile" size={28} color={colors.white} />
           </TouchableOpacity>
         </View>
