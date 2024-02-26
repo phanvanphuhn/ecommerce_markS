@@ -35,7 +35,7 @@ import {GET_DOCTOR_QUERY} from 'apollo/query/getDoctorSearchList';
 
 const CallLogScreen = (props: any) => {
   const {route} = props;
-  console.log('=>(CallLogScreen.tsx:33) route', route);
+  console.log('=>(CallLogScreen.tsx:33) route', route.params?.item);
   const navigation = useNavigation<BaseUseNavigationProps<MainParamList>>();
   const userProfile = useSelector(state => state.userProfile);
   const [onSubmitData] = useMutation(MUTATION_DATA_CALL_QUERY);
@@ -47,26 +47,57 @@ const CallLogScreen = (props: any) => {
   const {data: dataDoctor} = useQuery(GET_DOCTOR_QUERY);
 
   const formik = useFormik<PlanCallInput>({
-    initialValues: {
-      activitySubtype: route.params?.item?.activitySubtype || 'CALL',
-      activityType: route.params?.item?.activityType || 'EVENT',
-      contactName: route.params?.item?.contactName || '',
-      account: route.params?.item?.account || '',
-      description: route.params?.item?.description || '',
-      division: route.params?.item?.division || '',
-      endDate: route.params?.item?.endDate
-        ? moment(route.params?.item?.endDate, 'YYYY-MM-DD HH:mm:ss').toDate()
-        : roundDate({isPlus1: true}),
-      startDate: route.params?.item?.startDate
-        ? moment(route.params?.item?.startDate, 'YYYY-MM-DD HH:mm:ss').toDate()
-        : roundDate({isPlus1: false}),
-      location: route.params?.item?.location || '',
-      ownerCountry: route.params?.item?.ownerCountry || '',
-      salesForceId: route.params?.item?.salesForceId || '',
-      status: route.params?.item?.status || 'IN_PROGRESS',
-      subject: route.params?.item?.subject || '',
-      uniqueIdInApp: route.params?.item?.uniqueIdInApp || '',
-    },
+    initialValues: route.params?.item
+      ? {
+          activitySubtype: route.params?.item?.activitySubtype || 'CALL',
+          activityType: route.params?.item?.activityType || 'EVENT',
+          contactName: route.params?.item?.contactName || '',
+          account: route.params?.item?.account || '',
+          description: route.params?.item?.description || '',
+          division: route.params?.item?.division || '',
+          endDate: route.params?.item?.endDate
+            ? moment(
+                route.params?.item?.endDate,
+                'YYYY-MM-DD HH:mm:ss',
+              ).toDate()
+            : roundDate({isPlus1: true}),
+          startDate: route.params?.item?.startDate
+            ? moment(
+                route.params?.item?.startDate,
+                'YYYY-MM-DD HH:mm:ss',
+              ).toDate()
+            : roundDate({isPlus1: false}),
+          location: route.params?.item?.location || '',
+          ownerCountry: route.params?.item?.ownerCountry || '',
+          salesForceId: route.params?.item?.salesForceId || '',
+          status: route.params?.item?.status || 'IN_PROGRESS',
+          subject: route.params?.item?.subject || '',
+          uniqueIdInApp: route.params?.item?.uniqueIdInApp || '',
+        }
+      : {
+          activitySubtype: route.params?.item?.activitySubtype || 'CALL',
+          activityType: route.params?.item?.activityType || 'EVENT',
+          contactName: route.params?.item?.contactName || '',
+          account: route.params?.item?.account || '',
+          description: route.params?.item?.description || '',
+          division: route.params?.item?.division || '',
+          endDate: route.params?.item?.endDate
+            ? moment(
+                route.params?.item?.endDate,
+                'YYYY-MM-DD HH:mm:ss',
+              ).toDate()
+            : roundDate({isPlus1: true}),
+          startDate: route.params?.item?.startDate
+            ? moment(
+                route.params?.item?.startDate,
+                'YYYY-MM-DD HH:mm:ss',
+              ).toDate()
+            : roundDate({isPlus1: false}),
+          location: route.params?.item?.location || '',
+          ownerCountry: route.params?.item?.ownerCountry || '',
+          status: route.params?.item?.status || 'IN_PROGRESS',
+          subject: route.params?.item?.subject || '',
+        },
     validationSchema: Yup.object({
       subject: Yup.string().required('Required!'),
       startDate: Yup.date().min(new Date(), 'Please choose future date!'),
