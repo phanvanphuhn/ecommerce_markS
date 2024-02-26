@@ -143,7 +143,7 @@ const ItemSales = (props: ItemSalesProps) => {
           size={props.isPriority ? 13 : 10}
           color={colors.dotActive}>
           {Number(state.percentage) > 100
-            ? `${state.percentage}% over Target`
+            ? `${Number(state.percentage) - 100}% over Target`
             : `${state.percentage}%`}
         </Text>
       </SemiCircleSlider>
