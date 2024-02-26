@@ -15,6 +15,9 @@ import Theme from 'res/style/Theme';
 import {useLazyQuery} from '@apollo/client';
 import {GET_ME} from 'apollo/query/me';
 import {useSelector} from 'hooks/useSelector';
+import useStateCustom from 'hooks/useStateCustom';
+import {IStateSales} from 'screens/leaderboard/LeaderboardScreen';
+import {GET_LEADERBOARD_QUERY} from 'apollo/query/leaderboard';
 
 interface ProfileScreenProps {}
 
@@ -24,6 +27,43 @@ const ProfileScreen = (props: ProfileScreenProps) => {
   useEffect(() => {
     getData();
   }, []);
+
+  const [state, setState] = useStateCustom<IStateSales>({
+    type: 'Month',
+    dataTop: [],
+    dataSurrounding: [],
+  });
+
+  const [getDataLeader] = useLazyQuery(GET_LEADERBOARD_QUERY);
+  const [getDataSurround] = useLazyQuery(GET_LEADERBOARD_QUERY);
+
+  useEffect(() => {
+    getDataLeader({
+      variables: {
+        year: '2023',
+        period: 'Quarter',
+        type: 'TopThree',
+      },
+      onCompleted: data => {
+        setState({dataTop: data.data});
+      },
+    });
+    getDataSurround({
+      variables: {
+        year: '2023',
+        period: 'Quarter',
+        type: 'Surrounding',
+      },
+      onCompleted: data => {
+        setState({dataSurrounding: data.data});
+      },
+    });
+  }, []);
+
+  const myRankInfo = state?.dataSurrounding?.filter(
+    e => e.salesRepEmail == userProfile?.salesRepEmail,
+  );
+
   return (
     <Container title={'My Profile'}>
       <View style={styles.container}>
@@ -51,7 +91,7 @@ const ProfileScreen = (props: ProfileScreenProps) => {
                   Rank
                 </Text>
                 <Text size={32} fontWeight={'700'} color={colors.black}>
-                  {userProfile?.leaderboard?.rankMtd}
+                  {myRankInfo && myRankInfo[0]?.rankQtd}
                 </Text>
               </View>
             </View>

@@ -77,8 +77,6 @@ const CallLogScreen = (props: any) => {
         }
         return schema;
       }),
-      account: Yup.string().required('Required!'),
-      contactName: Yup.string().required('Required!'),
     }),
     onSubmit: async values => {
       console.log('=>(CallLogScreen.tsx:49) values', values);
