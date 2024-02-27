@@ -32,7 +32,7 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* marksTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = marksTests.m; sourceTree = "<group>"; };
 		0349F5845EA9496E84C6C017 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = ../src/assets/fonts/SimpleLineIcons.ttf; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* JARVIS mobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "JARVIS mobile.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07F961A680F5B00A75B9A /* JARVIS Mobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "JARVIS Mobile.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = marks/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = marks/AppDelegate.mm; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = marks/Images.xcassets; sourceTree = "<group>"; };
@@ -186,7 +186,7 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* JARVIS mobile.app */,
+				13B07F961A680F5B00A75B9A /* JARVIS Mobile.app */,
 				00E356EE1AD99517003FC87E /* marksTests.xctest */,
 			);
 			name = Products;
@@ -253,7 +253,7 @@
 			);
 			name = marks;
 			productName = marks;
-			productReference = 13B07F961A680F5B00A75B9A /* JARVIS mobile.app */;
+			productReference = 13B07F961A680F5B00A75B9A /* JARVIS Mobile.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -568,7 +568,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODEPUSH_KEY = "qH4CcTnzEs-VBPHEz5IFT8wRUP-w9bR3s23H-";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 5M726XS88S;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = marks/Info.plist;
@@ -584,7 +584,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bostonscientific.marks;
-				PRODUCT_NAME = "JARVIS mobile";
+				PRODUCT_NAME = "JARVIS Mobile";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -601,7 +601,7 @@
 				CODEPUSH_KEY = _KbNQIHSNW0A3tCx10jh7X2aA2oZ71bfD_BhC;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 5M726XS88S;
 				INFOPLIST_FILE = marks/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -615,8 +615,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.stg.bostonscientific.marks;
-				PRODUCT_NAME = "JARVIS mobile";
+				PRODUCT_BUNDLE_IDENTIFIER = com.bostonscientific.marks;
+				PRODUCT_NAME = "JARVIS Mobile";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -850,7 +850,7 @@
 				CODEPUSH_KEY = Q8NVc1XkgfrOJtV246pzi7L4RpoMe4SukBFTz;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 5M726XS88S;
 				INFOPLIST_FILE = marks/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -865,7 +865,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bostonscientific.marks;
-				PRODUCT_NAME = "JARVIS mobile";
+				PRODUCT_NAME = "JARVIS Mobile";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -978,7 +978,7 @@
 				CODEPUSH_KEY = "qH4CcTnzEs-VBPHEz5IFT8wRUP-w9bR3s23H-";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 5M726XS88S;
 				INFOPLIST_FILE = marks/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -993,7 +993,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bostonscientific.marks;
-				PRODUCT_NAME = "JARVIS mobile";
+				PRODUCT_NAME = "JARVIS Mobile";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
