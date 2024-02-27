@@ -31,8 +31,8 @@ registerEnumType(LeaderboardPeriod, {
 });
 
 @ObjectType()
-export class LeaderboardOuput extends Leaderboard {
-  constructor(data: Partial<LeaderboardOuput>) {
+export class LeaderboardOutput extends Leaderboard {
+  constructor(data: Partial<LeaderboardOutput>) {
     super();
     Object.assign(this, data);
   }
@@ -66,3 +66,6 @@ export class LeaderboardFilterArgs {
   })
   period?: LeaderboardPeriod;
 }
+
+@ArgsType()
+export class LeaderboardFilterArgsWithoutType extends OmitType(LeaderboardFilterArgs, ['type']) {}

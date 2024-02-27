@@ -7,7 +7,7 @@ import { AzureAuthGuard } from '../auth/guards/azure-ad.guard';
 import { UserProfilesService } from '../user-profiles/user-profiles.service';
 
 import { LeaderboardService } from './leaderboard.service';
-import { LeaderboardFilterArgs, LeaderboardOuput } from './dto/leaderboard.dto';
+import { LeaderboardFilterArgs, LeaderboardOutput } from './dto/leaderboard.dto';
 
 @Resolver()
 export class LeaderboardResolver {
@@ -16,7 +16,7 @@ export class LeaderboardResolver {
     private readonly userProfilesService: UserProfilesService,
   ) {}
 
-  @Query(() => [LeaderboardOuput])
+  @Query(() => [LeaderboardOutput])
   @UseGuards(AzureAuthGuard)
   async leaderboard(
     @UserEntity() userInfo,

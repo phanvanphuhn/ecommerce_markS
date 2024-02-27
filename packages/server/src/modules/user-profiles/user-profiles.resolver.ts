@@ -5,12 +5,11 @@ import { UserEntity } from '@/common/decorators/user.decorator';
 
 import { AzureAuthGuard } from '../auth/guards/azure-ad.guard';
 import { LeaderboardService } from '../leaderboard/leaderboard.service';
-import { LeaderboardOutputWithoutQuarter } from '../leaderboard/dto/leaderboard.dto';
+import { LeaderboardFilterArgsWithoutType, LeaderboardOutput } from '../leaderboard/dto/leaderboard.dto';
 
 import { UserProfilesService } from './user-profiles.service';
 import { UserProfileOutput } from './dto/user-profile.dto';
 
-import { Leaderboard } from '@generated/nestgraphql/leaderboard/leaderboard.model';
 
 @Resolver(() => UserProfileOutput)
 export class UserProfilesResolver {
@@ -30,10 +29,10 @@ export class UserProfilesResolver {
     );
   }
 
-  @ResolveField('leaderboard', () => LeaderboardOutputWithoutQuarter)
-  async getLeaderboard(@Parent() parent: UserProfileOutput) {
-    const leaderboards = await this.leaderboardService.getLeaderboard(parent.salesRepEmail);
+  @ResolveField('leaderboard', () => [LeaderboardOutput])
+  async getLeaderboard(@Parent() parent: UserProfileOutput, @Args() filter: LeaderboardFilterArgsWithoutType) {
+    const leaderboards = await this.leaderboardService.getLeaderboardOfSelf(parent.salesRepEmail, filter);
 
-    return leaderboards[0]; 
+    return leaderboards; 
   }
 }
