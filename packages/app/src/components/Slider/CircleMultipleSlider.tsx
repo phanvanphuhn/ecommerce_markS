@@ -66,14 +66,19 @@ const CircleMultipleSlider: React.FC<CircleMultipleSliderProps> = ({
   colorTop,
   colorTopCicle,
 }) => {
+  const getValuePercent = (value: number, max?: number) => {
+    let val = value / (max || 1) || 0;
+    console.log('=>(CircleMultipleSlider.tsx:71) val', val);
+    return val > 1 ? val - 1 : val;
+  };
   const [state, setState] = useStateCustom<IState>({
-    percentTop: valueTop / (maxTop || 1) || 0,
+    percentTop: getValuePercent(valueTop, maxTop),
     percentBottom: valueBottom / (maxBottom || 1) || 0,
   });
 
   useEffect(() => {
-    setState({percentTop: valueTop / (maxTop || 1) || 0});
-    percentCompleteTop.value = valueTop / (maxTop || 1) || 0;
+    setState({percentTop: getValuePercent(valueTop, maxTop)});
+    percentCompleteTop.value = getValuePercent(valueTop, maxTop);
   }, [valueTop]);
   const center = width / 2;
   const r = (width - strokeWidth) / 2 - 10;
