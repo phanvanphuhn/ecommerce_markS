@@ -63,7 +63,7 @@ const FloatButton = (props: TProps) => {
           </TouchableOpacity>
         </View>
       )}
-
+      {/* 
       {isOpen && (
         <View style={[styles.container]}>
           <Text style={styles.title}>New Case Log</Text>
@@ -74,7 +74,7 @@ const FloatButton = (props: TProps) => {
             <IconAntDesign name="addfile" size={28} color={colors.white} />
           </TouchableOpacity>
         </View>
-      )}
+      )} */}
 
       <View style={styles.container}>
         {isOpen && <Text style={styles.title}>Close</Text>}
