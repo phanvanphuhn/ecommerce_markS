@@ -69,6 +69,7 @@ const ItemSales = (props: ItemSalesProps) => {
   };
   return (
     <TouchableOpacity
+      activeOpacity={1}
       onPress={onDetail}
       style={[Theme.shadow, styles.container]}>
       <View style={[Theme.flexRow, Theme.pt05, Theme.pl10, Theme.pr10]}>

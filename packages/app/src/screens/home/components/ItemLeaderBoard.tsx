@@ -24,6 +24,7 @@ const ItemLeaderBoard = (props: ItemLeaderBoardProps) => {
   };
   return (
     <TouchableOpacity
+      activeOpacity={1}
       onPress={onDetail}
       style={[Theme.shadow, styles.container]}>
       <View

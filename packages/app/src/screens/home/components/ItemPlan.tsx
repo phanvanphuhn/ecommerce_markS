@@ -35,6 +35,7 @@ const ItemPlan = (props: ItemPlanProps) => {
   };
   return (
     <TouchableOpacity
+      activeOpacity={1}
       onPress={onDetail}
       style={[Theme.shadow, styles.container]}>
       <View
