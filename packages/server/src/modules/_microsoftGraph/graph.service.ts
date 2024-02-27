@@ -83,14 +83,16 @@ export class GraphService {
 
       while (nextUrlTempHolder) {
         const nextLink = groupResult?.['@odata.nextLink'];
-        const nextUser = await newClient.api(nextLink).get();
-        groupResult.value = [...groupResult.value, ...nextUser.value];
-        if (nextUser?.['@odata.nextLink']) {
-          nextUrlTempHolder = nextUser['@odata.nextLink'];
-        } else {
-          nextUrlTempHolder = null;
+        if (nextLink) {
+          const nextUser = await newClient.api(nextLink).get();
+          groupResult.value = [...groupResult.value, ...nextUser.value];
+          if (nextUser?.['@odata.nextLink']) {
+            nextUrlTempHolder = nextUser['@odata.nextLink'];
+          } else {
+            nextUrlTempHolder = null;
+          }
+          delete groupResult['@odata.nextLink'];
         }
-        delete groupResult['@odata.nextLink'];
       }
 
       return groupResult;
