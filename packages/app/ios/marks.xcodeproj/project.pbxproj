@@ -615,7 +615,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.bostonscientific.marks;
+				PRODUCT_BUNDLE_IDENTIFIER = com.stg.bostonscientific.marks;
 				PRODUCT_NAME = "JARVIS Mobile";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
