@@ -249,6 +249,28 @@ const CircleMultipleSlider: React.FC<CircleMultipleSliderProps> = ({
               start={0}
               end={skiaPercentComplete}
             />
+            {valueTop > (maxTop || 1) && (
+              <Path
+                path={rawTopPath}
+                style="stroke"
+                strokeWidth={strokeWidth}
+                strokeCap="round"
+                start={0}
+                end={1}>
+                <LinearGradient
+                  start={vec(0, 0)}
+                  end={vec(256, 256)}
+                  colors={[
+                    '#e6b3ff',
+                    '#c44dff',
+                    '#9900e6',
+                    '#7700b3',
+                    '#609',
+                    '440066',
+                  ]}
+                />
+              </Path>
+            )}
             <Path
               path={rawTopPath}
               style="stroke"

@@ -120,6 +120,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#B31921',
     paddingVertical: 4,
     paddingHorizontal: 12,
+    alignItems: 'center',
   },
   bodyContainer: {
     paddingVertical: 12,
