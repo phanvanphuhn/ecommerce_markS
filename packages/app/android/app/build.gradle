@@ -104,7 +104,7 @@ android {
 
     namespace "com.bsc.marks"
     defaultConfig {
-        applicationId "com.bsc.marks"
+        applicationId "com"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode project.hasProperty('versionCode') ? Integer.parseInt(project.versionCode) : 1
@@ -143,6 +143,7 @@ android {
             matchingFallbacks = ['debug', 'release'] // Addded this
             resValue "string", "CodePushDeploymentKey", '"7rxfgvE0WoIT2TFxuVon7_pRfLfuLfkvDnZor"'
             resValue "string", "app_name", '"JARVIS DEV"'
+            applicationIdSuffix ".bsc.marks"
         }
         dev {
             // Caution! In production, you need to generate your own keystore file.
@@ -153,6 +154,7 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             resValue "string", "CodePushDeploymentKey", '"7rxfgvE0WoIT2TFxuVon7_pRfLfuLfkvDnZor"'
             resValue "string", "app_name", '"JARVIS DEV"'
+            applicationIdSuffix ".bsc.marks"
         }
         staging {
             // Caution! In production, you need to generate your own keystore file.
@@ -163,7 +165,7 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             resValue "string", "CodePushDeploymentKey", '"hDUZR-yMq9yUL2gls_p5GoydJfZwUBiKcMqvB"'
             resValue "string", "app_name", '"JARVIS UAT"'
-            applicationIdSuffix ".staging"
+            applicationIdSuffix ".stg.bostonscientific.marks"
         }
         production {
             // Caution! In production, you need to generate your own keystore file.
