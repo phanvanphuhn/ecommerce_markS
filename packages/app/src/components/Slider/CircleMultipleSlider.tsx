@@ -15,7 +15,7 @@ import {
   TouchHandler,
   useTouchHandler,
 } from '@shopify/react-native-skia';
-import React, {useEffect} from 'react';
+import React, {memo, useEffect} from 'react';
 import {Dimensions, StyleSheet, View} from 'react-native';
 import {
   Gesture,
@@ -249,7 +249,7 @@ const CircleMultipleSlider: React.FC<CircleMultipleSliderProps> = ({
               start={0}
               end={skiaPercentComplete}
             />
-            {valueTop > (maxTop || 1) && (
+            {!!valueTop && valueTop > (maxTop || 1) && (
               <Path
                 path={rawTopPath}
                 style="stroke"
@@ -341,7 +341,7 @@ const CircleMultipleSlider: React.FC<CircleMultipleSliderProps> = ({
   );
 };
 
-export default CircleMultipleSlider;
+export default memo(CircleMultipleSlider);
 const styles = StyleSheet.create({
   container: {},
   containerContent: {

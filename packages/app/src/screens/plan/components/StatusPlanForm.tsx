@@ -94,7 +94,7 @@ const StatusPlanForm = (props: IStatusPlanFormProps) => {
             size={13}
             fontWeight={'300'}
             color={props.item.status === 'CANCELLED' ? '#A5A5A5' : colors.text}>
-            {props.item.description}
+            {props.item.account}
           </Text>
         </View>
         <View style={Theme.flexRow}>

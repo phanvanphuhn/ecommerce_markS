@@ -20,6 +20,7 @@ import {
 import {getSales, SalesOutput} from 'apollo/query/getSales';
 import {upsertMobileSalesQuarter} from 'apollo/query/upsertMobileSalesQuarter';
 import {upsertMobileSalesYear} from 'apollo/query/upsertMobileSalesYear';
+import {hideLoading, showLoading} from 'components/Loading/LoadingComponent';
 
 interface SalesScreenProps {}
 export type TabDateType = 'Month' | 'Quarter' | 'Year';
@@ -46,6 +47,7 @@ const SalesScreen = (props: SalesScreenProps) => {
   const [updateTargetQuarter] = useMutation(upsertMobileSalesQuarter);
   const [updateTargetYear] = useMutation(upsertMobileSalesYear);
   useEffect(() => {
+    showLoading();
     getData({
       variables: {
         type: 'quarter',
@@ -60,6 +62,7 @@ const SalesScreen = (props: SalesScreenProps) => {
         quarter: Math.ceil((date.month() + 1) / 3).toString(),
       },
       onCompleted: data => {
+        hideLoading();
         setState({
           data: data?.data
             ?.map((item: any) => {

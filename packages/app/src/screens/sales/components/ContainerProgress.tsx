@@ -110,11 +110,16 @@ const ContainerProgress = (props: ContainerProgressProps) => {
   }, [state.data, state.type]);
   const targetPercent = useMemo(() => {
     let target = (targetTotal / state.data?.[`targetBy${state.type}`]) * 100;
+    console.log(
+      '=>(ContainerProgress.tsx:113) state.data?.[`targetBy${state.type}`]',
+      state.data?.[`targetBy${state.type}`],
+    );
     if (state.data?.[`targetBy${state.type}`]) {
       return Math.round(target);
     }
     return 0;
   }, [targetAvchieve, targetTotal]);
+  console.log('=>(ContainerProgress.tsx:118) targetPercent', targetPercent);
   return (
     <>
       <Animated.View style={styles.container}>
