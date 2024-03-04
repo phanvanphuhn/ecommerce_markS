@@ -28,8 +28,8 @@ export class AuthResolver {
 
   @Query(() => GraphQLJSON, { name: 'meGroup' })
   async getMeGroups(@Args('accessToken') accessToken: string) {
-    const result = await this.graphService.getMeGroups(accessToken);
     Logger.log('accessToken', accessToken);
+    const result = await this.graphService.getMeGroups(accessToken);
     Logger.log(result);
     return result;
   }

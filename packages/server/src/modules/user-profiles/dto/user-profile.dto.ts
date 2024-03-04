@@ -1,22 +1,16 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 
+import {UserProfile} from '@generated/nestgraphql/user-profile/user-profile.model'
+import { Leaderboard } from '@generated/nestgraphql/leaderboard/leaderboard.model';
 @ObjectType()
-export class UserProfileOutput {
+export class UserProfileOutput extends UserProfile{
   constructor(data: Partial<UserProfileOutput>) {
+    super();
     Object.assign(this, data);
   }
   @Field(() => Number, { nullable: true })
   id: number;
-  @Field(() => String, { nullable: true })
-  fullName: string;
-  @Field(() => String, { nullable: true })
-  salesRepEmail: string;
-  @Field(() => String, { nullable: true })
-  country: string;
-  @Field(() => String, { nullable: true })
-  division: string;
-  @Field(() => String, { nullable: true })
-  reportingTo: string;
-  @Field(() => String, { nullable: true })
-  title: string;
+  
+  @Field(() => Leaderboard, { nullable: true })
+  leaderboard: Leaderboard;
 }

@@ -8,7 +8,7 @@ import { Database } from '../_database/database';
 
 import {
   LeaderboardFilterArgs,
-  LeaderboardOuput,
+  LeaderboardOutput,
   LeaderboardPeriod,
   LeaderboardType,
 } from './dto/leaderboard.dto';
@@ -25,7 +25,34 @@ const periodToRank = {
 export class LeaderboardService {
   constructor(private readonly database: Database) {}
 
-  async getLeaderboard(salesRepEmail: string, filter: LeaderboardFilterArgs) {
+  async getLeaderboardOfSelf(salesRepEmail: string, filter: LeaderboardFilterArgs = { }) {
+    let query = this.database.selectFrom('marks.Leaderboard');
+    query = query.where('salesRepEmail', 'ilike', salesRepEmail);
+
+    if (filter.country) {
+      query = query.where('country', '=', filter.country);
+    }
+
+    if (filter.year) {
+      query = query.where('year', '=', filter.year);
+    }
+
+    if (filter.month) {
+      query = query.where('month', '=', filter.month);
+    }
+
+    if (filter.period) {
+      const rankToFilter = periodToRank[filter.period] as SelectRankField;
+      query = query.orderBy(({ ref }) => {
+        return integer(ref(rankToFilter));
+      }, 'asc');
+    }
+
+    const result = await query.selectAll().execute();
+    return result.map((item) => new LeaderboardOutput(item));
+  }
+
+  async getLeaderboard(salesRepEmail: string, filter: LeaderboardFilterArgs = { }) {
     let query = this.database.selectFrom('marks.Leaderboard');
     query = query.groupBy('id');
 
@@ -125,11 +152,11 @@ export class LeaderboardService {
             return all.slice(Math.max(0, startingIndex - diff), all.length);
           }
 
-          return surrounding.map((item) => new LeaderboardOuput(item));
+          return surrounding.map((item) => new LeaderboardOutput(item));
       }
     }
 
     const result = await query.selectAll().execute();
-    return result.map((item) => new LeaderboardOuput(item));
+    return result.map((item) => new LeaderboardOutput(item));
   }
 }
