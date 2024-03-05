@@ -9,7 +9,7 @@ variables:
   KUBECTL_URL: https://storage.googleapis.com/kubernetes-release/release/${KUBE_VERSION}/bin/linux/amd64/kubectl
   KUBE_NAMESPACE: jarvis-mark
   DEPLOY_ENV: dev
-  ADMIN_IMAGE_TAG: Admin$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
+  ADMIN_IMAGE_TAG: $CI_REGISTRY_IMAGE:Admin-$CI_COMMIT_SHORT_SHA
 
 stages:
   - build_backend
