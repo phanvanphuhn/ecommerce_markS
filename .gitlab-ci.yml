@@ -42,13 +42,13 @@ build_admin:
     name: dev
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - cd packages/admin-paljs/
+    - cd packages/admin/
     - docker build -t $ADMIN_IMAGE_TAG .
     - docker push $ADMIN_IMAGE_TAG
   rules:
     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH' # Only trigger when changes occur in default branch
     - changes:
-        - ./packages/admin-paljs/** # Only trigger when changes occur in packages/admin directory
+        - ./packages/admin/** # Only trigger when changes occur in packages/admin directory
 
 deploy:
   stage: deploy
