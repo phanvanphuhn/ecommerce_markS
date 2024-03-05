@@ -6,10 +6,8 @@ metadata:
 spec:
   ports:
     - port: 3000
-      name: http
       protocol: TCP
     - port: 3005
-      name: admin
       protocol: TCP
   selector:
     app: ${APP_NAME}
