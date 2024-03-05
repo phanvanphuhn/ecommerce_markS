@@ -21,7 +21,7 @@ spec:
     - host: ${APP_NAME}.${CI_ENVIRONMENT_NAME}.apps.bsci.com
       http:
         paths:
-          - path: /
+          - path: /graphql
             pathType: Prefix
             backend:
               service:
@@ -36,20 +36,12 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: 'nginx'
     nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   rules:
     - host: ${APP_NAME}.${CI_ENVIRONMENT_NAME}.apps.bsci.com
       http:
         paths:
           - path: /admin
-            pathType: Prefix
-            backend:
-              service:
-                name: ${APP_NAME}-admin-svc
-                port:
-                  number: 3005
-          - path: /admin(/|$)(.*)
             pathType: Prefix
             backend:
               service:
