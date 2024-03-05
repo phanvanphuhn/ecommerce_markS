@@ -20,6 +20,7 @@ cache:
   paths:
     - node_modules/
     - packages/server/node_modules/
+    - packages/admin/node_modules/
 
 build_backend:
   stage: build_backend
