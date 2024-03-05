@@ -35,7 +35,6 @@ const authenticate = async (email: string, password: string) => {
 
         return {
           adminJsOptions: {
-            rootPath: '/',
             resources: [{
               resource: {
                 model: getModelByName('UserProfile'),
