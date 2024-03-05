@@ -16,7 +16,7 @@
     "db-reset": "prisma migrate reset",
     "db-seed": "prisma db seed --preview-feature",
     "ts-node": "ts-node -r tsconfig-paths/register -P tsconfig-nexus.json",
-    "format": "prettier --write ."
+    "format": "yarn pretty-quick --pattern \"src/server/graphql/**/*.(ts|tsx|json)\""
   },
   "dependencies": {
     "@apollo/client": "3.9.5",
