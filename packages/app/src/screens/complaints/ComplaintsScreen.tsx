@@ -124,13 +124,21 @@ const ComplaintsScreen = (props: ComplaintsScreenProps) => {
                       } else {
                         sort = 'asc';
                       }
+                      console.log(
+                        '=>(ComplaintsScreen.tsx:134) state.data',
+                        state.data,
+                      );
                       let list = _.orderBy(
                         state.data,
                         function (dateObj: any) {
-                          return moment(dateObj[type], 'DD/MM/YYYY').toDate();
+                          return moment(
+                            new Date(Number(dateObj[type])),
+                            'DD/MM/YYYY',
+                          ).toDate();
                         },
                         sort,
                       );
+                      console.log('=>(ComplaintsScreen.tsx:134) list', list);
                       setState({
                         sortBy: {
                           type,

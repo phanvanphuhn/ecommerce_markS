@@ -51,9 +51,9 @@ const HeaderPlan = ({title, value, onSearch, onFilter}: HeaderPlanProps) => {
     {
       title: 'All',
     },
-    {
-      title: 'Cases',
-    },
+    // {
+    //   title: 'Cases',
+    // },
     {
       title: 'Calls',
     },

@@ -34,7 +34,21 @@ const SearchPlanScreen = (props: SearchPlanScreenProps) => {
           );
           return {
             title: item,
-            data: array,
+            data: array.map(e => ({
+              ...e,
+              start: moment(new Date(Number(e.startDate))).format(
+                'YYYY-MM-DD HH:mm:ss',
+              ),
+              end: moment(new Date(Number(e.endDate))).format(
+                'YYYY-MM-DD HH:mm:ss',
+              ),
+              startDate: moment(new Date(Number(e.startDate))).format(
+                'YYYY-MM-DD HH:mm:ss',
+              ),
+              endDate: moment(new Date(Number(e.endDate))).format(
+                'YYYY-MM-DD HH:mm:ss',
+              ),
+            })),
           };
         });
       console.log('=>(SearchPlanScreen.tsx:24) events', events);

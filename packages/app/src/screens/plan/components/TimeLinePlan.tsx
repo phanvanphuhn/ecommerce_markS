@@ -19,7 +19,7 @@ const TimeLinePlan = (props: TimeLineListProps) => {
   const timelineProps: Partial<TimelineProps> = useMemo(
     () => ({
       format24h: true,
-      // scrollToFirst: true,
+      // scrollToFirst: false,
       // start: 0,
       // end: 24,
       unavailableHours: [
@@ -28,6 +28,7 @@ const TimeLinePlan = (props: TimeLineListProps) => {
       ],
       overlapEventsSpacing: 8,
       rightEdgeSpacing: 24,
+      scrollToNow: true,
     }),
     [],
   );
@@ -40,8 +41,8 @@ const TimeLinePlan = (props: TimeLineListProps) => {
       events={props.events}
       timelineProps={timelineProps}
       showNowIndicator
-      // scrollToNow
-      scrollToFirst
+      scrollToNow
+      // scrollToFirst
       initialTime={INITIAL_TIME}
       renderItem={timelineProps => {
         return (

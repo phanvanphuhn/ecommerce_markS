@@ -4,6 +4,9 @@ declare module 'react-native-config' {
     API_URL: string;
     GROUP_ID: string;
     LICENSE_KEY: string;
+    CLIENT_ID: string;
+    TENANT: string;
+    REDIRECT_URI: string;
   }
 
   export const Config: NativeConfig;
