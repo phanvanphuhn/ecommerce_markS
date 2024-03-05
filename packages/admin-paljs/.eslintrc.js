@@ -17,6 +17,12 @@ module.exports = {
     'no-empty-function': 'off',
     'no-console': [1],
     'react/display-name': [0],
+    'prettier/prettier': [
+      'error',
+      {
+        endOfLine: 'auto',
+      },
+    ],
   },
   settings: {
     react: {
