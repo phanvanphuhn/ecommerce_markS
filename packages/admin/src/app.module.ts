@@ -35,7 +35,7 @@ const authenticate = async (email: string, password: string) => {
 
         return {
           adminJsOptions: {
-            rootPath: '/admin',
+            rootPath: '/',
             resources: [{
               resource: {
                 model: getModelByName('UserProfile'),
@@ -56,11 +56,6 @@ const authenticate = async (email: string, password: string) => {
             authenticate,
             cookiePassword: 'secret',
             cookieName: 'adminjs',
-          },
-          sessionOptions: {
-            resave: true,
-            saveUninitialized: true,
-            secret: 'secret',
           },
         }
       },
