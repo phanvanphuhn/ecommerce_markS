@@ -30,7 +30,7 @@ spec:
                 name: ${APP_NAME}-svc
                 port:
                   number: 3000
-          - path: /admin-project
+          - path: /admin
             pathType: Prefix
             backend:
               service:
