@@ -64,7 +64,7 @@ spec:
             - name: SECRETS_FILE_PATH
               value: ${SECRETS_FILE_PATH}
           ports:
-            - containerPort: 3005
+            - containerPort: 8000
           resources:
             requests:
               memory: '128Mi'

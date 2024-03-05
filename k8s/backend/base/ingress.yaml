@@ -47,4 +47,4 @@ spec:
               service:
                 name: ${APP_NAME}-admin-svc
                 port:
-                  number: 3005
+                  number: 8000

@@ -166,7 +166,7 @@ type Leaderboard {
   year: String
 }
 
-type LeaderboardOuput {
+type LeaderboardOutput {
   country: String
   fullName: String
   id: ID!
@@ -175,19 +175,6 @@ type LeaderboardOuput {
   quarter: String
   rankMtd: String
   rankQtd: String
-  rankYtd: String
-  salesRepEmail: String
-  targetAchievedMtd: String
-  targetAchievedQtd: String
-  targetAchievedYtd: String
-  year: String
-}
-
-type LeaderboardOutputWithoutQuarter {
-  country: String
-  fullName: String
-  month: String
-  rankMtd: String
   rankYtd: String
   salesRepEmail: String
   targetAchievedMtd: String
@@ -361,7 +348,7 @@ type Query {
   getSliderAndCommisions: [SliderAndCommissionOutput!]!
   getTerritoryCategorization: [TerritoryCategorizationOutput!]!
   getUserProfile: [UserProfileOutput!]!
-  leaderboard(country: String, month: String, period: LeaderboardPeriod = Month, type: LeaderboardType = TopThree, year: String): [LeaderboardOuput!]!
+  leaderboard(country: String, month: String, period: LeaderboardPeriod = Month, type: LeaderboardType = TopThree, year: String): [LeaderboardOutput!]!
   me: JSON!
   meAD(accessToken: String!): JSON!
   meGroup(accessToken: String!): JSON!
@@ -456,7 +443,7 @@ type UserProfileOutput {
   division: String
   fullName: String
   id: Int
-  leaderboard: LeaderboardOutputWithoutQuarter!
+  leaderboard(country: String, month: String, period: LeaderboardPeriod = Month, year: String): [LeaderboardOutput!]!
   networkId: String
   personId: String
   reportingTo: String
