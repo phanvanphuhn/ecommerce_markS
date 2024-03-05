@@ -53,6 +53,25 @@ spec:
             limits:
               memory: '512Mi'
               cpu: '1'
+        - name: admin
+          image: ${ADMIN_IMAGE_TAG}
+          imagePullPolicy: Always
+          env:
+            - name: DB_SCHEMA
+              value: marks
+            - name: POSTGRES_DB
+              value: ${POSTGRES_DB}
+            - name: SECRETS_FILE_PATH
+              value: ${SECRETS_FILE_PATH}
+          ports:
+            - containerPort: 3005
+          resources:
+            requests:
+              memory: '128Mi'
+              cpu: '0.25'
+            limits:
+              memory: '512Mi'
+              cpu: '1'
       volumes:
         - name: jarvis-mark-credentials
           csi:

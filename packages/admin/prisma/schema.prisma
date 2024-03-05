@@ -4,26 +4,9 @@ datasource db {
   extensions = [pgcrypto]
 }
 
-generator kysely {
-  provider = "prisma-kysely"
-  output   = "../src/@generated/kysely"
-  fileName = "types.ts"
-  // Optionally generate runtime enums to a separate file
-  // enumFileName = "enums.ts"
-}
-
-generator nestgraphql {
-  provider = "prisma-nestjs-graphql"
-  output   = "../src/@generated/nestgraphql"
-}
-
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["postgresqlExtensions"]
-}
-
-generator dbml {
-  provider = "prisma-dbml-generator"
 }
 
 model ContactSearch {

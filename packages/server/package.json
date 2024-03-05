@@ -5,6 +5,7 @@
   "author": "",
   "private": true,
   "license": "MIT",
+  "type": "commonjs",
   "keywords": [
     "nestjs",
     "prisma",

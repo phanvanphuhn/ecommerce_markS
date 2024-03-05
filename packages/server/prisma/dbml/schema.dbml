@@ -16,7 +16,7 @@ Table ContactSearch {
   doctorSpecialty String
   doctorSalutation String
   doctorTitle String
-  doctorPhone BigInt
+  doctorPhone String
   doctorCountry String
   createdAt DateTime [default: `now()`]
   updatedAt DateTime
