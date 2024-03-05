@@ -41,10 +41,10 @@ export class PlanCall {
   @Field(() => String, { nullable: true })
   subject?: string;
 
-  @Field(() => String, { nullable: true })
+  @Field(() => GraphQLDateTimeISO, { nullable: true })
   startDate?: Date;
 
-  @Field(() => String, { nullable: true })
+  @Field(() => GraphQLDateTimeISO, { nullable: true })
   endDate?: Date;
 
   @Field(() => String, { nullable: true })
