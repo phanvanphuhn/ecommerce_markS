@@ -42,6 +42,13 @@ spec:
     - host: ${APP_NAME}.${CI_ENVIRONMENT_NAME}.apps.bsci.com
       http:
         paths:
+          - path: /admin
+            pathType: Prefix
+            backend:
+              service:
+                name: ${APP_NAME}-admin-svc
+                port:
+                  number: 3005
           - path: /admin(/|$)(.*)
             pathType: Prefix
             backend:
