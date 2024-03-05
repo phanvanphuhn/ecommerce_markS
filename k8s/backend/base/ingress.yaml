@@ -36,16 +36,13 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: 'nginx'
     nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
-    nginx.ingress.kubernetes.io/rewrite-target: /admin/
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      proxy_cookie_path / "/admin/";
-
+    nginx.ingress.kubernetes.io/app-root: /admin
 spec:
   rules:
-    - host: ${APP_NAME}.${CI_ENVIRONMENT_NAME}.apps.bsci.com
+    - host: admin.${APP_NAME}.${CI_ENVIRONMENT_NAME}.apps.bsci.com
       http:
         paths:
-          - path: /admin
+          - path: /
             pathType: Prefix
             backend:
               service:
