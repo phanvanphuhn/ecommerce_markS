@@ -12,10 +12,10 @@ COPY prisma ./prisma/
 
 # Install dependencies
 RUN yarn install
-RUN yarn generate
 
 # Copy the remaining application code to the working directory
 COPY . .
+RUN yarn generate
 
 # Build the Next.js application
 RUN NODE_OPTIONS=--max_old_space_size=4096 yarn build
