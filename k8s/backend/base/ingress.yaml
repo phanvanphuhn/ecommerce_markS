@@ -16,8 +16,6 @@ metadata:
       | # Request Header Or Cookie Too Large
       client_header_buffer_size 100k;
       large_client_header_buffers 4 100k;
-    nginx.ingress.kubernetes.io/configuration-snippet: |-
-      rewrite ^(/admin)(.*) /admin$2 break;
 spec:
   rules:
     # env = dev, staging or prod
@@ -32,7 +30,7 @@ spec:
                 name: ${APP_NAME}-svc
                 port:
                   number: 3000
-          - path: /admin
+          - path: /admin-project
             pathType: Prefix
             backend:
               service:
