@@ -5,6 +5,7 @@ metadata:
   name: ${APP_NAME}-ingress
   annotations:
     kubernetes.io/ingress.class: 'nginx'
+    nginx.ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
     nginx.ingress.kubernetes.io/client-body-buffer-size: 64k
     nginx.ingress.kubernetes.io/client-header-buffer-size: 100k
@@ -30,7 +31,7 @@ spec:
                 name: ${APP_NAME}-svc
                 port:
                   number: 3000
-          - path: /admin
+          - path: /admin*
             pathType: Prefix
             backend:
               service:
