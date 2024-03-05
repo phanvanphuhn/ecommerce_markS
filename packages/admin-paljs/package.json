@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "next -p 8000",
-    "build": "next build",
+    "build": "yarn format && next build",
     "start": "next start -p 8000",
     "generate": "pal g && yarn generate:prisma && yarn generate:nexus && yarn codegen",
     "generate:prisma": "prisma generate",
@@ -15,7 +15,8 @@
     "db-deploy": "prisma migrate deploy",
     "db-reset": "prisma migrate reset",
     "db-seed": "prisma db seed --preview-feature",
-    "ts-node": "ts-node -r tsconfig-paths/register -P tsconfig-nexus.json"
+    "ts-node": "ts-node -r tsconfig-paths/register -P tsconfig-nexus.json",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@apollo/client": "3.9.5",

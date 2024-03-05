@@ -2,12 +2,7 @@ import { enumType, inputObjectType, objectType } from 'nexus'
 
 export const TransactionIsolationLevel = enumType({
   name: 'TransactionIsolationLevel',
-  members: [
-    'ReadUncommitted',
-    'ReadCommitted',
-    'RepeatableRead',
-    'Serializable',
-  ],
+  members: ['ReadUncommitted', 'ReadCommitted', 'RepeatableRead', 'Serializable'],
 })
 
 export const ContactSearchScalarFieldEnum = enumType({
@@ -60,17 +55,7 @@ export const ComplaintScalarFieldEnum = enumType({
 
 export const UserProfileScalarFieldEnum = enumType({
   name: 'UserProfileScalarFieldEnum',
-  members: [
-    'id',
-    'salesRepEmail',
-    'fullName',
-    'country',
-    'division',
-    'reportingTo',
-    'networkId',
-    'personId',
-    'title',
-  ],
+  members: ['id', 'salesRepEmail', 'fullName', 'country', 'division', 'reportingTo', 'networkId', 'personId', 'title'],
 })
 
 export const SliderAndCommissionScalarFieldEnum = enumType({
@@ -175,15 +160,7 @@ export const SalesScalarFieldEnum = enumType({
 
 export const Mobile_SalesScalarFieldEnum = enumType({
   name: 'Mobile_SalesScalarFieldEnum',
-  members: [
-    'id',
-    'salesRepEmail',
-    'targetByQuarter',
-    'targetByYear',
-    'quarter',
-    'year',
-    'type',
-  ],
+  members: ['id', 'salesRepEmail', 'targetByQuarter', 'targetByYear', 'quarter', 'year', 'type'],
 })
 
 export const PlanCallScalarFieldEnum = enumType({
@@ -233,41 +210,17 @@ export const CaseLogScalarFieldEnum = enumType({
 
 export const CaseLogSubmissionScalarFieldEnum = enumType({
   name: 'CaseLogSubmissionScalarFieldEnum',
-  members: [
-    'id',
-    'quantity',
-    'salesRepEmail',
-    'caseLogId',
-    'productId',
-    'createdAt',
-    'updatedAt',
-  ],
+  members: ['id', 'quantity', 'salesRepEmail', 'caseLogId', 'productId', 'createdAt', 'updatedAt'],
 })
 
 export const SearchHistoryScalarFieldEnum = enumType({
   name: 'SearchHistoryScalarFieldEnum',
-  members: [
-    'id',
-    'salesRepEmail',
-    'searchQuery',
-    'searchType',
-    'searchResults',
-    'createdAt',
-    'updatedAt',
-  ],
+  members: ['id', 'salesRepEmail', 'searchQuery', 'searchType', 'searchResults', 'createdAt', 'updatedAt'],
 })
 
 export const ProductsScalarFieldEnum = enumType({
   name: 'ProductsScalarFieldEnum',
-  members: [
-    'id',
-    'upn',
-    'gtin',
-    'upnDescription',
-    'country',
-    'createdAt',
-    'updatedAt',
-  ],
+  members: ['id', 'upn', 'gtin', 'upnDescription', 'country', 'createdAt', 'updatedAt'],
 })
 
 export const SortOrder = enumType({
@@ -778,37 +731,36 @@ export const SliderAndCommissionOrderByWithAggregationInput = inputObjectType({
   },
 })
 
-export const SliderAndCommissionScalarWhereWithAggregatesInput =
-  inputObjectType({
-    nonNullDefaults: {
-      input: false,
-    },
-    name: 'SliderAndCommissionScalarWhereWithAggregatesInput',
-    definition(t) {
-      t.list.field('AND', {
-        type: 'SliderAndCommissionScalarWhereWithAggregatesInput',
-      })
-      t.list.field('OR', {
-        type: 'SliderAndCommissionScalarWhereWithAggregatesInput',
-      })
-      t.list.field('NOT', {
-        type: 'SliderAndCommissionScalarWhereWithAggregatesInput',
-      })
-      t.field('id', { type: 'IntWithAggregatesFilter' })
-      t.field('lowerBound', { type: 'StringNullableWithAggregatesFilter' })
-      t.field('upperBound', { type: 'StringNullableWithAggregatesFilter' })
-      t.field('variablePayoutPercentage', {
-        type: 'StringNullableWithAggregatesFilter',
-      })
-      t.field('territoryCategory', {
-        type: 'StringNullableWithAggregatesFilter',
-      })
-      t.field('commissionPercentage', {
-        type: 'StringNullableWithAggregatesFilter',
-      })
-      t.field('year', { type: 'StringNullableWithAggregatesFilter' })
-    },
-  })
+export const SliderAndCommissionScalarWhereWithAggregatesInput = inputObjectType({
+  nonNullDefaults: {
+    input: false,
+  },
+  name: 'SliderAndCommissionScalarWhereWithAggregatesInput',
+  definition(t) {
+    t.list.field('AND', {
+      type: 'SliderAndCommissionScalarWhereWithAggregatesInput',
+    })
+    t.list.field('OR', {
+      type: 'SliderAndCommissionScalarWhereWithAggregatesInput',
+    })
+    t.list.field('NOT', {
+      type: 'SliderAndCommissionScalarWhereWithAggregatesInput',
+    })
+    t.field('id', { type: 'IntWithAggregatesFilter' })
+    t.field('lowerBound', { type: 'StringNullableWithAggregatesFilter' })
+    t.field('upperBound', { type: 'StringNullableWithAggregatesFilter' })
+    t.field('variablePayoutPercentage', {
+      type: 'StringNullableWithAggregatesFilter',
+    })
+    t.field('territoryCategory', {
+      type: 'StringNullableWithAggregatesFilter',
+    })
+    t.field('commissionPercentage', {
+      type: 'StringNullableWithAggregatesFilter',
+    })
+    t.field('year', { type: 'StringNullableWithAggregatesFilter' })
+  },
+})
 
 export const TerritoryCategorizationWhereInput = inputObjectType({
   nonNullDefaults: {
@@ -858,61 +810,59 @@ export const TerritoryCategorizationWhereUniqueInput = inputObjectType({
   },
 })
 
-export const TerritoryCategorizationOrderByWithAggregationInput =
-  inputObjectType({
-    nonNullDefaults: {
-      input: false,
-    },
-    name: 'TerritoryCategorizationOrderByWithAggregationInput',
-    definition(t) {
-      t.field('id', { type: 'SortOrder' })
-      t.field('lowerBound', { type: 'SortOrderInput' })
-      t.field('upperBound', { type: 'SortOrderInput' })
-      t.field('territoryCategory', { type: 'SortOrderInput' })
-      t.field('year', { type: 'SortOrderInput' })
-      t.field('_count', {
-        type: 'TerritoryCategorizationCountOrderByAggregateInput',
-      })
-      t.field('_avg', {
-        type: 'TerritoryCategorizationAvgOrderByAggregateInput',
-      })
-      t.field('_max', {
-        type: 'TerritoryCategorizationMaxOrderByAggregateInput',
-      })
-      t.field('_min', {
-        type: 'TerritoryCategorizationMinOrderByAggregateInput',
-      })
-      t.field('_sum', {
-        type: 'TerritoryCategorizationSumOrderByAggregateInput',
-      })
-    },
-  })
+export const TerritoryCategorizationOrderByWithAggregationInput = inputObjectType({
+  nonNullDefaults: {
+    input: false,
+  },
+  name: 'TerritoryCategorizationOrderByWithAggregationInput',
+  definition(t) {
+    t.field('id', { type: 'SortOrder' })
+    t.field('lowerBound', { type: 'SortOrderInput' })
+    t.field('upperBound', { type: 'SortOrderInput' })
+    t.field('territoryCategory', { type: 'SortOrderInput' })
+    t.field('year', { type: 'SortOrderInput' })
+    t.field('_count', {
+      type: 'TerritoryCategorizationCountOrderByAggregateInput',
+    })
+    t.field('_avg', {
+      type: 'TerritoryCategorizationAvgOrderByAggregateInput',
+    })
+    t.field('_max', {
+      type: 'TerritoryCategorizationMaxOrderByAggregateInput',
+    })
+    t.field('_min', {
+      type: 'TerritoryCategorizationMinOrderByAggregateInput',
+    })
+    t.field('_sum', {
+      type: 'TerritoryCategorizationSumOrderByAggregateInput',
+    })
+  },
+})
 
-export const TerritoryCategorizationScalarWhereWithAggregatesInput =
-  inputObjectType({
-    nonNullDefaults: {
-      input: false,
-    },
-    name: 'TerritoryCategorizationScalarWhereWithAggregatesInput',
-    definition(t) {
-      t.list.field('AND', {
-        type: 'TerritoryCategorizationScalarWhereWithAggregatesInput',
-      })
-      t.list.field('OR', {
-        type: 'TerritoryCategorizationScalarWhereWithAggregatesInput',
-      })
-      t.list.field('NOT', {
-        type: 'TerritoryCategorizationScalarWhereWithAggregatesInput',
-      })
-      t.field('id', { type: 'IntWithAggregatesFilter' })
-      t.field('lowerBound', { type: 'StringNullableWithAggregatesFilter' })
-      t.field('upperBound', { type: 'StringNullableWithAggregatesFilter' })
-      t.field('territoryCategory', {
-        type: 'StringNullableWithAggregatesFilter',
-      })
-      t.field('year', { type: 'StringNullableWithAggregatesFilter' })
-    },
-  })
+export const TerritoryCategorizationScalarWhereWithAggregatesInput = inputObjectType({
+  nonNullDefaults: {
+    input: false,
+  },
+  name: 'TerritoryCategorizationScalarWhereWithAggregatesInput',
+  definition(t) {
+    t.list.field('AND', {
+      type: 'TerritoryCategorizationScalarWhereWithAggregatesInput',
+    })
+    t.list.field('OR', {
+      type: 'TerritoryCategorizationScalarWhereWithAggregatesInput',
+    })
+    t.list.field('NOT', {
+      type: 'TerritoryCategorizationScalarWhereWithAggregatesInput',
+    })
+    t.field('id', { type: 'IntWithAggregatesFilter' })
+    t.field('lowerBound', { type: 'StringNullableWithAggregatesFilter' })
+    t.field('upperBound', { type: 'StringNullableWithAggregatesFilter' })
+    t.field('territoryCategory', {
+      type: 'StringNullableWithAggregatesFilter',
+    })
+    t.field('year', { type: 'StringNullableWithAggregatesFilter' })
+  },
+})
 
 export const LeaderboardWhereInput = inputObjectType({
   nonNullDefaults: {
@@ -5543,20 +5493,19 @@ export const SliderAndCommissionSumOrderByAggregateInput = inputObjectType({
   },
 })
 
-export const TerritoryCategorizationCountOrderByAggregateInput =
-  inputObjectType({
-    nonNullDefaults: {
-      input: false,
-    },
-    name: 'TerritoryCategorizationCountOrderByAggregateInput',
-    definition(t) {
-      t.field('id', { type: 'SortOrder' })
-      t.field('lowerBound', { type: 'SortOrder' })
-      t.field('upperBound', { type: 'SortOrder' })
-      t.field('territoryCategory', { type: 'SortOrder' })
-      t.field('year', { type: 'SortOrder' })
-    },
-  })
+export const TerritoryCategorizationCountOrderByAggregateInput = inputObjectType({
+  nonNullDefaults: {
+    input: false,
+  },
+  name: 'TerritoryCategorizationCountOrderByAggregateInput',
+  definition(t) {
+    t.field('id', { type: 'SortOrder' })
+    t.field('lowerBound', { type: 'SortOrder' })
+    t.field('upperBound', { type: 'SortOrder' })
+    t.field('territoryCategory', { type: 'SortOrder' })
+    t.field('year', { type: 'SortOrder' })
+  },
+})
 
 export const TerritoryCategorizationAvgOrderByAggregateInput = inputObjectType({
   nonNullDefaults: {
@@ -6467,16 +6416,15 @@ export const StringFieldUpdateOperationsInput = inputObjectType({
   },
 })
 
-export const EnummobileSalesTargetTypeFieldUpdateOperationsInput =
-  inputObjectType({
-    nonNullDefaults: {
-      input: false,
-    },
-    name: 'EnummobileSalesTargetTypeFieldUpdateOperationsInput',
-    definition(t) {
-      t.field('set', { type: 'mobileSalesTargetType' })
-    },
-  })
+export const EnummobileSalesTargetTypeFieldUpdateOperationsInput = inputObjectType({
+  nonNullDefaults: {
+    input: false,
+  },
+  name: 'EnummobileSalesTargetTypeFieldUpdateOperationsInput',
+  definition(t) {
+    t.field('set', { type: 'mobileSalesTargetType' })
+  },
+})
 
 export const CaseLogCreatephotoPathsInput = inputObjectType({
   nonNullDefaults: {
@@ -6488,45 +6436,43 @@ export const CaseLogCreatephotoPathsInput = inputObjectType({
   },
 })
 
-export const CaseLogSubmissionCreateNestedManyWithoutCaseLogInput =
-  inputObjectType({
-    nonNullDefaults: {
-      input: false,
-    },
-    name: 'CaseLogSubmissionCreateNestedManyWithoutCaseLogInput',
-    definition(t) {
-      t.list.field('create', {
-        type: 'CaseLogSubmissionCreateWithoutCaseLogInput',
-      })
-      t.list.field('connectOrCreate', {
-        type: 'CaseLogSubmissionCreateOrConnectWithoutCaseLogInput',
-      })
-      t.field('createMany', {
-        type: 'CaseLogSubmissionCreateManyCaseLogInputEnvelope',
-      })
-      t.list.field('connect', { type: 'CaseLogSubmissionWhereUniqueInput' })
-    },
-  })
+export const CaseLogSubmissionCreateNestedManyWithoutCaseLogInput = inputObjectType({
+  nonNullDefaults: {
+    input: false,
+  },
+  name: 'CaseLogSubmissionCreateNestedManyWithoutCaseLogInput',
+  definition(t) {
+    t.list.field('create', {
+      type: 'CaseLogSubmissionCreateWithoutCaseLogInput',
+    })
+    t.list.field('connectOrCreate', {
+      type: 'CaseLogSubmissionCreateOrConnectWithoutCaseLogInput',
+    })
+    t.field('createMany', {
+      type: 'CaseLogSubmissionCreateManyCaseLogInputEnvelope',
+    })
+    t.list.field('connect', { type: 'CaseLogSubmissionWhereUniqueInput' })
+  },
+})
 
-export const CaseLogSubmissionUncheckedCreateNestedManyWithoutCaseLogInput =
-  inputObjectType({
-    nonNullDefaults: {
-      input: false,
-    },
-    name: 'CaseLogSubmissionUncheckedCreateNestedManyWithoutCaseLogInput',
-    definition(t) {
-      t.list.field('create', {
-        type: 'CaseLogSubmissionCreateWithoutCaseLogInput',
-      })
-      t.list.field('connectOrCreate', {
-        type: 'CaseLogSubmissionCreateOrConnectWithoutCaseLogInput',
-      })
-      t.field('createMany', {
-        type: 'CaseLogSubmissionCreateManyCaseLogInputEnvelope',
-      })
-      t.list.field('connect', { type: 'CaseLogSubmissionWhereUniqueInput' })
-    },
-  })
+export const CaseLogSubmissionUncheckedCreateNestedManyWithoutCaseLogInput = inputObjectType({
+  nonNullDefaults: {
+    input: false,
+  },
+  name: 'CaseLogSubmissionUncheckedCreateNestedManyWithoutCaseLogInput',
+  definition(t) {
+    t.list.field('create', {
+      type: 'CaseLogSubmissionCreateWithoutCaseLogInput',
+    })
+    t.list.field('connectOrCreate', {
+      type: 'CaseLogSubmissionCreateOrConnectWithoutCaseLogInput',
+    })
+    t.field('createMany', {
+      type: 'CaseLogSubmissionCreateManyCaseLogInputEnvelope',
+    })
+    t.list.field('connect', { type: 'CaseLogSubmissionWhereUniqueInput' })
+  },
+})
 
 export const CaseLogUpdatephotoPathsInput = inputObjectType({
   nonNullDefaults: {
@@ -6539,143 +6485,137 @@ export const CaseLogUpdatephotoPathsInput = inputObjectType({
   },
 })
 
-export const CaseLogSubmissionUpdateManyWithoutCaseLogNestedInput =
-  inputObjectType({
-    nonNullDefaults: {
-      input: false,
-    },
-    name: 'CaseLogSubmissionUpdateManyWithoutCaseLogNestedInput',
-    definition(t) {
-      t.list.field('create', {
-        type: 'CaseLogSubmissionCreateWithoutCaseLogInput',
-      })
-      t.list.field('connectOrCreate', {
-        type: 'CaseLogSubmissionCreateOrConnectWithoutCaseLogInput',
-      })
-      t.list.field('upsert', {
-        type: 'CaseLogSubmissionUpsertWithWhereUniqueWithoutCaseLogInput',
-      })
-      t.field('createMany', {
-        type: 'CaseLogSubmissionCreateManyCaseLogInputEnvelope',
-      })
-      t.list.field('set', { type: 'CaseLogSubmissionWhereUniqueInput' })
-      t.list.field('disconnect', { type: 'CaseLogSubmissionWhereUniqueInput' })
-      t.list.field('delete', { type: 'CaseLogSubmissionWhereUniqueInput' })
-      t.list.field('connect', { type: 'CaseLogSubmissionWhereUniqueInput' })
-      t.list.field('update', {
-        type: 'CaseLogSubmissionUpdateWithWhereUniqueWithoutCaseLogInput',
-      })
-      t.list.field('updateMany', {
-        type: 'CaseLogSubmissionUpdateManyWithWhereWithoutCaseLogInput',
-      })
-      t.list.field('deleteMany', { type: 'CaseLogSubmissionScalarWhereInput' })
-    },
-  })
+export const CaseLogSubmissionUpdateManyWithoutCaseLogNestedInput = inputObjectType({
+  nonNullDefaults: {
+    input: false,
+  },
+  name: 'CaseLogSubmissionUpdateManyWithoutCaseLogNestedInput',
+  definition(t) {
+    t.list.field('create', {
+      type: 'CaseLogSubmissionCreateWithoutCaseLogInput',
+    })
+    t.list.field('connectOrCreate', {
+      type: 'CaseLogSubmissionCreateOrConnectWithoutCaseLogInput',
+    })
+    t.list.field('upsert', {
+      type: 'CaseLogSubmissionUpsertWithWhereUniqueWithoutCaseLogInput',
+    })
+    t.field('createMany', {
+      type: 'CaseLogSubmissionCreateManyCaseLogInputEnvelope',
+    })
+    t.list.field('set', { type: 'CaseLogSubmissionWhereUniqueInput' })
+    t.list.field('disconnect', { type: 'CaseLogSubmissionWhereUniqueInput' })
+    t.list.field('delete', { type: 'CaseLogSubmissionWhereUniqueInput' })
+    t.list.field('connect', { type: 'CaseLogSubmissionWhereUniqueInput' })
+    t.list.field('update', {
+      type: 'CaseLogSubmissionUpdateWithWhereUniqueWithoutCaseLogInput',
+    })
+    t.list.field('updateMany', {
+      type: 'CaseLogSubmissionUpdateManyWithWhereWithoutCaseLogInput',
+    })
+    t.list.field('deleteMany', { type: 'CaseLogSubmissionScalarWhereInput' })
+  },
+})
 
-export const CaseLogSubmissionUncheckedUpdateManyWithoutCaseLogNestedInput =
-  inputObjectType({
-    nonNullDefaults: {
-      input: false,
-    },
-    name: 'CaseLogSubmissionUncheckedUpdateManyWithoutCaseLogNestedInput',
-    definition(t) {
-      t.list.field('create', {
-        type: 'CaseLogSubmissionCreateWithoutCaseLogInput',
-      })
-      t.list.field('connectOrCreate', {
-        type: 'CaseLogSubmissionCreateOrConnectWithoutCaseLogInput',
-      })
-      t.list.field('upsert', {
-        type: 'CaseLogSubmissionUpsertWithWhereUniqueWithoutCaseLogInput',
-      })
-      t.field('createMany', {
-        type: 'CaseLogSubmissionCreateManyCaseLogInputEnvelope',
-      })
-      t.list.field('set', { type: 'CaseLogSubmissionWhereUniqueInput' })
-      t.list.field('disconnect', { type: 'CaseLogSubmissionWhereUniqueInput' })
-      t.list.field('delete', { type: 'CaseLogSubmissionWhereUniqueInput' })
-      t.list.field('connect', { type: 'CaseLogSubmissionWhereUniqueInput' })
-      t.list.field('update', {
-        type: 'CaseLogSubmissionUpdateWithWhereUniqueWithoutCaseLogInput',
-      })
-      t.list.field('updateMany', {
-        type: 'CaseLogSubmissionUpdateManyWithWhereWithoutCaseLogInput',
-      })
-      t.list.field('deleteMany', { type: 'CaseLogSubmissionScalarWhereInput' })
-    },
-  })
+export const CaseLogSubmissionUncheckedUpdateManyWithoutCaseLogNestedInput = inputObjectType({
+  nonNullDefaults: {
+    input: false,
+  },
+  name: 'CaseLogSubmissionUncheckedUpdateManyWithoutCaseLogNestedInput',
+  definition(t) {
+    t.list.field('create', {
+      type: 'CaseLogSubmissionCreateWithoutCaseLogInput',
+    })
+    t.list.field('connectOrCreate', {
+      type: 'CaseLogSubmissionCreateOrConnectWithoutCaseLogInput',
+    })
+    t.list.field('upsert', {
+      type: 'CaseLogSubmissionUpsertWithWhereUniqueWithoutCaseLogInput',
+    })
+    t.field('createMany', {
+      type: 'CaseLogSubmissionCreateManyCaseLogInputEnvelope',
+    })
+    t.list.field('set', { type: 'CaseLogSubmissionWhereUniqueInput' })
+    t.list.field('disconnect', { type: 'CaseLogSubmissionWhereUniqueInput' })
+    t.list.field('delete', { type: 'CaseLogSubmissionWhereUniqueInput' })
+    t.list.field('connect', { type: 'CaseLogSubmissionWhereUniqueInput' })
+    t.list.field('update', {
+      type: 'CaseLogSubmissionUpdateWithWhereUniqueWithoutCaseLogInput',
+    })
+    t.list.field('updateMany', {
+      type: 'CaseLogSubmissionUpdateManyWithWhereWithoutCaseLogInput',
+    })
+    t.list.field('deleteMany', { type: 'CaseLogSubmissionScalarWhereInput' })
+  },
+})
 
-export const CaseLogCreateNestedOneWithoutCaseLogSubmissionInput =
-  inputObjectType({
-    nonNullDefaults: {
-      input: false,
-    },
-    name: 'CaseLogCreateNestedOneWithoutCaseLogSubmissionInput',
-    definition(t) {
-      t.field('create', { type: 'CaseLogCreateWithoutCaseLogSubmissionInput' })
-      t.field('connectOrCreate', {
-        type: 'CaseLogCreateOrConnectWithoutCaseLogSubmissionInput',
-      })
-      t.field('connect', { type: 'CaseLogWhereUniqueInput' })
-    },
-  })
+export const CaseLogCreateNestedOneWithoutCaseLogSubmissionInput = inputObjectType({
+  nonNullDefaults: {
+    input: false,
+  },
+  name: 'CaseLogCreateNestedOneWithoutCaseLogSubmissionInput',
+  definition(t) {
+    t.field('create', { type: 'CaseLogCreateWithoutCaseLogSubmissionInput' })
+    t.field('connectOrCreate', {
+      type: 'CaseLogCreateOrConnectWithoutCaseLogSubmissionInput',
+    })
+    t.field('connect', { type: 'CaseLogWhereUniqueInput' })
+  },
+})
 
-export const ProductsCreateNestedOneWithoutCaseLogSubmissionInput =
-  inputObjectType({
-    nonNullDefaults: {
-      input: false,
-    },
-    name: 'ProductsCreateNestedOneWithoutCaseLogSubmissionInput',
-    definition(t) {
-      t.field('create', { type: 'ProductsCreateWithoutCaseLogSubmissionInput' })
-      t.field('connectOrCreate', {
-        type: 'ProductsCreateOrConnectWithoutCaseLogSubmissionInput',
-      })
-      t.field('connect', { type: 'ProductsWhereUniqueInput' })
-    },
-  })
+export const ProductsCreateNestedOneWithoutCaseLogSubmissionInput = inputObjectType({
+  nonNullDefaults: {
+    input: false,
+  },
+  name: 'ProductsCreateNestedOneWithoutCaseLogSubmissionInput',
+  definition(t) {
+    t.field('create', { type: 'ProductsCreateWithoutCaseLogSubmissionInput' })
+    t.field('connectOrCreate', {
+      type: 'ProductsCreateOrConnectWithoutCaseLogSubmissionInput',
+    })
+    t.field('connect', { type: 'ProductsWhereUniqueInput' })
+  },
+})
 
-export const CaseLogUpdateOneWithoutCaseLogSubmissionNestedInput =
-  inputObjectType({
-    nonNullDefaults: {
-      input: false,
-    },
-    name: 'CaseLogUpdateOneWithoutCaseLogSubmissionNestedInput',
-    definition(t) {
-      t.field('create', { type: 'CaseLogCreateWithoutCaseLogSubmissionInput' })
-      t.field('connectOrCreate', {
-        type: 'CaseLogCreateOrConnectWithoutCaseLogSubmissionInput',
-      })
-      t.field('upsert', { type: 'CaseLogUpsertWithoutCaseLogSubmissionInput' })
-      t.field('disconnect', { type: 'CaseLogWhereInput' })
-      t.field('delete', { type: 'CaseLogWhereInput' })
-      t.field('connect', { type: 'CaseLogWhereUniqueInput' })
-      t.field('update', {
-        type: 'CaseLogUpdateToOneWithWhereWithoutCaseLogSubmissionInput',
-      })
-    },
-  })
+export const CaseLogUpdateOneWithoutCaseLogSubmissionNestedInput = inputObjectType({
+  nonNullDefaults: {
+    input: false,
+  },
+  name: 'CaseLogUpdateOneWithoutCaseLogSubmissionNestedInput',
+  definition(t) {
+    t.field('create', { type: 'CaseLogCreateWithoutCaseLogSubmissionInput' })
+    t.field('connectOrCreate', {
+      type: 'CaseLogCreateOrConnectWithoutCaseLogSubmissionInput',
+    })
+    t.field('upsert', { type: 'CaseLogUpsertWithoutCaseLogSubmissionInput' })
+    t.field('disconnect', { type: 'CaseLogWhereInput' })
+    t.field('delete', { type: 'CaseLogWhereInput' })
+    t.field('connect', { type: 'CaseLogWhereUniqueInput' })
+    t.field('update', {
+      type: 'CaseLogUpdateToOneWithWhereWithoutCaseLogSubmissionInput',
+    })
+  },
+})
 
-export const ProductsUpdateOneWithoutCaseLogSubmissionNestedInput =
-  inputObjectType({
-    nonNullDefaults: {
-      input: false,
-    },
-    name: 'ProductsUpdateOneWithoutCaseLogSubmissionNestedInput',
-    definition(t) {
-      t.field('create', { type: 'ProductsCreateWithoutCaseLogSubmissionInput' })
-      t.field('connectOrCreate', {
-        type: 'ProductsCreateOrConnectWithoutCaseLogSubmissionInput',
-      })
-      t.field('upsert', { type: 'ProductsUpsertWithoutCaseLogSubmissionInput' })
-      t.field('disconnect', { type: 'ProductsWhereInput' })
-      t.field('delete', { type: 'ProductsWhereInput' })
-      t.field('connect', { type: 'ProductsWhereUniqueInput' })
-      t.field('update', {
-        type: 'ProductsUpdateToOneWithWhereWithoutCaseLogSubmissionInput',
-      })
-    },
-  })
+export const ProductsUpdateOneWithoutCaseLogSubmissionNestedInput = inputObjectType({
+  nonNullDefaults: {
+    input: false,
+  },
+  name: 'ProductsUpdateOneWithoutCaseLogSubmissionNestedInput',
+  definition(t) {
+    t.field('create', { type: 'ProductsCreateWithoutCaseLogSubmissionInput' })
+    t.field('connectOrCreate', {
+      type: 'ProductsCreateOrConnectWithoutCaseLogSubmissionInput',
+    })
+    t.field('upsert', { type: 'ProductsUpsertWithoutCaseLogSubmissionInput' })
+    t.field('disconnect', { type: 'ProductsWhereInput' })
+    t.field('delete', { type: 'ProductsWhereInput' })
+    t.field('connect', { type: 'ProductsWhereUniqueInput' })
+    t.field('update', {
+      type: 'ProductsUpdateToOneWithWhereWithoutCaseLogSubmissionInput',
+    })
+  },
+})
 
 export const SearchHistoryCreatesearchTypeInput = inputObjectType({
   nonNullDefaults: {
@@ -6719,111 +6659,107 @@ export const SearchHistoryUpdatesearchResultsInput = inputObjectType({
   },
 })
 
-export const CaseLogSubmissionCreateNestedManyWithoutProductInput =
-  inputObjectType({
-    nonNullDefaults: {
-      input: false,
-    },
-    name: 'CaseLogSubmissionCreateNestedManyWithoutProductInput',
-    definition(t) {
-      t.list.field('create', {
-        type: 'CaseLogSubmissionCreateWithoutProductInput',
-      })
-      t.list.field('connectOrCreate', {
-        type: 'CaseLogSubmissionCreateOrConnectWithoutProductInput',
-      })
-      t.field('createMany', {
-        type: 'CaseLogSubmissionCreateManyProductInputEnvelope',
-      })
-      t.list.field('connect', { type: 'CaseLogSubmissionWhereUniqueInput' })
-    },
-  })
+export const CaseLogSubmissionCreateNestedManyWithoutProductInput = inputObjectType({
+  nonNullDefaults: {
+    input: false,
+  },
+  name: 'CaseLogSubmissionCreateNestedManyWithoutProductInput',
+  definition(t) {
+    t.list.field('create', {
+      type: 'CaseLogSubmissionCreateWithoutProductInput',
+    })
+    t.list.field('connectOrCreate', {
+      type: 'CaseLogSubmissionCreateOrConnectWithoutProductInput',
+    })
+    t.field('createMany', {
+      type: 'CaseLogSubmissionCreateManyProductInputEnvelope',
+    })
+    t.list.field('connect', { type: 'CaseLogSubmissionWhereUniqueInput' })
+  },
+})
 
-export const CaseLogSubmissionUncheckedCreateNestedManyWithoutProductInput =
-  inputObjectType({
-    nonNullDefaults: {
-      input: false,
-    },
-    name: 'CaseLogSubmissionUncheckedCreateNestedManyWithoutProductInput',
-    definition(t) {
-      t.list.field('create', {
-        type: 'CaseLogSubmissionCreateWithoutProductInput',
-      })
-      t.list.field('connectOrCreate', {
-        type: 'CaseLogSubmissionCreateOrConnectWithoutProductInput',
-      })
-      t.field('createMany', {
-        type: 'CaseLogSubmissionCreateManyProductInputEnvelope',
-      })
-      t.list.field('connect', { type: 'CaseLogSubmissionWhereUniqueInput' })
-    },
-  })
+export const CaseLogSubmissionUncheckedCreateNestedManyWithoutProductInput = inputObjectType({
+  nonNullDefaults: {
+    input: false,
+  },
+  name: 'CaseLogSubmissionUncheckedCreateNestedManyWithoutProductInput',
+  definition(t) {
+    t.list.field('create', {
+      type: 'CaseLogSubmissionCreateWithoutProductInput',
+    })
+    t.list.field('connectOrCreate', {
+      type: 'CaseLogSubmissionCreateOrConnectWithoutProductInput',
+    })
+    t.field('createMany', {
+      type: 'CaseLogSubmissionCreateManyProductInputEnvelope',
+    })
+    t.list.field('connect', { type: 'CaseLogSubmissionWhereUniqueInput' })
+  },
+})
 
-export const CaseLogSubmissionUpdateManyWithoutProductNestedInput =
-  inputObjectType({
-    nonNullDefaults: {
-      input: false,
-    },
-    name: 'CaseLogSubmissionUpdateManyWithoutProductNestedInput',
-    definition(t) {
-      t.list.field('create', {
-        type: 'CaseLogSubmissionCreateWithoutProductInput',
-      })
-      t.list.field('connectOrCreate', {
-        type: 'CaseLogSubmissionCreateOrConnectWithoutProductInput',
-      })
-      t.list.field('upsert', {
-        type: 'CaseLogSubmissionUpsertWithWhereUniqueWithoutProductInput',
-      })
-      t.field('createMany', {
-        type: 'CaseLogSubmissionCreateManyProductInputEnvelope',
-      })
-      t.list.field('set', { type: 'CaseLogSubmissionWhereUniqueInput' })
-      t.list.field('disconnect', { type: 'CaseLogSubmissionWhereUniqueInput' })
-      t.list.field('delete', { type: 'CaseLogSubmissionWhereUniqueInput' })
-      t.list.field('connect', { type: 'CaseLogSubmissionWhereUniqueInput' })
-      t.list.field('update', {
-        type: 'CaseLogSubmissionUpdateWithWhereUniqueWithoutProductInput',
-      })
-      t.list.field('updateMany', {
-        type: 'CaseLogSubmissionUpdateManyWithWhereWithoutProductInput',
-      })
-      t.list.field('deleteMany', { type: 'CaseLogSubmissionScalarWhereInput' })
-    },
-  })
+export const CaseLogSubmissionUpdateManyWithoutProductNestedInput = inputObjectType({
+  nonNullDefaults: {
+    input: false,
+  },
+  name: 'CaseLogSubmissionUpdateManyWithoutProductNestedInput',
+  definition(t) {
+    t.list.field('create', {
+      type: 'CaseLogSubmissionCreateWithoutProductInput',
+    })
+    t.list.field('connectOrCreate', {
+      type: 'CaseLogSubmissionCreateOrConnectWithoutProductInput',
+    })
+    t.list.field('upsert', {
+      type: 'CaseLogSubmissionUpsertWithWhereUniqueWithoutProductInput',
+    })
+    t.field('createMany', {
+      type: 'CaseLogSubmissionCreateManyProductInputEnvelope',
+    })
+    t.list.field('set', { type: 'CaseLogSubmissionWhereUniqueInput' })
+    t.list.field('disconnect', { type: 'CaseLogSubmissionWhereUniqueInput' })
+    t.list.field('delete', { type: 'CaseLogSubmissionWhereUniqueInput' })
+    t.list.field('connect', { type: 'CaseLogSubmissionWhereUniqueInput' })
+    t.list.field('update', {
+      type: 'CaseLogSubmissionUpdateWithWhereUniqueWithoutProductInput',
+    })
+    t.list.field('updateMany', {
+      type: 'CaseLogSubmissionUpdateManyWithWhereWithoutProductInput',
+    })
+    t.list.field('deleteMany', { type: 'CaseLogSubmissionScalarWhereInput' })
+  },
+})
 
-export const CaseLogSubmissionUncheckedUpdateManyWithoutProductNestedInput =
-  inputObjectType({
-    nonNullDefaults: {
-      input: false,
-    },
-    name: 'CaseLogSubmissionUncheckedUpdateManyWithoutProductNestedInput',
-    definition(t) {
-      t.list.field('create', {
-        type: 'CaseLogSubmissionCreateWithoutProductInput',
-      })
-      t.list.field('connectOrCreate', {
-        type: 'CaseLogSubmissionCreateOrConnectWithoutProductInput',
-      })
-      t.list.field('upsert', {
-        type: 'CaseLogSubmissionUpsertWithWhereUniqueWithoutProductInput',
-      })
-      t.field('createMany', {
-        type: 'CaseLogSubmissionCreateManyProductInputEnvelope',
-      })
-      t.list.field('set', { type: 'CaseLogSubmissionWhereUniqueInput' })
-      t.list.field('disconnect', { type: 'CaseLogSubmissionWhereUniqueInput' })
-      t.list.field('delete', { type: 'CaseLogSubmissionWhereUniqueInput' })
-      t.list.field('connect', { type: 'CaseLogSubmissionWhereUniqueInput' })
-      t.list.field('update', {
-        type: 'CaseLogSubmissionUpdateWithWhereUniqueWithoutProductInput',
-      })
-      t.list.field('updateMany', {
-        type: 'CaseLogSubmissionUpdateManyWithWhereWithoutProductInput',
-      })
-      t.list.field('deleteMany', { type: 'CaseLogSubmissionScalarWhereInput' })
-    },
-  })
+export const CaseLogSubmissionUncheckedUpdateManyWithoutProductNestedInput = inputObjectType({
+  nonNullDefaults: {
+    input: false,
+  },
+  name: 'CaseLogSubmissionUncheckedUpdateManyWithoutProductNestedInput',
+  definition(t) {
+    t.list.field('create', {
+      type: 'CaseLogSubmissionCreateWithoutProductInput',
+    })
+    t.list.field('connectOrCreate', {
+      type: 'CaseLogSubmissionCreateOrConnectWithoutProductInput',
+    })
+    t.list.field('upsert', {
+      type: 'CaseLogSubmissionUpsertWithWhereUniqueWithoutProductInput',
+    })
+    t.field('createMany', {
+      type: 'CaseLogSubmissionCreateManyProductInputEnvelope',
+    })
+    t.list.field('set', { type: 'CaseLogSubmissionWhereUniqueInput' })
+    t.list.field('disconnect', { type: 'CaseLogSubmissionWhereUniqueInput' })
+    t.list.field('delete', { type: 'CaseLogSubmissionWhereUniqueInput' })
+    t.list.field('connect', { type: 'CaseLogSubmissionWhereUniqueInput' })
+    t.list.field('update', {
+      type: 'CaseLogSubmissionUpdateWithWhereUniqueWithoutProductInput',
+    })
+    t.list.field('updateMany', {
+      type: 'CaseLogSubmissionUpdateManyWithWhereWithoutProductInput',
+    })
+    t.list.field('deleteMany', { type: 'CaseLogSubmissionScalarWhereInput' })
+  },
+})
 
 export const NestedIntFilter = inputObjectType({
   nonNullDefaults: {
@@ -7048,24 +6984,23 @@ export const NestedEnummobileSalesTargetTypeFilter = inputObjectType({
   },
 })
 
-export const NestedEnummobileSalesTargetTypeWithAggregatesFilter =
-  inputObjectType({
-    nonNullDefaults: {
-      input: false,
-    },
-    name: 'NestedEnummobileSalesTargetTypeWithAggregatesFilter',
-    definition(t) {
-      t.field('equals', { type: 'mobileSalesTargetType' })
-      t.list.field('in', { type: 'mobileSalesTargetType' })
-      t.list.field('notIn', { type: 'mobileSalesTargetType' })
-      t.field('not', {
-        type: 'NestedEnummobileSalesTargetTypeWithAggregatesFilter',
-      })
-      t.field('_count', { type: 'NestedIntFilter' })
-      t.field('_min', { type: 'NestedEnummobileSalesTargetTypeFilter' })
-      t.field('_max', { type: 'NestedEnummobileSalesTargetTypeFilter' })
-    },
-  })
+export const NestedEnummobileSalesTargetTypeWithAggregatesFilter = inputObjectType({
+  nonNullDefaults: {
+    input: false,
+  },
+  name: 'NestedEnummobileSalesTargetTypeWithAggregatesFilter',
+  definition(t) {
+    t.field('equals', { type: 'mobileSalesTargetType' })
+    t.list.field('in', { type: 'mobileSalesTargetType' })
+    t.list.field('notIn', { type: 'mobileSalesTargetType' })
+    t.field('not', {
+      type: 'NestedEnummobileSalesTargetTypeWithAggregatesFilter',
+    })
+    t.field('_count', { type: 'NestedIntFilter' })
+    t.field('_min', { type: 'NestedEnummobileSalesTargetTypeFilter' })
+    t.field('_max', { type: 'NestedEnummobileSalesTargetTypeFilter' })
+  },
+})
 
 export const NestedUuidNullableFilter = inputObjectType({
   nonNullDefaults: {
@@ -7121,35 +7056,33 @@ export const CaseLogSubmissionCreateWithoutCaseLogInput = inputObjectType({
   },
 })
 
-export const CaseLogSubmissionUncheckedCreateWithoutCaseLogInput =
-  inputObjectType({
-    nonNullDefaults: {
-      input: false,
-    },
-    name: 'CaseLogSubmissionUncheckedCreateWithoutCaseLogInput',
-    definition(t) {
-      t.field('id', { type: 'String' })
-      t.field('quantity', { type: 'String' })
-      t.field('salesRepEmail', { type: 'String' })
-      t.field('productId', { type: 'String' })
-      t.field('createdAt', { type: 'DateTime' })
-      t.field('updatedAt', { type: 'DateTime' })
-    },
-  })
+export const CaseLogSubmissionUncheckedCreateWithoutCaseLogInput = inputObjectType({
+  nonNullDefaults: {
+    input: false,
+  },
+  name: 'CaseLogSubmissionUncheckedCreateWithoutCaseLogInput',
+  definition(t) {
+    t.field('id', { type: 'String' })
+    t.field('quantity', { type: 'String' })
+    t.field('salesRepEmail', { type: 'String' })
+    t.field('productId', { type: 'String' })
+    t.field('createdAt', { type: 'DateTime' })
+    t.field('updatedAt', { type: 'DateTime' })
+  },
+})
 
-export const CaseLogSubmissionCreateOrConnectWithoutCaseLogInput =
-  inputObjectType({
-    nonNullDefaults: {
-      input: false,
-    },
-    name: 'CaseLogSubmissionCreateOrConnectWithoutCaseLogInput',
-    definition(t) {
-      t.nonNull.field('where', { type: 'CaseLogSubmissionWhereUniqueInput' })
-      t.nonNull.field('create', {
-        type: 'CaseLogSubmissionCreateWithoutCaseLogInput',
-      })
-    },
-  })
+export const CaseLogSubmissionCreateOrConnectWithoutCaseLogInput = inputObjectType({
+  nonNullDefaults: {
+    input: false,
+  },
+  name: 'CaseLogSubmissionCreateOrConnectWithoutCaseLogInput',
+  definition(t) {
+    t.nonNull.field('where', { type: 'CaseLogSubmissionWhereUniqueInput' })
+    t.nonNull.field('create', {
+      type: 'CaseLogSubmissionCreateWithoutCaseLogInput',
+    })
+  },
+})
 
 export const CaseLogSubmissionCreateManyCaseLogInputEnvelope = inputObjectType({
   nonNullDefaults: {
@@ -7162,50 +7095,47 @@ export const CaseLogSubmissionCreateManyCaseLogInputEnvelope = inputObjectType({
   },
 })
 
-export const CaseLogSubmissionUpsertWithWhereUniqueWithoutCaseLogInput =
-  inputObjectType({
-    nonNullDefaults: {
-      input: false,
-    },
-    name: 'CaseLogSubmissionUpsertWithWhereUniqueWithoutCaseLogInput',
-    definition(t) {
-      t.nonNull.field('where', { type: 'CaseLogSubmissionWhereUniqueInput' })
-      t.nonNull.field('update', {
-        type: 'CaseLogSubmissionUpdateWithoutCaseLogInput',
-      })
-      t.nonNull.field('create', {
-        type: 'CaseLogSubmissionCreateWithoutCaseLogInput',
-      })
-    },
-  })
+export const CaseLogSubmissionUpsertWithWhereUniqueWithoutCaseLogInput = inputObjectType({
+  nonNullDefaults: {
+    input: false,
+  },
+  name: 'CaseLogSubmissionUpsertWithWhereUniqueWithoutCaseLogInput',
+  definition(t) {
+    t.nonNull.field('where', { type: 'CaseLogSubmissionWhereUniqueInput' })
+    t.nonNull.field('update', {
+      type: 'CaseLogSubmissionUpdateWithoutCaseLogInput',
+    })
+    t.nonNull.field('create', {
+      type: 'CaseLogSubmissionCreateWithoutCaseLogInput',
+    })
+  },
+})
 
-export const CaseLogSubmissionUpdateWithWhereUniqueWithoutCaseLogInput =
-  inputObjectType({
-    nonNullDefaults: {
-      input: false,
-    },
-    name: 'CaseLogSubmissionUpdateWithWhereUniqueWithoutCaseLogInput',
-    definition(t) {
-      t.nonNull.field('where', { type: 'CaseLogSubmissionWhereUniqueInput' })
-      t.nonNull.field('data', {
-        type: 'CaseLogSubmissionUpdateWithoutCaseLogInput',
-      })
-    },
-  })
+export const CaseLogSubmissionUpdateWithWhereUniqueWithoutCaseLogInput = inputObjectType({
+  nonNullDefaults: {
+    input: false,
+  },
+  name: 'CaseLogSubmissionUpdateWithWhereUniqueWithoutCaseLogInput',
+  definition(t) {
+    t.nonNull.field('where', { type: 'CaseLogSubmissionWhereUniqueInput' })
+    t.nonNull.field('data', {
+      type: 'CaseLogSubmissionUpdateWithoutCaseLogInput',
+    })
+  },
+})
 
-export const CaseLogSubmissionUpdateManyWithWhereWithoutCaseLogInput =
-  inputObjectType({
-    nonNullDefaults: {
-      input: false,
-    },
-    name: 'CaseLogSubmissionUpdateManyWithWhereWithoutCaseLogInput',
-    definition(t) {
-      t.nonNull.field('where', { type: 'CaseLogSubmissionScalarWhereInput' })
-      t.nonNull.field('data', {
-        type: 'CaseLogSubmissionUpdateManyMutationInput',
-      })
-    },
-  })
+export const CaseLogSubmissionUpdateManyWithWhereWithoutCaseLogInput = inputObjectType({
+  nonNullDefaults: {
+    input: false,
+  },
+  name: 'CaseLogSubmissionUpdateManyWithWhereWithoutCaseLogInput',
+  definition(t) {
+    t.nonNull.field('where', { type: 'CaseLogSubmissionScalarWhereInput' })
+    t.nonNull.field('data', {
+      type: 'CaseLogSubmissionUpdateManyMutationInput',
+    })
+  },
+})
 
 export const CaseLogSubmissionScalarWhereInput = inputObjectType({
   nonNullDefaults: {
@@ -7249,43 +7179,41 @@ export const CaseLogCreateWithoutCaseLogSubmissionInput = inputObjectType({
   },
 })
 
-export const CaseLogUncheckedCreateWithoutCaseLogSubmissionInput =
-  inputObjectType({
-    nonNullDefaults: {
-      input: false,
-    },
-    name: 'CaseLogUncheckedCreateWithoutCaseLogSubmissionInput',
-    definition(t) {
-      t.field('id', { type: 'String' })
-      t.field('caseName', { type: 'String' })
-      t.field('startDate', { type: 'DateTime' })
-      t.field('endDate', { type: 'DateTime' })
-      t.field('account', { type: 'String' })
-      t.field('location', { type: 'String' })
-      t.field('contact', { type: 'String' })
-      t.field('secondaryContact', { type: 'String' })
-      t.field('activityOwnerName', { type: 'String' })
-      t.field('activityOwnerEmail', { type: 'String' })
-      t.field('status', { type: 'String' })
-      t.list.field('photoPaths', { type: 'String' })
-      t.field('createdAt', { type: 'DateTime' })
-      t.field('updatedAt', { type: 'DateTime' })
-    },
-  })
+export const CaseLogUncheckedCreateWithoutCaseLogSubmissionInput = inputObjectType({
+  nonNullDefaults: {
+    input: false,
+  },
+  name: 'CaseLogUncheckedCreateWithoutCaseLogSubmissionInput',
+  definition(t) {
+    t.field('id', { type: 'String' })
+    t.field('caseName', { type: 'String' })
+    t.field('startDate', { type: 'DateTime' })
+    t.field('endDate', { type: 'DateTime' })
+    t.field('account', { type: 'String' })
+    t.field('location', { type: 'String' })
+    t.field('contact', { type: 'String' })
+    t.field('secondaryContact', { type: 'String' })
+    t.field('activityOwnerName', { type: 'String' })
+    t.field('activityOwnerEmail', { type: 'String' })
+    t.field('status', { type: 'String' })
+    t.list.field('photoPaths', { type: 'String' })
+    t.field('createdAt', { type: 'DateTime' })
+    t.field('updatedAt', { type: 'DateTime' })
+  },
+})
 
-export const CaseLogCreateOrConnectWithoutCaseLogSubmissionInput =
-  inputObjectType({
-    nonNullDefaults: {
-      input: false,
-    },
-    name: 'CaseLogCreateOrConnectWithoutCaseLogSubmissionInput',
-    definition(t) {
-      t.nonNull.field('where', { type: 'CaseLogWhereUniqueInput' })
-      t.nonNull.field('create', {
-        type: 'CaseLogCreateWithoutCaseLogSubmissionInput',
-      })
-    },
-  })
+export const CaseLogCreateOrConnectWithoutCaseLogSubmissionInput = inputObjectType({
+  nonNullDefaults: {
+    input: false,
+  },
+  name: 'CaseLogCreateOrConnectWithoutCaseLogSubmissionInput',
+  definition(t) {
+    t.nonNull.field('where', { type: 'CaseLogWhereUniqueInput' })
+    t.nonNull.field('create', {
+      type: 'CaseLogCreateWithoutCaseLogSubmissionInput',
+    })
+  },
+})
 
 export const ProductsCreateWithoutCaseLogSubmissionInput = inputObjectType({
   nonNullDefaults: {
@@ -7303,36 +7231,34 @@ export const ProductsCreateWithoutCaseLogSubmissionInput = inputObjectType({
   },
 })
 
-export const ProductsUncheckedCreateWithoutCaseLogSubmissionInput =
-  inputObjectType({
-    nonNullDefaults: {
-      input: false,
-    },
-    name: 'ProductsUncheckedCreateWithoutCaseLogSubmissionInput',
-    definition(t) {
-      t.field('id', { type: 'String' })
-      t.field('upn', { type: 'String' })
-      t.field('gtin', { type: 'String' })
-      t.field('upnDescription', { type: 'String' })
-      t.field('country', { type: 'String' })
-      t.field('createdAt', { type: 'DateTime' })
-      t.field('updatedAt', { type: 'DateTime' })
-    },
-  })
+export const ProductsUncheckedCreateWithoutCaseLogSubmissionInput = inputObjectType({
+  nonNullDefaults: {
+    input: false,
+  },
+  name: 'ProductsUncheckedCreateWithoutCaseLogSubmissionInput',
+  definition(t) {
+    t.field('id', { type: 'String' })
+    t.field('upn', { type: 'String' })
+    t.field('gtin', { type: 'String' })
+    t.field('upnDescription', { type: 'String' })
+    t.field('country', { type: 'String' })
+    t.field('createdAt', { type: 'DateTime' })
+    t.field('updatedAt', { type: 'DateTime' })
+  },
+})
 
-export const ProductsCreateOrConnectWithoutCaseLogSubmissionInput =
-  inputObjectType({
-    nonNullDefaults: {
-      input: false,
-    },
-    name: 'ProductsCreateOrConnectWithoutCaseLogSubmissionInput',
-    definition(t) {
-      t.nonNull.field('where', { type: 'ProductsWhereUniqueInput' })
-      t.nonNull.field('create', {
-        type: 'ProductsCreateWithoutCaseLogSubmissionInput',
-      })
-    },
-  })
+export const ProductsCreateOrConnectWithoutCaseLogSubmissionInput = inputObjectType({
+  nonNullDefaults: {
+    input: false,
+  },
+  name: 'ProductsCreateOrConnectWithoutCaseLogSubmissionInput',
+  definition(t) {
+    t.nonNull.field('where', { type: 'ProductsWhereUniqueInput' })
+    t.nonNull.field('create', {
+      type: 'ProductsCreateWithoutCaseLogSubmissionInput',
+    })
+  },
+})
 
 export const CaseLogUpsertWithoutCaseLogSubmissionInput = inputObjectType({
   nonNullDefaults: {
@@ -7350,19 +7276,18 @@ export const CaseLogUpsertWithoutCaseLogSubmissionInput = inputObjectType({
   },
 })
 
-export const CaseLogUpdateToOneWithWhereWithoutCaseLogSubmissionInput =
-  inputObjectType({
-    nonNullDefaults: {
-      input: false,
-    },
-    name: 'CaseLogUpdateToOneWithWhereWithoutCaseLogSubmissionInput',
-    definition(t) {
-      t.field('where', { type: 'CaseLogWhereInput' })
-      t.nonNull.field('data', {
-        type: 'CaseLogUpdateWithoutCaseLogSubmissionInput',
-      })
-    },
-  })
+export const CaseLogUpdateToOneWithWhereWithoutCaseLogSubmissionInput = inputObjectType({
+  nonNullDefaults: {
+    input: false,
+  },
+  name: 'CaseLogUpdateToOneWithWhereWithoutCaseLogSubmissionInput',
+  definition(t) {
+    t.field('where', { type: 'CaseLogWhereInput' })
+    t.nonNull.field('data', {
+      type: 'CaseLogUpdateWithoutCaseLogSubmissionInput',
+    })
+  },
+})
 
 export const CaseLogUpdateWithoutCaseLogSubmissionInput = inputObjectType({
   nonNullDefaults: {
@@ -7393,41 +7318,40 @@ export const CaseLogUpdateWithoutCaseLogSubmissionInput = inputObjectType({
   },
 })
 
-export const CaseLogUncheckedUpdateWithoutCaseLogSubmissionInput =
-  inputObjectType({
-    nonNullDefaults: {
-      input: false,
-    },
-    name: 'CaseLogUncheckedUpdateWithoutCaseLogSubmissionInput',
-    definition(t) {
-      t.field('id', { type: 'StringFieldUpdateOperationsInput' })
-      t.field('caseName', { type: 'NullableStringFieldUpdateOperationsInput' })
-      t.field('startDate', {
-        type: 'NullableDateTimeFieldUpdateOperationsInput',
-      })
-      t.field('endDate', { type: 'NullableDateTimeFieldUpdateOperationsInput' })
-      t.field('account', { type: 'NullableStringFieldUpdateOperationsInput' })
-      t.field('location', { type: 'NullableStringFieldUpdateOperationsInput' })
-      t.field('contact', { type: 'NullableStringFieldUpdateOperationsInput' })
-      t.field('secondaryContact', {
-        type: 'NullableStringFieldUpdateOperationsInput',
-      })
-      t.field('activityOwnerName', {
-        type: 'NullableStringFieldUpdateOperationsInput',
-      })
-      t.field('activityOwnerEmail', {
-        type: 'NullableStringFieldUpdateOperationsInput',
-      })
-      t.field('status', { type: 'NullableStringFieldUpdateOperationsInput' })
-      t.list.field('photoPaths', { type: 'String' })
-      t.field('createdAt', {
-        type: 'NullableDateTimeFieldUpdateOperationsInput',
-      })
-      t.field('updatedAt', {
-        type: 'NullableDateTimeFieldUpdateOperationsInput',
-      })
-    },
-  })
+export const CaseLogUncheckedUpdateWithoutCaseLogSubmissionInput = inputObjectType({
+  nonNullDefaults: {
+    input: false,
+  },
+  name: 'CaseLogUncheckedUpdateWithoutCaseLogSubmissionInput',
+  definition(t) {
+    t.field('id', { type: 'StringFieldUpdateOperationsInput' })
+    t.field('caseName', { type: 'NullableStringFieldUpdateOperationsInput' })
+    t.field('startDate', {
+      type: 'NullableDateTimeFieldUpdateOperationsInput',
+    })
+    t.field('endDate', { type: 'NullableDateTimeFieldUpdateOperationsInput' })
+    t.field('account', { type: 'NullableStringFieldUpdateOperationsInput' })
+    t.field('location', { type: 'NullableStringFieldUpdateOperationsInput' })
+    t.field('contact', { type: 'NullableStringFieldUpdateOperationsInput' })
+    t.field('secondaryContact', {
+      type: 'NullableStringFieldUpdateOperationsInput',
+    })
+    t.field('activityOwnerName', {
+      type: 'NullableStringFieldUpdateOperationsInput',
+    })
+    t.field('activityOwnerEmail', {
+      type: 'NullableStringFieldUpdateOperationsInput',
+    })
+    t.field('status', { type: 'NullableStringFieldUpdateOperationsInput' })
+    t.list.field('photoPaths', { type: 'String' })
+    t.field('createdAt', {
+      type: 'NullableDateTimeFieldUpdateOperationsInput',
+    })
+    t.field('updatedAt', {
+      type: 'NullableDateTimeFieldUpdateOperationsInput',
+    })
+  },
+})
 
 export const ProductsUpsertWithoutCaseLogSubmissionInput = inputObjectType({
   nonNullDefaults: {
@@ -7445,19 +7369,18 @@ export const ProductsUpsertWithoutCaseLogSubmissionInput = inputObjectType({
   },
 })
 
-export const ProductsUpdateToOneWithWhereWithoutCaseLogSubmissionInput =
-  inputObjectType({
-    nonNullDefaults: {
-      input: false,
-    },
-    name: 'ProductsUpdateToOneWithWhereWithoutCaseLogSubmissionInput',
-    definition(t) {
-      t.field('where', { type: 'ProductsWhereInput' })
-      t.nonNull.field('data', {
-        type: 'ProductsUpdateWithoutCaseLogSubmissionInput',
-      })
-    },
-  })
+export const ProductsUpdateToOneWithWhereWithoutCaseLogSubmissionInput = inputObjectType({
+  nonNullDefaults: {
+    input: false,
+  },
+  name: 'ProductsUpdateToOneWithWhereWithoutCaseLogSubmissionInput',
+  definition(t) {
+    t.field('where', { type: 'ProductsWhereInput' })
+    t.nonNull.field('data', {
+      type: 'ProductsUpdateWithoutCaseLogSubmissionInput',
+    })
+  },
+})
 
 export const ProductsUpdateWithoutCaseLogSubmissionInput = inputObjectType({
   nonNullDefaults: {
@@ -7477,28 +7400,27 @@ export const ProductsUpdateWithoutCaseLogSubmissionInput = inputObjectType({
   },
 })
 
-export const ProductsUncheckedUpdateWithoutCaseLogSubmissionInput =
-  inputObjectType({
-    nonNullDefaults: {
-      input: false,
-    },
-    name: 'ProductsUncheckedUpdateWithoutCaseLogSubmissionInput',
-    definition(t) {
-      t.field('id', { type: 'StringFieldUpdateOperationsInput' })
-      t.field('upn', { type: 'NullableStringFieldUpdateOperationsInput' })
-      t.field('gtin', { type: 'NullableStringFieldUpdateOperationsInput' })
-      t.field('upnDescription', {
-        type: 'NullableStringFieldUpdateOperationsInput',
-      })
-      t.field('country', { type: 'NullableStringFieldUpdateOperationsInput' })
-      t.field('createdAt', {
-        type: 'NullableDateTimeFieldUpdateOperationsInput',
-      })
-      t.field('updatedAt', {
-        type: 'NullableDateTimeFieldUpdateOperationsInput',
-      })
-    },
-  })
+export const ProductsUncheckedUpdateWithoutCaseLogSubmissionInput = inputObjectType({
+  nonNullDefaults: {
+    input: false,
+  },
+  name: 'ProductsUncheckedUpdateWithoutCaseLogSubmissionInput',
+  definition(t) {
+    t.field('id', { type: 'StringFieldUpdateOperationsInput' })
+    t.field('upn', { type: 'NullableStringFieldUpdateOperationsInput' })
+    t.field('gtin', { type: 'NullableStringFieldUpdateOperationsInput' })
+    t.field('upnDescription', {
+      type: 'NullableStringFieldUpdateOperationsInput',
+    })
+    t.field('country', { type: 'NullableStringFieldUpdateOperationsInput' })
+    t.field('createdAt', {
+      type: 'NullableDateTimeFieldUpdateOperationsInput',
+    })
+    t.field('updatedAt', {
+      type: 'NullableDateTimeFieldUpdateOperationsInput',
+    })
+  },
+})
 
 export const CaseLogSubmissionCreateWithoutProductInput = inputObjectType({
   nonNullDefaults: {
@@ -7517,35 +7439,33 @@ export const CaseLogSubmissionCreateWithoutProductInput = inputObjectType({
   },
 })
 
-export const CaseLogSubmissionUncheckedCreateWithoutProductInput =
-  inputObjectType({
-    nonNullDefaults: {
-      input: false,
-    },
-    name: 'CaseLogSubmissionUncheckedCreateWithoutProductInput',
-    definition(t) {
-      t.field('id', { type: 'String' })
-      t.field('quantity', { type: 'String' })
-      t.field('salesRepEmail', { type: 'String' })
-      t.field('caseLogId', { type: 'String' })
-      t.field('createdAt', { type: 'DateTime' })
-      t.field('updatedAt', { type: 'DateTime' })
-    },
-  })
+export const CaseLogSubmissionUncheckedCreateWithoutProductInput = inputObjectType({
+  nonNullDefaults: {
+    input: false,
+  },
+  name: 'CaseLogSubmissionUncheckedCreateWithoutProductInput',
+  definition(t) {
+    t.field('id', { type: 'String' })
+    t.field('quantity', { type: 'String' })
+    t.field('salesRepEmail', { type: 'String' })
+    t.field('caseLogId', { type: 'String' })
+    t.field('createdAt', { type: 'DateTime' })
+    t.field('updatedAt', { type: 'DateTime' })
+  },
+})
 
-export const CaseLogSubmissionCreateOrConnectWithoutProductInput =
-  inputObjectType({
-    nonNullDefaults: {
-      input: false,
-    },
-    name: 'CaseLogSubmissionCreateOrConnectWithoutProductInput',
-    definition(t) {
-      t.nonNull.field('where', { type: 'CaseLogSubmissionWhereUniqueInput' })
-      t.nonNull.field('create', {
-        type: 'CaseLogSubmissionCreateWithoutProductInput',
-      })
-    },
-  })
+export const CaseLogSubmissionCreateOrConnectWithoutProductInput = inputObjectType({
+  nonNullDefaults: {
+    input: false,
+  },
+  name: 'CaseLogSubmissionCreateOrConnectWithoutProductInput',
+  definition(t) {
+    t.nonNull.field('where', { type: 'CaseLogSubmissionWhereUniqueInput' })
+    t.nonNull.field('create', {
+      type: 'CaseLogSubmissionCreateWithoutProductInput',
+    })
+  },
+})
 
 export const CaseLogSubmissionCreateManyProductInputEnvelope = inputObjectType({
   nonNullDefaults: {
@@ -7558,50 +7478,47 @@ export const CaseLogSubmissionCreateManyProductInputEnvelope = inputObjectType({
   },
 })
 
-export const CaseLogSubmissionUpsertWithWhereUniqueWithoutProductInput =
-  inputObjectType({
-    nonNullDefaults: {
-      input: false,
-    },
-    name: 'CaseLogSubmissionUpsertWithWhereUniqueWithoutProductInput',
-    definition(t) {
-      t.nonNull.field('where', { type: 'CaseLogSubmissionWhereUniqueInput' })
-      t.nonNull.field('update', {
-        type: 'CaseLogSubmissionUpdateWithoutProductInput',
-      })
-      t.nonNull.field('create', {
-        type: 'CaseLogSubmissionCreateWithoutProductInput',
-      })
-    },
-  })
+export const CaseLogSubmissionUpsertWithWhereUniqueWithoutProductInput = inputObjectType({
+  nonNullDefaults: {
+    input: false,
+  },
+  name: 'CaseLogSubmissionUpsertWithWhereUniqueWithoutProductInput',
+  definition(t) {
+    t.nonNull.field('where', { type: 'CaseLogSubmissionWhereUniqueInput' })
+    t.nonNull.field('update', {
+      type: 'CaseLogSubmissionUpdateWithoutProductInput',
+    })
+    t.nonNull.field('create', {
+      type: 'CaseLogSubmissionCreateWithoutProductInput',
+    })
+  },
+})
 
-export const CaseLogSubmissionUpdateWithWhereUniqueWithoutProductInput =
-  inputObjectType({
-    nonNullDefaults: {
-      input: false,
-    },
-    name: 'CaseLogSubmissionUpdateWithWhereUniqueWithoutProductInput',
-    definition(t) {
-      t.nonNull.field('where', { type: 'CaseLogSubmissionWhereUniqueInput' })
-      t.nonNull.field('data', {
-        type: 'CaseLogSubmissionUpdateWithoutProductInput',
-      })
-    },
-  })
+export const CaseLogSubmissionUpdateWithWhereUniqueWithoutProductInput = inputObjectType({
+  nonNullDefaults: {
+    input: false,
+  },
+  name: 'CaseLogSubmissionUpdateWithWhereUniqueWithoutProductInput',
+  definition(t) {
+    t.nonNull.field('where', { type: 'CaseLogSubmissionWhereUniqueInput' })
+    t.nonNull.field('data', {
+      type: 'CaseLogSubmissionUpdateWithoutProductInput',
+    })
+  },
+})
 
-export const CaseLogSubmissionUpdateManyWithWhereWithoutProductInput =
-  inputObjectType({
-    nonNullDefaults: {
-      input: false,
-    },
-    name: 'CaseLogSubmissionUpdateManyWithWhereWithoutProductInput',
-    definition(t) {
-      t.nonNull.field('where', { type: 'CaseLogSubmissionScalarWhereInput' })
-      t.nonNull.field('data', {
-        type: 'CaseLogSubmissionUpdateManyMutationInput',
-      })
-    },
-  })
+export const CaseLogSubmissionUpdateManyWithWhereWithoutProductInput = inputObjectType({
+  nonNullDefaults: {
+    input: false,
+  },
+  name: 'CaseLogSubmissionUpdateManyWithWhereWithoutProductInput',
+  definition(t) {
+    t.nonNull.field('where', { type: 'CaseLogSubmissionScalarWhereInput' })
+    t.nonNull.field('data', {
+      type: 'CaseLogSubmissionUpdateManyMutationInput',
+    })
+  },
+})
 
 export const CaseLogSubmissionCreateManyCaseLogInput = inputObjectType({
   nonNullDefaults: {
@@ -7637,49 +7554,47 @@ export const CaseLogSubmissionUpdateWithoutCaseLogInput = inputObjectType({
   },
 })
 
-export const CaseLogSubmissionUncheckedUpdateWithoutCaseLogInput =
-  inputObjectType({
-    nonNullDefaults: {
-      input: false,
-    },
-    name: 'CaseLogSubmissionUncheckedUpdateWithoutCaseLogInput',
-    definition(t) {
-      t.field('id', { type: 'StringFieldUpdateOperationsInput' })
-      t.field('quantity', { type: 'NullableStringFieldUpdateOperationsInput' })
-      t.field('salesRepEmail', {
-        type: 'NullableStringFieldUpdateOperationsInput',
-      })
-      t.field('productId', { type: 'NullableStringFieldUpdateOperationsInput' })
-      t.field('createdAt', {
-        type: 'NullableDateTimeFieldUpdateOperationsInput',
-      })
-      t.field('updatedAt', {
-        type: 'NullableDateTimeFieldUpdateOperationsInput',
-      })
-    },
-  })
+export const CaseLogSubmissionUncheckedUpdateWithoutCaseLogInput = inputObjectType({
+  nonNullDefaults: {
+    input: false,
+  },
+  name: 'CaseLogSubmissionUncheckedUpdateWithoutCaseLogInput',
+  definition(t) {
+    t.field('id', { type: 'StringFieldUpdateOperationsInput' })
+    t.field('quantity', { type: 'NullableStringFieldUpdateOperationsInput' })
+    t.field('salesRepEmail', {
+      type: 'NullableStringFieldUpdateOperationsInput',
+    })
+    t.field('productId', { type: 'NullableStringFieldUpdateOperationsInput' })
+    t.field('createdAt', {
+      type: 'NullableDateTimeFieldUpdateOperationsInput',
+    })
+    t.field('updatedAt', {
+      type: 'NullableDateTimeFieldUpdateOperationsInput',
+    })
+  },
+})
 
-export const CaseLogSubmissionUncheckedUpdateManyWithoutCaseLogInput =
-  inputObjectType({
-    nonNullDefaults: {
-      input: false,
-    },
-    name: 'CaseLogSubmissionUncheckedUpdateManyWithoutCaseLogInput',
-    definition(t) {
-      t.field('id', { type: 'StringFieldUpdateOperationsInput' })
-      t.field('quantity', { type: 'NullableStringFieldUpdateOperationsInput' })
-      t.field('salesRepEmail', {
-        type: 'NullableStringFieldUpdateOperationsInput',
-      })
-      t.field('productId', { type: 'NullableStringFieldUpdateOperationsInput' })
-      t.field('createdAt', {
-        type: 'NullableDateTimeFieldUpdateOperationsInput',
-      })
-      t.field('updatedAt', {
-        type: 'NullableDateTimeFieldUpdateOperationsInput',
-      })
-    },
-  })
+export const CaseLogSubmissionUncheckedUpdateManyWithoutCaseLogInput = inputObjectType({
+  nonNullDefaults: {
+    input: false,
+  },
+  name: 'CaseLogSubmissionUncheckedUpdateManyWithoutCaseLogInput',
+  definition(t) {
+    t.field('id', { type: 'StringFieldUpdateOperationsInput' })
+    t.field('quantity', { type: 'NullableStringFieldUpdateOperationsInput' })
+    t.field('salesRepEmail', {
+      type: 'NullableStringFieldUpdateOperationsInput',
+    })
+    t.field('productId', { type: 'NullableStringFieldUpdateOperationsInput' })
+    t.field('createdAt', {
+      type: 'NullableDateTimeFieldUpdateOperationsInput',
+    })
+    t.field('updatedAt', {
+      type: 'NullableDateTimeFieldUpdateOperationsInput',
+    })
+  },
+})
 
 export const CaseLogSubmissionCreateManyProductInput = inputObjectType({
   nonNullDefaults: {
@@ -7715,49 +7630,47 @@ export const CaseLogSubmissionUpdateWithoutProductInput = inputObjectType({
   },
 })
 
-export const CaseLogSubmissionUncheckedUpdateWithoutProductInput =
-  inputObjectType({
-    nonNullDefaults: {
-      input: false,
-    },
-    name: 'CaseLogSubmissionUncheckedUpdateWithoutProductInput',
-    definition(t) {
-      t.field('id', { type: 'StringFieldUpdateOperationsInput' })
-      t.field('quantity', { type: 'NullableStringFieldUpdateOperationsInput' })
-      t.field('salesRepEmail', {
-        type: 'NullableStringFieldUpdateOperationsInput',
-      })
-      t.field('caseLogId', { type: 'NullableStringFieldUpdateOperationsInput' })
-      t.field('createdAt', {
-        type: 'NullableDateTimeFieldUpdateOperationsInput',
-      })
-      t.field('updatedAt', {
-        type: 'NullableDateTimeFieldUpdateOperationsInput',
-      })
-    },
-  })
+export const CaseLogSubmissionUncheckedUpdateWithoutProductInput = inputObjectType({
+  nonNullDefaults: {
+    input: false,
+  },
+  name: 'CaseLogSubmissionUncheckedUpdateWithoutProductInput',
+  definition(t) {
+    t.field('id', { type: 'StringFieldUpdateOperationsInput' })
+    t.field('quantity', { type: 'NullableStringFieldUpdateOperationsInput' })
+    t.field('salesRepEmail', {
+      type: 'NullableStringFieldUpdateOperationsInput',
+    })
+    t.field('caseLogId', { type: 'NullableStringFieldUpdateOperationsInput' })
+    t.field('createdAt', {
+      type: 'NullableDateTimeFieldUpdateOperationsInput',
+    })
+    t.field('updatedAt', {
+      type: 'NullableDateTimeFieldUpdateOperationsInput',
+    })
+  },
+})
 
-export const CaseLogSubmissionUncheckedUpdateManyWithoutProductInput =
-  inputObjectType({
-    nonNullDefaults: {
-      input: false,
-    },
-    name: 'CaseLogSubmissionUncheckedUpdateManyWithoutProductInput',
-    definition(t) {
-      t.field('id', { type: 'StringFieldUpdateOperationsInput' })
-      t.field('quantity', { type: 'NullableStringFieldUpdateOperationsInput' })
-      t.field('salesRepEmail', {
-        type: 'NullableStringFieldUpdateOperationsInput',
-      })
-      t.field('caseLogId', { type: 'NullableStringFieldUpdateOperationsInput' })
-      t.field('createdAt', {
-        type: 'NullableDateTimeFieldUpdateOperationsInput',
-      })
-      t.field('updatedAt', {
-        type: 'NullableDateTimeFieldUpdateOperationsInput',
-      })
-    },
-  })
+export const CaseLogSubmissionUncheckedUpdateManyWithoutProductInput = inputObjectType({
+  nonNullDefaults: {
+    input: false,
+  },
+  name: 'CaseLogSubmissionUncheckedUpdateManyWithoutProductInput',
+  definition(t) {
+    t.field('id', { type: 'StringFieldUpdateOperationsInput' })
+    t.field('quantity', { type: 'NullableStringFieldUpdateOperationsInput' })
+    t.field('salesRepEmail', {
+      type: 'NullableStringFieldUpdateOperationsInput',
+    })
+    t.field('caseLogId', { type: 'NullableStringFieldUpdateOperationsInput' })
+    t.field('createdAt', {
+      type: 'NullableDateTimeFieldUpdateOperationsInput',
+    })
+    t.field('updatedAt', {
+      type: 'NullableDateTimeFieldUpdateOperationsInput',
+    })
+  },
+})
 
 export const AggregateContactSearch = objectType({
   nonNullDefaults: {

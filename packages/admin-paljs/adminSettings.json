@@ -4,9 +4,7 @@
       "id": "ContactSearch",
       "name": "Contact Search",
       "idField": "id",
-      "displayFields": [
-        "id"
-      ],
+      "displayFields": ["id"],
       "create": true,
       "update": true,
       "delete": true,
@@ -357,9 +355,7 @@
       "id": "Complaint",
       "name": "Complaint",
       "idField": "id",
-      "displayFields": [
-        "id"
-      ],
+      "displayFields": ["id"],
       "create": true,
       "update": true,
       "delete": true,
@@ -750,9 +746,7 @@
       "id": "UserProfile",
       "name": "User Profile",
       "idField": "id",
-      "displayFields": [
-        "id"
-      ],
+      "displayFields": ["id"],
       "create": true,
       "update": true,
       "delete": true,
@@ -943,9 +937,7 @@
       "id": "SliderAndCommission",
       "name": "Slider And Commission",
       "idField": "id",
-      "displayFields": [
-        "id"
-      ],
+      "displayFields": ["id"],
       "create": true,
       "update": true,
       "delete": true,
@@ -1096,9 +1088,7 @@
       "id": "TerritoryCategorization",
       "name": "Territory Categorization",
       "idField": "id",
-      "displayFields": [
-        "id"
-      ],
+      "displayFields": ["id"],
       "create": true,
       "update": true,
       "delete": true,
@@ -1209,9 +1199,7 @@
       "id": "Leaderboard",
       "name": "Leaderboard",
       "idField": "id",
-      "displayFields": [
-        "id"
-      ],
+      "displayFields": ["id"],
       "create": true,
       "update": true,
       "delete": true,
@@ -1502,9 +1490,7 @@
       "id": "Sales",
       "name": "Sales",
       "idField": "id",
-      "displayFields": [
-        "id"
-      ],
+      "displayFields": ["id"],
       "create": true,
       "update": true,
       "delete": true,
@@ -2635,9 +2621,7 @@
       "id": "Mobile_Sales",
       "name": "Mobile_ Sales",
       "idField": "id",
-      "displayFields": [
-        "id"
-      ],
+      "displayFields": ["id"],
       "create": true,
       "update": true,
       "delete": true,
@@ -2788,9 +2772,7 @@
       "id": "PlanCall",
       "name": "Plan Call",
       "idField": "uniqueIdInApp",
-      "displayFields": [
-        "uniqueIdInApp"
-      ],
+      "displayFields": ["uniqueIdInApp"],
       "create": true,
       "update": true,
       "delete": true,
@@ -3181,9 +3163,7 @@
       "id": "CaseLog",
       "name": "Case Log",
       "idField": "id",
-      "displayFields": [
-        "id"
-      ],
+      "displayFields": ["id"],
       "create": true,
       "update": true,
       "delete": true,
@@ -3493,9 +3473,7 @@
       "id": "CaseLogSubmission",
       "name": "Case Log Submission",
       "idField": "id",
-      "displayFields": [
-        "id"
-      ],
+      "displayFields": ["id"],
       "create": true,
       "update": true,
       "delete": true,
@@ -3684,9 +3662,7 @@
       "id": "SearchHistory",
       "name": "Search History",
       "idField": "id",
-      "displayFields": [
-        "id"
-      ],
+      "displayFields": ["id"],
       "create": true,
       "update": true,
       "delete": true,
@@ -3837,9 +3813,7 @@
       "id": "Products",
       "name": "Products",
       "idField": "id",
-      "displayFields": [
-        "id"
-      ],
+      "displayFields": ["id"],
       "create": true,
       "update": true,
       "delete": true,
@@ -4009,26 +3983,15 @@
   "enums": [
     {
       "name": "mobileSalesTargetType",
-      "fields": [
-        "year",
-        "quarter"
-      ]
+      "fields": ["year", "quarter"]
     },
     {
       "name": "CaseLogStatus",
-      "fields": [
-        "In_Progress",
-        "Completed",
-        "Cancelled"
-      ]
+      "fields": ["In_Progress", "Completed", "Cancelled"]
     },
     {
       "name": "SearchType",
-      "fields": [
-        "CaseLog",
-        "PlanCall",
-        "ContactSearch"
-      ]
+      "fields": ["CaseLog", "PlanCall", "ContactSearch"]
     }
   ]
 }
