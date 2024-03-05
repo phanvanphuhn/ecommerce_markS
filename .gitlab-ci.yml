@@ -12,7 +12,8 @@ variables:
   ADMIN_IMAGE_TAG: Admin$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
 
 stages:
-  - build_container
+  - build_backend
+  - build_admin
   - deploy
 
 cache:
