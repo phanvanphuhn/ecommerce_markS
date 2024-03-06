@@ -528,7 +528,7 @@
 					"-lc++",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.bostonscientific.marks;
+				PRODUCT_BUNDLE_IDENTIFIER = com.stg.bostonscientific.marks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/marks.app/marks";
 			};
@@ -553,7 +553,7 @@
 					"-lc++",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.bostonscientific.marks;
+				PRODUCT_BUNDLE_IDENTIFIER = com.stg.bostonscientific.marks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/marks.app/marks";
 			};
@@ -583,7 +583,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.bostonscientific.marks;
+				PRODUCT_BUNDLE_IDENTIFIER = com.stg.bostonscientific.marks;
 				PRODUCT_NAME = "JARVIS Mobile";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -882,7 +882,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.bostonscientific.marks;
+				PRODUCT_BUNDLE_IDENTIFIER = com.stg.bostonscientific.marks;
 				PRODUCT_NAME = "JARVIS Mobile";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -909,7 +909,7 @@
 					"-lc++",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.bostonscientific.marks;
+				PRODUCT_BUNDLE_IDENTIFIER = com.stg.bostonscientific.marks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/marks.app/marks";
 			};
@@ -1016,7 +1016,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.bostonscientific.marks;
+				PRODUCT_BUNDLE_IDENTIFIER = com.stg.bostonscientific.marks;
 				PRODUCT_NAME = "JARVIS Mobile";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -1043,7 +1043,7 @@
 					"-lc++",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.bostonscientific.marks;
+				PRODUCT_BUNDLE_IDENTIFIER = com.stg.bostonscientific.marks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/marks.app/marks";
 			};

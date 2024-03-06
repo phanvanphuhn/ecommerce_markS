@@ -37,8 +37,8 @@
             <category android:name="android.intent.category.DEFAULT" />
             <category android:name="android.intent.category.BROWSABLE" />
             <data android:pathPrefix="/android/callback"
-                  android:host="${applicationId}"
-                  android:scheme="${applicationId}"
+                  android:host="com.bsc.marks"
+                  android:scheme="com.bsc.marks"
             />
         </intent-filter>
       </activity>

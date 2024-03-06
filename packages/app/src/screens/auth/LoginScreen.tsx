@@ -21,13 +21,16 @@ import Config from 'react-native-config';
 interface LoginScreenProps {}
 export const azureAuth = new AzureAuth({
   //prod
-  clientId: Config.CLIENT_ID,
+  // clientId: Config.CLIENT_ID,
   //uat
-  // clientId: '488a032d-e391-4559-a255-42cb071b4557',
-  tenant: Config.TENANT,
+  clientId: '9c15d13f-0379-4238-b024-99e03709f8dd',
+  tenant: 'b5b8b483-5597-4ae7-8e27-fcc464a3b584',
   // authorityUrl: 'https://login.microsoftonline.com/common',
 
-  redirectUri: Platform.OS === 'ios' ? Config.REDIRECT_URI : undefined,
+  redirectUri:
+    Platform.OS === 'ios'
+      ? 'msauth.com.bostonscientific.marks://auth/'
+      : 'com.bsc.marks://com.bsc.marks/android/callback',
 });
 const LoginScreen = (props: LoginScreenProps) => {
   const dispatch = useAppDispatch();
