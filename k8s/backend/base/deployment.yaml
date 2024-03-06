@@ -65,6 +65,10 @@ spec:
               value: ${SECRETS_FILE_PATH}
           ports:
             - containerPort: 3005
+          volumeMounts:
+            - name: jarvis-mark-credentials
+              mountPath: /usr/src/app/rds/rds-creds # can be whatever, just need to tie it with secretProviderClass and make sure SECRETS_FILE_PATH is this one
+              readOnly: true
           resources:
             requests:
               memory: '128Mi'
