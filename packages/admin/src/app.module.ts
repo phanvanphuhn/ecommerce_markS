@@ -55,7 +55,7 @@ const authenticate = async (email: string, password: string) => {
           ],
           },
           auth: {
-            authenticate,
+            // authenticate,
             cookiePassword: 'secret',
             cookieName: 'adminjs',
           },
