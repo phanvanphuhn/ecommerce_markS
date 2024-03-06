@@ -35,6 +35,9 @@ const authenticate = async (email: string, password: string) => {
 
         return {
           adminJsOptions: {
+            loginPath: '/login',
+            rootPath: '/',
+            logoutPath: '/logout',
             resources: [{
               resource: {
                 model: getModelByName('UserProfile'),
