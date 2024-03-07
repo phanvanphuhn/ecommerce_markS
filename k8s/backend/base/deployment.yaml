@@ -53,6 +53,37 @@ spec:
             limits:
               memory: '512Mi'
               cpu: '1'
+      volumes:
+        - name: jarvis-mark-credentials
+          csi:
+            driver: secrets-store.csi.k8s.io
+            volumeAttributes:
+              secretProviderClass: jarvis-mark-credentials
+            readOnly: true
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: Admin-${APP_NAME}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: Admin-${APP_NAME}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 50%
+  template:
+    metadata:
+      labels:
+        app: Admin-${APP_NAME}
+    spec:
+      serviceAccountName: ${SERVICEACCOUNT_NAME}
+      imagePullSecrets:
+        - name: gitlab-registry
+      containers:
         - name: admin
           image: ${ADMIN_IMAGE_TAG}
           imagePullPolicy: Always
