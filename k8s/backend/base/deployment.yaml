@@ -64,12 +64,12 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: Admin-${APP_NAME}
+  name: admin-${APP_NAME}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: Admin-${APP_NAME}
+      app: admin-${APP_NAME}
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -78,7 +78,7 @@ spec:
   template:
     metadata:
       labels:
-        app: Admin-${APP_NAME}
+        app: admin-${APP_NAME}
     spec:
       serviceAccountName: ${SERVICEACCOUNT_NAME}
       imagePullSecrets:

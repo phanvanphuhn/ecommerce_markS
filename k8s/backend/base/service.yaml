@@ -22,4 +22,4 @@ spec:
       name: admin
       protocol: TCP
   selector:
-    app: Admin-${APP_NAME}
+    app: admin-${APP_NAME}
