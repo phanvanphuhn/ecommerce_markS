@@ -51,6 +51,75 @@ const authenticate = async (email: string, password: string) => {
                 client: prisma,
               },
               options: {}
+            },
+            {
+              resource: {
+                model: getModelByName('Complaint'),
+                client: prisma,
+              },
+              options: {}
+            },
+            {
+              resource: {
+                model: getModelByName('SliderAndCommission'),
+                client: prisma,
+              },
+              options: {}
+            },
+            {
+              resource: {
+                model: getModelByName('TerritoryCategorization'),
+                client: prisma,
+              },
+              options: {}
+            },
+            {
+              resource: {
+                model: getModelByName('Leaderboard'),
+                client: prisma,
+              },
+              options: {}
+            },
+            {
+              resource: {
+                model: getModelByName('Sales'),
+                client: prisma,
+              },
+              options: {}
+            },
+            {
+              resource: {
+                model: getModelByName('Mobile_Sales'),
+                client: prisma,
+              },
+              options: {}
+            },
+            {
+              resource: {
+                model: getModelByName('PlanCall'),
+                client: prisma,
+              },
+              options: {}
+            },
+            {
+              resource: {
+                model: getModelByName('CaseLog'),
+                client: prisma
+              },
+              options: {}
+            },
+            {
+              resource: {
+                model: getModelByName('CaseLogSubmission'),
+                client: prisma
+              },
+              options: {}
+            },
+            {
+              resource: {
+                model: getModelByName('Products'),
+                client: prisma
+              }
             }
           ],
           },
