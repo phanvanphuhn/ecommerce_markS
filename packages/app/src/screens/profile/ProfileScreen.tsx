@@ -22,7 +22,7 @@ import {GET_LEADERBOARD_QUERY} from 'apollo/query/leaderboard';
 interface ProfileScreenProps {}
 
 const ProfileScreen = (props: ProfileScreenProps) => {
-  const userProfile = useSelector(state => state.userProfile.user);
+  const userProfile = useSelector(state => state.userProfile.user) || [];
   const [getData, {data}] = useLazyQuery(GET_ME);
   useEffect(() => {
     getData();
@@ -64,18 +64,20 @@ const ProfileScreen = (props: ProfileScreenProps) => {
     e => e.salesRepEmail == userProfile?.salesRepEmail,
   );
 
+  const nameArray = userProfile?.fullName?.split(' ');
+
   return (
     <Container title={'My Profile'}>
       <View style={styles.container}>
         <View style={styles.wrapHeaderContainer}>
           <View style={styles.headerContainer}>
             <Text color={colors.white} size={50} fontWeight={'500'}>
-              {data?.data?.family_name?.substring(0, 1)}
-              {data?.data?.given_name?.substring(0, 1)}
+              {nameArray[1]?.substring(0, 1)}
+              {nameArray[0]?.substring(0, 1)}
             </Text>
           </View>
           <Text size={25} fontWeight={'500'} color={colors.white}>
-            {data?.data?.name}
+            {nameArray[1] + ', ' + nameArray[0]}
           </Text>
         </View>
 
@@ -113,12 +115,21 @@ const ProfileScreen = (props: ProfileScreenProps) => {
               marginTop: 32,
               flex: 1,
             }}>
-            <InputProfile title="Email" value={data?.data?.email || ''} />
-            <InputProfile title="Mobile" value="9111000" />
-            <InputProfile title="Country" value="Singapore" />
-            <InputProfile title="Division" value="IC" />
-            <InputProfile title="Reporting to" value="Jame Tan" />
-            <InputProfile title="Preferred Language" value="English" />
+            <InputProfile
+              title="Email"
+              value={userProfile?.salesRepEmail || ''}
+            />
+            <InputProfile title="Mobile" value={userProfile?.mobile || ''} />
+            <InputProfile title="Country" value={userProfile?.country} />
+            <InputProfile title="Division" value={userProfile?.division} />
+            <InputProfile
+              title="Reporting to"
+              value={userProfile?.reportingTo}
+            />
+            <InputProfile
+              title="Preferred Language"
+              value={userProfile?.preferredLanguage || ''}
+            />
             <View style={{height: 100}} />
           </ScrollView>
         </View>
