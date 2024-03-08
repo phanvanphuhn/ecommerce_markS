@@ -65,7 +65,7 @@ const CaseLogScreen2 = (props: any) => {
     },
     validationSchema: Yup.object({
       caseName: Yup.string().required('Required!'),
-      startDate: Yup.date().min(new Date(), 'Please choose future date!'),
+      startDate: Yup.date(),
       endDate: Yup.date().when('startDate', (startDate, schema) => {
         if (startDate) {
           const dayAfter = new Date(startDate[0]?.getTime() + 3600000);

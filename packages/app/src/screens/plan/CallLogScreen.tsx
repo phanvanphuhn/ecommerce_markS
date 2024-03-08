@@ -100,7 +100,7 @@ const CallLogScreen = (props: any) => {
         },
     validationSchema: Yup.object({
       subject: Yup.string().required('Required!'),
-      startDate: Yup.date().min(new Date(), 'Please choose future date!'),
+      startDate: Yup.date(),
       endDate: Yup.date().when('startDate', (startDate, schema) => {
         if (startDate) {
           const dayAfter = moment(startDate[0]).toDate();
