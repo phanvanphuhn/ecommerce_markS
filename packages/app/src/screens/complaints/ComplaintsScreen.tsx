@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   FlatList,
   ListRenderItem,
+  ActivityIndicator,
 } from 'react-native';
 import Container from 'elements/Layout/Container';
 import strings from 'res/strings';
@@ -38,12 +39,14 @@ const ComplaintsScreen = (props: ComplaintsScreenProps) => {
     data: [],
     filterSelected: '',
     sortBy: null,
+    loading: false,
   });
   const [getData, {data, loading}] = useLazyQuery(GET_COMPLAINTS_QUERY);
   useEffect(() => {
+    setState({loading: true});
     getData({
       onCompleted: data => {
-        setState({data: data?.data});
+        setState({data: data?.data, loading: false});
       },
     });
   }, []);
@@ -162,14 +165,18 @@ const ComplaintsScreen = (props: ComplaintsScreenProps) => {
             />
           </View>
           <View style={{flex: 1, marginTop: 15}}>
-            <FlatList
-              data={state.data}
-              renderItem={renderItem}
-              keyExtractor={keyExtractor}
-              showsVerticalScrollIndicator={false}
-              contentContainerStyle={{paddingBottom: 20}}
-              ItemSeparatorComponent={() => <View style={{height: 10}} />}
-            />
+            {state.loading ? (
+              <ActivityIndicator />
+            ) : (
+              <FlatList
+                data={state.data}
+                renderItem={renderItem}
+                keyExtractor={keyExtractor}
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={{paddingBottom: 20}}
+                ItemSeparatorComponent={() => <View style={{height: 10}} />}
+              />
+            )}
           </View>
         </View>
       </Container>
