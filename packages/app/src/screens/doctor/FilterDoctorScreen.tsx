@@ -246,7 +246,7 @@ const FilterDoctorScreen = (
               })}
             </View>
           </View>
-          {state?.topics[0].length > 0 && (
+          {state?.topics[0]?.length > 0 && (
             <View style={[Theme.pt25]}>
               <Text
                 size={18}

@@ -23,15 +23,23 @@ export const azureAuth = new AzureAuth({
   //prod
   // clientId: Config.CLIENT_ID,
   //uat
-  clientId: '9c15d13f-0379-4238-b024-99e03709f8dd',
+  clientId:
+    Config.ENV === 'staging'
+      ? 'f2cee915-6922-4159-ab94-6d030fa305b1'
+      : 'a6f11bfc-e68e-4033-bce9-922e14d8a4a8',
   tenant: 'b5b8b483-5597-4ae7-8e27-fcc464a3b584',
   // authorityUrl: 'https://login.microsoftonline.com/common',
 
   redirectUri:
     Platform.OS === 'ios'
-      ? 'msauth.com.bostonscientific.marks://auth/'
-      : 'com.bsc.marks://com.bsc.marks/android/callback',
+      ? Config.ENV === 'staging'
+        ? 'msauth.com.stg.bostonscientific.marks://auth'
+        : undefined
+      : Config.ENV === 'staging'
+      ? 'com.stg.bostonscientific.marks://com.stg.bostonscientific.marks/android/callback'
+      : undefined,
 });
+
 const LoginScreen = (props: LoginScreenProps) => {
   const dispatch = useAppDispatch();
   const [getDataGroup, {}] = useLazyQuery(meGroup);
