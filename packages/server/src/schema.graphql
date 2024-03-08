@@ -266,15 +266,15 @@ input PlanCallInput {
   activityType: PlanCallActivityType
   contactId: String
   contactName: String
-  createdInApp: DateTimeISO
+  createdInApp: DateTime
   description: String
   division: String
-  endDate: String
-  lastModifiedInApp: DateTimeISO
+  endDate: DateTime
+  lastModifiedInApp: DateTime
   location: String
   ownerCountry: String
   salesForceId: String
-  startDate: String
+  startDate: DateTime
   status: PlanCallStatus
   subject: String
   uniqueIdInApp: String
@@ -288,15 +288,15 @@ type PlanCallOutput {
   activityType: PlanCallActivityType
   contactId: String
   contactName: String
-  createdInApp: DateTimeISO
+  createdInApp: DateTime
   description: String
   division: String
-  endDate: String
-  lastModifiedInApp: DateTimeISO
+  endDate: DateTime
+  lastModifiedInApp: DateTime
   location: String
   ownerCountry: String
   salesForceId: String
-  startDate: String
+  startDate: DateTime
   status: PlanCallStatus
   subject: String
   uniqueIdInApp: String
@@ -340,7 +340,7 @@ type Query {
   getMobileSales(quarter: String, type: mobileSalesTargetType!, year: String): [MobileSalesOutput!]!
   getPlanCall(id: String!): PlanCallOutput!
   getPlanCallTypes: [String!]!
-  getPlanCalls(account: String, activityOwnerEmail: String, activityOwnerName: String, activitySubtype: PlanCallActivitySubtype, activityType: PlanCallActivityType, contactId: String, contactName: String, createdInApp: DateTimeISO, description: String, division: String, endDate: String, lastModifiedInApp: DateTimeISO, location: String, ownerCountry: String, startDate: String, status: [PlanCallStatus!], subject: String, uniqueIdInApp: String): [PlanCallOutput!]!
+  getPlanCalls(account: String, activityOwnerEmail: String, activityOwnerName: String, activitySubtype: PlanCallActivitySubtype, activityType: PlanCallActivityType, contactId: String, contactName: String, createdInApp: DateTime, description: String, division: String, endDate: DateTime, lastModifiedInApp: DateTime, location: String, ownerCountry: String, startDate: DateTime, status: [PlanCallStatus!], subject: String, uniqueIdInApp: String): [PlanCallOutput!]!
   getProducts(createdAt: DateTimeISO, gtin: String, id: String, skip: Int, take: Int, updatedAt: DateTimeISO, upn: String, upnDescription: String): [Products!]!
   getSales(month: String, quarter: String, year: String): [SalesOutput!]!
   getSearchHistory(searchType: [SearchType!], skip: Int, sort: OrderDirection, take: Int): [MobileSearchHistoryOutput!]!

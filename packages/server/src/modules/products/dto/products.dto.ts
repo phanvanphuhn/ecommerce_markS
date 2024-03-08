@@ -5,7 +5,6 @@ import {
   ObjectType,
   OmitType,
 } from '@nestjs/graphql';
-import { GraphQLDateTimeISO } from 'graphql-scalars';
 
 @ArgsType()
 @InputType('ProductInput')
@@ -26,10 +25,10 @@ export class Product {
   @Field(() => String, { nullable: true })
   country?: string;
 
-  @Field(() => GraphQLDateTimeISO, { nullable: true })
+  @Field(() => Date, { nullable: true })
   createdAt?: Date;
 
-  @Field(() => GraphQLDateTimeISO, { nullable: true })
+  @Field(() => Date, { nullable: true })
   updatedAt?: Date;
 }
 

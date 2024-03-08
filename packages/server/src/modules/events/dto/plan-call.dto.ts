@@ -6,7 +6,6 @@ import {
   OmitType,
   registerEnumType,
 } from '@nestjs/graphql';
-import { GraphQLDateTimeISO } from 'graphql-scalars';
 
 import { FilterType } from '@/common/types/filter-type';
 
@@ -41,10 +40,10 @@ export class PlanCall {
   @Field(() => String, { nullable: true })
   subject?: string;
 
-  @Field(() => GraphQLDateTimeISO, { nullable: true })
+  @Field(() => Date, { nullable: true })
   startDate?: Date;
 
-  @Field(() => GraphQLDateTimeISO, { nullable: true })
+  @Field(() => Date, { nullable: true })
   endDate?: Date;
 
   @Field(() => String, { nullable: true })
@@ -83,10 +82,10 @@ export class PlanCall {
   @Field(() => String, { nullable: true })
   ownerCountry?: string;
 
-  @Field(() => GraphQLDateTimeISO, { nullable: true })
+  @Field(() => Date, { nullable: true })
   createdInApp?: Date;
 
-  @Field(() => GraphQLDateTimeISO, { nullable: true })
+  @Field(() => Date, { nullable: true })
   lastModifiedInApp?: Date;
 }
 
