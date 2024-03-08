@@ -26,7 +26,7 @@ export const azureAuth = new AzureAuth({
   clientId:
     Config.ENV === 'staging'
       ? 'f2cee915-6922-4159-ab94-6d030fa305b1'
-      : 'a6f11bfc-e68e-4033-bce9-922e14d8a4a8',
+      : '9c15d13f-0379-4238-b024-99e03709f8dd',
   tenant: 'b5b8b483-5597-4ae7-8e27-fcc464a3b584',
   // authorityUrl: 'https://login.microsoftonline.com/common',
 
@@ -34,7 +34,7 @@ export const azureAuth = new AzureAuth({
     Platform.OS === 'ios'
       ? Config.ENV === 'staging'
         ? 'msauth.com.stg.bostonscientific.marks://auth'
-        : undefined
+        : 'msauth.com.bostonscientific.marks://auth/'
       : Config.ENV === 'staging'
       ? 'com.stg.bostonscientific.marks://com.stg.bostonscientific.marks/android/callback'
       : undefined,
