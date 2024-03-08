@@ -61,7 +61,7 @@ const DoctorSearchScreen = (props: DoctorSearchScreenProps) => {
   const [updateSearch] = useMutation(upsertSearchHistory);
 
   const userProfile = useSelector(state => state.userProfile);
-  const [getData, {loading}] = useLazyQuery(GET_DOCTOR_QUERY);
+  const [getData, {loading, data}] = useLazyQuery(GET_DOCTOR_QUERY);
   const _getData = async (salesRepEmail?: string) => {
     showLoading();
     await getData({

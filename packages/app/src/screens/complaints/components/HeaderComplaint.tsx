@@ -27,6 +27,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import useStateCustom from 'hooks/useStateCustom';
+import useDidUpdate from 'hooks/useDidUpdate';
 
 interface HeaderComplaintProps {
   title?: string;
@@ -56,7 +57,7 @@ const HeaderComplaint = ({title, onSearch}: HeaderComplaintProps) => {
     anim.value = withTiming(state.isShowSearch ? 1 : 0, {duration: 500});
   }, [state.isShowSearch]);
 
-  useEffect(() => {
+  useDidUpdate(() => {
     let timeout = setTimeout(() => {
       onSearch && onSearch(state.keyword);
     }, 500);

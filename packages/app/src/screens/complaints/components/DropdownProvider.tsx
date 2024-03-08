@@ -39,7 +39,6 @@ const DropdownProvider = (props: DropdownProviderProps) => {
     width: 0,
     widthContent: 0,
   });
-  console.log('=>(DropdownProvider.tsx:40) state', state);
   const onClose = () => {
     setState({
       isOpen: false,
