@@ -66,6 +66,7 @@ const PlanScreen = (props: PlanScreenProps) => {
   const navigation = useNavigation<BaseUseNavigationProps<MainParamList>>();
   const [getData, {loading}] = useLazyQuery(GET_PLAN_CALLS, {
     onCompleted: data => {
+      console.log('datadata: ', data);
       setState({
         data: data?.data?.map(e => ({
           ...e,
