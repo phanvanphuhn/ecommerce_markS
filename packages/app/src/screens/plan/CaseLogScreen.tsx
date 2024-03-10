@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 import IconMaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import images from 'res/images';
 import CalendarForm from './components/CalendarForm';
 import InputForm from './components/InputForm';
@@ -27,26 +28,43 @@ import uuid from 'react-native-uuid';
 import Theme from 'res/style/Theme';
 import colors from 'res/colors';
 import Text from 'elements/Text';
-import {useMutation} from '@apollo/client';
+import {useMutation, useQuery} from '@apollo/client';
 import {useNavigation} from '@react-navigation/core';
 import {BaseUseNavigationProps} from 'navigation/BaseNavigationProps';
 import {MainParamList} from 'navigation/service/NavigationParams';
-import {CaseLogOutput, upsertCaseLog} from 'apollo/query/upsertCaseLog';
+import {
+  CaseLogInput,
+  CaseLogOutput,
+  upsertCaseLog,
+} from 'apollo/query/upsertCaseLog';
 import * as Yup from 'yup';
 import moment from 'moment/moment';
 import {roundDate} from 'utils/other-utils';
+import UploadImage from 'screens/plan/components/UploadImage';
+import ModalBottom from 'components/ModalBase/ModalBottom';
+import ModalSelect from 'components/ModalSelect';
+import strings from 'res/strings';
+import AuthApi from 'network/apis/auth/AuthApi';
+import RNFetchBlob from 'rn-fetch-blob';
+import {GET_HOSPITAL_LIST_QUERY} from 'apollo/query/getFilterHospitalList';
+import {GET_DOCTOR_QUERY} from 'apollo/query/getDoctorSearchList';
 
 const CaseLogScreen2 = (props: any) => {
   const {route} = props;
+  console.log('=>(CaseLogScreen.tsx:41) route', route);
   const onCancel = () => {};
+
+  const {data: dataHospital} = useQuery(GET_HOSPITAL_LIST_QUERY, {});
+  const {data: dataDoctor} = useQuery(GET_DOCTOR_QUERY);
 
   const onSave = () => {
     formik.handleSubmit();
   };
   const [onSubmitData] = useMutation(upsertCaseLog);
+  console.log('=>(CaseLogScreen.tsx:58) upsertCaseLog', upsertCaseLog);
   const navigation = useNavigation<BaseUseNavigationProps<MainParamList>>();
 
-  const formik = useFormik<CaseLogOutput>({
+  const formik = useFormik<CaseLogInput>({
     initialValues: {
       caseName: '',
       endDate: route.params?.item?.endDate
@@ -59,7 +77,7 @@ const CaseLogScreen2 = (props: any) => {
       location: '',
       contact: '',
       secondaryContact: '',
-
+      files: [],
       id: uuid.v4(),
       status: 'IN_PROGRESS',
     },
@@ -78,7 +96,29 @@ const CaseLogScreen2 = (props: any) => {
     }),
     onSubmit: async values => {
       console.log('=>(CallLogScreen.tsx:49) values', values);
-      await onSubmitData({variables: {data: values}});
+      let form = new FormData();
+      form.append(
+        'operations',
+        JSON.stringify({
+          query:
+            'mutation upsertCaseLog($data: CaseLogInput!) {\n    data: upsertCaseLog(data: $data) {\n      account\n      activityOwnerEmail\n      activityOwnerName\n      caseName\n      contact\n      createdAt\n      endDate\n      id\n      location\n      photoPaths\n      secondaryContact\n      startDate\n      status\n      updatedAt\n    }\n  }',
+          variables: {
+            data: {...values, files: undefined},
+            files: null,
+          },
+        }),
+      );
+
+      form.append('map', JSON.stringify({'0': ['variables.data.files.0']}));
+      form.append('0', {
+        name: `${new Date().getTime()}.jpg`,
+        type: 'image/jpg',
+        uri: `file://${values.files[0]}`,
+      });
+      console.log('=>(CaseLogScreen.tsx:118) form', form);
+      let res = await AuthApi.createCaseLog(form);
+      console.log('=>(CaseLogScreen.tsx:98) res', res);
+      // await onSubmitData({variables: {data: values}});
       navigation.goBack();
     },
   });
@@ -159,8 +199,17 @@ const CaseLogScreen2 = (props: any) => {
                 </View>
               )}
               <InputForm
-                name={'account'}
                 title={'Account'}
+                name={'account'}
+                type={'dropdown'}
+                arrDropdown={
+                  dataHospital?.data
+                    ?.filter(e => !!e)
+                    ?.map(e => ({value: e, label: e})) || []
+                }
+                rightIcon={
+                  <IconAntDesign name="downcircle" size={15} color={'black'} />
+                }
                 placeholder={'Account Name'}
               />
               <InputForm
@@ -170,9 +219,19 @@ const CaseLogScreen2 = (props: any) => {
               />
 
               <InputForm
+                title={'Name'}
                 name={'contact'}
-                title={'Contact'}
                 placeholder={'Contact Name'}
+                type={'dropdown'}
+                arrDropdown={
+                  dataDoctor?.data
+                    ?.filter(e => !!e.doctorName)
+                    ?.map(e => ({value: e.doctorName, label: e.doctorName})) ||
+                  []
+                }
+                rightIcon={
+                  <IconAntDesign name="downcircle" size={15} color={'black'} />
+                }
               />
               <InputForm
                 name={'secondaryContact'}
@@ -180,7 +239,7 @@ const CaseLogScreen2 = (props: any) => {
                 placeholder={'Secondary Contact'}
               />
 
-              {!route?.params?.isCreateNew && (
+              {!!route?.params?.isCreateNew && (
                 <>
                   <View style={styles.wrapItem}>
                     <Image
@@ -205,15 +264,7 @@ const CaseLogScreen2 = (props: any) => {
                       <Text style={styles.buttonTitle}>Add Product</Text>
                     </TouchableOpacity>
                   </View>
-
-                  <View style={styles.wrapItem}>
-                    <Image
-                      source={images.ic_scanBarcode}
-                      style={{height: 24, width: 24, marginRight: 8}}
-                    />
-
-                    <Text>Upload Photos</Text>
-                  </View>
+                  <UploadImage />
                 </>
               )}
             </View>
@@ -262,6 +313,15 @@ const styles = StyleSheet.create({
   errorTitle: {
     color: colors.red,
     fontWeight: '500',
+  },
+  buttonUpload: {
+    paddingVertical: 18,
+    paddingHorizontal: 10,
+    backgroundColor: '#F2F2F2',
+    borderRadius: 14,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 4,
   },
 });
 

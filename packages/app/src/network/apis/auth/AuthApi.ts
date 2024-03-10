@@ -4,8 +4,8 @@ import {LoginParams} from './AuthRequest';
 import API from 'network/request';
 
 class AuthApi {
-  async LoginApi<T>(params: LoginParams) {
-    return API.request<T>(RequestMethod.POST, network.path.login, params, true);
+  async createCaseLog<T>(params: any) {
+    return API.request<T>(RequestMethod.POST, '', params, true, true);
   }
   async RegisterApi<T>(params: LoginParams) {
     return API.request<T>(

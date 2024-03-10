@@ -80,7 +80,6 @@ export let upsertCaseLog: TypedDocumentNode<Data, Variables> = gql`
       endDate
       id
       location
-      photoPaths
       secondaryContact
       startDate
       status

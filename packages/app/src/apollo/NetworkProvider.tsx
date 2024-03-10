@@ -3,7 +3,6 @@ import {
   ApolloLink,
   ApolloProvider,
   concat,
-  from,
   getApolloContext,
   HttpLink,
 } from '@apollo/client';
@@ -11,13 +10,9 @@ import React from 'react';
 import {cache} from './cache';
 import Config from 'react-native-config';
 import {onError} from '@apollo/client/link/error';
-import {navigate} from 'navigation/service/RootNavigation';
-import Routes from 'configs/Routes';
-import snackbarUtils from 'utils/snackbar-utils';
 import {store} from 'middlewares/stores';
-import {setContext} from '@apollo/client/link/context';
-import {RootReducer} from 'middlewares/reducers';
 import {AuthReducer} from 'middlewares/reducers/auth/loginReducer';
+import {apolloDevToolsInit} from 'react-native-apollo-devtools-client';
 
 interface NetworkProviderProps {
   children: React.ReactNode;
@@ -76,5 +71,8 @@ export const client = new ApolloClient({
 const NetworkProvider = ({children}: NetworkProviderProps) => {
   return <ApolloProvider client={client}>{children}</ApolloProvider>;
 };
+if (__DEV__) {
+  apolloDevToolsInit(client);
+}
 
 export default NetworkProvider;

@@ -12,14 +12,13 @@ interface ModalSelectProps {
 }
 
 const ModalSelect = memo(({close, choices, onPressItem}: ModalSelectProps) => {
-  const {theme} = useTheme();
   return (
     <View style={{paddingBottom: 20}}>
       <View
         style={[
           styles.topBorder,
           styles.bottomBorder,
-          {backgroundColor: theme.backgroundItem},
+          {backgroundColor: colors.white},
         ]}>
         {choices &&
           choices.map((item, index) => {
@@ -43,7 +42,7 @@ const ModalSelect = memo(({close, choices, onPressItem}: ModalSelectProps) => {
                   color={item.color && item.color}
                   size={15}
                   lineHeight={18}
-                  semiBold>
+                  fontWeight={'600'}>
                   {item.name}
                 </Text>
               </TouchableOpacity>
@@ -55,13 +54,17 @@ const ModalSelect = memo(({close, choices, onPressItem}: ModalSelectProps) => {
           styles.selectItem,
           styles.topBorder,
           styles.bottomBorder,
-          {marginTop: 24, backgroundColor: theme.backgroundItem},
+          {marginTop: 24, backgroundColor: colors.white},
         ]}>
         <TouchableOpacity
           style={{...StyleSheet.absoluteFillObject, ...Theme.center}}
           onPress={close}
           activeOpacity={0.54}>
-          <Text size={15} lineHeight={18} semiBold color={colors.GrayBlue}>
+          <Text
+            size={15}
+            lineHeight={18}
+            fontWeight={'600'}
+            color={colors.grayBlue}>
             Cancel
           </Text>
         </TouchableOpacity>
@@ -75,7 +78,7 @@ export default ModalSelect;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.White,
+    backgroundColor: colors.white,
     justifyContent: 'center',
   },
   selectItem: {

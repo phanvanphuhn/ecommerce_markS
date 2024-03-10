@@ -578,6 +578,15 @@ PODS:
   - RNGestureHandler (2.14.1):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
+  - RNImageCropPicker (0.40.3):
+    - React-Core
+    - React-RCTImage
+    - RNImageCropPicker/QBImagePickerController (= 0.40.3)
+    - TOCropViewController
+  - RNImageCropPicker/QBImagePickerController (0.40.3):
+    - React-Core
+    - React-RCTImage
+    - TOCropViewController
   - RNLocalize (3.0.6):
     - React-Core
   - RNPermissions (3.10.1):
@@ -625,6 +634,7 @@ PODS:
   - ScanbotBarcodeScannerSDK (4.0.2)
   - SocketRocket (0.6.1)
   - SSZipArchive (2.2.3)
+  - TOCropViewController (2.6.1)
   - TouchID (4.4.1):
     - React
   - VisionCamera (2.15.6):
@@ -716,6 +726,7 @@ DEPENDENCIES:
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNLocalize (from `../node_modules/react-native-localize`)
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
@@ -759,6 +770,7 @@ SPEC REPOS:
     - ScanbotBarcodeScannerSDK
     - SocketRocket
     - SSZipArchive
+    - TOCropViewController
     - YogaKit
 
 EXTERNAL SOURCES:
@@ -864,6 +876,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/messaging"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNImageCropPicker:
+    :path: "../node_modules/react-native-image-crop-picker"
   RNLocalize:
     :path: "../node_modules/react-native-localize"
   RNPermissions:
@@ -964,6 +978,7 @@ SPEC CHECKSUMS:
   RNFBApp: 5ee688b07ed0fa692a3a8fd07df6d6ae41e4c3a0
   RNFBMessaging: c839473d12cbe1b042b29898177033de4214e932
   RNGestureHandler: fe2be3be5598dc74329b211c58c9f2d231461769
+  RNImageCropPicker: e7ab6fb43d2fc3e84651e786ef4a080d63b0ed3d
   RNLocalize: 4222a3756cdbe2dc9a5bdf445765a4d2572107cb
   RNPermissions: 6514091e3afa6fb3deb772573215d5fe77d24d43
   RNReanimated: f186e85d9f28c9383d05ca39e11dd194f59093ec
@@ -974,6 +989,7 @@ SPEC CHECKSUMS:
   ScanbotBarcodeScannerSDK: 483b691cbcf4270a348b7b06fa560dc029289391
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9
+  TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
   TouchID: ba4c656d849cceabc2e4eef722dea5e55959ecf4
   VisionCamera: 523b49054bee9dace64189ab6631cb41e8b83fe0
   Yoga: 065f0b74dba4832d6e328238de46eb72c5de9556

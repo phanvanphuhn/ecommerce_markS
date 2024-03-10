@@ -114,10 +114,10 @@ class ApiClient {
         configTemp.cancelToken = new CancelToken(cancel => {
           this.mapRequestCancel.set(url, cancel);
         });
-        const {user, role, loginToken}: AuthReducer =
+        const {user, isLogin, loginToken}: AuthReducer =
           store.getState().userProfile;
-        if (loginToken && loginToken.length > 0) {
-          configTemp.headers.Authorization = loginToken;
+        if (isLogin) {
+          configTemp.headers.Authorization = `Bearer ${loginToken}`;
         }
         // Add some header at heres
 
@@ -152,6 +152,7 @@ class ApiClient {
         config = {
           Accept: 'application/json',
           'Content-Type': 'multipart/form-data',
+          'Apollo-Require-Preflight': 'true',
         };
       }
       console.log('config: ', config);

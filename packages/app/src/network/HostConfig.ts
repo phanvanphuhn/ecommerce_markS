@@ -10,6 +10,6 @@ class HostConfig {
   // BASE_URL = 'http://54.238.168.46:8769/',
 
   // ********************************
-  PREFIX = 'v1';
+  PREFIX = '/graphql';
 }
 export default new HostConfig();

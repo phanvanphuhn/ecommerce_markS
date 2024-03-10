@@ -24,6 +24,8 @@ export default {
   salesAchievement: 'Sales Achievement',
   daily: 'Daily',
   monthly: 'Monthly',
+  capture: 'Capture',
+  chooseImage: 'Upload from library',
   sale: {
     mySales: 'My Sales',
   },
