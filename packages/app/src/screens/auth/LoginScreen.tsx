@@ -36,7 +36,7 @@ export const azureAuth = new AzureAuth({
         ? 'msauth.com.stg.bostonscientific.marks://auth'
         : 'msauth.com.bostonscientific.marks://auth/'
       : Config.ENV === 'staging'
-      ? 'com.stg.bostonscientific.marks://com.stg.bostonscientific.marks/android/callback'
+      ? undefined
       : undefined,
 });
 

@@ -41,6 +41,15 @@
                   android:scheme="com.bsc.marks"
             />
         </intent-filter>
+        <intent-filter>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:pathPrefix="/android/callback"
+                  android:host="com.stg.bostonscientific.marks"
+                  android:scheme="com.stg.bostonscientific.marks"
+            />
+        </intent-filter>
       </activity>
     </application>
 </manifest>
