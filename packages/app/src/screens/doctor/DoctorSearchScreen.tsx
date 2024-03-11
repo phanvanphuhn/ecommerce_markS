@@ -97,11 +97,12 @@ const DoctorSearchScreen = (props: DoctorSearchScreenProps) => {
       onSelected: async (hospital, special, division, topics) => {
         let list = data?.data?.filter(
           e =>
-            hospital.includes(e.hospital) ||
+            e.hospital.includes(hospital) ||
             special.map(item => item.name).includes(e.doctorSpecialty) ||
             division.map(item => item.name).includes(e.doctorDivision) ||
             topics.map(item => item.name).includes(e.topic),
         );
+        console.log('=>(DoctorSearchScreen.tsx:105) list', list);
         console.log('=>(DoctorSearchScreen.tsx:126) hospital', hospital);
 
         await getData({
@@ -312,7 +313,7 @@ const DoctorSearchScreen = (props: DoctorSearchScreenProps) => {
         </View>
         <View style={[Theme.flex1, Theme.mt20]}>
           <FlatList
-            data={state?.data || []}
+            data={data?.data || []}
             renderItem={renderItem}
             keyExtractor={keyExtractor}
             keyboardShouldPersistTaps={'handled'}
