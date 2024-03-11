@@ -11,16 +11,17 @@ import Theme from 'res/style/Theme';
 import moment from 'moment';
 import colors from 'res/colors';
 import {PlanCallOutput} from 'apollo/query/upsertPlanCall';
+import {DataCaseLog} from 'apollo/query/getCaseLogs';
 
 interface IStatusPlanFormProps {
-  item: PlanCallOutput;
+  item: PlanCallOutput & DataCaseLog;
 }
 
 const StatusPlanForm = (props: IStatusPlanFormProps) => {
   const navigation = useNavigation<BaseUseNavigationProps<MainParamList>>();
   const backgroundHeaderColor = () => {
     const {status} = props.item;
-    switch (status) {
+    switch (status.toUpperCase().split(' ').join('_')) {
       case 'COMPLETED':
         return '#B31921';
       case 'COMPLETED':
@@ -36,7 +37,7 @@ const StatusPlanForm = (props: IStatusPlanFormProps) => {
 
   const titleColor = () => {
     const {status} = props.item;
-    switch (status) {
+    switch (status.toUpperCase().split(' ').join('_')) {
       case 'COMPLETED':
         return '#FFFFFF';
       case 'COMPLETED':
@@ -51,13 +52,12 @@ const StatusPlanForm = (props: IStatusPlanFormProps) => {
   };
 
   const onGotoDetail = () => {
-    if (props.item.status === 'COMPLETED') {
+    if (props.item.type == 'case') {
       navigation.navigate(Routes.CaseLogScreen2, {item: props.item});
     } else {
       navigation.navigate(Routes.CallLogScreen, {item: props.item});
     }
   };
-  console.log('=>(StatusPlanForm.tsx:108) props', props);
 
   const getDuration = () =>
     moment(props.item.endDate).diff(moment(props.item.startDate), 'minutes');
@@ -84,7 +84,7 @@ const StatusPlanForm = (props: IStatusPlanFormProps) => {
           style={[styles.imageContainer, {height: 20, width: 20}]}
         />
         <Text size={15} fontWeight={'600'} color={titleColor()}>
-          {props.item.subject}
+          {props.item.subject || props.item?.caseName}
         </Text>
       </View>
       <View style={[styles.bodyContainer]}>

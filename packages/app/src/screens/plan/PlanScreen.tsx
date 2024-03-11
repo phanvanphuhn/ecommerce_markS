@@ -41,6 +41,7 @@ import {PlanCallOutput} from 'apollo/query/upsertPlanCall';
 import useDidUpdate from 'hooks/useDidUpdate';
 import useIsMounted from 'hooks/useIsMounted';
 import {useSelector} from 'hooks/useSelector';
+import {getCaseLogs} from 'apollo/query/getCaseLogs';
 
 interface PlanScreenProps {}
 interface IState {
@@ -64,30 +65,36 @@ const PlanScreen = (props: PlanScreenProps) => {
   const CalendarRef = useRef<CalendarListRef>();
   const userProfile = useSelector(state => state.userProfile.user);
   const navigation = useNavigation<BaseUseNavigationProps<MainParamList>>();
-  const [getData, {loading}] = useLazyQuery(GET_PLAN_CALLS, {
-    onCompleted: data => {
-      console.log('datadata: ', data);
-      setState({
-        data: data?.data?.map(e => ({
-          ...e,
-          start: moment(new Date(Number(e.startDate))).format(
-            'YYYY-MM-DD HH:mm:ss',
-          ),
-          end: moment(new Date(Number(e.endDate))).format(
-            'YYYY-MM-DD HH:mm:ss',
-          ),
-          startDate: moment(new Date(Number(e.startDate))).format(
-            'YYYY-MM-DD HH:mm:ss',
-          ),
-          endDate: moment(new Date(Number(e.endDate))).format(
-            'YYYY-MM-DD HH:mm:ss',
-          ),
-        })),
-      });
-    },
-  });
+  const [getData, {loading}] = useLazyQuery(GET_PLAN_CALLS);
+  const [getDataCaseLog, {}] = useLazyQuery(getCaseLogs);
+  const getList = async () => {
+    let res = await Promise.all([
+      getData({
+        variables: {status: ['IN_PROGRESS', 'COMPLETED']},
+      }),
+      // getDataCaseLog({}),
+    ]);
+    let data = res
+      .map((item, i) => {
+        return item.data?.data.map(item => ({
+          ...item,
+          type: i == 0 ? 'call' : 'case',
+        }));
+      })
+      .flat();
+    console.log('=>(PlanScreen.tsx:81) data', data);
+    setState({
+      data: data?.map(e => ({
+        ...e,
+        start: moment(e.startDate).format('YYYY-MM-DD HH:mm:ss'),
+        end: moment(e.endDate).format('YYYY-MM-DD HH:mm:ss'),
+        startDate: moment(e.startDate).format('YYYY-MM-DD HH:mm:ss'),
+        endDate: moment(e.endDate).format('YYYY-MM-DD HH:mm:ss'),
+      })),
+    });
+  };
   useEffect(() => {
-    getData({variables: {status: ['IN_PROGRESS', 'COMPLETED']}});
+    getList();
   }, []);
   const onCancel = () => {};
 

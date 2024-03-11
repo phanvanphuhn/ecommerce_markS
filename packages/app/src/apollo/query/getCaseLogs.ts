@@ -7,8 +7,8 @@ import {
   PlanCallOutput,
   PlanCallStatus,
 } from 'apollo/query/upsertPlanCall';
-
-interface Data {
+export interface DataCaseLog {
+  type: 'case' | 'call';
   account: string;
   activityOwnerEmail: string;
   activityOwnerName: string;
@@ -33,15 +33,15 @@ interface Data {
   status: string;
   updatedAt: string;
 }
+interface Data {
+  data: DataCaseLog[];
+}
 
 interface Variables {}
 
 export let getCaseLogs: TypedDocumentNode<Data, Variables> = gql`
   query GetCaseLogs {
     data: getCaseLogs {
-      _count {
-        caseLogSubmission
-      }
       account
       activityOwnerEmail
       activityOwnerName

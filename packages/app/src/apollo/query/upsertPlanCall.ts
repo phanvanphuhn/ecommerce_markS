@@ -4,6 +4,7 @@ import {ItemComplaintResponse} from 'apollo/query/complaint';
 
 export interface PlanCallOutput {
   account: string;
+  type: 'case' | 'call';
   activityOwnerEmail: string;
   activityOwnerName: string;
   activitySubtype: PlanCallActivitySubtype;

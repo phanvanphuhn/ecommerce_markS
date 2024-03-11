@@ -66,20 +66,20 @@ const CaseLogScreen2 = (props: any) => {
 
   const formik = useFormik<CaseLogInput>({
     initialValues: {
-      caseName: '',
+      caseName: route.params?.item?.caseName || '',
       endDate: route.params?.item?.endDate
         ? moment(route.params?.item?.endDate, 'YYYY-MM-DD HH:mm:ss').toDate()
         : roundDate({isPlus1: true}),
       startDate: route.params?.item?.startDate
         ? moment(route.params?.item?.startDate, 'YYYY-MM-DD HH:mm:ss').toDate()
         : roundDate({isPlus1: false}),
-      account: '',
-      location: '',
-      contact: '',
-      secondaryContact: '',
+      account: route.params?.item?.account || '',
+      location: route.params?.item?.location || '',
+      contact: route.params?.item?.contact || '',
+      secondaryContact: route.params?.item?.secondaryContact || '',
       files: [],
-      id: uuid.v4(),
-      status: 'IN_PROGRESS',
+      id: route.params?.item?.id || uuid.v4(),
+      status: route.params?.item?.status || 'IN_PROGRESS',
     },
     validationSchema: Yup.object({
       caseName: Yup.string().required('Required!'),
@@ -122,6 +122,7 @@ const CaseLogScreen2 = (props: any) => {
       navigation.goBack();
     },
   });
+  console.log('=>(CaseLogScreen.tsx:125) formik', formik);
   return (
     <>
       <Container
@@ -239,34 +240,32 @@ const CaseLogScreen2 = (props: any) => {
                 placeholder={'Secondary Contact'}
               />
 
-              {!!route?.params?.isCreateNew && (
-                <>
-                  <View style={styles.wrapItem}>
-                    <Image
-                      source={images.ic_scanBarcode}
-                      style={{height: 24, width: 24, marginRight: 8}}
+              <>
+                <View style={styles.wrapItem}>
+                  <Image
+                    source={images.ic_scanBarcode}
+                    style={{height: 24, width: 24, marginRight: 8}}
+                  />
+
+                  <Text>Scan Barcode</Text>
+                </View>
+
+                <View style={styles.wrapItem}>
+                  <TouchableOpacity style={styles.wrapButton}>
+                    <IconMaterialCommunityIcons
+                      name="line-scan"
+                      size={15}
+                      color={'#8D8D8D'}
                     />
-
-                    <Text>Scan Barcode</Text>
-                  </View>
-
-                  <View style={styles.wrapItem}>
-                    <TouchableOpacity style={styles.wrapButton}>
-                      <IconMaterialCommunityIcons
-                        name="line-scan"
-                        size={15}
-                        color={'#8D8D8D'}
-                      />
-                      <Text style={styles.buttonTitle}>Scan Barcode</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.wrapButton}>
-                      <IconAntDesign name="plus" size={15} color={'#8D8D8D'} />
-                      <Text style={styles.buttonTitle}>Add Product</Text>
-                    </TouchableOpacity>
-                  </View>
-                  <UploadImage />
-                </>
-              )}
+                    <Text style={styles.buttonTitle}>Scan Barcode</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.wrapButton}>
+                    <IconAntDesign name="plus" size={15} color={'#8D8D8D'} />
+                    <Text style={styles.buttonTitle}>Add Product</Text>
+                  </TouchableOpacity>
+                </View>
+                <UploadImage />
+              </>
             </View>
           </ScrollView>
         </FormikProvider>
