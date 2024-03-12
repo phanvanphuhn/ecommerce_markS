@@ -107,10 +107,10 @@ const DoctorSearchScreen = (props: DoctorSearchScreenProps) => {
 
         await getData({
           variables: {
-            doctorDivisions: topics?.length
+            doctorDivisions: division?.length
               ? division.map(e => e.name)
               : undefined,
-            doctorSpecialties: topics?.length
+            doctorSpecialties: special?.length
               ? special.map(e => e.name)
               : undefined,
             topicsOfInterests: topics?.length
