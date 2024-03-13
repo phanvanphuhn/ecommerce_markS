@@ -94,29 +94,31 @@ const CaseLogScreen2 = (props: any) => {
     }),
     onSubmit: async values => {
       console.log('=>(CallLogScreen.tsx:49) values', values);
-      let form = new FormData();
-      form.append(
-        'operations',
-        JSON.stringify({
-          query:
-            'mutation upsertCaseLog($data: CaseLogInput!) {\n    data: upsertCaseLog(data: $data) {\n      account\n      activityOwnerEmail\n      activityOwnerName\n      caseName\n      contact\n      createdAt\n      endDate\n      id\n      location\n      photoPaths\n      secondaryContact\n      startDate\n      status\n      updatedAt\n    }\n  }',
-          variables: {
-            data: {...values, files: undefined},
-            files: null,
-          },
-        }),
-      );
-
-      form.append('map', JSON.stringify({'0': ['variables.data.files.0']}));
-      form.append('0', {
-        name: `${new Date().getTime()}.jpg`,
-        type: 'image/jpg',
-        uri: `file://${values.files[0]}`,
-      });
-      console.log('=>(CaseLogScreen.tsx:118) form', form);
-      let res = await AuthApi.createCaseLog(form);
-      console.log('=>(CaseLogScreen.tsx:98) res', res);
-      // await onSubmitData({variables: {data: values}});
+      if (values?.files?.length) {
+        let form = new FormData();
+        form.append(
+          'operations',
+          JSON.stringify({
+            query:
+              'mutation upsertCaseLog($data: CaseLogInput!) {\n    data: upsertCaseLog(data: $data) {\n      account\n      activityOwnerEmail\n      activityOwnerName\n      caseName\n      contact\n      createdAt\n      endDate\n      id\n      location\n      photoPaths\n      secondaryContact\n      startDate\n      status\n      updatedAt\n    }\n  }',
+            variables: {
+              data: {...values, files: undefined},
+              files: null,
+            },
+          }),
+        );
+        form.append('map', JSON.stringify({'0': ['variables.data.files.0']}));
+        form.append('0', {
+          name: `${new Date().getTime()}.jpg`,
+          type: 'image/jpg',
+          uri: `file://${values.files[0]}`,
+        });
+        console.log('=>(CaseLogScreen.tsx:118) form', form);
+        let res = await AuthApi.createCaseLog(form);
+        console.log('=>(CaseLogScreen.tsx:98) res', res);
+      } else {
+        await onSubmitData({variables: {data: values}});
+      }
       navigation.goBack();
     },
   });
@@ -237,33 +239,34 @@ const CaseLogScreen2 = (props: any) => {
                 title={'Secondary Contact'}
                 placeholder={'Secondary Contact'}
               />
-
-              <>
-                <View style={styles.wrapItem}>
-                  <Image
-                    source={images.ic_scanBarcode}
-                    style={{height: 24, width: 24, marginRight: 8}}
-                  />
-
-                  <Text>Scan Barcode</Text>
-                </View>
-
-                <View style={styles.wrapItem}>
-                  <TouchableOpacity style={styles.wrapButton}>
-                    <IconMaterialCommunityIcons
-                      name="line-scan"
-                      size={15}
-                      color={'#8D8D8D'}
+              {!route?.params?.isCreateNew && (
+                <>
+                  <View style={styles.wrapItem}>
+                    <Image
+                      source={images.ic_scanBarcode}
+                      style={{height: 24, width: 24, marginRight: 8}}
                     />
-                    <Text style={styles.buttonTitle}>Scan Barcode</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.wrapButton}>
-                    <IconAntDesign name="plus" size={15} color={'#8D8D8D'} />
-                    <Text style={styles.buttonTitle}>Add Product</Text>
-                  </TouchableOpacity>
-                </View>
-                <UploadImage />
-              </>
+
+                    <Text>Scan Barcode</Text>
+                  </View>
+
+                  <View style={styles.wrapItem}>
+                    <TouchableOpacity style={styles.wrapButton}>
+                      <IconMaterialCommunityIcons
+                        name="line-scan"
+                        size={15}
+                        color={'#8D8D8D'}
+                      />
+                      <Text style={styles.buttonTitle}>Scan Barcode</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.wrapButton}>
+                      <IconAntDesign name="plus" size={15} color={'#8D8D8D'} />
+                      <Text style={styles.buttonTitle}>Add Product</Text>
+                    </TouchableOpacity>
+                  </View>
+                  <UploadImage />
+                </>
+              )}
             </View>
           </ScrollView>
         </FormikProvider>

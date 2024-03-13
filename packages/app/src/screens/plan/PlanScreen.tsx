@@ -72,7 +72,7 @@ const PlanScreen = (props: PlanScreenProps) => {
       getData({
         variables: {status: ['IN_PROGRESS', 'COMPLETED']},
       }),
-      // getDataCaseLog({}),
+      getDataCaseLog({}),
     ]);
     let data = res
       .map((item, i) => {
