@@ -37,7 +37,7 @@ const LeaderboardScreen = (props: LeaderboardScreenProps) => {
   useEffect(() => {
     getData({
       variables: {
-        year: new Date().getFullYear().toString(),
+        year: '2023',
         period: state.type,
         type: 'TopThree',
       },
@@ -48,7 +48,7 @@ const LeaderboardScreen = (props: LeaderboardScreenProps) => {
     });
     getDataSurround({
       variables: {
-        year: new Date().getFullYear().toString(),
+        year: '2023',
         period: state.type,
         type: 'Surrounding',
       },

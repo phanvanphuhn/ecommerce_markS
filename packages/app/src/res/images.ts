@@ -1,4 +1,3 @@
-/* eslint-disable global-require */
 /**
  * @author GNURT
  * @flow
@@ -83,5 +82,8 @@ const images = {
   img_logo: require('../assets/images/img_logo.png'),
   ic_book: require('../assets/images/ic_book.png'),
   ic_touchId: require('../assets/images/ic_touchId.png'),
+  ic_goldMedal1: require('../assets/images/ic_goldMedal1.png'),
+  ic_silverMedal1: require('../assets/images/ic_silverMedal1.png'),
+  ic_bronzeMedal1: require('../assets/images/ic_bronzeMedal1.png'),
 };
 export default images;
