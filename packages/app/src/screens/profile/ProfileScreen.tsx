@@ -40,7 +40,7 @@ const ProfileScreen = (props: ProfileScreenProps) => {
   useEffect(() => {
     getDataLeader({
       variables: {
-        year: '2023',
+        year: new Date().getFullYear().toString(),
         period: 'Quarter',
         type: 'TopThree',
       },
@@ -50,7 +50,7 @@ const ProfileScreen = (props: ProfileScreenProps) => {
     });
     getDataSurround({
       variables: {
-        year: '2023',
+        year: new Date().getFullYear().toString(),
         period: 'Quarter',
         type: 'Surrounding',
       },
@@ -63,7 +63,7 @@ const ProfileScreen = (props: ProfileScreenProps) => {
   const myRankInfo = state?.dataSurrounding?.filter(
     e => e.salesRepEmail == userProfile?.salesRepEmail,
   );
-
+  console.log('state: ', state.dataSurrounding);
   const nameArray = userProfile?.fullName?.split(' ');
 
   return (
