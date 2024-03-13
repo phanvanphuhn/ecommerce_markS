@@ -48,6 +48,7 @@ import AuthApi from 'network/apis/auth/AuthApi';
 import RNFetchBlob from 'rn-fetch-blob';
 import {GET_HOSPITAL_LIST_QUERY} from 'apollo/query/getFilterHospitalList';
 import {GET_DOCTOR_QUERY} from 'apollo/query/getDoctorSearchList';
+import Routes from 'configs/Routes';
 
 const CaseLogScreen2 = (props: any) => {
   const {route} = props;
@@ -119,7 +120,12 @@ const CaseLogScreen2 = (props: any) => {
       } else {
         await onSubmitData({variables: {data: values}});
       }
-      navigation.goBack();
+      navigation.replace(Routes.DrawerStack, {
+        screen: Routes.MainTab,
+        params: {
+          screen: Routes.PlanScreen,
+        },
+      });
     },
   });
   console.log('=>(CaseLogScreen.tsx:125) formik', formik);
