@@ -8,7 +8,6 @@ import {
   registerEnumType,
 } from '@nestjs/graphql';
 import { Transform } from 'class-transformer';
-
 import { Leaderboard } from '@generated/nestgraphql/leaderboard/leaderboard.model';
 
 export enum LeaderboardType {
@@ -39,9 +38,12 @@ export class LeaderboardOutput extends Leaderboard {
 }
 
 @ObjectType()
-export class LeaderboardOutputWithoutQuarter extends OmitType(Leaderboard, ['id', 'lastRefreshedTimestamp', 'quarter', 'rankQtd']) {
-
-}
+export class LeaderboardOutputWithoutQuarter extends OmitType(Leaderboard, [
+  'id',
+  'lastRefreshedTimestamp',
+  'quarter',
+  'rankQtd',
+]) {}
 
 @ArgsType()
 export class LeaderboardFilterArgs {
@@ -53,6 +55,9 @@ export class LeaderboardFilterArgs {
 
   @Field(() => String, { nullable: true })
   month?: string;
+
+  @Field(() => String, { nullable: true })
+  quarter?: string;
 
   @Field(() => LeaderboardType, {
     nullable: true,
@@ -68,4 +73,7 @@ export class LeaderboardFilterArgs {
 }
 
 @ArgsType()
-export class LeaderboardFilterArgsWithoutType extends OmitType(LeaderboardFilterArgs, ['type']) {}
+export class LeaderboardFilterArgsWithoutType extends OmitType(
+  LeaderboardFilterArgs,
+  ['type'],
+) {}

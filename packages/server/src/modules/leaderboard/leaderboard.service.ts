@@ -25,7 +25,10 @@ const periodToRank = {
 export class LeaderboardService {
   constructor(private readonly database: Database) {}
 
-  async getLeaderboardOfSelf(salesRepEmail: string, filter: LeaderboardFilterArgs = { }) {
+  async getLeaderboardOfSelf(
+    salesRepEmail: string,
+    filter: LeaderboardFilterArgs = {},
+  ) {
     let query = this.database.selectFrom('marks.Leaderboard');
     query = query.where('salesRepEmail', 'ilike', salesRepEmail);
 
@@ -52,47 +55,55 @@ export class LeaderboardService {
     return result.map((item) => new LeaderboardOutput(item));
   }
 
-  async getLeaderboard(salesRepEmail: string, filter: LeaderboardFilterArgs = { }) {
-    let query = this.database.selectFrom('marks.Leaderboard');
-    query = query.groupBy('id');
-
-    if (filter.country) {
-      query = query.where('country', '=', filter.country);
-    }
-
-    if (filter.year) {
-      query = query.where('year', '=', filter.year);
-    }
-
-    if (filter.month) {
-      query = query.where('month', '=', filter.month);
-    }
-
-    // month, quarter or year
-    switch (filter.period) {
-      case LeaderboardPeriod.Month:
-        query = query.groupBy('month');
-        break;
-      case LeaderboardPeriod.Quarter:
-        query = query.groupBy('quarter');
-        break;
-      case LeaderboardPeriod.Year:
-        query = query.groupBy('year');
-        break;
-    }
-
+  async getLeaderboard(
+    salesRepEmail: string,
+    filter: LeaderboardFilterArgs = {},
+  ) {
     // top three or surrounding
     if (filter.type) {
       const rankToFilter = periodToRank[filter.period] as SelectRankField;
 
       switch (filter.type) {
         case LeaderboardType.TopThree:
+          let query = this.database.selectFrom('marks.Leaderboard');
+          query = query.groupBy('id');
+
+          if (filter.country) {
+            query = query.where('country', '=', filter.country);
+          }
+
+          if (filter.year) {
+            query = query.where('year', '=', filter.year);
+          }
+
+          if (filter.month) {
+            query = query.where('month', '=', filter.month);
+          }
+
+          if (filter.quarter) {
+            query = query.where('quarter', '=', filter.quarter);
+          }
+
+          // month, quarter or year
+          switch (filter.period) {
+            case LeaderboardPeriod.Month:
+              query = query.groupBy('month');
+              break;
+            case LeaderboardPeriod.Quarter:
+              query = query.groupBy('quarter');
+              break;
+            case LeaderboardPeriod.Year:
+              query = query.groupBy('year');
+              break;
+          }
           query = query.orderBy(({ ref }) => {
             return integer(ref(rankToFilter));
           }, 'asc');
           query = query.groupBy(rankToFilter);
           query = query.limit(3);
-          break;
+
+          const result = await query.selectAll().execute();
+          return result.map((item) => new LeaderboardOutput(item));
 
         case LeaderboardType.Surrounding:
           if (isEmpty(salesRepEmail)) {
@@ -113,12 +124,16 @@ export class LeaderboardService {
                 filters.push(eb('country', '=', filter.country));
               }
 
+              if (filter.month) {
+                filters.push(eb('month', '=', filter.month));
+              }
+
               if (filter.year) {
                 filters.push(eb('year', '=', filter.year));
               }
 
-              if (filter.month) {
-                filters.push(eb('month', '=', filter.month));
+              if (filter.quarter) {
+                filters.push(eb('quarter', '=', filter.quarter));
               }
 
               return eb.and(filters);
@@ -131,6 +146,27 @@ export class LeaderboardService {
               return integer(ref(rankToFilter));
             }, 'asc')
             .selectAll()
+            .where((eb) => {
+              const filters: Expression<any>[] = [];
+
+              if (filter.year) {
+                filters.push(eb('year', '=', filter.year));
+              }
+
+              if (filter.month) {
+                filters.push(eb('month', '=', filter.month));
+              }
+
+              if (filter.country) {
+                filters.push(eb('country', '=', filter.country));
+              }
+
+              if (filter.quarter) {
+                filters.push(eb('quarter', '=', filter.quarter));
+              }
+
+              return eb.and(filters);
+            })
             .execute();
 
           const personalIndex = all.findIndex(
@@ -155,8 +191,5 @@ export class LeaderboardService {
           return surrounding.map((item) => new LeaderboardOutput(item));
       }
     }
-
-    const result = await query.selectAll().execute();
-    return result.map((item) => new LeaderboardOutput(item));
   }
 }
