@@ -69,7 +69,7 @@ export class LeaderboardFilterArgs {
     nullable: true,
     defaultValue: LeaderboardPeriod.Month,
   })
-  period?: LeaderboardPeriod;
+  sortBy?: LeaderboardPeriod;
 }
 
 @ArgsType()

@@ -44,8 +44,8 @@ export class LeaderboardService {
       query = query.where('month', '=', filter.month);
     }
 
-    if (filter.period) {
-      const rankToFilter = periodToRank[filter.period] as SelectRankField;
+    if (filter.sortBy) {
+      const rankToFilter = periodToRank[filter.sortBy] as SelectRankField;
       query = query.orderBy(({ ref }) => {
         return integer(ref(rankToFilter));
       }, 'asc');
@@ -61,7 +61,7 @@ export class LeaderboardService {
   ) {
     // top three or surrounding
     if (filter.type) {
-      const rankToFilter = periodToRank[filter.period] as SelectRankField;
+      const rankToFilter = periodToRank[filter.sortBy] as SelectRankField;
 
       switch (filter.type) {
         case LeaderboardType.TopThree:
@@ -84,18 +84,6 @@ export class LeaderboardService {
             query = query.where('quarter', '=', filter.quarter);
           }
 
-          // month, quarter or year
-          switch (filter.period) {
-            case LeaderboardPeriod.Month:
-              query = query.groupBy('month');
-              break;
-            case LeaderboardPeriod.Quarter:
-              query = query.groupBy('quarter');
-              break;
-            case LeaderboardPeriod.Year:
-              query = query.groupBy('year');
-              break;
-          }
           query = query.orderBy(({ ref }) => {
             return integer(ref(rankToFilter));
           }, 'asc');
