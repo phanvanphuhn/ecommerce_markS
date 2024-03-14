@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "@adminjs/express": "^6.0.1",
+    "@adminjs/import-export": "^3.0.0",
     "@adminjs/nestjs": "^6.0.1",
     "@adminjs/prisma": "^5.0.3",
     "@adminjs/sql": "^2.2.1",

@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
+import { Sales, mobileSalesTargetType } from '@generated/kysely/types';
 
+import { OrderDirection } from '@/common/pagination/order-direction';
 
 import { Database } from '../_database/database';
 
@@ -15,8 +17,10 @@ import {
   UpserMobileSalestQuarterArgs,
   UpserMobileSalestYearArgs,
 } from './dto/mobile.sales.dto';
-
-import { Sales, mobileSalesTargetType } from '@generated/kysely/types';
+import {
+  SalesInvoicesFilterArgs,
+  SalesInvoicesOutput,
+} from './dto/sales-invoices.dto';
 
 @Injectable()
 export class SalesService {
@@ -157,5 +161,55 @@ export class SalesService {
       .executeTakeFirst();
 
     return result.numInsertedOrUpdatedRows > 0;
+  }
+
+  async getSalesInvoices(
+    salesRepEmail: string,
+    filter: SalesInvoicesFilterArgs,
+  ) {
+    let query = this.database.selectFrom('marks.SalesInvoices');
+
+    if (filter.accountName) {
+      query = query.where('accountName', 'ilike', filter.accountName);
+    }
+
+    if (filter.invoiceDate) {
+      query = query.where('invoiceDate', '=', filter.invoiceDate);
+    }
+
+    if (filter.id) {
+      query = query.where('id', '=', filter.id);
+    }
+
+    if (filter.createdAt) {
+      query = query.where('createdAt', '>=', filter.createdAt);
+    }
+
+    if (filter.updatedAt) {
+      query = query.where('updatedAt', '>=', filter.updatedAt);
+    }
+
+    if (filter.skip) {
+      query = query.offset(filter.skip);
+    }
+
+    if (filter.take) {
+      query = query.limit(filter.take);
+    }
+
+    if (filter.orderBy) {
+      switch (filter.orderBy) {
+        case OrderDirection.asc:
+          query = query.orderBy('invoiceDate', 'asc');
+          break;
+        case OrderDirection.desc:
+          query = query.orderBy('invoiceDate', 'desc');
+          break;
+      }
+    }
+
+    const result = await query.selectAll().execute();
+
+    return result.map((row) => new SalesInvoicesOutput(row));
   }
 }

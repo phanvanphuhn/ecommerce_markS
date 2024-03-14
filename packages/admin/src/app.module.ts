@@ -2,11 +2,11 @@ import { Module } from '@nestjs/common';
 import { AdminModule } from '@adminjs/nestjs';
 import { ConfigModule } from '@nestjs/config';
 import { Database, Resource, getModelByName } from '@adminjs/prisma'
-import AdminJS from 'adminjs';
-
+import AdminJS, { ComponentLoader } from 'adminjs';
+import importExportFeature from '@adminjs/import-export';
 import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
-import { PrismaService } from './prisma.service.js'
+import { PrismaService } from './prisma.service.js';
 
 AdminJS.registerAdapter({ Database, Resource })
 
@@ -38,7 +38,8 @@ const authenticate = async (email: string, password: string) => {
             loginPath: '/login',
             rootPath: '/',
             logoutPath: '/logout',
-            resources: [{
+            resources: [
+            {
               resource: {
                 model: getModelByName('UserProfile'),
                 client: prisma,
@@ -50,7 +51,7 @@ const authenticate = async (email: string, password: string) => {
                 model: getModelByName('ContactSearch'),
                 client: prisma,
               },
-              options: {}
+              options: {},
             },
             {
               resource: {
@@ -118,6 +119,12 @@ const authenticate = async (email: string, password: string) => {
             {
               resource: {
                 model: getModelByName('Products'),
+                client: prisma
+              }
+            },
+            {
+              resource: {
+                model: getModelByName('SalesInvoices'),
                 client: prisma
               }
             }

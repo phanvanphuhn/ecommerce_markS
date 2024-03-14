@@ -310,3 +310,17 @@ model Products {
 
   caseLogSubmission CaseLogSubmission[]
 }
+
+model SalesInvoices {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+
+  invoiceNumber String?
+  accountName   String?
+  salesRepEmail String?
+  value         String?
+  currency      String?
+  invoiceDate   DateTime
+
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+}

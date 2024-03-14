@@ -118,11 +118,6 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-"""
-A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.This scalar is serialized to a string in ISO 8601 format and parsed from a string in ISO 8601 format.
-"""
-scalar DateTimeISO
-
 type DoctorDetail {
   contactId: String
   doctorAlternativeEmail: String
@@ -209,12 +204,12 @@ input MobileSearchHistoryInput {
 }
 
 type MobileSearchHistoryOutput {
-  createdAt: DateTimeISO
+  createdAt: DateTime
   id: String
   searchQuery: String
   searchResults: JSONObject
   searchType: [String!]
-  updatedAt: DateTimeISO
+  updatedAt: DateTime
 }
 
 type Mutation {
@@ -341,18 +336,31 @@ type Query {
   getPlanCall(id: String!): PlanCallOutput!
   getPlanCallTypes: [String!]!
   getPlanCalls(account: String, activityOwnerEmail: String, activityOwnerName: String, activitySubtype: PlanCallActivitySubtype, activityType: PlanCallActivityType, contactId: String, contactName: String, createdInApp: DateTime, description: String, division: String, endDate: DateTime, lastModifiedInApp: DateTime, location: String, ownerCountry: String, startDate: DateTime, status: [PlanCallStatus!], subject: String, uniqueIdInApp: String): [PlanCallOutput!]!
-  getProducts(createdAt: DateTimeISO, gtin: String, id: String, skip: Int, take: Int, updatedAt: DateTimeISO, upn: String, upnDescription: String): [Products!]!
+  getProducts(createdAt: DateTime, gtin: String, id: String, skip: Int, take: Int, updatedAt: DateTime, upn: String, upnDescription: String): [Products!]!
   getSales(month: String, quarter: String, year: String): [SalesOutput!]!
+  getSalesInvoices(orderBy: OrderDirection, skip: Int, take: Int): [SalesInvoices!]!
   getSearchHistory(searchType: [SearchType!], skip: Int, sort: OrderDirection, take: Int): [MobileSearchHistoryOutput!]!
   getSelfCalendars: JSON!
   getSliderAndCommisions: [SliderAndCommissionOutput!]!
   getTerritoryCategorization: [TerritoryCategorizationOutput!]!
   getUserProfile: [UserProfileOutput!]!
-  leaderboard(country: String, month: String, period: LeaderboardPeriod = Month, type: LeaderboardType = TopThree, year: String): [LeaderboardOutput!]!
+  leaderboard(country: String, month: String, quarter: String, sortBy: LeaderboardPeriod = Month, type: LeaderboardType = TopThree, year: String): [LeaderboardOutput!]!
   me: JSON!
   meAD(accessToken: String!): JSON!
   meGroup(accessToken: String!): JSON!
   testGetFilterHospitalList(doctorDivisions: [String!], doctorSpecialties: [String!], topicsOfInterests: [String!]): [String!]!
+}
+
+type SalesInvoices {
+  accountName: String
+  createdAt: DateTime
+  currency: String
+  id: ID!
+  invoiceDate: DateTime!
+  invoiceNumber: String
+  salesRepEmail: String
+  updatedAt: DateTime
+  value: String
 }
 
 type SalesOutput {
@@ -443,7 +451,7 @@ type UserProfileOutput {
   division: String
   fullName: String
   id: Int
-  leaderboard(country: String, month: String, period: LeaderboardPeriod = Month, year: String): [LeaderboardOutput!]!
+  leaderboard(country: String, month: String, quarter: String, sortBy: LeaderboardPeriod = Month, year: String): [LeaderboardOutput!]!
   networkId: String
   personId: String
   reportingTo: String

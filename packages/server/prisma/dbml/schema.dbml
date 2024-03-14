@@ -233,6 +233,18 @@ Table Products {
   caseLogSubmission CaseLogSubmission [not null]
 }
 
+Table SalesInvoices {
+  id String [pk]
+  invoiceNumber String
+  accountName String
+  salesRepEmail String
+  value String
+  currency String
+  invoiceDate DateTime [not null]
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime
+}
+
 Enum mobileSalesTargetType {
   year
   quarter
