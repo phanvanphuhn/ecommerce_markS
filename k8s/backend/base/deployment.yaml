@@ -40,6 +40,8 @@ spec:
               value: ${POSTGRES_DB}
             - name: SECRETS_FILE_PATH
               value: ${SECRETS_FILE_PATH}
+            - name: DEPLOY_ENV
+              value: ${DEPLOY_ENV}
           ports:
             - containerPort: 3000
           volumeMounts:
