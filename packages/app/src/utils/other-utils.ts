@@ -160,3 +160,6 @@ export const roundDate = (props: any) => {
     return dateTime?.toDate();
   }
 };
+export const pad = (num: number): string => {
+  return ('0' + num).slice(-2);
+};

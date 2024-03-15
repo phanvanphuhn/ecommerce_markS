@@ -18,11 +18,13 @@ import {useSelector} from 'hooks/useSelector';
 import useStateCustom from 'hooks/useStateCustom';
 import {IStateSales} from 'screens/leaderboard/LeaderboardScreen';
 import {GET_LEADERBOARD_QUERY} from 'apollo/query/leaderboard';
+import moment from 'moment/moment';
+import {pad} from 'utils/other-utils';
 
 interface ProfileScreenProps {}
 
 const ProfileScreen = (props: ProfileScreenProps) => {
-  const userProfile = useSelector(state => state.userProfile.user) || [];
+  const userProfile = useSelector(state => state.userProfile.user);
   const [getData, {data}] = useLazyQuery(GET_ME);
   useEffect(() => {
     getData();
@@ -38,20 +40,11 @@ const ProfileScreen = (props: ProfileScreenProps) => {
   const [getDataSurround] = useLazyQuery(GET_LEADERBOARD_QUERY);
 
   useEffect(() => {
-    getDataLeader({
-      variables: {
-        year: new Date().getFullYear().toString(),
-        period: 'Quarter',
-        type: 'TopThree',
-      },
-      onCompleted: data => {
-        setState({dataTop: data.data});
-      },
-    });
     getDataSurround({
       variables: {
-        year: new Date().getFullYear().toString(),
-        period: 'Quarter',
+        year: moment().year().toString(),
+        quarter: pad(Math.ceil((moment().month() + 1) / 3)),
+        sortBy: 'Quarter',
         type: 'Surrounding',
       },
       onCompleted: data => {
@@ -63,7 +56,6 @@ const ProfileScreen = (props: ProfileScreenProps) => {
   const myRankInfo = state?.dataSurrounding?.filter(
     e => e.salesRepEmail == userProfile?.salesRepEmail,
   );
-  console.log('state: ', state.dataSurrounding);
   const nameArray = userProfile?.fullName?.split(' ');
 
   return (

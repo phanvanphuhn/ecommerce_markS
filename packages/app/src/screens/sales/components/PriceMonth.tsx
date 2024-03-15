@@ -8,6 +8,9 @@ import keyExtractor from 'utils/keyExtractor';
 import useStateCustom from 'hooks/useStateCustom';
 import moment from 'moment';
 import colors from 'res/colors';
+import {useLazyQuery, useQuery} from '@apollo/client';
+import {getMobileSales} from 'apollo/query/getMobileSales';
+import {getSalesInvoices} from 'apollo/query/getSalesInvoices';
 
 interface PriceMonthProps {}
 
@@ -36,6 +39,14 @@ const PriceMonth = (props: PriceMonthProps) => {
       },
     ],
   });
+
+  const {data} = useQuery(getSalesInvoices, {
+    variables: {
+      take: 10,
+      orderBy: 'desc',
+    },
+  });
+
   const renderItem = ({item}) => {
     return (
       <View
@@ -48,10 +59,10 @@ const PriceMonth = (props: PriceMonthProps) => {
         }}>
         <View>
           <Text size={11} fontWeight={'500'}>
-            {item.name}
+            {item?.accountName} - {item?.invoiceNumber}
           </Text>
           <Text size={11} marginTop={3} fontWeight={'300'}>
-            {item.createdDate}
+            {moment(item.createdAt).format('DD MMM YYYY')}
           </Text>
         </View>
         <View
@@ -63,7 +74,7 @@ const PriceMonth = (props: PriceMonthProps) => {
           <Text size={11} fontWeight={'300'} marginTop={10}>
             SGD:
             <Text size={11} fontWeight={'500'} color={colors.green}>
-              +{item.price}
+              +{item.value}
             </Text>
           </Text>
         </View>
@@ -79,7 +90,7 @@ const PriceMonth = (props: PriceMonthProps) => {
         </Text>
       </View>
       <FlatList
-        data={state.data}
+        data={data?.data || []}
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
         keyExtractor={keyExtractor}

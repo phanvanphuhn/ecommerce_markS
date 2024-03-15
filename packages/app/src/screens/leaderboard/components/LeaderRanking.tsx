@@ -139,20 +139,20 @@ const LeaderRanking = (props: TData) => {
                         fontSize: 20,
                         fontWeight: '400',
                         color: '#BB9147',
-                        marginTop: 12,
+                        marginTop: 20,
                       }
                     : getRank(item, props.type) == '2'
                     ? {
                         fontSize: 14,
                         fontWeight: '400',
                         color: '#F2F2F2',
-                        marginTop: 12,
+                        marginTop: 20,
                       }
                     : {
                         fontSize: 14,
                         fontWeight: '400',
                         color: '#CE7C49',
-                        marginTop: 12,
+                        marginTop: 20,
                       }
                 }>
                 {item.fullName}

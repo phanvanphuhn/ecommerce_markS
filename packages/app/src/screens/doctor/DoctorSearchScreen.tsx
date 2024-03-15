@@ -160,6 +160,12 @@ const DoctorSearchScreen = (props: DoctorSearchScreenProps) => {
       });
     }
   }, [state.keyword]);
+
+  const getDataDoctor = useMemo(() => {
+    let list = [...(data?.data || [])];
+    return list;
+  }, [data?.data]);
+
   const renderItem: ListRenderItem<IDoctorSearchList> = ({item, index}) => {
     return (
       <TouchableOpacity
@@ -313,7 +319,7 @@ const DoctorSearchScreen = (props: DoctorSearchScreenProps) => {
         </View>
         <View style={[Theme.flex1, Theme.mt20]}>
           <FlatList
-            data={data?.data || []}
+            data={getDataDoctor}
             renderItem={renderItem}
             keyExtractor={keyExtractor}
             keyboardShouldPersistTaps={'handled'}

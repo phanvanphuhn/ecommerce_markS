@@ -26,31 +26,35 @@ type LeaderboardType = 'Surrounding' | 'TopThree';
 interface Variables {
   country?: string;
   month?: string;
-  period?: LeaderboardPeriod;
+  quarter?: string;
+  sortBy?: LeaderboardPeriod;
   type?: LeaderboardType;
   year: string;
 }
 
 export let GET_LEADERBOARD_QUERY: TypedDocumentNode<Data, Variables> = gql`
   query leaderboard(
-    $country: String
     $month: String
-    $period: LeaderboardPeriod = Month
-    $type: LeaderboardType = TopThree
-    $year: String!
+    $quarter: String
+    $year: String
+    $country: String
+    $sortBy: LeaderboardPeriod
+    $type: LeaderboardType
   ) {
     data: leaderboard(
-      country: $country
       month: $month
-      period: $period
-      type: $type
+      quarter: $quarter
       year: $year
+      country: $country
+      sortBy: $sortBy
+      type: $type
     ) {
       country
       fullName
       id
       lastRefreshedTimestamp
       month
+      quarter
       rankMtd
       rankQtd
       rankYtd

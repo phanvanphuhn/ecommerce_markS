@@ -15,7 +15,8 @@ import {
   GET_LEADERBOARD_QUERY,
   ItemLeaderBoardResponse,
 } from 'apollo/query/leaderboard';
-import {getRank} from 'utils/other-utils';
+import {getRank, pad} from 'utils/other-utils';
+import moment from 'moment/moment';
 
 interface LeaderboardScreenProps {}
 
@@ -35,10 +36,17 @@ const LeaderboardScreen = (props: LeaderboardScreenProps) => {
   const [getData] = useLazyQuery(GET_LEADERBOARD_QUERY);
   const [getDataSurround] = useLazyQuery(GET_LEADERBOARD_QUERY);
   useEffect(() => {
+    const date = moment();
     getData({
       variables: {
-        year: new Date().getFullYear().toString(),
-        period: state.type,
+        month:
+          state.type != 'Month' ? undefined : pad(date.month() + 1).toString(),
+        year: date.year().toString(),
+        quarter:
+          state.type == 'Year'
+            ? undefined
+            : pad(Math.ceil((date.month() + 1) / 3)),
+        sortBy: state.type,
         type: 'TopThree',
       },
       onCompleted: data => {
@@ -48,8 +56,14 @@ const LeaderboardScreen = (props: LeaderboardScreenProps) => {
     });
     getDataSurround({
       variables: {
-        year: new Date().getFullYear().toString(),
-        period: state.type,
+        month:
+          state.type != 'Month' ? undefined : pad(date.month() + 1).toString(),
+        year: date.year().toString(),
+        quarter:
+          state.type == 'Year'
+            ? undefined
+            : pad(Math.ceil((date.month() + 1) / 3)),
+        sortBy: state.type,
         type: 'Surrounding',
       },
       onCompleted: data => {
@@ -67,7 +81,7 @@ const LeaderboardScreen = (props: LeaderboardScreenProps) => {
             style={[Theme.flex1]}
             isFocused={state.type == 'Month'}
             onPress={() => {
-              setState({type: 'Month', dataTop: []});
+              setState({type: 'Month', dataTop: [], dataSurrounding: []});
             }}
           />
           <ItemTab
@@ -75,7 +89,7 @@ const LeaderboardScreen = (props: LeaderboardScreenProps) => {
             style={[Theme.flex1]}
             isFocused={state.type == 'Quarter'}
             onPress={() => {
-              setState({type: 'Quarter', dataTop: []});
+              setState({type: 'Quarter', dataTop: [], dataSurrounding: []});
             }}
           />
           <ItemTab
@@ -83,7 +97,7 @@ const LeaderboardScreen = (props: LeaderboardScreenProps) => {
             style={[Theme.flex1]}
             isFocused={state.type == 'Year'}
             onPress={() => {
-              setState({type: 'Year', dataTop: []});
+              setState({type: 'Year', dataTop: [], dataSurrounding: []});
             }}
           />
         </View>
