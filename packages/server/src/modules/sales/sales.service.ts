@@ -225,6 +225,8 @@ export class SalesService {
       }
     }
 
+    query = query.where('salesRepEmail', 'ilike', salesRepEmail);
+
     const result = await query.selectAll().execute();
 
     return result.map((row) => new SalesInvoicesOutput(row));
