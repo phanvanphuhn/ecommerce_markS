@@ -53,7 +53,7 @@ export class SalesService {
       .where('salesRepEmail', 'ilike', salesRepEmail);
 
     if (this.configService.get('globalConfig.deployEnv') === 'stage-ap') {
-      filter.year = filter.year ? '2023' : null;
+      filter.year = filter.year ? '2024' : null;
       filter.month = filter.month ? '2' : null;
     }
 
@@ -80,7 +80,7 @@ export class SalesService {
       .where('salesRepEmail', 'ilike', salesRepEmail);
 
     if (this.configService.get('globalConfig.deployEnv') === 'stage-ap') {
-      data.year = data.year ? '2023' : null;
+      data.year = data.year ? '2024' : null;
     }
 
     if (data.year) {
@@ -143,7 +143,7 @@ export class SalesService {
     data: UpserMobileSalestYearArgs,
   ) {
     if (this.configService.get('globalConfig.deployEnv') === 'stage-ap') {
-      data.year = data.year ? '2023' : null;
+      data.year = data.year ? '2024' : null;
     }
 
     const salesRep = await this.database

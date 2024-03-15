@@ -34,7 +34,7 @@ export class LeaderboardService {
     filter: LeaderboardFilterArgs = {},
   ) {
     if (this.configService.get('globalConfig.deployEnv') === 'stage-ap') {
-      filter.year = filter.year ? '2023' : null;
+      filter.year = filter.year ? '2024' : null;
       filter.month = filter.month ? '2' : null;
     }
 
@@ -69,7 +69,7 @@ export class LeaderboardService {
     filter: LeaderboardFilterArgs = {},
   ) {
     if (this.configService.get('globalConfig.deployEnv') === 'stage-ap') {
-      filter.year = filter.year ? '2023' : null;
+      filter.year = filter.year ? '2024' : null;
       filter.month = filter.month ? '2' : null;
     }
 
