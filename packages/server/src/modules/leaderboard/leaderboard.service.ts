@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { isEmpty } from 'class-validator';
 import { Expression } from 'kysely';
+import { ConfigService } from '@nestjs/config';
 
 import { integer } from '@/common/utils/kysely-cast';
 
@@ -23,12 +24,20 @@ const periodToRank = {
 
 @Injectable()
 export class LeaderboardService {
-  constructor(private readonly database: Database) {}
+  constructor(
+    private readonly database: Database,
+    private readonly configService: ConfigService,
+  ) {}
 
   async getLeaderboardOfSelf(
     salesRepEmail: string,
     filter: LeaderboardFilterArgs = {},
   ) {
+    if (this.configService.get('globalConfig.deployEnv') === 'stage-ap') {
+      filter.year = filter.year ? '2023' : null;
+      filter.month = filter.month ? '2' : null;
+    }
+
     let query = this.database.selectFrom('marks.Leaderboard');
     query = query.where('salesRepEmail', 'ilike', salesRepEmail);
 
@@ -59,6 +68,11 @@ export class LeaderboardService {
     salesRepEmail: string,
     filter: LeaderboardFilterArgs = {},
   ) {
+    if (this.configService.get('globalConfig.deployEnv') === 'stage-ap') {
+      filter.year = filter.year ? '2023' : null;
+      filter.month = filter.month ? '2' : null;
+    }
+
     // top three or surrounding
     if (filter.type) {
       const rankToFilter = periodToRank[filter.sortBy] as SelectRankField;

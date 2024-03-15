@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { Sales, mobileSalesTargetType } from '@generated/kysely/types';
 
 import { OrderDirection } from '@/common/pagination/order-direction';
@@ -24,7 +25,10 @@ import {
 
 @Injectable()
 export class SalesService {
-  constructor(private readonly database: Database) {}
+  constructor(
+    private readonly database: Database,
+    readonly configService: ConfigService,
+  ) {}
 
   async getSliderAndCommisions(): Promise<SliderAndCommissionOutput[]> {
     return await this.database
@@ -48,6 +52,11 @@ export class SalesService {
       .selectFrom('marks.Sales')
       .where('salesRepEmail', 'ilike', salesRepEmail);
 
+    if (this.configService.get('globalConfig.deployEnv') === 'stage-ap') {
+      filter.year = filter.year ? '2023' : null;
+      filter.month = filter.month ? '2' : null;
+    }
+
     if (filter.year) {
       query = query.where('year', '=', filter.year);
     }
@@ -69,6 +78,10 @@ export class SalesService {
     let query = this.database
       .selectFrom('marks.Mobile_Sales')
       .where('salesRepEmail', 'ilike', salesRepEmail);
+
+    if (this.configService.get('globalConfig.deployEnv') === 'stage-ap') {
+      data.year = data.year ? '2023' : null;
+    }
 
     if (data.year) {
       query = query.where('year', '=', data.year);
@@ -129,6 +142,10 @@ export class SalesService {
     salesRepEmail: string,
     data: UpserMobileSalestYearArgs,
   ) {
+    if (this.configService.get('globalConfig.deployEnv') === 'stage-ap') {
+      data.year = data.year ? '2023' : null;
+    }
+
     const salesRep = await this.database
       .selectFrom('marks.Mobile_Sales')
       .where((eb) =>
