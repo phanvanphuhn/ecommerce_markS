@@ -46,6 +46,28 @@ const CallLogScreen = (props: any) => {
   const {data: dataHospital} = useQuery(GET_HOSPITAL_LIST_QUERY, {});
   const {data: dataDoctor} = useQuery(GET_DOCTOR_QUERY);
 
+  const typeData = [
+    {label: 'CALL', value: 'CALL'},
+    {label: 'CASE SUPPORT', value: 'CASE_SUPPORT'},
+    {label: 'EDETAILING', value: 'EDETAILING'},
+    {label: 'EDETAILING VIRTUAL', value: 'EDETAILING_VIRTUAL'},
+    {label: 'EMAIL', value: 'EMAIL'},
+    {label: 'FOLLOW UP', value: 'FOLLOW_UP'},
+    {
+      label: 'MARKETING MATERIAL PREPARATION',
+      value: 'MARKETING MATERIAL PREPARATION',
+    },
+    {label: 'MEETING', value: 'MEETING'},
+    {label: 'OTHER', value: 'OTHER'},
+    {label: 'PRECEPTORSHIP', value: 'PRECEPTORSHIP'},
+    {label: 'PROCTORSHIP', value: 'PROCTORSHIP'},
+    {label: 'PRODUCT DEMO', value: 'PRODUCT_DEMO'},
+    {label: 'REMOTE CASE SUPPORT', value: 'REMOTE_CASE_SUPPORT'},
+    {label: 'SEND LETTER', value: 'SEND_LETTER'},
+    {label: 'SEND QUOTE', value: 'SEND_QUOTE'},
+    {label: 'WEBINARS', value: 'WEBINARS'},
+  ];
+
   const formik = useFormik<PlanCallInput>({
     initialValues: route.params?.item
       ? {
@@ -77,10 +99,14 @@ const CallLogScreen = (props: any) => {
       : {
           activitySubtype: route.params?.item?.activitySubtype || 'CALL',
           activityType: route.params?.item?.activityType || 'EVENT',
-          contactName: route.params?.item?.contactName || '',
-          account: route.params?.item?.account || '',
+          contactName:
+            dataDoctor?.data
+              ?.filter(e => !!e.doctorName)
+              ?.map(e => ({value: e.doctorName, label: e.doctorName}))[0]
+              .value || '',
+          account: dataHospital?.data[0] || '',
           description: route.params?.item?.description || '',
-          division: route.params?.item?.division || '',
+          division: data?.data[0] || '',
           endDate: route.params?.item?.endDate
             ? moment(
                 route.params?.item?.endDate,
@@ -230,27 +256,7 @@ const CallLogScreen = (props: any) => {
                 name={'activitySubtype'}
                 placeholder={'Select Type'}
                 type={'dropdown'}
-                arrDropdown={[
-                  {label: 'CALL', value: 'CALL'},
-                  {label: 'CASE SUPPORT', value: 'CASE_SUPPORT'},
-                  {label: 'EDETAILING', value: 'EDETAILING'},
-                  {label: 'EDETAILING VIRTUAL', value: 'EDETAILING_VIRTUAL'},
-                  {label: 'EMAIL', value: 'EMAIL'},
-                  {label: 'FOLLOW UP', value: 'FOLLOW_UP'},
-                  {
-                    label: 'MARKETING MATERIAL PREPARATION',
-                    value: 'MARKETING MATERIAL PREPARATION',
-                  },
-                  {label: 'MEETING', value: 'MEETING'},
-                  {label: 'OTHER', value: 'OTHER'},
-                  {label: 'PRECEPTORSHIP', value: 'PRECEPTORSHIP'},
-                  {label: 'PROCTORSHIP', value: 'PROCTORSHIP'},
-                  {label: 'PRODUCT DEMO', value: 'PRODUCT_DEMO'},
-                  {label: 'REMOTE CASE SUPPORT', value: 'REMOTE_CASE_SUPPORT'},
-                  {label: 'SEND LETTER', value: 'SEND_LETTER'},
-                  {label: 'SEND QUOTE', value: 'SEND_QUOTE'},
-                  {label: 'WEBINARS', value: 'WEBINARS'},
-                ]}
+                arrDropdown={typeData}
                 rightIcon={
                   <IconAntDesign name="downcircle" size={15} color={'black'} />
                 }
