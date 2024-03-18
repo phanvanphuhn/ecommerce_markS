@@ -66,6 +66,7 @@ const CaseLogScreen2 = (props: any) => {
   const navigation = useNavigation<BaseUseNavigationProps<MainParamList>>();
 
   const formik = useFormik<CaseLogInput>({
+    enableReinitialize: true,
     initialValues: {
       caseName: route.params?.item?.caseName || '',
       endDate: route.params?.item?.endDate
@@ -74,9 +75,16 @@ const CaseLogScreen2 = (props: any) => {
       startDate: route.params?.item?.startDate
         ? moment(route.params?.item?.startDate, 'YYYY-MM-DD HH:mm:ss').toDate()
         : roundDate({isPlus1: false}),
-      account: route.params?.item?.account || '',
+      account: route.params?.item?.account
+        ? route.params?.item?.account
+        : dataHospital?.data[0] || '',
       location: route.params?.item?.location || '',
-      contact: route.params?.item?.contact || '',
+      contact: route.params?.item?.contact
+        ? route.params?.item?.contact
+        : dataDoctor?.data
+            ?.filter(e => !!e.doctorName)
+            ?.map(e => ({value: e.doctorName, label: e.doctorName}))[0].value ||
+          '',
       secondaryContact: route.params?.item?.secondaryContact || '',
       files: [],
       id: route.params?.item?.id || uuid.v4(),

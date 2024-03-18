@@ -42,16 +42,8 @@ const CallLogScreen = (props: any) => {
   const {data} = useQuery(GET_DIVISION_LIST_QUERY, {
     variables: {},
   });
-  console.log('data?.data[0]: ', data?.data[0]);
   const {data: dataHospital} = useQuery(GET_HOSPITAL_LIST_QUERY, {});
-  console.log('dataHospital?.data[0]: ', dataHospital?.data[0]);
   const {data: dataDoctor} = useQuery(GET_DOCTOR_QUERY);
-  console.log(
-    'dataDoctor: ',
-    dataDoctor?.data
-      ?.filter(e => !!e.doctorName)
-      ?.map(e => ({value: e.doctorName, label: e.doctorName}))[0].value,
-  );
   const typeData = [
     {label: 'CALL', value: 'CALL'},
     {label: 'CASE SUPPORT', value: 'CASE_SUPPORT'},
@@ -75,6 +67,7 @@ const CallLogScreen = (props: any) => {
   ];
 
   const formik = useFormik<PlanCallInput>({
+    enableReinitialize: true,
     initialValues: route.params?.item
       ? {
           activitySubtype: route.params?.item?.activitySubtype || 'CALL',
@@ -109,10 +102,10 @@ const CallLogScreen = (props: any) => {
             dataDoctor?.data
               ?.filter(e => !!e.doctorName)
               ?.map(e => ({value: e.doctorName, label: e.doctorName}))[0]
-              .value || '',
-          account: dataHospital?.data[0] || '',
+              .value ?? '',
+          account: dataHospital?.data[0] ?? '',
           description: route.params?.item?.description || '',
-          division: data?.data[0] || '',
+          division: data?.data[0] ?? '',
           endDate: route.params?.item?.endDate
             ? moment(
                 route.params?.item?.endDate,
