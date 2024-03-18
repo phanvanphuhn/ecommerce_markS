@@ -61,7 +61,21 @@ export class LeaderboardService {
     }
 
     const result = await query.selectAll().execute();
-    return result.map((item) => new LeaderboardOutput(item));
+    return result.map(
+      (item) =>
+        new LeaderboardOutput({
+          ...item,
+          targetAchievedMtd: (
+            parseInt(item.targetAchievedMtd) * 100
+          ).toString(),
+          targetAchievedQtd: (
+            parseInt(item.targetAchievedQtd) * 100
+          ).toString(),
+          targetAchievedYtd: (
+            parseInt(item.targetAchievedYtd) * 100
+          ).toString(),
+        }),
+    );
   }
 
   async getLeaderboard(
@@ -190,7 +204,21 @@ export class LeaderboardService {
             return all.slice(Math.max(0, startingIndex - diff), all.length);
           }
 
-          return surrounding.map((item) => new LeaderboardOutput(item));
+          return surrounding.map(
+            (item) =>
+              new LeaderboardOutput({
+                ...item,
+                targetAchievedMtd: (
+                  parseInt(item.targetAchievedMtd) * 100
+                ).toString(),
+                targetAchievedQtd: (
+                  parseInt(item.targetAchievedQtd) * 100
+                ).toString(),
+                targetAchievedYtd: (
+                  parseInt(item.targetAchievedYtd) * 100
+                ).toString(),
+              }),
+          );
       }
     }
   }
