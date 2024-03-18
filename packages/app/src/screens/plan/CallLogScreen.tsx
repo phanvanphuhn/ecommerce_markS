@@ -42,10 +42,16 @@ const CallLogScreen = (props: any) => {
   const {data} = useQuery(GET_DIVISION_LIST_QUERY, {
     variables: {},
   });
-
+  console.log('data?.data[0]: ', data?.data[0]);
   const {data: dataHospital} = useQuery(GET_HOSPITAL_LIST_QUERY, {});
+  console.log('dataHospital?.data[0]: ', dataHospital?.data[0]);
   const {data: dataDoctor} = useQuery(GET_DOCTOR_QUERY);
-
+  console.log(
+    'dataDoctor: ',
+    dataDoctor?.data
+      ?.filter(e => !!e.doctorName)
+      ?.map(e => ({value: e.doctorName, label: e.doctorName}))[0].value,
+  );
   const typeData = [
     {label: 'CALL', value: 'CALL'},
     {label: 'CASE SUPPORT', value: 'CASE_SUPPORT'},
