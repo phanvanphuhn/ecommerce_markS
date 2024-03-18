@@ -67,7 +67,6 @@ const CallLogScreen = (props: any) => {
   ];
 
   const formik = useFormik<PlanCallInput>({
-    enableReinitialize: true,
     initialValues: route.params?.item
       ? {
           activitySubtype: route.params?.item?.activitySubtype || 'CALL',
@@ -98,14 +97,15 @@ const CallLogScreen = (props: any) => {
       : {
           activitySubtype: route.params?.item?.activitySubtype || 'CALL',
           activityType: route.params?.item?.activityType || 'EVENT',
-          contactName:
-            dataDoctor?.data
-              ?.filter(e => !!e.doctorName)
-              ?.map(e => ({value: e.doctorName, label: e.doctorName}))[0]
-              .value ?? '',
-          account: dataHospital?.data[0] ?? '',
+          contactName: dataDoctor
+            ? dataDoctor?.data
+                ?.filter(e => !!e.doctorName)
+                ?.map(e => ({value: e.doctorName, label: e.doctorName}))[0]
+                .value
+            : '',
+          account: dataHospital ? dataHospital?.data[0] : '',
           description: route.params?.item?.description || '',
-          division: data?.data[0] ?? '',
+          division: data ? data?.data[0] : '',
           endDate: route.params?.item?.endDate
             ? moment(
                 route.params?.item?.endDate,

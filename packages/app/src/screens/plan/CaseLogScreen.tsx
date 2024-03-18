@@ -66,7 +66,6 @@ const CaseLogScreen2 = (props: any) => {
   const navigation = useNavigation<BaseUseNavigationProps<MainParamList>>();
 
   const formik = useFormik<CaseLogInput>({
-    enableReinitialize: true,
     initialValues: {
       caseName: route.params?.item?.caseName || '',
       endDate: route.params?.item?.endDate
