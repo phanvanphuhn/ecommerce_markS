@@ -62,7 +62,7 @@ const PriceMonth = (props: PriceMonthProps) => {
             {item?.accountName} - {item?.invoiceNumber}
           </Text>
           <Text size={11} marginTop={3} fontWeight={'300'}>
-            {moment(item.createdAt).format('DD MMM YYYY')}
+            {moment(item.invoiceDate).format('DD MMM YYYY')}
           </Text>
         </View>
         <View
