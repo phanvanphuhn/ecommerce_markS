@@ -35,6 +35,7 @@ import CustomMenu from 'components/Menu/CustomMenu';
 import ListRecents from 'screens/doctor/ListRecents';
 import {hideLoading, showLoading} from 'components/Loading/LoadingComponent';
 import snackbarUtils from 'utils/snackbar-utils';
+import {removeDuplicate} from 'utils/array-utils';
 
 interface DoctorSearchScreenProps {}
 
@@ -163,7 +164,7 @@ const DoctorSearchScreen = (props: DoctorSearchScreenProps) => {
 
   const getDataDoctor = useMemo(() => {
     let list = [...(data?.data || [])];
-    return list;
+    return removeDuplicate(list, ['doctorEmail', 'doctorPhone']);
   }, [data?.data]);
 
   const renderItem: ListRenderItem<IDoctorSearchList> = ({item, index}) => {

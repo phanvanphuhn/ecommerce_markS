@@ -8,6 +8,9 @@ export interface IDoctorSearchList {
   doctorAlternativeEmail: string;
   doctorCountry: string;
   doctorDivision: string;
+  division: string[];
+  specialty: string[];
+  topics: string[];
   doctorEmail: string;
   doctorName: string;
   doctorPhone: string;

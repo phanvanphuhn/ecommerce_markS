@@ -1,7 +1,7 @@
 import Button1Click from 'components/Button/Button1Click';
 import Button2Click from 'components/Button/Button2Click';
 import Container from 'elements/Layout/Container';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   Image,
   ScrollView,
@@ -64,6 +64,22 @@ const CaseLogScreen2 = (props: any) => {
   const [onSubmitData] = useMutation(upsertCaseLog);
   console.log('=>(CaseLogScreen.tsx:58) upsertCaseLog', upsertCaseLog);
   const navigation = useNavigation<BaseUseNavigationProps<MainParamList>>();
+  useEffect(() => {
+    formik.setFieldValue(
+      'contact',
+      route.params?.item?.contact ||
+        dataDoctor?.data
+          ?.filter(e => !!e.doctorName)
+          ?.map(e => ({value: e.doctorName, label: e.doctorName}))[0].value,
+    );
+  }, [dataDoctor?.data, route.params?.item?.contact]);
+
+  useEffect(() => {
+    formik.setFieldValue(
+      'account',
+      route.params?.item?.account || dataHospital ? dataHospital?.data[0] : '',
+    );
+  }, [dataHospital, route.params?.item?.account]);
 
   const formik = useFormik<CaseLogInput>({
     initialValues: {

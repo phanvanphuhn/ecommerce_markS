@@ -50,8 +50,27 @@ const DetailDoctorScreen = (
         doctorPhone: props.route.params.item.doctorPhone,
       },
       onCompleted: response => {
-        let hospital = response.data.find(e => e);
-        setState({listHospital: response.data, hospital: hospital});
+        let data = response?.data
+          ?.map(e => e.hospital)
+          .filter((e, i, arr) => arr.indexOf(e) == i)
+          .map(item => {
+            let division = response?.data.filter(e => e.hospital == item);
+            let obj = response?.data.find(e => e.hospital == item);
+            return {
+              ...obj,
+              division: division
+                .filter(e => !!e.doctorDivision)
+                .map(e => e.doctorDivision),
+              specialty: division
+                .filter(e => !!e.doctorSpecialty)
+                .map(e => e.doctorSpecialty),
+              topics: division
+                .filter(e => !!e.topicsOfInterest)
+                .map(e => e.topicsOfInterest),
+            };
+          });
+        let hospital = data.find(e => e);
+        setState({listHospital: data, hospital: hospital});
       },
     });
   }, []);
@@ -238,7 +257,10 @@ const DetailDoctorScreen = (
                 ]}>
                 {state.listHospital.map((e, i) => {
                   return (
-                    <View
+                    <TouchableOpacity
+                      onPress={() => {
+                        setState({hospital: e});
+                      }}
                       style={[
                         styles.containerSelect,
                         {
@@ -257,7 +279,7 @@ const DetailDoctorScreen = (
                         }>
                         {e.hospital}
                       </Text>
-                    </View>
+                    </TouchableOpacity>
                   );
                 })}
               </View>
@@ -281,10 +303,7 @@ const DetailDoctorScreen = (
                 Specialty
               </Text>
               <TextInput
-                value={
-                  state.listHospital?.map(e => e.doctorSpecialty).join(', ') ||
-                  ''
-                }
+                value={state?.hospital?.specialty?.join(', ') || ''}
                 editable={state.isEdit}
                 style={styles.input}
               />
@@ -296,10 +315,7 @@ const DetailDoctorScreen = (
                 Division
               </Text>
               <TextInput
-                value={
-                  state.listHospital?.map(e => e.doctorDivision).join(', ') ||
-                  ''
-                }
+                value={state?.hospital?.division?.join(', ') || ''}
                 editable={state.isEdit}
                 style={styles.input}
               />
@@ -311,7 +327,7 @@ const DetailDoctorScreen = (
                 Topics Of Interest
               </Text>
               <TextInput
-                value={state?.hospital?.topicsOfInterest || ''}
+                value={state?.hospital?.topics?.join(', ') || ''}
                 editable={state.isEdit}
                 style={[styles.input, {borderBottomWidth: 0}]}
               />

@@ -15,3 +15,9 @@ export const formatData = (list: any[], page: number) => (data: any[]) => {
     }
   }
 };
+
+export const removeDuplicate = (arr: any[], keys: string[]) => {
+  return arr.filter(
+    (v, i, a) => a.findIndex(v2 => keys.every(k => v2[k] === v[k])) === i,
+  );
+};
