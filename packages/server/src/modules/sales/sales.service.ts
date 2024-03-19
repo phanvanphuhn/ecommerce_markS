@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { isEmpty } from 'class-validator';
 import { Sales, mobileSalesTargetType } from '@generated/kysely/types';
 
 import { OrderDirection } from '@/common/pagination/order-direction';
@@ -53,8 +54,8 @@ export class SalesService {
       .where('salesRepEmail', 'ilike', salesRepEmail);
 
     if (this.configService.get('globalConfig.deployEnv') === 'stage-ap') {
-      filter.year = filter.year ? '2024' : null;
-      filter.month = filter.month ? '2' : null;
+      filter.year = !isEmpty(filter.year) ? '2024' : null;
+      filter.month = !isEmpty(filter.month) ? '2' : null;
     }
 
     if (filter.year) {
@@ -143,7 +144,7 @@ export class SalesService {
     data: UpserMobileSalestYearArgs,
   ) {
     if (this.configService.get('globalConfig.deployEnv') === 'stage-ap') {
-      data.year = data.year ? '2024' : null;
+      data.year = !isEmpty(data.year) ? '2024' : null;
     }
 
     const salesRep = await this.database
