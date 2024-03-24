@@ -88,7 +88,7 @@ const PriceYear = (props: PriceYearProps) => {
       case 4:
         return 1000;
       default:
-        return 600;
+        return 0;
     }
   }, [getTotalConsecQuarter, state.type]);
 
