@@ -26,6 +26,8 @@ import {BaseNavigationProps} from 'navigation/BaseNavigationProps';
 import {MainParamList} from 'navigation/service/NavigationParams';
 import {Routes} from 'configs';
 import {IDoctorSearchList} from 'network/apis/doctor/DoctorResponse';
+import {useNavigation} from '@react-navigation/core';
+import {NavigationProp} from '@react-navigation/native';
 
 interface State {
   listHospital: IDoctorSearchList[];
@@ -41,6 +43,7 @@ const DetailDoctorScreen = (
     listHospital: [],
     hospital: undefined,
   });
+  const navigation = useNavigation<NavigationProp<MainParamList>>();
   const [getData, {data, loading}] = useLazyQuery(GET_DOCTOR_PROFILE_QUERY);
   useEffect(() => {
     getData({
@@ -181,6 +184,11 @@ const DetailDoctorScreen = (
               </Text>
               <View style={[Theme.flexRowSpace, Theme.mt20]}>
                 <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate(Routes.CallLogScreen, {
+                      isCreateNew: true,
+                    });
+                  }}
                   style={[
                     Theme.center,
                     Theme.flex1,
@@ -194,19 +202,19 @@ const DetailDoctorScreen = (
                   <Image source={images.ic_sales_call} />
                   <Text marginTop={5}>Sales Call</Text>
                 </TouchableOpacity>
-                <TouchableOpacity
-                  style={[
-                    Theme.center,
-                    Theme.flex1,
-                    {
-                      backgroundColor: colors.blue4,
-                      borderRadius: 10,
-                      padding: 8,
-                    },
-                  ]}>
-                  <Image source={images.ic_case} />
-                  <Text marginTop={5}>Case</Text>
-                </TouchableOpacity>
+                {/*<TouchableOpacity*/}
+                {/*  style={[*/}
+                {/*    Theme.center,*/}
+                {/*    Theme.flex1,*/}
+                {/*    {*/}
+                {/*      backgroundColor: colors.blue4,*/}
+                {/*      borderRadius: 10,*/}
+                {/*      padding: 8,*/}
+                {/*    },*/}
+                {/*  ]}>*/}
+                {/*  <Image source={images.ic_case} />*/}
+                {/*  <Text marginTop={5}>Case</Text>*/}
+                {/*</TouchableOpacity>*/}
               </View>
             </View>
             <View style={{marginTop: 20}}>

@@ -29,7 +29,6 @@ const dataGuidelines = [
 ];
 const PriceYear = (props: PriceYearProps) => {
   const {state, setState} = useContainerContext<IStateSales>();
-  const [isBiometric, setIsBiometric] = useState(true);
   console.log('=>(PriceYear.tsx:18) state', state);
   const [isOpen, open, close] = useModal();
 
@@ -235,17 +234,6 @@ const PriceYear = (props: PriceYearProps) => {
     });
   }, [getVariable, getCommission, getKicker, getEarlyBird]);
 
-  if (isBiometric) {
-    return (
-      <Biometric
-        key={state.type}
-        onSuccess={() => {
-          open();
-          setIsBiometric(false);
-        }}
-      />
-    );
-  }
   return (
     <>
       <ScrollView showsVerticalScrollIndicator={false}>

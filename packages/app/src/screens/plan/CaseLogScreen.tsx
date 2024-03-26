@@ -64,22 +64,22 @@ const CaseLogScreen2 = (props: any) => {
   const [onSubmitData] = useMutation(upsertCaseLog);
   console.log('=>(CaseLogScreen.tsx:58) upsertCaseLog', upsertCaseLog);
   const navigation = useNavigation<BaseUseNavigationProps<MainParamList>>();
-  useEffect(() => {
-    formik.setFieldValue(
-      'contact',
-      route.params?.item?.contact ||
-        dataDoctor?.data
-          ?.filter(e => !!e.doctorName)
-          ?.map(e => ({value: e.doctorName, label: e.doctorName}))[0].value,
-    );
-  }, [dataDoctor?.data, route.params?.item?.contact]);
-
-  useEffect(() => {
-    formik.setFieldValue(
-      'account',
-      route.params?.item?.account || dataHospital ? dataHospital?.data[0] : '',
-    );
-  }, [dataHospital, route.params?.item?.account]);
+  // useEffect(() => {
+  //   formik.setFieldValue(
+  //     'contact',
+  //     route.params?.item?.contact ||
+  //       dataDoctor?.data
+  //         ?.filter(e => !!e.doctorName)
+  //         ?.map(e => ({value: e.doctorName, label: e.doctorName}))[0].value,
+  //   );
+  // }, [dataDoctor?.data, route.params?.item?.contact]);
+  //
+  // useEffect(() => {
+  //   formik.setFieldValue(
+  //     'account',
+  //     route.params?.item?.account || dataHospital ? dataHospital?.data[0] : '',
+  //   );
+  // }, [dataHospital, route.params?.item?.account]);
 
   const formik = useFormik<CaseLogInput>({
     initialValues: {
@@ -90,16 +90,9 @@ const CaseLogScreen2 = (props: any) => {
       startDate: route.params?.item?.startDate
         ? moment(route.params?.item?.startDate, 'YYYY-MM-DD HH:mm:ss').toDate()
         : roundDate({isPlus1: false}),
-      account: route.params?.item?.account
-        ? route.params?.item?.account
-        : dataHospital?.data[0] || '',
+      account: route.params?.item?.account ? route.params?.item?.account : '',
       location: route.params?.item?.location || '',
-      contact: route.params?.item?.contact
-        ? route.params?.item?.contact
-        : dataDoctor?.data
-            ?.filter(e => !!e.doctorName)
-            ?.map(e => ({value: e.doctorName, label: e.doctorName}))[0].value ||
-          '',
+      contact: route.params?.item?.contact ? route.params?.item?.contact : '',
       secondaryContact: route.params?.item?.secondaryContact || '',
       files: [],
       id: route.params?.item?.id || uuid.v4(),

@@ -164,7 +164,7 @@ const DoctorSearchScreen = (props: DoctorSearchScreenProps) => {
 
   const getDataDoctor = useMemo(() => {
     let list = [...(data?.data || [])];
-    return removeDuplicate(list, ['doctorEmail', 'doctorPhone']);
+    return removeDuplicate(list, ['contactId']);
   }, [data?.data]);
 
   const renderItem: ListRenderItem<IDoctorSearchList> = ({item, index}) => {

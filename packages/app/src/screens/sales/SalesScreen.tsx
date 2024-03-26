@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import Container from 'elements/Layout/Container';
 import strings from 'res/strings';
@@ -21,6 +21,7 @@ import {getSales, SalesOutput} from 'apollo/query/getSales';
 import {upsertMobileSalesQuarter} from 'apollo/query/upsertMobileSalesQuarter';
 import {upsertMobileSalesYear} from 'apollo/query/upsertMobileSalesYear';
 import {hideLoading, showLoading} from 'components/Loading/LoadingComponent';
+import Biometric from 'screens/sales/components/Biometric';
 
 interface SalesScreenProps {}
 export type TabDateType = 'Month' | 'Quarter' | 'Year';
@@ -40,6 +41,7 @@ const SalesScreen = (props: SalesScreenProps) => {
     listCommission: [],
     data: {},
   });
+  const [isBiometric, setIsBiometric] = useState(true);
 
   const [getData] = useLazyQuery(getMobileSales);
   const [getSlider] = useLazyQuery(getSliderAndCommisions);
@@ -171,7 +173,18 @@ const SalesScreen = (props: SalesScreenProps) => {
         <ScrollView showsVerticalScrollIndicator={false}>
           <ContainerProgress />
           {(state.type == 'Year' || state.type == 'Quarter') && (
-            <PriceYear key={state.type} />
+            <>
+              {isBiometric ? (
+                <Biometric
+                  key={state.type}
+                  onSuccess={() => {
+                    setIsBiometric(false);
+                  }}
+                />
+              ) : (
+                <PriceYear key={state.type} />
+              )}
+            </>
           )}
           {state.type == 'Month' && <PriceMonth />}
         </ScrollView>

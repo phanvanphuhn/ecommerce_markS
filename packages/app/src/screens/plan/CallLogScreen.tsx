@@ -66,28 +66,28 @@ const CallLogScreen = (props: any) => {
     {label: 'WEBINARS', value: 'WEBINARS'},
   ];
 
-  useEffect(() => {
-    formik.setFieldValue(
-      'contactName',
-      route.params?.item?.contactName ||
-        dataDoctor?.data
-          ?.filter(e => !!e.doctorName)
-          ?.map(e => ({value: e.doctorName, label: e.doctorName}))[0].value,
-    );
-  }, [dataDoctor?.data, route.params?.item?.contactName]);
-  useEffect(() => {
-    formik.setFieldValue(
-      'account',
-      route.params?.item?.account || dataHospital ? dataHospital?.data[0] : '',
-    );
-  }, [dataHospital, route.params?.item?.account]);
+  // useEffect(() => {
+  //   formik.setFieldValue(
+  //     'contactName',
+  //     route.params?.item?.contactName ||
+  //       dataDoctor?.data
+  //         ?.filter(e => !!e.doctorName)
+  //         ?.map(e => ({value: e.doctorName, label: e.doctorName}))[0].value,
+  //   );
+  // }, [dataDoctor?.data, route.params?.item?.contactName]);
+  // useEffect(() => {
+  //   formik.setFieldValue(
+  //     'account',
+  //     route.params?.item?.account || dataHospital ? dataHospital?.data[0] : '',
+  //   );
+  // }, [dataHospital, route.params?.item?.account]);
 
-  useEffect(() => {
-    formik.setFieldValue(
-      'division',
-      route.params?.item?.division || data ? data?.data[0] : '',
-    );
-  }, [data, route.params?.item?.division]);
+  // useEffect(() => {
+  //   formik.setFieldValue(
+  //     'division',
+  //     route.params?.item?.division || data ? data?.data[0] : '',
+  //   );
+  // }, [data, route.params?.item?.division]);
 
   const formik = useFormik<PlanCallInput>({
     initialValues: route.params?.item

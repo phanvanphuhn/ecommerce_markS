@@ -37,7 +37,7 @@ const InputForm = (props: InputFormProps) => {
           style={[styles.dropdownContainer, isError && styles.error]}
           selectedTextStyle={styles.textInput}
           containerStyle={{borderRadius: 4}}
-          placeholderStyle={styles.textInput}
+          placeholderStyle={styles.placeHolderTextInput}
           renderRightIcon={() => (
             <IconAntDesign name="downcircle" size={15} color={'black'} />
           )}
@@ -45,13 +45,11 @@ const InputForm = (props: InputFormProps) => {
           maxHeight={300}
           labelField="label"
           valueField="value"
+          search={true}
+          searchField={'label'}
           dropdownPosition={props.dropdownPosition}
           placeholder={props.placeholder}
-          value={
-            values?.[props.name]
-              ? values?.[props.name]
-              : props?.arrDropdown[0]?.value
-          }
+          value={values?.[props.name] ? values?.[props.name] : ''}
           onChange={e => setFieldValue(props.name, e.value)}
         />
       ) : (
@@ -123,6 +121,11 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 15,
     color: colors.black,
+    flex: 1,
+  },
+  placeHolderTextInput: {
+    fontSize: 15,
+    color: colors.inactive,
     flex: 1,
   },
   placeHolder: {
