@@ -148,19 +148,23 @@ const DoctorSearchScreen = (props: DoctorSearchScreenProps) => {
       topics: state.topicsSelected || [],
     });
   };
-  useDebounce(() => {
-    _getData(state.keyword);
-    if (state.keyword) {
-      updateSearch({
-        variables: {
-          data: {
-            searchQuery: state.keyword,
-            searchType: ['ContactSearch'],
+  useDebounce(
+    () => {
+      _getData(state.keyword);
+      if (state.keyword) {
+        updateSearch({
+          variables: {
+            data: {
+              searchQuery: state.keyword,
+              searchType: ['ContactSearch'],
+            },
           },
-        },
-      });
-    }
-  }, [state.keyword]);
+        });
+      }
+    },
+    [state.keyword],
+    1500,
+  );
 
   const getDataDoctor = useMemo(() => {
     let list = [...(data?.data || [])];
