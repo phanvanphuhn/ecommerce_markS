@@ -62,13 +62,13 @@ export class ContactSearchService {
       query = query.where((eb) => {
         const ors: Expression<SqlBool>[] = [];
         if (filter.doctorName) {
-          ors.push(eb('doctorName', 'like', `%${filter.doctorName}%`));
+          ors.push(eb('doctorName', 'ilike', `%${filter.doctorName}%`));
         }
         if (filter.doctorTitle) {
-          ors.push(eb('doctorTitle', 'like', `%${filter.doctorTitle}%`));
+          ors.push(eb('doctorTitle', 'ilike', `%${filter.doctorTitle}%`));
         }
         if (filter.hospital) {
-          ors.push(eb('hospital', 'like', `%${filter.hospital}%`));
+          ors.push(eb('hospital', 'ilike', `%${filter.hospital}%`));
         }
         if (filter.doctorDivisions) {
           ors.push(eb('doctorDivision', 'in', filter.doctorDivisions));
@@ -86,7 +86,7 @@ export class ContactSearchService {
           );
         }
         if (filter.doctorCountry) {
-          ors.push(eb('doctorCountry', 'like', `%${filter.doctorCountry}%`));
+          ors.push(eb('doctorCountry', 'ilike', `%${filter.doctorCountry}%`));
         }
         if (filter.topicsOfInterests) {
           ors.push(eb('topicsOfInterest', 'in', filter.topicsOfInterests));
