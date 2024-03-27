@@ -325,7 +325,14 @@ const PriceYear = (props: PriceYearProps) => {
           <ItemCollapsible
             icon={images.ic_total}
             title={'Total'}
-            currentValue={2000}
+            currentValue={
+              state?.data?.capitalEquipment +
+              state?.data?.serviceContract +
+              state?.data?.kicker +
+              state?.data?.earlyBird +
+              variable +
+              comission
+            }
             potentialValue={Math.round(state?.data?.totalSales)}
           />
         </View>

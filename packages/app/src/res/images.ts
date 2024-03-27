@@ -1,7 +1,8 @@
+/* eslint-disable global-require */
 /**
- * @author GNURT
- * @flow
- */
+* @author GNURT
+* @flow
+*/
 
 const images = {
   LoadingScreen: require('../assets/images/LoadingScreen.png'),
@@ -10,9 +11,11 @@ const images = {
   ic_avatar: require('../assets/images/ic_avatar.png'),
   ic_back: require('../assets/images/ic_back.png'),
   ic_bg_avatar: require('../assets/images/ic_bg_avatar.png'),
+  ic_book: require('../assets/images/ic_book.png'),
   ic_boost: require('../assets/images/ic_boost.png'),
   ic_boost_with_bg: require('../assets/images/ic_boost_with_bg.png'),
   ic_booster: require('../assets/images/ic_booster.png'),
+  ic_bronzeMedal1: require('../assets/images/ic_bronzeMedal1.png'),
   ic_case: require('../assets/images/ic_case.png'),
   ic_case_log: require('../assets/images/ic_case_log.png'),
   ic_chart: require('../assets/images/ic_chart.png'),
@@ -27,6 +30,7 @@ const images = {
   ic_day: require('../assets/images/ic_day.png'),
   ic_dislike: require('../assets/images/ic_dislike.png'),
   ic_doctor_default: require('../assets/images/ic_doctor_default.png'),
+  ic_doctor_default2: require('../assets/images/ic_doctor_default2.svg'),
   ic_dolar: require('../assets/images/ic_dolar.png'),
   ic_dolar2: require('../assets/images/ic_dolar2.png'),
   ic_down: require('../assets/images/ic_down.png'),
@@ -36,6 +40,7 @@ const images = {
   ic_filter: require('../assets/images/ic_filter.png'),
   ic_filter2: require('../assets/images/ic_filter2.png'),
   ic_goldMedal: require('../assets/images/ic_goldMedal.png'),
+  ic_goldMedal1: require('../assets/images/ic_goldMedal1.png'),
   ic_home: require('../assets/images/ic_home.png'),
   ic_hospital: require('../assets/images/ic_hospital.png'),
   ic_info: require('../assets/images/ic_info.png'),
@@ -66,6 +71,7 @@ const images = {
   ic_search: require('../assets/images/ic_search.png'),
   ic_setting: require('../assets/images/ic_setting.png'),
   ic_sharing: require('../assets/images/ic_sharing.png'),
+  ic_silverMedal1: require('../assets/images/ic_silverMedal1.png'),
   ic_sort: require('../assets/images/ic_sort.png'),
   ic_statusCancel: require('../assets/images/ic_statusCancel.png'),
   ic_three_day: require('../assets/images/ic_three_day.png'),
@@ -74,16 +80,13 @@ const images = {
   ic_top2: require('../assets/images/ic_top2.png'),
   ic_top3: require('../assets/images/ic_top3.png'),
   ic_total: require('../assets/images/ic_total.png'),
+  ic_touchId: require('../assets/images/ic_touchId.png'),
+  ic_unlock: require('../assets/images/ic_unlock.png'),
   ic_user: require('../assets/images/ic_user.png'),
   ic_view_file: require('../assets/images/ic_view_file.png'),
   ic_whitePlus: require('../assets/images/ic_whitePlus.png'),
   ic_x: require('../assets/images/ic_x.png'),
   img_background: require('../assets/images/img_background.png'),
   img_logo: require('../assets/images/img_logo.png'),
-  ic_book: require('../assets/images/ic_book.png'),
-  ic_touchId: require('../assets/images/ic_touchId.png'),
-  ic_goldMedal1: require('../assets/images/ic_goldMedal1.png'),
-  ic_silverMedal1: require('../assets/images/ic_silverMedal1.png'),
-  ic_bronzeMedal1: require('../assets/images/ic_bronzeMedal1.png'),
 };
 export default images;

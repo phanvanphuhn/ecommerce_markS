@@ -69,11 +69,13 @@ const Biometric = (props: BiometricProps) => {
           ...Theme.center,
         }}>
         <Image
-          source={Platform.OS == 'ios' ? images.ic_face : images.ic_touchId}
+          source={Platform.OS == 'ios' ? images.ic_face : images.ic_unlock}
         />
-        <Text color={colors.dotActive} fontWeight={'700'}>
-          {Platform.OS == 'ios' ? 'Face ID' : 'Touch ID'}
-        </Text>
+        {Platform.OS == 'ios' && (
+          <Text color={colors.dotActive} fontWeight={'700'}>
+            {'Face ID'}
+          </Text>
+        )}
       </TouchableOpacity>
     </View>
   );
