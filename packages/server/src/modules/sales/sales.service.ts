@@ -230,6 +230,12 @@ export class SalesService {
 
     const result = await query.selectAll().execute();
 
-    return result.map((row) => new SalesInvoicesOutput(row));
+    return result.map(
+      (row) =>
+        new SalesInvoicesOutput({
+          ...row,
+          value: parseFloat(row?.value || '0').toFixed(2),
+        }),
+    );
   }
 }
