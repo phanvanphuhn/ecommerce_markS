@@ -36,6 +36,7 @@ export class LeaderboardService {
     if (this.configService.get('globalConfig.deployEnv') === 'stage-ap') {
       filter.year = !isEmpty(filter.year) ? '2024' : null;
       filter.month = !isEmpty(filter.month) ? '02' : null;
+      filter.quarter = !isEmpty(filter.quarter) ? '01' : null;
     }
 
     let query = this.database.selectFrom('marks.Leaderboard');
