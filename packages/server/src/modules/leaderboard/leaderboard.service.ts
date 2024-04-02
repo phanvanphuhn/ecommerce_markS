@@ -66,15 +66,6 @@ export class LeaderboardService {
       (item) =>
         new LeaderboardOutput({
           ...item,
-          targetAchievedMtd: (parseFloat(item.targetAchievedMtd) * 100)
-            .toFixed(2)
-            .toString(),
-          targetAchievedQtd: (parseFloat(item.targetAchievedQtd) * 100)
-            .toFixed(2)
-            .toString(),
-          targetAchievedYtd: (parseFloat(item.targetAchievedYtd) * 100)
-            .toFixed(2)
-            .toString(),
         }),
     );
   }
@@ -210,15 +201,6 @@ export class LeaderboardService {
             (item) =>
               new LeaderboardOutput({
                 ...item,
-                targetAchievedMtd: (parseFloat(item.targetAchievedMtd) * 100)
-                  .toFixed(2)
-                  .toString(),
-                targetAchievedQtd: (parseFloat(item.targetAchievedQtd) * 100)
-                  .toFixed(2)
-                  .toString(),
-                targetAchievedYtd: (parseFloat(item.targetAchievedYtd) * 100)
-                  .toFixed(2)
-                  .toString(),
               }),
           );
       }
