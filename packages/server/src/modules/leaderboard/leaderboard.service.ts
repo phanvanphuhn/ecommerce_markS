@@ -34,9 +34,9 @@ export class LeaderboardService {
     filter: LeaderboardFilterArgs = {},
   ) {
     if (this.configService.get('globalConfig.deployEnv') === 'stage-ap') {
-      filter.year = !isEmpty(filter.year) ? '2024' : null;
-      filter.month = !isEmpty(filter.month) ? '02' : null;
-      filter.quarter = !isEmpty(filter.quarter) ? '01' : null;
+      filter.year = '2024';
+      filter.month = '02';
+      filter.quarter = '01';
     }
 
     let query = this.database.selectFrom('marks.Leaderboard');
@@ -75,9 +75,9 @@ export class LeaderboardService {
     filter: LeaderboardFilterArgs = {},
   ) {
     if (this.configService.get('globalConfig.deployEnv') === 'stage-ap') {
-      filter.year = !isEmpty(filter.year) ? '2024' : null;
-      filter.month = !isEmpty(filter.month) ? '02' : null;
-      filter.quarter = !isEmpty(filter.quarter) ? '01' : null;
+      filter.year = '2024';
+      filter.month = '02';
+      filter.quarter = '01';
     }
 
     // top three or surrounding
