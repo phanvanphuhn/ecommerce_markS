@@ -29,6 +29,12 @@ import ModalBase from 'components/ModalBase';
 import ButtonBorder from 'elements/Buttons/ButtonBorder';
 import useModal from 'hooks/useModal';
 import {useContainerContext} from 'components/ContainerProvider';
+import LinearGradient from 'react-native-linear-gradient';
+import ButtonIcon from 'elements/Buttons/ButtonIcon';
+import {useLazyQuery, useMutation} from '@apollo/client';
+import {getMobileSales} from 'apollo/query/getMobileSales';
+import {upsertMobileSalesQuarter} from 'apollo/query/upsertMobileSalesQuarter';
+import {upsertMobileSalesYear} from 'apollo/query/upsertMobileSalesYear';
 
 interface ContainerProgressProps {}
 
@@ -48,8 +54,70 @@ const ContainerProgress = (props: ContainerProgressProps) => {
     ],
   });
   const [isOpen, open, close] = useModal();
+  const [isOpenAccept, openAccept, closeAccept] = useModal();
   const {state, setState} = useContainerContext<IStateSales>();
-  console.log('=>(ContainerProgress.tsx:52) state', state);
+  const [getData, {data}] = useLazyQuery(getMobileSales);
+  const [updateTargetQuarter] = useMutation(upsertMobileSalesQuarter);
+  const [updateTargetYear] = useMutation(upsertMobileSalesYear);
+
+  const onUpdateTarget = async () => {
+    let date = moment(state.currentDate);
+    if (state.percentage2 <= 80) {
+      return;
+    }
+    switch (state.type) {
+      case 'Month':
+        break;
+      case 'Year':
+        if (state.data?.targetByYear) {
+          updateTargetYear({
+            variables: {
+              year: date.year().toString(),
+              targetByYear: state.data?.targetByYear,
+            },
+          });
+        }
+        break;
+      case 'Quarter':
+        if (state?.data?.targetByQuarter) {
+          await updateTargetQuarter({
+            variables: {
+              quarter: Math.ceil((date.month() + 1) / 3).toString(),
+              year: date.year().toString(),
+              targetByQuarter: parseInt(
+                state?.data?.targetByQuarter * ((state.percentage2 + 3) / 100),
+              ).toString(),
+            },
+          });
+          setState({percentage2: state.percentage2 + 3});
+          closeAccept();
+        }
+        break;
+    }
+  };
+  useEffect(() => {
+    if (data?.data?.length) {
+      let per =
+        (data?.data[0]?.targetByQuarter / state?.data?.targetByQuarter) * 100;
+
+      setState({
+        percentage2: isNaN(per) ? 100 : per,
+        percentage: isNaN(per) ? 100 : per,
+      });
+    }
+  }, [data, state?.data?.targetByQuarter]);
+  useEffect(() => {
+    if (state.type == 'Quarter' || state.type == 'Year') {
+      let date = moment(state.currentDate);
+      getData({
+        variables: {
+          type: state?.type == 'Quarter' ? 'quarter' : 'year',
+          year: date.year().toString(),
+          quarter: Math.ceil((date.month() + 1) / 3).toString(),
+        },
+      });
+    }
+  }, [state.currentDate, state.type]);
   const renderDate = useCallback(() => {
     let date = state.currentDate ? moment(state.currentDate) : moment();
     switch (state.type) {
@@ -110,16 +178,11 @@ const ContainerProgress = (props: ContainerProgressProps) => {
   }, [state.data, state.type]);
   const targetPercent = useMemo(() => {
     let target = (targetTotal / state.data?.[`targetBy${state.type}`]) * 100;
-    console.log(
-      '=>(ContainerProgress.tsx:113) state.data?.[`targetBy${state.type}`]',
-      state.data?.[`targetBy${state.type}`],
-    );
     if (state.data?.[`targetBy${state.type}`]) {
       return Math.round(target);
     }
     return 0;
   }, [targetAvchieve, targetTotal]);
-  console.log('=>(ContainerProgress.tsx:118) targetPercent', targetPercent);
   return (
     <>
       <Animated.View style={styles.container}>
@@ -160,7 +223,7 @@ const ContainerProgress = (props: ContainerProgressProps) => {
           <View style={{}}>
             <CircleMultipleSlider
               maxBottom={100}
-              valueBottom={100}
+              valueBottom={state.percentage2}
               disabledMax={120}
               maxTop={100}
               colorTop={
@@ -183,8 +246,10 @@ const ContainerProgress = (props: ContainerProgressProps) => {
               width={width - 100}
               thumbRadius={22}
               onUpdate={value => {
+                console.log('=>(ContainerProgress.tsx:237) value', value);
                 setState({
                   percentage: value,
+                  // percentage2: value,
                 });
               }}
               strokeWidth={45}>
@@ -205,6 +270,55 @@ const ContainerProgress = (props: ContainerProgressProps) => {
                 <Text center={true} marginTop={5} size={24} fontWeight={'600'}>
                   ${String(targetTotal)?.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                 </Text>
+                {/*{targetAvchieve == 0 &&*/}
+                {/*targetPercent >= 100 &&*/}
+                {/*(state.percentage == 100 || state.percentage2 == 100) ? (*/}
+                {/*  <View>*/}
+                {/*    <Image*/}
+                {/*      source={{*/}
+                {/*        uri: 'https://s3-alpha-sig.figma.com/img/d629/aee5/a7a6cd47d163c25d7313395be545020c?Expires=1713139200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=TAZ3iTgUIYkQvAfZIaFoUWi0B4qC~K6qKod7eKkJLJLZmAYkDj7UxqZNeE~mFUAyaMVUpfzRKKedViQ~IfsDTlSDVz7z7GhFiOwFJrPsR4~zHQts0tNpf1j~giGt4o0TuMyABZMqgbAXBw0doZNf46l31XdoRv9SOvJ9CHjxCRACXSB~n19mXr15Zm1LewG2WgTUFn3rOsuSpeaIVaLUvGdx0dqD47Liqb24BrT~8wqZ1XFEzt0u2ul-DWO8p3TlOEpW2RVyvDjsvig9tbXbSMC~qwcZN2sBxI8pBu~gly8ppAWqnCTLuBZfWhm3rpOC3bmliA4BQ2Z41jT-XgEc3Q__',*/}
+                {/*      }}*/}
+                {/*      style={{*/}
+                {/*        position: 'absolute',*/}
+                {/*        top: 0,*/}
+                {/*        left: -10,*/}
+                {/*        right: 0,*/}
+                {/*        bottom: 0,*/}
+                {/*        width: 155,*/}
+                {/*        height: 70,*/}
+                {/*      }}*/}
+                {/*    />*/}
+                {/*    <TouchableOpacity*/}
+                {/*      onPress={openAccept}*/}
+                {/*      activeOpacity={0.8}*/}
+                {/*      style={{*/}
+                {/*        backgroundColor: colors.white,*/}
+                {/*        borderRadius: 500,*/}
+                {/*        shadowColor: colors.borderColor,*/}
+                {/*        shadowOffset: {width: 2, height: 4},*/}
+                {/*        shadowOpacity: 0.9,*/}
+                {/*        overflow: 'hidden',*/}
+                {/*        marginTop: 10,*/}
+                {/*      }}>*/}
+                {/*      <Text marginHorizontal={8} marginVertical={4} size={8}>*/}
+                {/*        Potential Est. $: <Text size={14}>+$1200</Text>*/}
+                {/*      </Text>*/}
+                {/*      <View*/}
+                {/*        style={{*/}
+                {/*          backgroundColor: colors.blue3,*/}
+                {/*          paddingVertical: 5,*/}
+                {/*        }}>*/}
+                {/*        <Text*/}
+                {/*          size={12}*/}
+                {/*          fontWeight={'600'}*/}
+                {/*          color={colors.white}*/}
+                {/*          center={true}>*/}
+                {/*          Accept*/}
+                {/*        </Text>*/}
+                {/*      </View>*/}
+                {/*    </TouchableOpacity>*/}
+                {/*  </View>*/}
+                {/*) : (*/}
                 <View
                   style={{
                     backgroundColor: colors.borderColor,
@@ -222,6 +336,7 @@ const ContainerProgress = (props: ContainerProgressProps) => {
                     <Text fontWeight={'400'}>to {state.percentage}%</Text>
                   </Text>
                 </View>
+                {/*)}*/}
               </View>
             </CircleMultipleSlider>
           </View>
@@ -286,6 +401,74 @@ const ContainerProgress = (props: ContainerProgressProps) => {
           />
         </View>
       </ModalBase>
+      <ModalBase
+        animationIn={'slideInDown'}
+        animationOut={'slideOutUp'}
+        isVisibleModal={isOpenAccept}>
+        <View style={styles.containerModal2}>
+          <View
+            style={[
+              {
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                paddingHorizontal: 5,
+                marginBottom: 10,
+              },
+            ]}>
+            <ButtonIcon icon={images.ic_x} onPress={closeAccept} />
+            <Image source={images.ic_dolar2} />
+            <Image source={images.ic_x} style={{opacity: 0}} />
+          </View>
+          <View style={{paddingHorizontal: 20}}>
+            <Text size={18} fontWeight={'700'} marginBottom={20}>
+              How would you feel about the following additional rewards?
+            </Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}>
+              <View style={{width: 1}} />
+              <Text style={{width: '35%'}}>Potential Est. $ at 110%</Text>
+            </View>
+            <View style={styles.container3}>
+              <Text size={15}>Variable</Text>
+              <View style={styles.container4}>
+                <Text color={colors.orange} fontWeight={'700'} size={15}>
+                  590.000
+                </Text>
+              </View>
+            </View>
+            <View style={styles.container3}>
+              <Text size={15}>Commission</Text>
+              <View style={styles.container4}>
+                <Text color={colors.orange} fontWeight={'700'} size={15}>
+                  590.000
+                </Text>
+              </View>
+            </View>
+            <View style={styles.container3}>
+              <Text size={15}>New Total</Text>
+              <View style={styles.container4}>
+                <Text color={colors.orange} fontWeight={'700'} size={15}>
+                  590.000
+                </Text>
+              </View>
+            </View>
+          </View>
+          <ButtonBorder
+            borderColor={colors.blue3}
+            height={42}
+            color={colors.blue3}
+            textProps={{fontWeight: '700'}}
+            style={[{marginTop: 30, marginHorizontal: 40}]}
+            title={'Accept new goal of 110%'}
+            onPress={onUpdateTarget}
+          />
+        </View>
+      </ModalBase>
     </>
   );
 };
@@ -296,6 +479,21 @@ const styles = StyleSheet.create({
   container: {
     overflow: 'hidden',
     paddingBottom: 10,
+  },
+  container3: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderBottomColor: colors.borderColor,
+    borderBottomWidth: 1,
+    paddingBottom: 10,
+    paddingTop: 10,
+  },
+  container4: {
+    backgroundColor: colors.gray2,
+    paddingHorizontal: 20,
+    borderRadius: 100,
+    paddingVertical: 5,
   },
   container2: {
     backgroundColor: colors.white,
@@ -318,5 +516,13 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 20,
     alignSelf: 'center',
     justifyContent: 'center',
+  },
+  containerModal2: {
+    backgroundColor: colors.white,
+    paddingBottom: 20,
+    paddingTop: 10,
+    borderBottomRightRadius: 20,
+    borderBottomLeftRadius: 20,
+    alignSelf: 'center',
   },
 });

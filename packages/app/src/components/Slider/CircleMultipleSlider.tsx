@@ -68,7 +68,6 @@ const CircleMultipleSlider: React.FC<CircleMultipleSliderProps> = ({
 }) => {
   const getValuePercent = (value: number, max?: number) => {
     let val = value / (max || 1) || 0;
-    console.log('=>(CircleMultipleSlider.tsx:71) val', val);
     return val > 1 ? val - 1 : val;
   };
   const [state, setState] = useStateCustom<IState>({
@@ -80,6 +79,13 @@ const CircleMultipleSlider: React.FC<CircleMultipleSliderProps> = ({
     setState({percentTop: getValuePercent(valueTop, maxTop)});
     percentCompleteTop.value = getValuePercent(valueTop, maxTop);
   }, [valueTop]);
+  useEffect(() => {
+    let percent = valueBottom / (maxBottom || 1) || 0;
+    let percentBottom = parseInt((100 - percent * 100 + 100).toFixed());
+
+    setState({percentBottom: percentBottom});
+    percentCompleteBottom.value = percentBottom / (maxBottom || 1);
+  }, [valueBottom]);
   const center = width / 2;
   const r = (width - strokeWidth) / 2 - 10;
   const startAngle = Math.PI;
@@ -148,19 +154,19 @@ const CircleMultipleSlider: React.FC<CircleMultipleSliderProps> = ({
       } else {
         percentCompleteBottom.value = percent;
       }
-      const newCoords = polar2Canvas(
-        {
-          theta: -newTheta,
-          radius: r,
-        },
-        {
-          x: center,
-          y: center,
-        },
-      );
-
-      movableCx.value = newCoords.x;
-      movableCy.value = newCoords.y;
+      // const newCoords = polar2Canvas(
+      //   {
+      //     theta: -newTheta,
+      //     radius: r,
+      //   },
+      //   {
+      //     x: center,
+      //     y: center,
+      //   },
+      // );
+      //
+      // movableCx.value = newCoords.x;
+      // movableCy.value = newCoords.y;
     })
     .onEnd(() => {
       previousPositionX.value = movableCx.value;
@@ -172,10 +178,20 @@ const CircleMultipleSlider: React.FC<CircleMultipleSliderProps> = ({
       let percentBottom = parseInt(
         (100 - percentCompleteBottom.value * 100 + 100).toFixed(),
       );
-      skiaCx.current = movableCx.value;
-      skiaCy.current = movableCy.value;
-      skiaFontCx.current = movableCx.value - thumbRadius / 2 - 5;
-      skiaFontCy.current = movableCy.value + thumbRadius / 3;
+      const newCoordsBottom = polar2Canvas(
+        {
+          theta: -((1 - percentCompleteBottom.value) * Math.PI),
+          radius: r,
+        },
+        {
+          x: center,
+          y: center,
+        },
+      );
+      skiaCx.current = newCoordsBottom.x;
+      skiaCy.current = newCoordsBottom.y;
+      skiaFontCx.current = newCoordsBottom.x - thumbRadius / 2 - 5;
+      skiaFontCy.current = newCoordsBottom.y + thumbRadius / 3;
       skiaPercentComplete.current = percentCompleteBottom.value;
       skiaPercentComplete1.current = percentCompleteTop.value;
       const newCoords = polar2Canvas(

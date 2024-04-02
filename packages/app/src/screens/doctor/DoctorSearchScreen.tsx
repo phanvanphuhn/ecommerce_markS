@@ -168,7 +168,24 @@ const DoctorSearchScreen = (props: DoctorSearchScreenProps) => {
 
   const getDataDoctor = useMemo(() => {
     let list = [...(data?.data || [])];
-    return removeDuplicate(list, ['contactId']);
+    return list
+      .map(e => e.contactId)
+      .filter((e, index, arr) => arr.indexOf(e) == index)
+      .map(e => {
+        let obj = list.find(item => item.contactId == e);
+        let doctors = list.filter(item => item.contactId == e);
+        let division = doctors
+          .filter(e => e.doctorDivision)
+          .map(e => e.doctorDivision);
+        let nameHospital = removeDuplicate(doctors, ['hospital'])
+          .filter(e => e.hospital)
+          .map(e => e.hospital);
+        return {
+          ...obj,
+          division,
+          nameHospital,
+        };
+      });
   }, [data?.data]);
 
   const renderItem: ListRenderItem<IDoctorSearchList> = ({item, index}) => {
@@ -188,14 +205,25 @@ const DoctorSearchScreen = (props: DoctorSearchScreenProps) => {
           <View style={[Theme.flexRow, Theme.pl08, Theme.pt05]}>
             <Image source={images.ic_hospital} />
             <Text numberOfLines={1} marginLeft={7}>
-              {item.doctorDivision}
+              {item.division?.join(', ')}
             </Text>
           </View>
-          <View style={[Theme.flexRow, Theme.pl08, Theme.pt05]}>
-            <Image source={images.ic_plus} />
-            <Text numberOfLines={1} marginLeft={7}>
-              {item.hospital}
-            </Text>
+          <View
+            style={[
+              Theme.flexRow,
+              Theme.pl08,
+              Theme.pt05,
+              {alignItems: 'flex-start'},
+            ]}>
+            <Image
+              source={images.ic_plus}
+              style={{marginTop: 3, marginRight: 7}}
+            />
+            <View>
+              {item.nameHospital?.map(e => (
+                <Text numberOfLines={1}>{e}</Text>
+              ))}
+            </View>
           </View>
           <View style={[Theme.flexRow, Theme.pl08, Theme.pt05]}>
             <Image source={images.ic_mail} />
