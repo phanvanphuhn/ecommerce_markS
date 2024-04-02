@@ -56,6 +56,14 @@ const ContainerProgress = (props: ContainerProgressProps) => {
   const [isOpen, open, close] = useModal();
   const [isOpenAccept, openAccept, closeAccept] = useModal();
   const {state, setState} = useContainerContext<IStateSales>();
+  console.log(
+    '=>(ContainerProgress.tsx:59) state.percentage2',
+    state.percentage2,
+  );
+  console.log(
+    '=>(ContainerProgress.tsx:59) state.percentage',
+    state.percentage,
+  );
   const [getData, {data}] = useLazyQuery(getMobileSales);
   const [updateTargetQuarter] = useMutation(upsertMobileSalesQuarter);
   const [updateTargetYear] = useMutation(upsertMobileSalesYear);
@@ -89,8 +97,11 @@ const ContainerProgress = (props: ContainerProgressProps) => {
               ).toString(),
             },
           });
-          setState({percentage2: state.percentage2 + 3});
           closeAccept();
+          setState({
+            percentage2: getPercent + 3,
+            percentage: getPercent + 3,
+          });
         }
         break;
     }
@@ -183,6 +194,79 @@ const ContainerProgress = (props: ContainerProgressProps) => {
     }
     return 0;
   }, [targetAvchieve, targetTotal]);
+  const getPercent = useMemo(
+    () =>
+      state.percentage == 100 && state?.percentage2 != 100
+        ? state.percentage
+        : state.percentage != 100 && state?.percentage2 == 100
+        ? state?.percentage
+        : state.percentage2,
+    [state.percentage, state.percentage2],
+  );
+  const getCommissionPercent = useMemo(() => {
+    let obj = state.listCommission?.find(
+      e =>
+        e.lowerBound <= (getPercent + 3 || 0) &&
+        e.upperBound > (getPercent + 3 || 0),
+    );
+    return obj?.commissionPercentage || 0;
+  }, [getPercent, state.listCommission]);
+
+  const getVariablePercent = useMemo(() => {
+    let obj = state.listCommission?.find(
+      e =>
+        e.lowerBound <= (getPercent + 3 || 0) &&
+        e.upperBound > (getPercent + 3 || 0),
+    );
+    return obj?.variablePayoutPercentage || 0;
+  }, [getPercent, state.listCommission]);
+
+  const getVariable = useMemo(() => {
+    const {data} = state;
+    switch (state.type) {
+      case 'Quarter':
+        let price =
+          data?.[`variablePayBy${state.type}`] * (getVariablePercent / 100);
+        return (price < 0 ? 0 : price).toFixed();
+      case 'Year':
+        return 0;
+      case 'Month':
+        return 0;
+      default:
+        return 0;
+    }
+  }, [state.type, state.data, getVariablePercent]);
+  const getCommissionSale = useMemo(() => {
+    const {data} = state;
+    switch (state.type) {
+      case 'Quarter':
+        let price =
+          data?.[`targetBy${state.type}`] * 1.05 -
+          data?.[`salesBy${state.type}`];
+        return price;
+      case 'Year':
+        return 0;
+      case 'Month':
+        return 0;
+      default:
+        return 0;
+    }
+  }, [state.type, state.data, getCommissionPercent]);
+  const getCommission = useMemo(() => {
+    const {data} = state;
+    switch (state.type) {
+      case 'Quarter':
+        let price = getCommissionSale * (getCommissionPercent / 100);
+        return (price < 0 ? 0 : price).toFixed();
+      case 'Year':
+        return 0;
+      case 'Month':
+        return 0;
+      default:
+        return 0;
+    }
+  }, [state.type, state.data, getCommissionSale, getCommissionPercent]);
+
   return (
     <>
       <Animated.View style={styles.container}>
@@ -246,10 +330,13 @@ const ContainerProgress = (props: ContainerProgressProps) => {
               width={width - 100}
               thumbRadius={22}
               onUpdate={value => {
-                console.log('=>(ContainerProgress.tsx:237) value', value);
+                if (value == 100) {
+                  setState({
+                    percentage2: value,
+                  });
+                }
                 setState({
                   percentage: value,
-                  // percentage2: value,
                 });
               }}
               strokeWidth={45}>
@@ -270,73 +357,76 @@ const ContainerProgress = (props: ContainerProgressProps) => {
                 <Text center={true} marginTop={5} size={24} fontWeight={'600'}>
                   ${String(targetTotal)?.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                 </Text>
-                {/*{targetAvchieve == 0 &&*/}
-                {/*targetPercent >= 100 &&*/}
-                {/*(state.percentage == 100 || state.percentage2 == 100) ? (*/}
-                {/*  <View>*/}
-                {/*    <Image*/}
-                {/*      source={{*/}
-                {/*        uri: 'https://s3-alpha-sig.figma.com/img/d629/aee5/a7a6cd47d163c25d7313395be545020c?Expires=1713139200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=TAZ3iTgUIYkQvAfZIaFoUWi0B4qC~K6qKod7eKkJLJLZmAYkDj7UxqZNeE~mFUAyaMVUpfzRKKedViQ~IfsDTlSDVz7z7GhFiOwFJrPsR4~zHQts0tNpf1j~giGt4o0TuMyABZMqgbAXBw0doZNf46l31XdoRv9SOvJ9CHjxCRACXSB~n19mXr15Zm1LewG2WgTUFn3rOsuSpeaIVaLUvGdx0dqD47Liqb24BrT~8wqZ1XFEzt0u2ul-DWO8p3TlOEpW2RVyvDjsvig9tbXbSMC~qwcZN2sBxI8pBu~gly8ppAWqnCTLuBZfWhm3rpOC3bmliA4BQ2Z41jT-XgEc3Q__',*/}
-                {/*      }}*/}
-                {/*      style={{*/}
-                {/*        position: 'absolute',*/}
-                {/*        top: 0,*/}
-                {/*        left: -10,*/}
-                {/*        right: 0,*/}
-                {/*        bottom: 0,*/}
-                {/*        width: 155,*/}
-                {/*        height: 70,*/}
-                {/*      }}*/}
-                {/*    />*/}
-                {/*    <TouchableOpacity*/}
-                {/*      onPress={openAccept}*/}
-                {/*      activeOpacity={0.8}*/}
-                {/*      style={{*/}
-                {/*        backgroundColor: colors.white,*/}
-                {/*        borderRadius: 500,*/}
-                {/*        shadowColor: colors.borderColor,*/}
-                {/*        shadowOffset: {width: 2, height: 4},*/}
-                {/*        shadowOpacity: 0.9,*/}
-                {/*        overflow: 'hidden',*/}
-                {/*        marginTop: 10,*/}
-                {/*      }}>*/}
-                {/*      <Text marginHorizontal={8} marginVertical={4} size={8}>*/}
-                {/*        Potential Est. $: <Text size={14}>+$1200</Text>*/}
-                {/*      </Text>*/}
-                {/*      <View*/}
-                {/*        style={{*/}
-                {/*          backgroundColor: colors.blue3,*/}
-                {/*          paddingVertical: 5,*/}
-                {/*        }}>*/}
-                {/*        <Text*/}
-                {/*          size={12}*/}
-                {/*          fontWeight={'600'}*/}
-                {/*          color={colors.white}*/}
-                {/*          center={true}>*/}
-                {/*          Accept*/}
-                {/*        </Text>*/}
-                {/*      </View>*/}
-                {/*    </TouchableOpacity>*/}
-                {/*  </View>*/}
-                {/*) : (*/}
-                <View
-                  style={{
-                    backgroundColor: colors.borderColor,
-                    borderRadius: 20,
-                    paddingHorizontal: 10,
-                    paddingVertical: 3,
-                    marginTop: 5,
-                  }}>
-                  <Text color={colors.pink3} fontWeight={'600'}>
-                    $
-                    {String(targetAvchieve)?.replace(
-                      /\B(?=(\d{3})+(?!\d))/g,
-                      ',',
-                    ) || 0}{' '}
-                    <Text fontWeight={'400'}>to {state.percentage}%</Text>
-                  </Text>
-                </View>
-                {/*)}*/}
+                {targetAvchieve == 0 &&
+                targetPercent >= 100 &&
+                getPercent == 100 ? (
+                  <View>
+                    <Image
+                      source={{
+                        uri: 'https://s3-alpha-sig.figma.com/img/d629/aee5/a7a6cd47d163c25d7313395be545020c?Expires=1713139200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=TAZ3iTgUIYkQvAfZIaFoUWi0B4qC~K6qKod7eKkJLJLZmAYkDj7UxqZNeE~mFUAyaMVUpfzRKKedViQ~IfsDTlSDVz7z7GhFiOwFJrPsR4~zHQts0tNpf1j~giGt4o0TuMyABZMqgbAXBw0doZNf46l31XdoRv9SOvJ9CHjxCRACXSB~n19mXr15Zm1LewG2WgTUFn3rOsuSpeaIVaLUvGdx0dqD47Liqb24BrT~8wqZ1XFEzt0u2ul-DWO8p3TlOEpW2RVyvDjsvig9tbXbSMC~qwcZN2sBxI8pBu~gly8ppAWqnCTLuBZfWhm3rpOC3bmliA4BQ2Z41jT-XgEc3Q__',
+                      }}
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: -10,
+                        right: 0,
+                        bottom: 0,
+                        width: 155,
+                        height: 70,
+                      }}
+                    />
+                    <TouchableOpacity
+                      onPress={openAccept}
+                      activeOpacity={0.8}
+                      style={{
+                        backgroundColor: colors.white,
+                        borderRadius: 500,
+                        shadowColor: colors.borderColor,
+                        shadowOffset: {width: 2, height: 4},
+                        shadowOpacity: 0.9,
+                        overflow: 'hidden',
+                        marginTop: 10,
+                      }}>
+                      <Text marginHorizontal={8} marginVertical={4} size={8}>
+                        Potential Est. $:{' '}
+                        <Text size={14}>
+                          +${Number(getVariable) + Number(getCommission)}
+                        </Text>
+                      </Text>
+                      <View
+                        style={{
+                          backgroundColor: colors.blue3,
+                          paddingVertical: 5,
+                        }}>
+                        <Text
+                          size={12}
+                          fontWeight={'600'}
+                          color={colors.white}
+                          center={true}>
+                          Accept
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+                ) : (
+                  <View
+                    style={{
+                      backgroundColor: colors.borderColor,
+                      borderRadius: 20,
+                      paddingHorizontal: 10,
+                      paddingVertical: 3,
+                      marginTop: 5,
+                    }}>
+                    <Text color={colors.pink3} fontWeight={'600'}>
+                      $
+                      {String(targetAvchieve)?.replace(
+                        /\B(?=(\d{3})+(?!\d))/g,
+                        ',',
+                      ) || 0}{' '}
+                      <Text fontWeight={'400'}>to {state.percentage}%</Text>
+                    </Text>
+                  </View>
+                )}
               </View>
             </CircleMultipleSlider>
           </View>
@@ -431,13 +521,15 @@ const ContainerProgress = (props: ContainerProgressProps) => {
                 justifyContent: 'space-between',
               }}>
               <View style={{width: 1}} />
-              <Text style={{width: '35%'}}>Potential Est. $ at 110%</Text>
+              <Text style={{width: '35%'}}>
+                Potential Est. $ at {getPercent + 3}%
+              </Text>
             </View>
             <View style={styles.container3}>
               <Text size={15}>Variable</Text>
               <View style={styles.container4}>
                 <Text color={colors.orange} fontWeight={'700'} size={15}>
-                  590.000
+                  {getVariable}
                 </Text>
               </View>
             </View>
@@ -445,7 +537,7 @@ const ContainerProgress = (props: ContainerProgressProps) => {
               <Text size={15}>Commission</Text>
               <View style={styles.container4}>
                 <Text color={colors.orange} fontWeight={'700'} size={15}>
-                  590.000
+                  {getCommission}
                 </Text>
               </View>
             </View>
@@ -453,7 +545,7 @@ const ContainerProgress = (props: ContainerProgressProps) => {
               <Text size={15}>New Total</Text>
               <View style={styles.container4}>
                 <Text color={colors.orange} fontWeight={'700'} size={15}>
-                  590.000
+                  {Number(getVariable) + Number(getCommission)}
                 </Text>
               </View>
             </View>
@@ -464,7 +556,7 @@ const ContainerProgress = (props: ContainerProgressProps) => {
             color={colors.blue3}
             textProps={{fontWeight: '700'}}
             style={[{marginTop: 30, marginHorizontal: 40}]}
-            title={'Accept new goal of 110%'}
+            title={`Accept new goal of ${getPercent + 3}%`}
             onPress={onUpdateTarget}
           />
         </View>

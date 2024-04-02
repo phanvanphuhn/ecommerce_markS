@@ -101,17 +101,26 @@ const SalesScreen = (props: SalesScreenProps) => {
       },
     });
     getSlider({
-      onCompleted: data =>
+      onCompleted: data => {
+        console.log('=>(SalesScreen.tsx:117) data', data);
         setState({
           listCommission: data?.data?.map((item: any) => {
             Object.keys(item).forEach(function (key) {
-              item[key] = /[\d]+/.test(item[key])
-                ? parseFloat(item[key].replace('%', ''))
-                : item[key];
+              item[key] =
+                /[0-9]+/.test(item[key]) && typeof item[key] === 'string'
+                  ? Math.round(
+                      parseFloat(
+                        item[key].replaceAll(',', '').replace('%', ''),
+                      ),
+                    )
+                  : /[0-9]+/.test(item[key]) && typeof item[key] === 'number'
+                  ? Math.round(parseFloat(item[key]))
+                  : item[key];
             });
             return item;
           }),
-        }),
+        });
+      },
     });
   }, [state.currentDate, state.type]);
   useEffect(() => {
