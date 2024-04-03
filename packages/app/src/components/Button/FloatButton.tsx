@@ -12,6 +12,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import Config from 'react-native-config';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 import IconEntypo from 'react-native-vector-icons/Entypo';
 import colors from 'res/colors';
@@ -63,7 +64,7 @@ const FloatButton = (props: TProps) => {
           </TouchableOpacity>
         </View>
       )}
-      {isOpen && (
+      {Config.ENV === 'development' && isOpen && (
         <View style={[styles.container]}>
           <Text style={styles.title}>New Case Log</Text>
           <TouchableOpacity

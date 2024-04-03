@@ -131,7 +131,7 @@ const TimelineCalendarScreen = (props: TimelineCalendarScreenProps) => {
     let pivot = moment().month(month).year(year).startOf('month');
     const end = moment().month(month).year(year).endOf('month');
     let dates = {};
-    const disabled = {disabled: true, disableTouchEvent: true};
+    const disabled = {disabled: true, disableTouchEvent: false};
     while (pivot.isBefore(end)) {
       daysIndexes.forEach(day => {
         const copy = moment(pivot);
@@ -151,7 +151,7 @@ const TimelineCalendarScreen = (props: TimelineCalendarScreenProps) => {
           backgroundColor: colors.primary,
           display: 'none',
         }}
-        disabledDaysIndexes={[6, 7]}
+        // disabledDaysIndexes={[6, 7]}
         markedDates={state.markedDates}
       />
       <TimeLinePlan events={state.eventsByDate} />

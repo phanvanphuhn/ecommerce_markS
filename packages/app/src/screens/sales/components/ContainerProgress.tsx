@@ -359,7 +359,8 @@ const ContainerProgress = (props: ContainerProgressProps) => {
                 </Text>
                 {targetAvchieve == 0 &&
                 targetPercent >= 100 &&
-                getPercent == 100 ? (
+                getPercent == 100 &&
+                state.type == 'Quarter' ? (
                   <View>
                     <Image
                       source={{
