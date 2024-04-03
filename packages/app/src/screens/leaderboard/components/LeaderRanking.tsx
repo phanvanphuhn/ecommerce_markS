@@ -23,11 +23,29 @@ const LeaderRanking = (props: TData) => {
   return (
     <View style={styles.container}>
       {[...data]
-        ?.sort(
-          (a, b) =>
-            sortOrder.indexOf(parseInt(getRank(a, props.type))) -
-            sortOrder.indexOf(parseInt(getRank(b, props.type))),
-        )
+        ?.sort((a, b) => {
+          const rankA = parseInt(getRank(a, props.type));
+          const rankB = parseInt(getRank(b, props.type));
+
+          // Check if ranks are in the sortOrder array
+          const isRankAIncluded = sortOrder.includes(rankA);
+          const isRankBIncluded = sortOrder.includes(rankB);
+
+          // Handle missing ranks
+          if (!isRankAIncluded && !isRankBIncluded) {
+            // If both ranks are missing, maintain the original order
+            return 0;
+          } else if (!isRankAIncluded) {
+            // If rank A is missing, place rank B before rank A
+            return 1;
+          } else if (!isRankBIncluded) {
+            // If rank B is missing, place rank A before rank B
+            return -1;
+          } else {
+            // Both ranks are present, sort based on sortOrder
+            return sortOrder.indexOf(rankA) - sortOrder.indexOf(rankB);
+          }
+        })
         ?.map(item => {
           const avatarName =
             item.fullName.split(' ')[0][0] + item.fullName.split(' ')[1][0];
