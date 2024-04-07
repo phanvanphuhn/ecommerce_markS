@@ -11,7 +11,7 @@ interface Variables {
   doctorSpecialty?: string;
   doctorTitle?: string;
   hospital?: string;
-  salesRepEmail: string;
+  salesRepEmail?: string;
 }
 
 export let GET_HOSPITAL_LIST_QUERY: TypedDocumentNode<Data, Variables> = gql`

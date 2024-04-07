@@ -32,6 +32,8 @@ import * as Yup from 'yup';
 import {roundDate} from 'utils/other-utils';
 import {GET_HOSPITAL_LIST_QUERY} from 'apollo/query/getFilterHospitalList';
 import {GET_DOCTOR_QUERY} from 'apollo/query/getDoctorSearchList';
+import useStateCustom from 'hooks/useStateCustom';
+import {IDoctorSearchList} from 'network/apis/doctor/DoctorResponse';
 
 const CallLogScreen = (props: any) => {
   const {route} = props;
@@ -39,11 +41,11 @@ const CallLogScreen = (props: any) => {
   const navigation = useNavigation<BaseUseNavigationProps<MainParamList>>();
   const userProfile = useSelector(state => state.userProfile);
   const [onSubmitData] = useMutation(MUTATION_DATA_CALL_QUERY);
-  const {data} = useQuery(GET_DIVISION_LIST_QUERY, {
-    variables: {},
+  const [state, setState] = useStateCustom({
+    dataHospital: [],
+    dataDoctor: [],
   });
-  const {data: dataHospital} = useQuery(GET_HOSPITAL_LIST_QUERY, {});
-  const {data: dataDoctor} = useQuery(GET_DOCTOR_QUERY);
+
   const typeData = [
     {label: 'CALL', value: 'CALL'},
     {label: 'CASE SUPPORT', value: 'CASE_SUPPORT'},
@@ -65,29 +67,6 @@ const CallLogScreen = (props: any) => {
     {label: 'SEND QUOTE', value: 'SEND_QUOTE'},
     {label: 'WEBINARS', value: 'WEBINARS'},
   ];
-
-  // useEffect(() => {
-  //   formik.setFieldValue(
-  //     'contactName',
-  //     route.params?.item?.contactName ||
-  //       dataDoctor?.data
-  //         ?.filter(e => !!e.doctorName)
-  //         ?.map(e => ({value: e.doctorName, label: e.doctorName}))[0].value,
-  //   );
-  // }, [dataDoctor?.data, route.params?.item?.contactName]);
-  // useEffect(() => {
-  //   formik.setFieldValue(
-  //     'account',
-  //     route.params?.item?.account || dataHospital ? dataHospital?.data[0] : '',
-  //   );
-  // }, [dataHospital, route.params?.item?.account]);
-
-  // useEffect(() => {
-  //   formik.setFieldValue(
-  //     'division',
-  //     route.params?.item?.division || data ? data?.data[0] : '',
-  //   );
-  // }, [data, route.params?.item?.division]);
 
   const formik = useFormik<PlanCallInput>({
     initialValues: route.params?.item
@@ -143,6 +122,8 @@ const CallLogScreen = (props: any) => {
         },
     validationSchema: Yup.object({
       subject: Yup.string().required('Required!'),
+      account: Yup.string().required('Required!'),
+      contactName: Yup.string().required('Required!'),
       startDate: Yup.date(),
       endDate: Yup.date().when('startDate', (startDate, schema) => {
         if (startDate) {
@@ -163,6 +144,7 @@ const CallLogScreen = (props: any) => {
       });
     },
   });
+
   const onCancel = async () => {
     await onSubmitData({
       variables: {
@@ -183,6 +165,20 @@ const CallLogScreen = (props: any) => {
   const onSave = () => {
     formik.handleSubmit();
   };
+
+  const {data} = useQuery(GET_DIVISION_LIST_QUERY, {
+    variables: {},
+  });
+
+  useQuery(GET_HOSPITAL_LIST_QUERY, {
+    variables: {},
+    onCompleted: (dataHospital: any) => setState({dataHospital: dataHospital}),
+  });
+
+  useQuery(GET_DOCTOR_QUERY, {
+    variables: {hospital: formik.values.account || ''},
+    onCompleted: (dataDoctor: any) => setState({dataDoctor: dataDoctor}),
+  });
 
   return (
     <>
@@ -296,7 +292,7 @@ const CallLogScreen = (props: any) => {
                 name={'account'}
                 type={'dropdown'}
                 arrDropdown={
-                  dataHospital?.data
+                  state?.dataHospital?.data
                     ?.filter(e => !!e)
                     ?.map(e => ({value: e, label: e})) || []
                 }
@@ -311,7 +307,7 @@ const CallLogScreen = (props: any) => {
                 placeholder={'Contact Name'}
                 type={'dropdown'}
                 arrDropdown={
-                  dataDoctor?.data
+                  state?.dataDoctor?.data
                     ?.filter(e => !!e.doctorName)
                     ?.map(e => ({value: e.doctorName, label: e.doctorName})) ||
                   []
