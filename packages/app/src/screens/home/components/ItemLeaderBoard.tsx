@@ -43,7 +43,7 @@ const ItemLeaderBoard = (props: ItemLeaderBoardProps) => {
       </View>
       <Image
         source={images.ic_leader_board_gold}
-        style={{width: width / 2 - 80, height: width / 2 - 80, marginTop: 20}}
+        style={{width: width / 2 - 80, height: width / 2 - 70, marginTop: 20}}
       />
     </TouchableOpacity>
   );

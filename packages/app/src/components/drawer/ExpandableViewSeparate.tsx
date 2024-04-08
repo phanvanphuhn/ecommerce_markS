@@ -113,11 +113,11 @@ const ExpandableViewSeparate = (props: Props) => {
       route: Routes.SalesScreen,
       icon: images.ic_sale,
     },
-    {
-      category_name: strings.boost,
-      route: Routes.BoostScreen,
-      icon: images.ic_boost,
-    },
+    // {
+    //   category_name: strings.boost,
+    //   route: Routes.BoostScreen,
+    //   icon: images.ic_boost,
+    // },
     {
       category_name: strings.plan,
       route: Routes.PlanScreen,

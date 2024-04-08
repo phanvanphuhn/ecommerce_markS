@@ -25,7 +25,7 @@ const ItemPlan = (props: ItemPlanProps) => {
   const navigation = useNavigation<BaseUseNavigationProps<MainParamList>>();
 
   const [getData, {loading, data}] = useLazyQuery(GET_PLAN_CALLS, {});
-  console.log('=>(ItemPlan.tsx:28) data', data);
+  console.log('=>(ItemPlan.tsx:28) data', data?.data[0]);
   useEffect(() => {
     getData({variables: {status: ['IN_PROGRESS', 'COMPLETED']}});
   }, []);
@@ -33,6 +33,18 @@ const ItemPlan = (props: ItemPlanProps) => {
   const onDetail = () => {
     navigation.navigate(Routes.PlanScreen);
   };
+
+  const listProcessPlanCall = () => {
+    const currentDate = new Date();
+    return (
+      data?.data.filter(
+        item =>
+          new Date(item.endDate) == currentDate ||
+          new Date(item.endDate) < currentDate,
+      ).length || 0
+    );
+  };
+
   return (
     <TouchableOpacity
       activeOpacity={1}
@@ -69,7 +81,7 @@ const ItemPlan = (props: ItemPlanProps) => {
           '#f2f2f2',
           '#fff',
         ]}
-        value={data?.data.filter(e => e.status == 'COMPLETED')?.length}
+        value={listProcessPlanCall()}
         width={width / 2 - 50}
         thumbRadius={22}
         onUpdate={value => {
@@ -77,9 +89,10 @@ const ItemPlan = (props: ItemPlanProps) => {
         }}
         strokeWidth={20}>
         <Text size={17} fontWeight={'700'}>
-          {data?.data.filter(e => e.status == 'COMPLETED' || !e.status)?.length}
+          {/* {data?.data.filter(e => e.status == 'COMPLETED' || !e.status)?.length} */}
+          {listProcessPlanCall()}
           <Text size={11} color={colors.borderColor}>
-            /{data?.data?.length}
+            /{data?.data.length}
           </Text>
         </Text>
       </CircleSlider>

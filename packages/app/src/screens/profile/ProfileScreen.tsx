@@ -111,17 +111,17 @@ const ProfileScreen = (props: ProfileScreenProps) => {
               title="Email"
               value={userProfile?.salesRepEmail || ''}
             />
-            <InputProfile title="Mobile" value={userProfile?.mobile || ''} />
+            {/* <InputProfile title="Mobile" value={userProfile?.mobile || ''} /> */}
             <InputProfile title="Country" value={userProfile?.country} />
             <InputProfile title="Division" value={userProfile?.division} />
             <InputProfile
               title="Reporting to"
               value={userProfile?.reportingTo}
             />
-            <InputProfile
+            {/* <InputProfile
               title="Preferred Language"
               value={userProfile?.preferredLanguage || ''}
-            />
+            /> */}
             <View style={{height: 100}} />
           </ScrollView>
         </View>

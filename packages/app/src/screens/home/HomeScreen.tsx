@@ -140,9 +140,9 @@ const HomeScreen = (props: BaseNavigationProps<MainParamList>) => {
       type: 'sales',
       isPriority: true,
     },
-    {
-      type: 'boost',
-    },
+    // {
+    //   type: 'boost',
+    // },
     {
       type: 'plan',
     },

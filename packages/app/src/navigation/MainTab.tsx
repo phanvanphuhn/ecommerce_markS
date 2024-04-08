@@ -29,7 +29,7 @@ const MainTab = memo(() => {
             unmountOnBlur: true,
           }}
         />
-        <Tab.Screen name={Routes.BoostScreen} component={BoostScreen} />
+        {/* <Tab.Screen name={Routes.BoostScreen} component={BoostScreen} /> */}
         <Tab.Screen
           name={Routes.PlanScreen}
           component={PlanScreen}
