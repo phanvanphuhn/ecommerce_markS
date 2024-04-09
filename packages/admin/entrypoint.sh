@@ -1,25 +1,20 @@
 #!/bin/bash
 
-encodeReservedCharacters() {
-  # local inputString="$1"
-  # local charactersToEncode='[?:\\/&=+<>]'
+percent_encode() {
+  local string="$1"
+  local encoded=""
+  local char
 
-  # echo "$inputString" | sed -E "s/$charactersToEncode/$(printf '%%%02X\n' "'\0")/g"
-  local input_string=$1
-  local characters_to_encode='[?:\\/&=+<>]'
-  local match
-  local encoded_string
-  
-  for ((i = 0; i < ${#input_string}; i++)); do
-    match=${input_string:i:1}
-    if [[ $match =~ $characters_to_encode ]]; then
-      encoded_string+='%'
-      encoded_string+=$(printf '%02X' "'$match")
-    else
-      encoded_string+=$match
-    fi
+  for ((i = 0; i < ${#string}; i++)); do
+    char="${string:$i:1}"
+    case "$char" in
+      [a-zA-Z0-9.~_\(\)\$\*-]) encoded+="$char" ;;
+      *) printf -v char_encoded '%%%02X' "'$char"
+         encoded+="$char_encoded" ;;
+    esac
   done
-  echo "$encoded_string"
+
+  echo "$encoded"
 }
 
 set -e
@@ -30,7 +25,7 @@ export $(cat $SECRETS_FILE_PATH | jq -r 'to_entries | .[] | .key + "=" + (.value
 # rename host to DB_HOST, username to POSTGRES_USER, password to POSTGRES_PASSWORD, port to DB_PORT
 export DB_HOST=$host
 export POSTGRES_USER=$username
-export POSTGRES_PASSWORD=$(encodeReservedCharacters "$password")
+export POSTGRES_PASSWORD=$(percent_encode "$password")
 export DB_PORT=$port
 export DATABASE_URL="postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${DB_HOST}:${DB_PORT}/${POSTGRES_DB}?schema=${DB_SCHEMA}&sslmode=prefer"
 
