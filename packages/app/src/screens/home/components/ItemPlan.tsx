@@ -15,6 +15,7 @@ import {Routes} from 'configs';
 import {useLazyQuery} from '@apollo/client';
 import {GET_PLAN_CALLS} from 'apollo/query/getPlanCalls';
 import moment from 'moment';
+import {PlanCallOutput} from 'apollo/query/upsertPlanCall';
 
 interface ItemPlanProps {
   isPriority?: boolean;
@@ -36,13 +37,38 @@ const ItemPlan = (props: ItemPlanProps) => {
 
   const listProcessPlanCall = () => {
     const currentDate = new Date();
-    return (
-      data?.data.filter(
-        item =>
-          new Date(item.endDate) == currentDate ||
-          new Date(item.endDate) < currentDate,
-      ).length || 0
-    );
+    const currentYear = currentDate.getUTCFullYear();
+    const currentMonth = currentDate.getUTCMonth();
+    const currentDay = currentDate.getUTCDate();
+
+    const filteredItems = data?.data.filter(item => {
+      const endDate = new Date(item.endDate);
+      const endYear = endDate.getUTCFullYear();
+      const endMonth = endDate.getUTCMonth();
+      const endDay = endDate.getUTCDate();
+
+      return (
+        currentDay === endDay &&
+        currentMonth === endMonth &&
+        currentYear === endYear
+      );
+    });
+
+    return filteredItems;
+  };
+
+  const listDonePlanCall = () => {
+    const currentDate = new Date();
+    const currentTime = currentDate.getUTCHours();
+
+    const filteredItems = listProcessPlanCall()?.filter(item => {
+      const endDate = new Date(item.endDate);
+      const endTime = endDate.getUTCHours();
+
+      return endTime > currentTime;
+    });
+
+    return filteredItems;
   };
 
   return (
@@ -65,7 +91,7 @@ const ItemPlan = (props: ItemPlanProps) => {
         <Image source={images.ic_boost_with_bg} style={{opacity: 0}} />
       </View>
       <CircleSlider
-        max={data?.data?.length}
+        max={listProcessPlanCall()?.length || 0}
         isHideCircle={true}
         disabled={true}
         linearGradientColor={[
@@ -81,7 +107,7 @@ const ItemPlan = (props: ItemPlanProps) => {
           '#f2f2f2',
           '#fff',
         ]}
-        value={listProcessPlanCall()}
+        value={listDonePlanCall()?.length || 0}
         width={width / 2 - 50}
         thumbRadius={22}
         onUpdate={value => {
@@ -90,9 +116,9 @@ const ItemPlan = (props: ItemPlanProps) => {
         strokeWidth={20}>
         <Text size={17} fontWeight={'700'}>
           {/* {data?.data.filter(e => e.status == 'COMPLETED' || !e.status)?.length} */}
-          {listProcessPlanCall()}
+          {listDonePlanCall()?.length || 0}
           <Text size={11} color={colors.borderColor}>
-            /{data?.data.length}
+            /{listProcessPlanCall()?.length || 0}
           </Text>
         </Text>
       </CircleSlider>

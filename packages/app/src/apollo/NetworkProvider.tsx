@@ -39,7 +39,9 @@ const errorLink = onError(({graphQLErrors, networkError, response}) => {
     // snackbarUtils.show(networkError.message, 'danger');
   }
 });
-const httpLink = new HttpLink({uri: `${Config.API_URL}/graphql`});
+const httpLink = new HttpLink({
+  uri: 'https://mark-server.stage-ap.apps.bsci.com/graphql',
+});
 const authMiddleware = new ApolloLink((operation, forward) => {
   // add the authorization to the headers
   const {loginToken, isLogin}: AuthReducer = store.getState().userProfile;
