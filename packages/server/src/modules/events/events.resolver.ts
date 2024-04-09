@@ -58,6 +58,9 @@ export class EventsResolver {
       userInfo.samAccountName,
     );
 
-    return this.eventsService.upsertPlanCall(user[0].salesRepEmail, input);
+    return this.eventsService.upsertPlanCall(user[0].salesRepEmail, {
+      ...input,
+      activityOwnerName: user[0].fullName,
+    });
   }
 }
