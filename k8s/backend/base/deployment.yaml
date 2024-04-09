@@ -34,8 +34,6 @@ spec:
               value: ${AZURE_TENANT_ID}
             - name: DB_SCHEMA
               value: marks
-            - name: NEST_PORT
-              value: '3000'
             - name: POSTGRES_DB
               value: ${POSTGRES_DB}
             - name: SECRETS_FILE_PATH
