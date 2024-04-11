@@ -63,7 +63,7 @@ const ItemSales = (props: ItemSalesProps) => {
         });
       },
     });
-  }, []);
+  }, [loading]);
   const onDetail = () => {
     navigation.navigate(Routes.SalesScreen);
   };
@@ -137,7 +137,7 @@ const ItemSales = (props: ItemSalesProps) => {
           fontWeight={'400'}
           size={props.isPriority ? 13 : 10}
           color={colors.dotActive}>
-          {Number(state.percentage) > 100
+          {Number(state.data?.salesByMonth) > Number(state.data?.targetByMonth)
             ? `${Number(state.percentage) - 100}% over Target`
             : `${state.percentage}%`}
         </Text>
