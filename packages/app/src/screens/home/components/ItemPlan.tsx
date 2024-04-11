@@ -65,7 +65,7 @@ const ItemPlan = (props: ItemPlanProps) => {
       const endDate = new Date(item.endDate);
       const endTime = endDate.getUTCHours();
 
-      return endTime > currentTime;
+      return endTime < currentTime;
     });
 
     return filteredItems;

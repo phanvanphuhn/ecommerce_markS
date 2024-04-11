@@ -48,7 +48,7 @@ const LeaderRanking = (props: TData) => {
         })
         ?.map(item => {
           const avatarName =
-            item.fullName.split(' ')[0][0] + item.fullName.split(' ')[1][0];
+            item?.fullName?.split(' ')[0][0] + item?.fullName?.split(' ')[1][0];
           return (
             <View
               style={[

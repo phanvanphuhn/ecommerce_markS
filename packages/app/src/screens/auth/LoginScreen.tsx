@@ -24,7 +24,7 @@ export const azureAuth = new AzureAuth({
   // clientId: Config.CLIENT_ID,
   //uat
   clientId:
-    Config.ENV !== 'staging'
+    Config.ENV === 'staging'
       ? 'f2cee915-6922-4159-ab94-6d030fa305b1'
       : '9c15d13f-0379-4238-b024-99e03709f8dd',
   tenant: 'b5b8b483-5597-4ae7-8e27-fcc464a3b584',
@@ -32,7 +32,7 @@ export const azureAuth = new AzureAuth({
 
   redirectUri:
     Platform.OS === 'ios'
-      ? Config.ENV !== 'staging'
+      ? Config.ENV === 'staging'
         ? 'msauth.com.stg.bostonscientific.marks://auth'
         : 'msauth.com.bostonscientific.marks://auth/'
       : Config.ENV === 'staging'

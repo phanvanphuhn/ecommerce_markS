@@ -40,7 +40,7 @@ const errorLink = onError(({graphQLErrors, networkError, response}) => {
   }
 });
 const httpLink = new HttpLink({
-  uri: 'https://mark-server.stage-ap.apps.bsci.com/graphql',
+  uri: `${Config.API_URL}/graphql`,
 });
 const authMiddleware = new ApolloLink((operation, forward) => {
   // add the authorization to the headers
