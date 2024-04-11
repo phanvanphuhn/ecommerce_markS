@@ -29,7 +29,6 @@ const dataGuidelines = [
 ];
 const PriceYear = (props: PriceYearProps) => {
   const {state, setState} = useContainerContext<IStateSales>();
-  console.log('=>(PriceYear.tsx:18) state', state);
   const [isOpen, open, close] = useModal();
 
   const renderDate = useMemo(() => {
@@ -75,10 +74,6 @@ const PriceYear = (props: PriceYearProps) => {
     if (state.type != 'Quarter') {
       return 0;
     }
-    console.log(
-      '=>(PriceYear.tsx:67) getTotalConsecQuarter',
-      getTotalConsecQuarter,
-    );
     switch (getTotalConsecQuarter) {
       case 2:
         return 600;
@@ -106,29 +101,16 @@ const PriceYear = (props: PriceYearProps) => {
         e.lowerBound <= (state.percentage || 0) &&
         e.upperBound > (state.percentage || 0),
     );
-    console.log(
-      '=>(PriceYear.tsx:91) state.listCommission',
-      state.listCommission,
-    );
     return obj?.variablePayoutPercentage || 0;
   }, [state.percentage, state.listCommission]);
 
   const getVariable = useMemo(() => {
     const {data} = state;
-    console.log('=>(PriceYear.tsx:31) data', data);
     switch (state.type) {
       case 'Quarter':
         let price =
           data?.[`variablePayBy${state.type}`] * (getVariablePercent / 100);
-        console.log(
-          '=>(PriceYear.tsx:110) data?.[`variablePayBy${state.type}`]',
-          data?.[`variablePayBy${state.type}`],
-        );
-        console.log(
-          '=>(PriceYear.tsx:36) getVariablePercent',
-          getVariablePercent,
-        );
-        return (price < 0 ? 0 : price).toFixed();
+        return (price < 0 ? 0 : price).toFixed(2);
       case 'Year':
         return 0;
       case 'Month':
@@ -162,10 +144,9 @@ const PriceYear = (props: PriceYearProps) => {
     switch (state.type) {
       case 'Quarter':
         let price =
-          data?.[`targetBy${state.type}`] * 1.05 -
-          data?.[`salesBy${state.type}`];
-        console.log('=>(PriceYear.tsx:612) price', price);
-        return price;
+          data?.[`targetBy${state.type}`] * (state.percentage / 100) -
+          data?.[`targetBy${state.type}`] * 1.05;
+        return price.toFixed(2);
       case 'Year':
         return 0;
       case 'Month':
@@ -173,19 +154,14 @@ const PriceYear = (props: PriceYearProps) => {
       default:
         return 0;
     }
-  }, [state.type, state.data, getCommissionPercent]);
+  }, [state.type, state.data, getCommissionPercent, state.percentage]);
 
   const getCommission = useMemo(() => {
     const {data} = state;
     switch (state.type) {
       case 'Quarter':
         let price = getCommissionSale * (getCommissionPercent / 100);
-        console.log(
-          '=>(PriceYear.tsx:52) getCommissionPercent',
-          getCommissionPercent,
-        );
-        console.log('=>(PriceYear.tsx:61) price', price);
-        return (price < 0 ? 0 : price).toFixed();
+        return (price < 0 ? 0 : price).toFixed(2);
       case 'Year':
         return 0;
       case 'Month':
@@ -333,7 +309,7 @@ const PriceYear = (props: PriceYearProps) => {
               variable +
               comission
             }
-            potentialValue={Math.round(state?.data?.totalSales)}
+            potentialValue={Number(state?.data?.totalSales)}
           />
         </View>
       </ScrollView>

@@ -124,6 +124,7 @@ const CallLogScreen = (props: any) => {
       subject: Yup.string().required('Required!'),
       account: Yup.string().required('Required!'),
       contactName: Yup.string().required('Required!'),
+      division: Yup.string().required('Required!'),
       startDate: Yup.date(),
       endDate: Yup.date().when('startDate', (startDate, schema) => {
         if (startDate) {

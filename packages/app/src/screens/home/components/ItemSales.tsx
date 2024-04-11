@@ -32,7 +32,6 @@ const ItemSales = (props: ItemSalesProps) => {
     listCommission: [],
     data: {},
   });
-  console.log('=>(ItemSales.tsx:34) state', state);
   const [size, setSize] = useState(0);
   const [getSalesData, {loading}] = useLazyQuery(getSales);
   const navigation = useNavigation<BaseUseNavigationProps<MainParamList>>();
