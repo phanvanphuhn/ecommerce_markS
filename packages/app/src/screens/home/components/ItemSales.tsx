@@ -55,14 +55,14 @@ const ItemSales = (props: ItemSalesProps) => {
           .find(e => !!e);
         setState({
           data: obj,
-          total: obj.salesByMonth,
+          total: obj?.salesByMonth,
           percentage: Math.abs(
             Math.round((obj?.salesByMonth / obj?.targetByMonth) * 100),
           ),
         });
       },
     });
-  }, [loading]);
+  }, []);
   const onDetail = () => {
     navigation.navigate(Routes.SalesScreen);
   };
@@ -132,14 +132,17 @@ const ItemSales = (props: ItemSalesProps) => {
         <Text size={props.isPriority ? 24 : 18} fontWeight={'700'}>
           ${state?.data?.salesByMonth?.formatPrice() || 0}
         </Text>
-        <Text
-          fontWeight={'400'}
-          size={props.isPriority ? 13 : 10}
-          color={colors.dotActive}>
-          {Number(state.data?.salesByMonth) > Number(state.data?.targetByMonth)
-            ? `${Number(state.percentage) - 100}% over Target`
-            : `${state.percentage}%`}
-        </Text>
+        {!loading && (
+          <Text
+            fontWeight={'400'}
+            size={props.isPriority ? 13 : 10}
+            color={colors.dotActive}>
+            {Number(state.data?.salesByMonth) >
+            Number(state.data?.targetByMonth)
+              ? `${Number(state.percentage) - 100}% over Target`
+              : `${Number(state.percentage || 0)}%`}
+          </Text>
+        )}
       </SemiCircleSlider>
     </TouchableOpacity>
   );
