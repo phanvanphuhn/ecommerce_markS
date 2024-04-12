@@ -63,7 +63,7 @@ const ItemPlan = (props: ItemPlanProps) => {
 
     const filteredItems = listProcessPlanCall()?.filter(item => {
       const endDate = new Date(item.endDate);
-      const endTime = endDate.getUTCHours();
+      const endTime = endDate.getUTCHours() + 1;
 
       return endTime < currentTime;
     });

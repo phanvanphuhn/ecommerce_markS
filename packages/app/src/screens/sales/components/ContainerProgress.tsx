@@ -56,14 +56,7 @@ const ContainerProgress = (props: ContainerProgressProps) => {
   const [isOpen, open, close] = useModal();
   const [isOpenAccept, openAccept, closeAccept] = useModal();
   const {state, setState} = useContainerContext<IStateSales>();
-  console.log(
-    '=>(ContainerProgress.tsx:59) state.percentage2',
-    state.percentage2,
-  );
-  console.log(
-    '=>(ContainerProgress.tsx:59) state.percentage',
-    state.percentage,
-  );
+
   const [getData, {data}] = useLazyQuery(getMobileSales);
   const [updateTargetQuarter] = useMutation(upsertMobileSalesQuarter);
   const [updateTargetYear] = useMutation(upsertMobileSalesYear);
@@ -178,7 +171,8 @@ const ContainerProgress = (props: ContainerProgressProps) => {
   }, [state.data, state.type]);
   const targetAvchieve = useMemo(() => {
     let salesBy = state.data?.[`salesBy${state.type}`];
-    let targetBy = state.data?.[`targetBy${state.type}`];
+    let targetBy =
+      state.data?.[`targetBy${state.type}`] * (state.percentage / 100);
     let target = 0;
     if (salesBy < targetBy) {
       target = targetBy - salesBy;
@@ -186,7 +180,7 @@ const ContainerProgress = (props: ContainerProgressProps) => {
     return isNaN(Math.abs(Math.round(target)))
       ? 0
       : Math.abs(Math.round(target));
-  }, [state.data, state.type]);
+  }, [state.data, state.type, state.percentage]);
   const targetPercent = useMemo(() => {
     let target = (targetTotal / state.data?.[`targetBy${state.type}`]) * 100;
     if (state.data?.[`targetBy${state.type}`]) {
