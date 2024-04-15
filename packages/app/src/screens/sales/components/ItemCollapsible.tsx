@@ -63,6 +63,7 @@ const ItemCollapsible = (props: ItemCollapsibleProps) => {
                 {props.potentialValue ? (
                   <Text center={true} color={colors.orange}>
                     {props.potentialValue
+                      .toFixed(2)
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                   </Text>

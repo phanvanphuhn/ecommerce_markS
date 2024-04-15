@@ -21,6 +21,7 @@ const ItemPrice = (props: ItemPriceProps) => {
         {props.currentValue ? (
           <Text fontWeight={'300'} center={true}>
             {props.currentValue
+              .toFixed(2)
               .toString()
               .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
           </Text>

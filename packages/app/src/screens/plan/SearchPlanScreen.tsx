@@ -24,14 +24,16 @@ const SearchPlanScreen = (props: SearchPlanScreenProps) => {
   const [getData] = useLazyQuery(GET_PLAN_CALLS, {
     onCompleted: data => {
       let events = data?.data
-        .map(e => moment(new Date(Number(e.startDate))).format('DD/MM/YYYY'))
-        .filter((e, index, arr) => arr.indexOf(e) == index)
+        .map(e => {
+          return moment(new Date(e.startDate)).format('DD/MM/YYYY');
+        })
+        .filter((e, index, arr) => {
+          return arr.indexOf(e) == index;
+        })
         .map(item => {
-          let array = data?.data.filter(
-            e =>
-              moment(new Date(Number(e.startDate))).format('DD/MM/YYYY') ==
-              item,
-          );
+          let array = data?.data.filter(e => {
+            return moment(new Date(e.startDate)).format('DD/MM/YYYY') == item;
+          });
           return {
             title: item,
             data: array.map(e => ({
@@ -43,7 +45,6 @@ const SearchPlanScreen = (props: SearchPlanScreenProps) => {
             })),
           };
         });
-      console.log('=>(SearchPlanScreen.tsx:24) events', events);
       setState({
         eventsByDate: events,
       });
