@@ -45,6 +45,25 @@
     },
     {
       "client_info": {
+        "mobilesdk_app_id": "1:614963482879:android:7d4a20b07e12fa2f397cca",
+        "android_client_info": {
+          "package_name": "com.prod.bostonscientific.marks"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtQuM2EZVbQo8f7PRU2WHe7NqsuPVQRdE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:614963482879:android:6137c2b83f29d0a4397cca",
         "android_client_info": {
           "package_name": "com.stg.bostonscientific.marks"

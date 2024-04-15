@@ -21,6 +21,8 @@
     "build:DevIos": "cd ./ios && fastlane build --env dev",
     "build:StagingAndroid": "cd ./android && fastlane build --env staging",
     "build:StagingIos": "cd ./ios && fastlane build --env staging",
+    "build:ProductionAndroid": "cd ./android && fastlane build --env production",
+    "build:ProductionIos": "cd ./ios && fastlane build --env production",
     "genfont": "node genimg src/assets/fonts --output src/res/fonts.ts --name fonts",
     "codePushProduction": "sh release-app.sh Production",
     "codePushDev": " sh release-app.sh dev 1.0.6",

@@ -176,6 +176,7 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             resValue "string", "CodePushDeploymentKey", '"UAvRAK0W2z61GmTsFWBEQAfnMO-ywKBQgfc5D"'
             resValue "string", "app_name", '"JARVIS"'
+            applicationIdSuffix ".prod.bostonscientific.marks"
         }
     }
 
