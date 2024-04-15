@@ -35,8 +35,6 @@ export const azureAuth = new AzureAuth({
       ? Config.ENV === 'staging'
         ? 'msauth.com.stg.bostonscientific.marks://auth'
         : 'msauth.com.bostonscientific.marks://auth/'
-      : Config.ENV === 'staging'
-      ? undefined
       : undefined,
 });
 
