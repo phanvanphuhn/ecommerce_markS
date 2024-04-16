@@ -64,6 +64,15 @@ const LoginScreen = (props: LoginScreenProps) => {
         }
         dispatch(onSaveToken(auth.rawIdToken));
         let resultUserProfile = await getDataUserProfile();
+        if (!resultUserProfile.data?.data?.length) {
+          Alert.alert(
+            'System Alert',
+            'Mark S is not applicable for your profile, contact JARVIS team for more info',
+            [{text: 'OK', onPress: () => {}}],
+          );
+          hideLoading();
+          return;
+        }
         dispatch(onLogin(resultUserProfile.data?.data?.[0]));
         let result = await getDataGroup({
           variables: {accessToken: auth.accessToken},

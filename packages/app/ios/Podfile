@@ -86,6 +86,17 @@ target 'marks' do
     )
     __apply_Xcode_12_5_M1_post_install_workaround(installer)
     installer.pods_project.targets.each do |target|
+        if target.name == 'Flipper'
+          file_path = 'Pods/Flipper/xplat/Flipper/FlipperTransportTypes.h'
+          contents = File.read(file_path)
+          unless contents.include?('#include <functional>')
+            File.chmod(0755, file_path)
+            File.open(file_path, 'w') do |file|
+              file.puts('#include <functional>')
+              file.puts(contents)
+            end
+          end
+        end
       target.build_configurations.each do |config|
         config.build_settings['APPLICATION_EXTENSION_API_ONLY'] = 'NO'
         if target.name == 'react-native-config'
