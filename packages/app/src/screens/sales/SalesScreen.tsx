@@ -86,13 +86,9 @@ const SalesScreen = (props: SalesScreenProps) => {
               Object.keys(item).forEach(function (key) {
                 item[key] =
                   /[0-9]+/.test(item[key]) && typeof item[key] === 'string'
-                    ? Math.round(
-                        parseFloat(
-                          item[key].replaceAll(',', '').replace('%', ''),
-                        ),
-                      )
+                    ? parseFloat(item[key].replaceAll(',', '').replace('%', ''))
                     : /[0-9]+/.test(item[key]) && typeof item[key] === 'number'
-                    ? Math.round(parseFloat(item[key]))
+                    ? parseFloat(item[key])
                     : item[key];
               });
               return item;
@@ -103,7 +99,6 @@ const SalesScreen = (props: SalesScreenProps) => {
     });
     getSlider({
       onCompleted: data => {
-        console.log('=>(SalesScreen.tsx:117) data', data);
         setState({
           listCommission: data?.data?.map((item: any) => {
             Object.keys(item).forEach(function (key) {
