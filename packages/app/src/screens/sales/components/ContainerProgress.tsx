@@ -105,8 +105,8 @@ const ContainerProgress = (props: ContainerProgressProps) => {
         (data?.data[0]?.targetByQuarter / state?.data?.targetByQuarter) * 100;
 
       setState({
-        percentage2: isNaN(per) ? 100 : per,
-        percentage: isNaN(per) ? 100 : per,
+        percentage2: isNaN(per) ? 100 : Math.round(per),
+        percentage: isNaN(per) ? 100 : Math.round(per),
       });
     }
   }, [data, state?.data?.targetByQuarter]);
