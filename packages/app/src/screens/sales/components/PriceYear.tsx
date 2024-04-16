@@ -90,7 +90,8 @@ const PriceYear = (props: PriceYearProps) => {
     let obj = state.listCommission?.find(
       e =>
         e.lowerBound <= (state.percentage || 0) &&
-        e.upperBound > (state.percentage || 0),
+        e.upperBound > (state.percentage || 0) &&
+        e.territoryCategory == state.data?.territoryCategory,
     );
     return obj?.commissionPercentage || 0;
   }, [state.percentage, state.listCommission]);
@@ -99,7 +100,8 @@ const PriceYear = (props: PriceYearProps) => {
     let obj = state.listCommission?.find(
       e =>
         e.lowerBound <= (state.percentage || 0) &&
-        e.upperBound > (state.percentage || 0),
+        e.upperBound > (state.percentage || 0) &&
+        e.territoryCategory == state.data?.territoryCategory,
     );
     return obj?.variablePayoutPercentage || 0;
   }, [state.percentage, state.listCommission]);

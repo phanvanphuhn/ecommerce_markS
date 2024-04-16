@@ -26,7 +26,6 @@ const ItemPlan = (props: ItemPlanProps) => {
   const navigation = useNavigation<BaseUseNavigationProps<MainParamList>>();
 
   const [getData, {loading, data}] = useLazyQuery(GET_PLAN_CALLS, {});
-  console.log('=>(ItemPlan.tsx:28) data', data?.data[0]);
   useEffect(() => {
     getData({variables: {status: ['IN_PROGRESS', 'COMPLETED']}});
   }, []);
@@ -59,18 +58,22 @@ const ItemPlan = (props: ItemPlanProps) => {
 
   const listDonePlanCall = () => {
     const currentDate = new Date();
-    const currentTime = currentDate.getUTCHours();
+    const currentHour = currentDate.getUTCHours();
+    const currentMinute = currentDate.getUTCMinutes();
 
     const filteredItems = listProcessPlanCall()?.filter(item => {
       const endDate = new Date(item.endDate);
-      const endTime = endDate.getUTCHours() + 1;
+      const endHour = endDate.getUTCHours();
+      const endMinute = endDate.getUTCMinutes();
 
-      return endTime < currentTime;
+      return (
+        endHour < currentHour ||
+        (currentHour === endHour && currentMinute >= endMinute)
+      );
     });
 
     return filteredItems;
   };
-
   return (
     <TouchableOpacity
       activeOpacity={1}
