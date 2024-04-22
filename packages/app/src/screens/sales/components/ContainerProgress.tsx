@@ -329,7 +329,7 @@ const ContainerProgress = (props: ContainerProgressProps) => {
               disabled={disableChangeDate()}>
               <Image
                 source={images.ic_dropdown}
-                tintColor={colors.black}
+                tintColor={disableChangeDate() ? colors.gray3 : colors.black}
                 style={{transform: [{rotate: '-90deg'}]}}
               />
             </TouchableOpacity>
