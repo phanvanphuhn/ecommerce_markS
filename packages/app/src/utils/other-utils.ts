@@ -110,6 +110,20 @@ export const renderColorComplaint = (status: string) => {
       return colors.primary;
     case 'Auto Submitted':
       return '#80C';
+    case 'Work in Progress':
+      return '#005f66';
+    case 'Closed - Done':
+      return '#CCCCCC';
+    case 'Pending Product Investigation Review':
+      return '#0153cc';
+    case 'Closed - Not a Complaint':
+      return '#666666';
+    case 'Closed - Duplicate':
+      return '#0153cc';
+    case 'Evaluate':
+      return '#440066';
+    case 'Opened':
+      return '#00becc';
   }
 };
 export const renderStatusComplaint = (status: string) => {
@@ -118,6 +132,20 @@ export const renderStatusComplaint = (status: string) => {
       return 'Submitted';
     case 'Auto Submitted':
       return 'Auto Submitted';
+    case 'Work in Progress':
+      return 'Work in Progress';
+    case 'Closed - Done':
+      return 'Closed - Done';
+    case 'Pending Product Investigation Review':
+      return 'Pending Product Investigation Review';
+    case 'Closed - Not a Complaint':
+      return 'Closed - Not a Complaint';
+    case 'Closed - Duplicate':
+      return 'Closed - Duplicate';
+    case 'Evaluate':
+      return 'Evaluate';
+    case 'Opened':
+      return 'Opened';
   }
 };
 

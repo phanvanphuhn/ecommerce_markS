@@ -40,12 +40,12 @@ const LeaderboardScreen = (props: LeaderboardScreenProps) => {
     getData({
       variables: {
         month:
-          state.type != 'Month' ? undefined : pad(date.month() + 1).toString(),
+          state.type != 'Month' ? undefined : (date.month() + 1).toString(),
         year: date.year().toString(),
         quarter:
           state.type == 'Year'
             ? undefined
-            : pad(Math.ceil((date.month() + 1) / 3)),
+            : Math.ceil((date.month() + 1) / 3).toString(),
         sortBy: state.type,
         type: 'TopThree',
       },
@@ -57,12 +57,12 @@ const LeaderboardScreen = (props: LeaderboardScreenProps) => {
     getDataSurround({
       variables: {
         month:
-          state.type != 'Month' ? undefined : pad(date.month() + 1).toString(),
+          state.type != 'Month' ? undefined : (date.month() + 1).toString(),
         year: date.year().toString(),
         quarter:
           state.type == 'Year'
             ? undefined
-            : pad(Math.ceil((date.month() + 1) / 3)),
+            : Math.ceil((date.month() + 1) / 3).toString(),
         sortBy: state.type,
         type: 'Surrounding',
       },
