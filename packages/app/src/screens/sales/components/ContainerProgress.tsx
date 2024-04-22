@@ -133,6 +133,41 @@ const ContainerProgress = (props: ContainerProgressProps) => {
         return date.format('MMM YYYY');
     }
   }, [state.currentDate, state.type]);
+
+  const disableChangeDate = useCallback(() => {
+    switch (state.type) {
+      case 'Quarter':
+        if (
+          Math.floor(new Date(state.currentDate).getMonth() / 3) + 1 ===
+            Math.floor(new Date().getMonth() / 3) + 1 &&
+          new Date(state.currentDate).getFullYear() >= new Date().getFullYear()
+        ) {
+          return true;
+        } else {
+          return false;
+        }
+      case 'Year':
+        if (
+          new Date(state.currentDate).getFullYear() === new Date().getFullYear()
+        ) {
+          return true;
+        } else {
+          return false;
+        }
+      case 'Month':
+        if (
+          new Date(state.currentDate).getMonth() === new Date().getMonth() &&
+          new Date(state.currentDate).getFullYear() >= new Date().getFullYear()
+        ) {
+          return true;
+        } else {
+          return false;
+        }
+      default:
+        return false;
+    }
+  }, [state.type, state.currentDate]);
+
   const changeDate = useCallback(
     (isNext: boolean) => {
       let date = state.currentDate
@@ -290,7 +325,8 @@ const ContainerProgress = (props: ContainerProgressProps) => {
             </View>
             <TouchableOpacity
               hitSlop={{top: 10, left: 10, bottom: 10, right: 10}}
-              onPress={() => changeDate(true)}>
+              onPress={() => changeDate(true)}
+              disabled={disableChangeDate()}>
               <Image
                 source={images.ic_dropdown}
                 tintColor={colors.black}

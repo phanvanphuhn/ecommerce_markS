@@ -16,14 +16,15 @@ const ItemUser = (props: ItemUserProps) => {
     rating: 5,
   });
   const userProfile = useSelector(state => state.userProfile.user);
+  const nameArray = userProfile?.fullName?.split(' ');
 
   return (
     <View style={[Theme.flexRow, styles.container]}>
-      <View style={{overflow: 'hidden', borderRadius: 50}}>
-        <Image
-          source={images.ic_doctor_default}
-          style={{width: 100, height: 100, borderRadius: 50}}
-        />
+      <View style={styles.headerContainer}>
+        <Text color={colors.white} size={50} fontWeight={'500'}>
+          {nameArray && nameArray[1]?.substring(0, 1)}
+          {nameArray && nameArray[0]?.substring(0, 1)}
+        </Text>
       </View>
       <View style={[Theme.pt15, Theme.pl15]}>
         <Text size={25} fontWeight={'700'} color={colors.white}>
@@ -54,5 +55,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     marginTop: 20,
     marginBottom: 10,
+  },
+  headerContainer: {
+    height: 117,
+    width: 117,
+    borderRadius: 999,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'darkblue',
   },
 });
