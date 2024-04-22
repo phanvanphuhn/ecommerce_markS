@@ -134,9 +134,9 @@ const Dropdown = (props: DropdownProps) => {
             marginVertical: 8,
           },
         ]}>
-        <Text color={colors.white} >
+        <Text color={colors.white}>
           {props.value.type === 'createdDate' ? 'Created Date' : 'Event Date'}:{' '}
-          <Text color={colors.white} fontWeight={'600'} >
+          <Text color={colors.white} fontWeight={'600'}>
             {props.value.value}
           </Text>
         </Text>

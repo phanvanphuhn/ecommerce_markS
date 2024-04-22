@@ -33,8 +33,10 @@ const ItemComplaint = (props: ItemComplaintProps) => {
             paddingHorizontal: 10,
             paddingVertical: 2,
             borderRadius: 20,
+            width: '35%',
+            alignItems: 'center',
           }}>
-          <Text color={colors.white}>
+          <Text color={colors.white} numberOfLines={1}>
             {renderStatusComplaint(props.item.complaintStatus)}
           </Text>
         </View>
