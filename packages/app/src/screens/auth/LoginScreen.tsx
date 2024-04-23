@@ -34,6 +34,8 @@ export const azureAuth = new AzureAuth({
     Platform.OS === 'ios'
       ? Config.ENV === 'staging'
         ? 'msauth.com.stg.bostonscientific.marks://auth'
+        : Config.ENV !== 'production'
+        ? 'msauth.com.prod.bostonscientific.marks://auth/'
         : 'msauth.com.bostonscientific.marks://auth/'
       : undefined,
 });

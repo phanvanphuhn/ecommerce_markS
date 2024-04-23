@@ -6,6 +6,7 @@ import {
   FlatList,
   ListRenderItem,
   ActivityIndicator,
+  ScrollView,
 } from 'react-native';
 import Container from 'elements/Layout/Container';
 import strings from 'res/strings';
@@ -69,6 +70,7 @@ const ComplaintsScreen = (props: ComplaintsScreenProps) => {
     });
     setState({data: list});
   };
+  const listComplaintStatus = data?.data.map(item => item.complaintStatus);
   return (
     <DropdownProvider>
       <Container hideHeader={true} style={styles.container}>
@@ -96,8 +98,8 @@ const ComplaintsScreen = (props: ComplaintsScreenProps) => {
                 setState({data: data?.data, filterSelected: ''});
               }}
               content={
-                <View style={styles.containerDropdown}>
-                  {['Submitted', 'Auto Submitted'].map((e, i) => {
+                <ScrollView style={styles.containerDropdown}>
+                  {[...new Set(listComplaintStatus)].map((e, i) => {
                     return (
                       <ItemFilter
                         item={e}
@@ -106,7 +108,7 @@ const ComplaintsScreen = (props: ComplaintsScreenProps) => {
                       />
                     );
                   })}
-                </View>
+                </ScrollView>
               }
               value={state.filterSelected}
               style={[Theme.mr10, Theme.flex1]}
