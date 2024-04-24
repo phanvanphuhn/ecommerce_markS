@@ -1,6 +1,11 @@
 import React, {useState} from 'react';
 import {View, StyleSheet, TouchableOpacity} from 'react-native';
-import {renderColorComplaint, renderStatusComplaint} from 'utils/other-utils';
+import {
+  renderBorderColorComplaint,
+  renderColorComplaint,
+  renderStatusComplaint,
+  renderBorderWidthComplaint,
+} from 'utils/other-utils';
 import colors from 'res/colors';
 import {useDropdown} from 'screens/complaints/components/DropdownProvider';
 import Text from 'elements/Text';
@@ -24,6 +29,8 @@ const ItemFilter = (props: ItemFilterProps) => {
           styles.containerSelect,
           {
             backgroundColor: renderColorComplaint(props.item),
+            borderColor: renderBorderColorComplaint(props.item),
+            borderWidth: renderBorderWidthComplaint(props.item),
           },
         ]}>
         <Text color={colors.white}>{renderStatusComplaint(props.item)}</Text>

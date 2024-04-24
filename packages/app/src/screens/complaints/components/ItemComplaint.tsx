@@ -7,7 +7,12 @@ import {useNavigation} from '@react-navigation/native';
 import {BaseUseNavigationProps} from 'navigation/BaseNavigationProps';
 import {MainParamList} from 'navigation/service/NavigationParams';
 import {Routes} from 'configs';
-import {renderColorComplaint, renderStatusComplaint} from 'utils/other-utils';
+import {
+  renderBorderColorComplaint,
+  renderBorderWidthComplaint,
+  renderColorComplaint,
+  renderStatusComplaint,
+} from 'utils/other-utils';
 import {ItemComplaintResponse} from 'apollo/query/complaint';
 import moment from 'moment/moment';
 
@@ -35,6 +40,8 @@ const ItemComplaint = (props: ItemComplaintProps) => {
             borderRadius: 20,
             width: '35%',
             alignItems: 'center',
+            borderColor: renderBorderColorComplaint(props.item.complaintStatus),
+            borderWidth: renderBorderWidthComplaint(props.item.complaintStatus),
           }}>
           <Text color={colors.white} numberOfLines={1}>
             {renderStatusComplaint(props.item.complaintStatus)}
