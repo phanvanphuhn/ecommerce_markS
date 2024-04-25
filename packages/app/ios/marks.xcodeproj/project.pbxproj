@@ -46,7 +46,6 @@
 		2DF213F0EF8A44AE874CC3CD /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = ../src/assets/fonts/MaterialIcons.ttf; sourceTree = "<group>"; };
 		32DA2D138A5E45798D9F13B2 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = ../src/assets/fonts/Octicons.ttf; sourceTree = "<group>"; };
 		34641133F2E438BF843D0520 /* Pods-marks-marksTests.production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-marks-marksTests.production.xcconfig"; path = "Target Support Files/Pods-marks-marksTests/Pods-marks-marksTests.production.xcconfig"; sourceTree = "<group>"; };
-		3DB1A05D2BDAB1A500BE7AAB /* marksdev.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = marksdev.entitlements; path = marks/marksdev.entitlements; sourceTree = "<group>"; };
 		3DB1A05E2BDAB1CC00BE7AAB /* marksproduction.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = marksproduction.entitlements; path = marks/marksproduction.entitlements; sourceTree = "<group>"; };
 		3DBFD75E2BD79C1200498331 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		3FDEA2A7538E4D379CAE3507 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = ../src/assets/fonts/Entypo.ttf; sourceTree = "<group>"; };
@@ -116,7 +115,6 @@
 			isa = PBXGroup;
 			children = (
 				3DB1A05E2BDAB1CC00BE7AAB /* marksproduction.entitlements */,
-				3DB1A05D2BDAB1A500BE7AAB /* marksdev.entitlements */,
 				87A680732AA41EF1008EEC08 /* GoogleService-Info.plist */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
@@ -572,7 +570,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODEPUSH_KEY = "qH4CcTnzEs-VBPHEz5IFT8wRUP-w9bR3s23H-";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 5M726XS88S;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = marks/Info.plist;
@@ -605,7 +603,7 @@
 				CODEPUSH_KEY = _KbNQIHSNW0A3tCx10jh7X2aA2oZ71bfD_BhC;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 5M726XS88S;
 				INFOPLIST_FILE = marks/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -855,7 +853,7 @@
 				CODE_SIGN_ENTITLEMENTS = marks/marksproduction.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 5M726XS88S;
 				INFOPLIST_FILE = marks/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -984,7 +982,7 @@
 				CODE_SIGN_ENTITLEMENTS = marks/marksdev.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 5M726XS88S;
 				INFOPLIST_FILE = marks/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
