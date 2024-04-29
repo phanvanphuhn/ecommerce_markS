@@ -1,0 +1,309 @@
+datasource db {
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [pgcrypto]
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+model ContactSearch {
+  id                     Int     @id @default(autoincrement())
+  salesRepEmail          String?
+  hospital               String?
+  topicsOfInterest       String?
+  contactId              String?
+  doctorName             String?
+  doctorEmail            String?
+  doctorAlternativeEmail String?
+  doctorDivision         String?
+  doctorProfilePhoto     String?
+  doctorSpecialty        String?
+  doctorSalutation       String?
+  doctorTitle            String?
+  doctorPhone            String?
+  doctorCountry          String?
+
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+model Complaint {
+  id                       String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  complaintId              String?
+  salesRepEmail            String?
+  complaintName            String?
+  complaintStatus          String?
+  eventDate                DateTime?
+  createdDate              DateTime?
+  complaintTitle           String?
+  division                 String?
+  country                  String?
+  awareDate                DateTime?
+  timeOfEvent              String?
+  typeOfSituationReporting String?
+
+  accName                         String?
+  procedureType                   String?
+  procedureDate                   DateTime?
+  treatedFor                      String?
+  procedureOutcome                String?
+  reasonsForUnsuccessfulProcedure String?
+}
+
+model UserProfile {
+  id Int @id @default(autoincrement())
+
+  salesRepEmail String?
+  fullName      String?
+  country       String?
+  division      String?
+  reportingTo   String?
+  networkId     String?
+  personId      String?
+
+  title String?
+}
+
+model SliderAndCommission {
+  id Int @id @default(autoincrement())
+
+  lowerBound               String?
+  upperBound               String?
+  variablePayoutPercentage String?
+  territoryCategory        String?
+  commissionPercentage     String?
+
+  year String?
+}
+
+model TerritoryCategorization {
+  id Int @id @default(autoincrement())
+
+  lowerBound        String?
+  upperBound        String?
+  territoryCategory String?
+
+  year String?
+}
+
+model Leaderboard {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+
+  salesRepEmail          String?
+  fullName               String?
+  country                String?
+  year                   String?
+  quarter                String?
+  month                  String?
+  targetAchievedYtd      String?
+  rankYtd                String?
+  targetAchievedQtd      String?
+  rankQtd                String?
+  targetAchievedMtd      String?
+  rankMtd                String?
+  lastRefreshedTimestamp DateTime?
+}
+
+model Sales {
+  id Int @id @default(autoincrement())
+
+  salesRepEmail  String?
+  sipEligibility String?
+  currency       String?
+
+  year    String?
+  quarter String?
+  month   String?
+
+  productType          String?
+  newHire              String?
+  guaranttedPayout     String?
+  mixedBag             String?
+  variablePayByMonth   String?
+  variablePayByYear    String?
+  variablePayByQuarter String?
+  variablePayQ5        String?
+
+  salesByMonth   String?
+  salesByYear    String?
+  salesByQuarter String?
+
+  targetByMonth   String?
+  targetByYear    String?
+  targetByQuarter String?
+
+  salesAchievementPercentageByMonth   String?
+  salesAchievementPercentageByYear    String?
+  salesAchievementPercentageByQuarter String?
+
+  variablePayoutPercentageByQuarter String?
+  variablePayoutPercentageByYear    String?
+
+  targetByYearUSD   String?
+  territoryCategory String?
+
+  commissionPercentageByQuarter String?
+  commissionPayoutByQuarter     String?
+  variablePayoutByQuarter       String?
+
+  additionalPayout String?
+  kicker           String?
+
+  earlyBirdEligibility String?
+  earlyBird            String?
+
+  variablePayoutPercentageQ5 String?
+  variablePayoutQ5           String?
+
+  commissionPercentageQ5 String?
+  commissionPayoutQ5     String?
+
+  salesByMonth_forNewHire                       String?
+  salesByYear_forNewHire                        String?
+  salesByQuarter_forNewHire                     String?
+  salesAchivementPercentageByQuarter_forNewHire String?
+  salesAchievementPercentageByYear_forNewHire   String?
+  variablePayoutPercentageByQuarter_forNewHire  String?
+  variablePayoutPercentageQ5_forNewHire         String?
+  commissionPercentageByQuarter_forNewHire      String?
+  commissionPercentageQ5_forNewHire             String?
+  variablePayoutByQuarter_forNewHire            String?
+  variablePayoutQ5_forNewHire                   String?
+  commissionPayoutByQuarter_forNewHire          String?
+  commissionPayoutQ5_forNewHire                 String?
+
+  additionalPayoutCE String?
+  additionalPayoutSC String?
+
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+enum mobileSalesTargetType {
+  year
+  quarter
+}
+
+model Mobile_Sales {
+  id Int @id @default(autoincrement())
+
+  salesRepEmail   String?
+  targetByQuarter String?
+  targetByYear    String?
+
+  quarter String?
+  year    String?
+
+  type mobileSalesTargetType @default(year)
+}
+
+model PlanCall {
+  uniqueIdInApp      String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  salesForceId       String?
+  subject            String?
+  startDate          DateTime?
+  endDate            DateTime?
+  description        String?
+  location           String?
+  account            String?
+  contactId          String?
+  contactName        String?
+  division           String?
+  activityType       String?
+  activitySubtype    String?
+  activityOwnerName  String?
+  activityOwnerEmail String?
+  ownerCountry       String?
+  status             String?
+
+  createdInApp      DateTime? @default(now())
+  lastModifiedInApp DateTime? @updatedAt
+}
+
+enum CaseLogStatus {
+  In_Progress
+  Completed
+  Cancelled
+}
+
+model CaseLog {
+  id                 String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  caseName           String?
+  startDate          DateTime?
+  endDate            DateTime?
+  account            String?
+  location           String?
+  contact            String?
+  secondaryContact   String?
+  activityOwnerName  String?
+  activityOwnerEmail String?
+
+  status     String?
+  photoPaths String[]
+
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+
+  caseLogSubmission CaseLogSubmission[]
+}
+
+model CaseLogSubmission {
+  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  quantity      String?
+  salesRepEmail String?
+  caseLogId     String?  @db.Uuid
+  caseLog       CaseLog? @relation(fields: [caseLogId], references: [id])
+
+  productId String?   @db.Uuid
+  product   Products? @relation(fields: [productId], references: [id])
+
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+enum SearchType {
+  CaseLog
+  PlanCall
+  ContactSearch
+}
+
+model SearchHistory {
+  id            String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  salesRepEmail String?
+  searchQuery   String?
+  searchType    SearchType[]
+  searchResults Json[]
+
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+model Products {
+  id             String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  upn            String?
+  gtin           String?
+  upnDescription String?
+  country        String?
+
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+
+  caseLogSubmission CaseLogSubmission[]
+}
+
+model SalesInvoices {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+
+  invoiceNumber String?
+  accountName   String?
+  salesRepEmail String?
+  value         String?
+  currency      String?
+  invoiceDate   DateTime
+
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+}

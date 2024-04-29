@@ -31,6 +31,9 @@ const config: Config = {
   s3: {
     bucket: process.env.S3_BUCKET_NAME || 'jarvis-mark-dev',
   },
+  globalConfig: {
+    deployEnv: process.env.DEPLOY_ENV || 'local',
+  },
 };
 
 export default (): Config => config;

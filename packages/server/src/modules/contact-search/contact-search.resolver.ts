@@ -40,14 +40,36 @@ export class ContactSearchResolver {
 
   @Query(() => [DoctorDetail], { nullable: true })
   @UseGuards(AzureAuthGuard)
-  async getDoctorProfile(@Args() filter: DoctorFilterArgs) {
-    return this.contactSearchService.getDoctorProfile(filter);
+  async getDoctorProfile(
+    @UserEntity() userInfo,
+    @Args() filter: DoctorFilterArgs,
+  ) {
+    const user =
+      await this.userProfilesService.getUserProfileByNetworkIdWithTitleCheck(
+        userInfo.samAccountName,
+      );
+
+    return this.contactSearchService.getDoctorProfile(
+      user[0].salesRepEmail,
+      filter,
+    );
   }
 
   @Query(() => [DoctorDetail], { nullable: true })
   @UseGuards(AzureAuthGuard)
-  async getDoctorProfileByContactId(@Args('contactId') contactId: string) {
-    return this.contactSearchService.getDoctorProfileByContactId(contactId);
+  async getDoctorProfileByContactId(
+    @UserEntity() userInfo,
+    @Args('contactId') contactId: string,
+  ) {
+    const user =
+      await this.userProfilesService.getUserProfileByNetworkIdWithTitleCheck(
+        userInfo.samAccountName,
+      );
+
+    return this.contactSearchService.getDoctorProfileByContactId(
+      user[0].salesRepEmail,
+      contactId,
+    );
   }
 
   @Query(() => [String], { nullable: true })

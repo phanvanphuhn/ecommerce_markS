@@ -20,9 +20,10 @@ import {
   UpserMobileSalestQuarterArgs,
   UpserMobileSalestYearArgs,
 } from './dto/mobile.sales.dto';
+import { SalesInvoicesFilterArgs } from './dto/sales-invoices.dto';
 
 import { SliderAndCommission } from '@generated/kysely/types';
-
+import { SalesInvoices } from '@generated/nestgraphql/sales-invoices/sales-invoices.model';
 
 @Resolver()
 export class SalesResolver {
@@ -106,5 +107,19 @@ export class SalesResolver {
       user[0].salesRepEmail,
       data,
     );
+  }
+
+  @Query(() => [SalesInvoices])
+  @UseGuards(AzureAuthGuard)
+  async getSalesInvoices(
+    @Args() data: SalesInvoicesFilterArgs,
+    @UserEntity() userInfo,
+  ) {
+    const user =
+      await this.userProfilesService.getUserProfileByNetworkIdWithTitleCheck(
+        userInfo.samAccountName,
+      );
+
+    return this.salesService.getSalesInvoices(user[0].salesRepEmail, data);
   }
 }

@@ -7131,10 +7131,10 @@ graphql-parse-resolve-info@^4.13.0:
     debug "^4.1.1"
     tslib "^2.0.1"
 
-graphql-scalars@1.22.2:
-  version "1.22.2"
-  resolved "https://registry.yarnpkg.com/graphql-scalars/-/graphql-scalars-1.22.2.tgz#6326e6fe2d0ad4228a9fea72a977e2bf26b86362"
-  integrity sha512-my9FB4GtghqXqi/lWSVAOPiTzTnnEzdOXCsAC2bb5V7EFNQjVjwy3cSSbUvgYOtDuDibd+ZsCDhz+4eykYOlhQ==
+graphql-scalars@^1.22.5:
+  version "1.22.5"
+  resolved "https://registry.yarnpkg.com/graphql-scalars/-/graphql-scalars-1.22.5.tgz#f7aceacf0efd2f38d53635c69895e3c67c04bd37"
+  integrity sha512-Mw7uaqRscjdaXmxlHbt3sYGLU8o1hfFvTvN2VRrYEJyEPy6zGIbaFyJ4PPyt9H6GRHp01MQwS6HqXroRYHyGOg==
   dependencies:
     tslib "^2.5.0"
 

@@ -16,7 +16,7 @@ Table ContactSearch {
   doctorSpecialty String
   doctorSalutation String
   doctorTitle String
-  doctorPhone BigInt
+  doctorPhone String
   doctorCountry String
   createdAt DateTime [default: `now()`]
   updatedAt DateTime
@@ -231,6 +231,18 @@ Table Products {
   createdAt DateTime [default: `now()`]
   updatedAt DateTime
   caseLogSubmission CaseLogSubmission [not null]
+}
+
+Table SalesInvoices {
+  id String [pk]
+  invoiceNumber String
+  accountName String
+  salesRepEmail String
+  value String
+  currency String
+  invoiceDate DateTime [not null]
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime
 }
 
 Enum mobileSalesTargetType {

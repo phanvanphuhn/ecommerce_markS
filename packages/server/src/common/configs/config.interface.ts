@@ -5,6 +5,9 @@ export interface Config {
   graphql: GraphqlConfig;
   security: SecurityConfig;
   s3: S3Config;
+
+  // means all packages will have these configs
+  globalConfig: GlobalConfig;
 }
 
 export interface NestConfig {
@@ -39,4 +42,8 @@ export interface SecurityConfig {
 
 export interface S3Config {
   bucket: string;
+}
+
+export interface GlobalConfig {
+  deployEnv?: string;
 }
