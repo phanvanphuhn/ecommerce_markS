@@ -104,6 +104,25 @@ export const getDateOfType = (type: TypeDate, date: string) => {
   return str;
 };
 
+export const renderBorderWidthComplaint = (status: string) => {
+  switch (status) {
+    case 'Closed - Not a Complaint':
+    case 'Closed - Duplicate':
+      return 1;
+    default:
+      return 0;
+  }
+};
+
+export const renderBorderColorComplaint = (status: string) => {
+  switch (status) {
+    case 'Closed - Not a Complaint':
+      return '#666666';
+    case 'Closed - Duplicate':
+      return '#0153cc';
+  }
+};
+
 export const renderColorComplaint = (status: string) => {
   switch (status) {
     case 'Submitted':
@@ -117,15 +136,16 @@ export const renderColorComplaint = (status: string) => {
     case 'Pending Product Investigation Review':
       return '#0153cc';
     case 'Closed - Not a Complaint':
-      return '#666666';
+      return '#CCCCCC';
     case 'Closed - Duplicate':
-      return '#0153cc';
+      return '#CCCCCC';
     case 'Evaluate':
       return '#440066';
     case 'Opened':
       return '#00becc';
   }
 };
+
 export const renderStatusComplaint = (status: string) => {
   switch (status) {
     case 'Submitted':

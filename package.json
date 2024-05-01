@@ -12,7 +12,8 @@
     "husky": "^8.0.3"
   },
   "workspaces": [
-    "packages/server"
+    "packages/server",
+    "packages/app"
   ],
   "nohoist": [
     "**"

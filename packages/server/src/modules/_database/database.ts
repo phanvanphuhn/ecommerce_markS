@@ -1,5 +1,4 @@
 import { Kysely } from 'kysely';
-
 import {
   CaseLog,
   CaseLogSubmission,
@@ -14,6 +13,7 @@ import {
   SliderAndCommission,
   TerritoryCategorization,
   UserProfile,
+  SalesInvoices,
 } from '@generated/kysely/types';
 
 interface DB {
@@ -30,6 +30,7 @@ interface DB {
   'marks.CaseLogSubmission': CaseLogSubmission;
   'marks.SearchHistory': SearchHistory;
   'marks.Products': Products;
+  'marks.SalesInvoices': SalesInvoices;
 }
 
 export class Database extends Kysely<DB> {}

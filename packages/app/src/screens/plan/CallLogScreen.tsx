@@ -37,7 +37,6 @@ import {IDoctorSearchList} from 'network/apis/doctor/DoctorResponse';
 
 const CallLogScreen = (props: any) => {
   const {route} = props;
-  console.log('=>(CallLogScreen.tsx:33) route', route.params?.item);
   const navigation = useNavigation<BaseUseNavigationProps<MainParamList>>();
   const userProfile = useSelector(state => state.userProfile);
   const [onSubmitData] = useMutation(MUTATION_DATA_CALL_QUERY);
@@ -90,11 +89,11 @@ const CallLogScreen = (props: any) => {
               ).toDate()
             : roundDate({isPlus1: false}),
           location: route.params?.item?.location || '',
-          ownerCountry: route.params?.item?.ownerCountry || '',
+          ownerCountry: userProfile.user?.country || '',
           salesForceId: route.params?.item?.salesForceId || '',
           status: route.params?.item?.status || 'IN_PROGRESS',
           subject: route.params?.item?.subject || '',
-          uniqueIdInApp: route.params?.item?.uniqueIdInApp || '',
+          contactId: route.params?.item?.contactId || '',
         }
       : {
           activitySubtype: route.params?.item?.activitySubtype || 'CALL',
@@ -116,9 +115,10 @@ const CallLogScreen = (props: any) => {
               ).toDate()
             : roundDate({isPlus1: false}),
           location: route.params?.item?.location || '',
-          ownerCountry: route.params?.item?.ownerCountry || '',
+          ownerCountry: userProfile.user?.country || '',
           status: route.params?.item?.status || 'IN_PROGRESS',
           subject: route.params?.item?.subject || '',
+          contactId: '',
         },
     validationSchema: Yup.object({
       subject: Yup.string().required('Required!'),
@@ -180,6 +180,15 @@ const CallLogScreen = (props: any) => {
     variables: {hospital: formik.values.account || ''},
     onCompleted: (dataDoctor: any) => setState({dataDoctor: dataDoctor}),
   });
+
+  useEffect(() => {
+    formik.setFieldValue(
+      'contactId',
+      state?.dataDoctor?.data?.filter(
+        e => e.doctorName === formik.values.contactName,
+      )[0]?.contactId || '',
+    );
+  }, [formik.values.contactName]);
 
   return (
     <>

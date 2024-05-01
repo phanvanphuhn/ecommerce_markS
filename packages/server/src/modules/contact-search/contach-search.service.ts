@@ -62,13 +62,13 @@ export class ContactSearchService {
       query = query.where((eb) => {
         const ors: Expression<SqlBool>[] = [];
         if (filter.doctorName) {
-          ors.push(eb('doctorName', 'like', `%${filter.doctorName}%`));
+          ors.push(eb('doctorName', 'ilike', `%${filter.doctorName}%`));
         }
         if (filter.doctorTitle) {
-          ors.push(eb('doctorTitle', 'like', `%${filter.doctorTitle}%`));
+          ors.push(eb('doctorTitle', 'ilike', `%${filter.doctorTitle}%`));
         }
         if (filter.hospital) {
-          ors.push(eb('hospital', 'like', `%${filter.hospital}%`));
+          ors.push(eb('hospital', 'ilike', `%${filter.hospital}%`));
         }
         if (filter.doctorDivisions) {
           ors.push(eb('doctorDivision', 'in', filter.doctorDivisions));
@@ -86,7 +86,7 @@ export class ContactSearchService {
           );
         }
         if (filter.doctorCountry) {
-          ors.push(eb('doctorCountry', 'like', `%${filter.doctorCountry}%`));
+          ors.push(eb('doctorCountry', 'ilike', `%${filter.doctorCountry}%`));
         }
         if (filter.topicsOfInterests) {
           ors.push(eb('topicsOfInterest', 'in', filter.topicsOfInterests));
@@ -201,6 +201,7 @@ export class ContactSearchService {
   }
 
   async getDoctorProfileByContactId(
+    salesRepEmail: string,
     contactId: string,
   ): Promise<DoctorDetail[]> {
     const dbResponse = await this.database
@@ -220,6 +221,7 @@ export class ContactSearchService {
         'contactId',
       ])
       .where('contactId', '=', contactId)
+      .where('salesRepEmail', 'ilike', salesRepEmail)
       .groupBy([
         'doctorEmail',
         'doctorName',
@@ -240,7 +242,10 @@ export class ContactSearchService {
     return dbResponse as DoctorDetail[];
   }
 
-  async getDoctorProfile(filter: DoctorFilterArgs): Promise<DoctorDetail[]> {
+  async getDoctorProfile(
+    salesRepEmail: string,
+    filter: DoctorFilterArgs,
+  ): Promise<DoctorDetail[]> {
     let query = this.database
       .selectFrom('marks.ContactSearch')
       .select((eb) => [
@@ -282,6 +287,8 @@ export class ContactSearchService {
     if (filter.doctorEmail) {
       query = query.where('doctorEmail', 'like', `%${filter.doctorEmail}%`);
     }
+
+    query = query.where('salesRepEmail', 'ilike', salesRepEmail);
 
     const result = await query.execute();
 

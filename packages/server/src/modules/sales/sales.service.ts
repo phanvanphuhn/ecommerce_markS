@@ -1,5 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { isEmpty } from 'class-validator';
+import { Sales, mobileSalesTargetType } from '@generated/kysely/types';
 
+import { OrderDirection } from '@/common/pagination/order-direction';
 
 import { Database } from '../_database/database';
 
@@ -15,12 +19,17 @@ import {
   UpserMobileSalestQuarterArgs,
   UpserMobileSalestYearArgs,
 } from './dto/mobile.sales.dto';
-
-import { Sales, mobileSalesTargetType } from '@generated/kysely/types';
+import {
+  SalesInvoicesFilterArgs,
+  SalesInvoicesOutput,
+} from './dto/sales-invoices.dto';
 
 @Injectable()
 export class SalesService {
-  constructor(private readonly database: Database) {}
+  constructor(
+    private readonly database: Database,
+    readonly configService: ConfigService,
+  ) {}
 
   async getSliderAndCommisions(): Promise<SliderAndCommissionOutput[]> {
     return await this.database
@@ -44,6 +53,12 @@ export class SalesService {
       .selectFrom('marks.Sales')
       .where('salesRepEmail', 'ilike', salesRepEmail);
 
+    if (this.configService.get('globalConfig.deployEnv') === 'stage-ap') {
+      filter.year = !isEmpty(filter.year) ? '2024' : null;
+      filter.month = !isEmpty(filter.month) ? '2' : null;
+      filter.quarter = !isEmpty(filter.quarter) ? '1' : null;
+    }
+
     if (filter.year) {
       query = query.where('year', '=', filter.year);
     }
@@ -65,6 +80,10 @@ export class SalesService {
     let query = this.database
       .selectFrom('marks.Mobile_Sales')
       .where('salesRepEmail', 'ilike', salesRepEmail);
+
+    if (this.configService.get('globalConfig.deployEnv') === 'stage-ap') {
+      data.year = data.year ? '2024' : null;
+    }
 
     if (data.year) {
       query = query.where('year', '=', data.year);
@@ -125,6 +144,10 @@ export class SalesService {
     salesRepEmail: string,
     data: UpserMobileSalestYearArgs,
   ) {
+    if (this.configService.get('globalConfig.deployEnv') === 'stage-ap') {
+      data.year = !isEmpty(data.year) ? '2024' : null;
+    }
+
     const salesRep = await this.database
       .selectFrom('marks.Mobile_Sales')
       .where((eb) =>
@@ -157,5 +180,63 @@ export class SalesService {
       .executeTakeFirst();
 
     return result.numInsertedOrUpdatedRows > 0;
+  }
+
+  async getSalesInvoices(
+    salesRepEmail: string,
+    filter: SalesInvoicesFilterArgs,
+  ) {
+    let query = this.database.selectFrom('marks.SalesInvoices');
+
+    if (filter.accountName) {
+      query = query.where('accountName', 'ilike', filter.accountName);
+    }
+
+    if (filter.invoiceDate) {
+      query = query.where('invoiceDate', '=', filter.invoiceDate);
+    }
+
+    if (filter.id) {
+      query = query.where('id', '=', filter.id);
+    }
+
+    if (filter.createdAt) {
+      query = query.where('createdAt', '>=', filter.createdAt);
+    }
+
+    if (filter.updatedAt) {
+      query = query.where('updatedAt', '>=', filter.updatedAt);
+    }
+
+    if (filter.skip) {
+      query = query.offset(filter.skip);
+    }
+
+    if (filter.take) {
+      query = query.limit(filter.take);
+    }
+
+    if (filter.orderBy) {
+      switch (filter.orderBy) {
+        case OrderDirection.asc:
+          query = query.orderBy('invoiceDate', 'asc');
+          break;
+        case OrderDirection.desc:
+          query = query.orderBy('invoiceDate', 'desc');
+          break;
+      }
+    }
+
+    query = query.where('salesRepEmail', 'ilike', salesRepEmail);
+
+    const result = await query.selectAll().execute();
+
+    return result.map(
+      (row) =>
+        new SalesInvoicesOutput({
+          ...row,
+          value: parseFloat(row?.value || '0').toFixed(2),
+        }),
+    );
   }
 }

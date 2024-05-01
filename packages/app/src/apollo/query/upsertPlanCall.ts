@@ -22,6 +22,7 @@ export interface PlanCallOutput {
   status: PlanCallStatus;
   subject: string;
   updatedAt: string;
+  contactId: string;
 }
 interface Data {
   data: PlanCallOutput[];
@@ -64,7 +65,7 @@ export interface PlanCallInput {
   startDate?: Date;
   status?: PlanCallStatus;
   subject?: string;
-  uniqueIdInApp?: string;
+  contactId?: string;
 }
 interface Variables {
   data: PlanCallInput;

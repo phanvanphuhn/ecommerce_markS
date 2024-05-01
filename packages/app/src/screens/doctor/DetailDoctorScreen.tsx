@@ -186,7 +186,11 @@ const DetailDoctorScreen = (
                 <TouchableOpacity
                   onPress={() => {
                     navigation.navigate(Routes.CallLogScreen, {
-                      isCreateNew: true,
+                      item: {
+                        contactName: state.hospital?.doctorName,
+                        account: state.hospital?.hospital,
+                        division: state.hospital?.division[0],
+                      },
                     });
                   }}
                   style={[

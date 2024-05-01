@@ -6,7 +6,20 @@ metadata:
 spec:
   ports:
     - port: 3000
-      name: http
+      name: backend
       protocol: TCP
   selector:
     app: ${APP_NAME}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ${APP_NAME}-admin-svc
+spec:
+  ports:
+    - port: 3005
+      name: admin
+      protocol: TCP
+  selector:
+    app: admin-${APP_NAME}

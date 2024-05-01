@@ -40,7 +40,7 @@ model ContactSearch {
   doctorSpecialty        String?
   doctorSalutation       String?
   doctorTitle            String?
-  doctorPhone            BigInt?
+  doctorPhone            String?
   doctorCountry          String?
 
   createdAt DateTime? @default(now())
@@ -309,4 +309,18 @@ model Products {
   updatedAt DateTime? @updatedAt
 
   caseLogSubmission CaseLogSubmission[]
+}
+
+model SalesInvoices {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+
+  invoiceNumber String?
+  accountName   String?
+  salesRepEmail String?
+  value         String?
+  currency      String?
+  invoiceDate   DateTime
+
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
 }

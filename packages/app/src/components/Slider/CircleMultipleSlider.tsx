@@ -276,14 +276,16 @@ const CircleMultipleSlider: React.FC<CircleMultipleSliderProps> = ({
                 <LinearGradient
                   start={vec(0, 0)}
                   end={vec(256, 256)}
-                  colors={[
-                    '#e6b3ff',
-                    '#c44dff',
-                    '#9900e6',
-                    '#7700b3',
-                    '#609',
-                    '440066',
-                  ]}
+                  colors={
+                    colorTop || [
+                      '#e6b3ff',
+                      '#c44dff',
+                      '#9900e6',
+                      '#7700b3',
+                      '#609',
+                      '440066',
+                    ]
+                  }
                 />
               </Path>
             )}
@@ -331,7 +333,7 @@ const CircleMultipleSlider: React.FC<CircleMultipleSliderProps> = ({
               y={skiaFontCy}
             />
             <Text
-              text={state.percentTop + '%'}
+              text={valueTop + '%'}
               font={font}
               x={movablePerCx}
               color={colors.white}

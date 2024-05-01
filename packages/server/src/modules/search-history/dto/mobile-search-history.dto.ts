@@ -7,12 +7,7 @@ import {
   registerEnumType,
 } from '@nestjs/graphql';
 import { SearchType } from '@prisma/client';
-import {
-  GraphQLJSONObject,
-  GraphQLDateTime,
-  GraphQLDate,
-  GraphQLDateTimeISO,
-} from 'graphql-scalars';
+import { GraphQLJSONObject } from 'graphql-scalars';
 
 import { OrderDirection } from '../../../common/pagination/order-direction';
 
@@ -36,10 +31,10 @@ export class MobileSearchHistory {
   @Field(() => GraphQLJSONObject, { nullable: true })
   searchResults?: Record<string, any>;
 
-  @Field(() => GraphQLDateTimeISO, { nullable: true })
+  @Field(() => Date, { nullable: true })
   createdAt?: Date;
 
-  @Field(() => GraphQLDateTimeISO, { nullable: true })
+  @Field(() => Date, { nullable: true })
   updatedAt?: Date;
 }
 
