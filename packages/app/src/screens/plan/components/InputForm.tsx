@@ -27,7 +27,6 @@ const InputForm = (props: InputFormProps) => {
   const error = getIn(errors, props.name);
   const isTouched = getIn(touched, props.name);
   const isError = !!isTouched && !!error;
-  console.log('props.arrDropdown: ', props.arrDropdown, values?.[props.name]);
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{props?.title}</Text>

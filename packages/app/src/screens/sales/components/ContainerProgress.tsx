@@ -56,7 +56,6 @@ const ContainerProgress = (props: ContainerProgressProps) => {
   const [isOpen, open, close] = useModal();
   const [isOpenAccept, openAccept, closeAccept] = useModal();
   const {state, setState} = useContainerContext<IStateSales>();
-
   const [getData, {data}] = useLazyQuery(getMobileSales);
   const [updateTargetQuarter] = useMutation(upsertMobileSalesQuarter);
   const [updateTargetYear] = useMutation(upsertMobileSalesYear);
@@ -157,7 +156,38 @@ const ContainerProgress = (props: ContainerProgressProps) => {
       case 'Month':
         if (
           new Date(state.currentDate).getMonth() === new Date().getMonth() &&
-          new Date(state.currentDate).getFullYear() >= new Date().getFullYear()
+          new Date(state.currentDate).getFullYear() === new Date().getFullYear()
+        ) {
+          return true;
+        } else {
+          return false;
+        }
+      default:
+        return false;
+    }
+  }, [state.type, state.currentDate]);
+
+  const disableChangePastDate = useCallback(() => {
+    switch (state.type) {
+      case 'Quarter':
+        if (
+          Math.floor(new Date(state.currentDate).getMonth() / 3) + 1 === 1 &&
+          new Date(state.currentDate).getFullYear() === 2023
+        ) {
+          return true;
+        } else {
+          return false;
+        }
+      case 'Year':
+        if (new Date(state.currentDate).getFullYear() === 2023) {
+          return true;
+        } else {
+          return false;
+        }
+      case 'Month':
+        if (
+          new Date(state.currentDate).getMonth() === 0 &&
+          new Date(state.currentDate).getFullYear() === 2023
         ) {
           return true;
         } else {
@@ -304,10 +334,13 @@ const ContainerProgress = (props: ContainerProgressProps) => {
             style={[Theme.flexRow, {alignSelf: 'center', marginBottom: 15}]}>
             <TouchableOpacity
               hitSlop={{top: 10, left: 10, bottom: 10, right: 10}}
-              onPress={() => changeDate(false)}>
+              onPress={() => changeDate(false)}
+              disabled={disableChangePastDate()}>
               <Image
                 source={images.ic_dropdown}
-                tintColor={colors.black}
+                tintColor={
+                  disableChangePastDate() ? colors.gray3 : colors.black
+                }
                 style={{transform: [{rotate: '90deg'}]}}
               />
             </TouchableOpacity>
