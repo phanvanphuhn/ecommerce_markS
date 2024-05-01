@@ -118,7 +118,8 @@ const TimelineCalendarScreen = (props: TimelineCalendarScreenProps) => {
               moment(obj.endDate),
               'd',
               '[]',
-            )
+            ) &&
+            !moment(obj.startDate).isSame(obj.endDate, 'd')
           ) {
             if (moment(e).isSame(moment(obj.startDate), 'd')) {
               let end1 = moment(e).clone();
