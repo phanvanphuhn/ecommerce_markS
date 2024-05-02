@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, TextInput, View} from 'react-native';
+import {Appearance, StyleSheet, Text, TextInput, View} from 'react-native';
 import colors from 'res/colors';
 import {getIn, useFormikContext} from 'formik';
 import {PlanCallInput} from 'apollo/query/upsertPlanCall';
@@ -50,6 +50,7 @@ const InputForm = (props: InputFormProps) => {
           placeholder={props.placeholder}
           value={values?.[props.name] ? values?.[props.name] : ''}
           onChange={e => setFieldValue(props.name, e.value)}
+          itemTextStyle={styles.textInput}
         />
       ) : (
         <View
