@@ -78,6 +78,7 @@ const CircleMultipleSlider: React.FC<CircleMultipleSliderProps> = ({
   useEffect(() => {
     setState({percentTop: getValuePercent(valueTop, maxTop)});
     percentCompleteTop.value = getValuePercent(valueTop, maxTop);
+    valueTopShareValue.value = valueTop;
   }, [valueTop]);
   useEffect(() => {
     let percent = valueBottom / (maxBottom || 1) || 0;
@@ -106,6 +107,7 @@ const CircleMultipleSlider: React.FC<CircleMultipleSliderProps> = ({
   const [x2, y2] = polarToCartesian(width, endAngle, strokeWidth);
   const rawBottomPath = `M ${x2} ${y1} A ${r} ${r} 1 1 0 ${x1} ${y2}`;
   const rawTopPath = `M ${x2} ${y2} A ${r} ${r} 0 1 1 ${x1} ${y1}`;
+  const rawBottomPathNegativeClockwise = `M ${x1} ${y2} A ${r} ${r} 0 1 1 ${x2} ${y1}`;
   const skiaTopPath = Skia.Path.MakeFromSVGString(rawTopPath);
   const skiaBottomPath = Skia.Path.MakeFromSVGString(rawBottomPath);
   const movableCx = useSharedValue(x2 + r * 2);
@@ -118,6 +120,7 @@ const CircleMultipleSlider: React.FC<CircleMultipleSliderProps> = ({
     state.percentBottom || 1,
   );
   const percentCompleteTop = useSharedValue<number>(state.percentTop || 0);
+  const valueTopShareValue = useSharedValue<number>(valueTop);
 
   const skiaCx = useValue(x2);
   const skiaCy = useValue(y2);
@@ -197,11 +200,12 @@ const CircleMultipleSlider: React.FC<CircleMultipleSliderProps> = ({
       const newCoords = polar2Canvas(
         {
           theta:
-            (1 -
-              (percentCompleteTop.value >= 1
-                ? 0.9
-                : percentCompleteTop.value)) *
-            Math.PI,
+            (valueTopShareValue.value > 100
+              ? 2 - percentCompleteTop.value
+              : 1 -
+                (percentCompleteTop.value >= 1
+                  ? 0.9
+                  : percentCompleteTop.value)) * Math.PI,
           radius: r,
         },
         {
@@ -221,6 +225,7 @@ const CircleMultipleSlider: React.FC<CircleMultipleSliderProps> = ({
     movableCy,
     percentCompleteBottom,
     percentCompleteTop,
+    valueTopShareValue,
   );
   const insideBounds = (rect, x, y) => {
     return x >= rect.x && y >= rect.y;
@@ -257,7 +262,7 @@ const CircleMultipleSlider: React.FC<CircleMultipleSliderProps> = ({
               r={r}
             />
             <Path
-              path={skiaBottomPath}
+              path={rawBottomPath}
               style="stroke"
               strokeWidth={strokeWidth}
               strokeCap="round"
@@ -290,7 +295,11 @@ const CircleMultipleSlider: React.FC<CircleMultipleSliderProps> = ({
               </Path>
             )}
             <Path
-              path={rawTopPath}
+              path={
+                !!valueTop && valueTop > (maxTop || 1)
+                  ? rawBottomPathNegativeClockwise
+                  : rawTopPath
+              }
               style="stroke"
               strokeWidth={strokeWidth}
               strokeCap="round"
@@ -319,19 +328,23 @@ const CircleMultipleSlider: React.FC<CircleMultipleSliderProps> = ({
               color={colorTopCicle || colors.pink3}
               style="fill"
             />
-            <Circle
-              cx={skiaCx}
-              cy={skiaCy}
-              r={thumbRadius - 2}
-              color="white"
-              style="fill"
-            />
-            <Text
-              text={state.percentBottom + '%'}
-              font={font}
-              x={skiaFontCx}
-              y={skiaFontCy}
-            />
+            {valueTop < 121 && (
+              <Circle
+                cx={skiaCx}
+                cy={skiaCy}
+                r={thumbRadius - 2}
+                color="white"
+                style="fill"
+              />
+            )}
+            {valueTop < 121 && (
+              <Text
+                text={state.percentBottom + '%'}
+                font={font}
+                x={skiaFontCx}
+                y={skiaFontCy}
+              />
+            )}
             <Text
               text={valueTop + '%'}
               font={font}
