@@ -211,7 +211,6 @@ const PriceYear = (props: PriceYearProps) => {
       },
     });
   }, [getVariable, getCommission, getKicker, getEarlyBird]);
-
   return (
     <>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -249,16 +248,16 @@ const PriceYear = (props: PriceYearProps) => {
             icon={images.ic_dolar}
             title={'Rewards'}
             potentialValue={Number(getVariable) + Number(getCommission)}
-            currentValue={variable + comission}>
+            currentValue={Number(variable) + Number(comission)}>
             <View style={{}}>
               <ItemPrice
                 title={'Variable'}
-                currentValue={variable}
+                currentValue={Number(variable)}
                 potentialValue={Number(getVariable)}
               />
               <ItemPrice
                 title={'Commission'}
-                currentValue={comission}
+                currentValue={Number(comission)}
                 potentialValue={Number(getCommission)}
               />
             </View>
@@ -266,17 +265,19 @@ const PriceYear = (props: PriceYearProps) => {
           <ItemCollapsible
             icon={images.ic_booster}
             title={'Sales Booster'}
-            currentValue={state?.data?.kicker + state?.data?.earlyBird}
+            currentValue={
+              Number(state?.data?.kicker) + Number(state?.data?.earlyBird)
+            }
             potentialValue={getKicker + getEarlyBird}>
             <View style={{}}>
               <ItemPrice
                 title={'Kicker'}
-                currentValue={state?.data?.kicker}
+                currentValue={Number(state?.data?.kicker)}
                 potentialValue={Math.round(getKicker)}
               />
               <ItemPrice
                 title={'Early Bird'}
-                currentValue={state?.data?.earlyBird}
+                currentValue={Number(state?.data?.earlyBird)}
                 potentialValue={Math.round(getEarlyBird)}
               />
             </View>
@@ -285,17 +286,18 @@ const PriceYear = (props: PriceYearProps) => {
             icon={images.ic_dolar}
             title={'Additional Payout'}
             currentValue={
-              state?.data?.capitalEquipment + state?.data?.serviceContract
+              Number(state?.data?.capitalEquipment) +
+              Number(state?.data?.serviceContract)
             }>
             <View style={{}}>
               <ItemPrice
                 title={'Capital Equipment'}
-                currentValue={state?.data?.capitalEquipment}
+                currentValue={Number(state?.data?.capitalEquipment)}
                 potentialValue={0}
               />
               <ItemPrice
                 title={'Service Contract'}
-                currentValue={state?.data?.serviceContract}
+                currentValue={Number(state?.data?.serviceContract)}
                 potentialValue={0}
               />
             </View>
@@ -304,12 +306,12 @@ const PriceYear = (props: PriceYearProps) => {
             icon={images.ic_total}
             title={'Total'}
             currentValue={
-              state?.data?.capitalEquipment +
-              state?.data?.serviceContract +
-              state?.data?.kicker +
-              state?.data?.earlyBird +
-              variable +
-              comission
+              Number(state?.data?.capitalEquipment) +
+              Number(state?.data?.serviceContract) +
+              Number(state?.data?.kicker) +
+              Number(state?.data?.earlyBird) +
+              Number(variable) +
+              Number(comission)
             }
             potentialValue={Number(state?.data?.totalSales)}
           />
@@ -320,16 +322,3 @@ const PriceYear = (props: PriceYearProps) => {
 };
 
 export default memo(PriceYear);
-
-const styles = StyleSheet.create({
-  container: {},
-  containerModal: {
-    backgroundColor: colors.white,
-    alignItems: 'center',
-    padding: 20,
-    borderBottomRightRadius: 20,
-    borderBottomLeftRadius: 20,
-    alignSelf: 'center',
-    justifyContent: 'center',
-  },
-});

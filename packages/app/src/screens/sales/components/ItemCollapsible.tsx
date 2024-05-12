@@ -45,6 +45,7 @@ const ItemCollapsible = (props: ItemCollapsibleProps) => {
               {props.currentValue ? (
                 <Text fontWeight={'700'} center={true}>
                   {props.currentValue
+                    .toFixed(2)
                     .toString()
                     .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                 </Text>
