@@ -50,6 +50,10 @@ const ComplaintsScreen = (props: ComplaintsScreenProps) => {
         setState({data: data?.data, loading: false});
       },
     });
+    const tout = setTimeout(() => {
+      clearTimeout(tout);
+      setState({data: [], loading: false});
+    }, 5000);
   }, []);
   const renderItem: ListRenderItem<ItemComplaintResponse> = ({item}) => {
     return <ItemComplaint item={item} />;

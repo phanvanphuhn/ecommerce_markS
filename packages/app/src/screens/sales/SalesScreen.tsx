@@ -114,6 +114,10 @@ const SalesScreen = (props: SalesScreenProps) => {
         });
       },
     });
+    const tout = setTimeout(() => {
+      clearTimeout(tout);
+      hideLoading();
+    }, 5000);
   }, [state.currentDate, state.type]);
   useEffect(() => {
     let timeout = setTimeout(() => {

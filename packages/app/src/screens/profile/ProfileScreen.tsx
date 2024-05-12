@@ -64,12 +64,12 @@ const ProfileScreen = (props: ProfileScreenProps) => {
         <View style={styles.wrapHeaderContainer}>
           <View style={styles.headerContainer}>
             <Text color={colors.white} size={50} fontWeight={'500'}>
-              {nameArray[1]?.substring(0, 1)}
-              {nameArray[0]?.substring(0, 1)}
+              {nameArray ? nameArray[1]?.substring(0, 1) : ''}
+              {nameArray ? nameArray[0]?.substring(0, 1) : ''}
             </Text>
           </View>
           <Text size={25} fontWeight={'500'} color={colors.white}>
-            {nameArray[1] + ', ' + nameArray[0]}
+            {nameArray ? nameArray[1] + ', ' + nameArray[0] : ''}
           </Text>
         </View>
 
@@ -112,11 +112,14 @@ const ProfileScreen = (props: ProfileScreenProps) => {
               value={userProfile?.salesRepEmail || ''}
             />
             {/* <InputProfile title="Mobile" value={userProfile?.mobile || ''} /> */}
-            <InputProfile title="Country" value={userProfile?.country} />
-            <InputProfile title="Division" value={userProfile?.division} />
+            <InputProfile title="Country" value={userProfile?.country || ''} />
+            <InputProfile
+              title="Division"
+              value={userProfile?.division || ''}
+            />
             <InputProfile
               title="Reporting to"
-              value={userProfile?.reportingTo}
+              value={userProfile?.reportingTo || ''}
             />
             {/* <InputProfile
               title="Preferred Language"

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Alert, ImageBackground, Platform, StyleSheet} from 'react-native';
+import {Alert, ImageBackground, Platform, StyleSheet, View} from 'react-native';
 import images from 'res/images';
 import Image from 'elements/Image';
 import ButtonText from 'elements/Buttons/ButtonText';
@@ -115,27 +115,50 @@ const LoginScreen = (props: LoginScreenProps) => {
     // reset(Routes.DrawerStack);
     getAzureToken();
   };
+  const onLoginDemoAccount = () => {
+    reset(Routes.DrawerStack);
+  };
   return (
     <Container hideHeader={true}>
       <ImageBackground source={images.img_background} style={styles.container}>
         <Image source={images.img_logo} />
-        <ButtonText
-          backgroundColor={colors.white}
-          boderRadius={50}
-          style={{
-            paddingHorizontal: 20,
-            width: '70%',
-          }}
-          height={50}
-          onPress={_onLogin}
-          title={strings.loginWithSSO}
-          textProps={{
-            size: 18,
-            lineHeight: 26,
-            color: colors.blue3,
-            fontWeight: '600',
-          }}
-        />
+        <View style={{width: '100%', alignItems: 'center'}}>
+          <ButtonText
+            backgroundColor={colors.white}
+            boderRadius={50}
+            style={{
+              paddingHorizontal: 20,
+              width: '70%',
+              marginBottom: 32,
+            }}
+            height={50}
+            onPress={_onLogin}
+            title={strings.loginWithSSO}
+            textProps={{
+              size: 18,
+              lineHeight: 26,
+              color: colors.blue3,
+              fontWeight: '600',
+            }}
+          />
+          <ButtonText
+            backgroundColor={colors.white}
+            boderRadius={50}
+            style={{
+              paddingHorizontal: 20,
+              width: '70%',
+            }}
+            height={50}
+            onPress={onLoginDemoAccount}
+            title={strings.loginWithDemoAccount}
+            textProps={{
+              size: 16,
+              lineHeight: 26,
+              color: colors.blue3,
+              fontWeight: '600',
+            }}
+          />
+        </View>
       </ImageBackground>
     </Container>
   );

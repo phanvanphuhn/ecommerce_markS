@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import {
   FlatList,
   Keyboard,
@@ -187,6 +187,13 @@ const DoctorSearchScreen = (props: DoctorSearchScreenProps) => {
         };
       });
   }, [data?.data]);
+
+  useEffect(() => {
+    const tout = setTimeout(() => {
+      clearTimeout(tout);
+      hideLoading();
+    }, 5000);
+  }, []);
 
   const renderItem: ListRenderItem<IDoctorSearchList> = ({item, index}) => {
     return (

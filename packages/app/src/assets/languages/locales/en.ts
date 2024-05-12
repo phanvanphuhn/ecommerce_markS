@@ -12,6 +12,7 @@ export default {
   contact: 'Contact Directory',
   logout: 'Logout',
   loginWithSSO: 'Log in with SSO',
+  loginWithDemoAccount: 'Log in with Demo Account',
   filter: 'Filter',
   sort: 'Sort',
   search: 'Search',
