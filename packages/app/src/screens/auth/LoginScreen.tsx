@@ -141,7 +141,7 @@ const LoginScreen = (props: LoginScreenProps) => {
               fontWeight: '600',
             }}
           />
-          <ButtonText
+          {/* <ButtonText
             backgroundColor={colors.white}
             boderRadius={50}
             style={{
@@ -157,7 +157,7 @@ const LoginScreen = (props: LoginScreenProps) => {
               color: colors.blue3,
               fontWeight: '600',
             }}
-          />
+          /> */}
         </View>
       </ImageBackground>
     </Container>
